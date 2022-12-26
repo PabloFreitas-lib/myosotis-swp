@@ -4,7 +4,7 @@ public final class App {
     }
 
     public static void main(String[] args) {
-        gui ui = new gui();
+        login ui = new login();
         ui.showUI();
       }
 }
