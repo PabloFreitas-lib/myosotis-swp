@@ -1,0 +1,6 @@
+.button_blue{
+    -fx-font-size: 12pt;
+    -fx-font-weight: bold;
+    -fx-background-color: #00856c;
+    -fx-text-fill: white;
+  }
