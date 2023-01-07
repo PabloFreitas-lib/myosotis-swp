@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Entity
 public class Indexcard implements Serializable {
 
-    // id of the index card, needs to be unique within the database
+    // id of the index card, needs to be unique within the persistence
     @Id
     final double id;
 

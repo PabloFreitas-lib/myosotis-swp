@@ -1,4 +1,4 @@
-package uni.myosotis.database;
+package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -18,7 +18,7 @@ public class PersistenceManager {
     }
 
     /**
-     * Method to get the Entity-Manager for the persistent database.
+     * Method to get the Entity-Manager for the persistent persistence.
      *
      * @return      The Entity-Manager.
      */

@@ -1,6 +1,6 @@
 package uni.myosotis;
 
-import uni.myosotis.database.IndexcardRepository;
+import uni.myosotis.persistence.IndexcardRepository;
 import uni.myosotis.objects.Indexcard;
 
 public class App {

@@ -1,8 +1,9 @@
-package uni.myosotis.database;
+package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
 import uni.myosotis.objects.Indexcard;
 
+import java.util.List;
 import java.util.Optional;
 
 public class IndexcardRepository {
@@ -11,9 +12,9 @@ public class IndexcardRepository {
 
     /**
      * This method is used to save an object of type "Indexcard" to the persistent
-     * database storage.
+     * persistence storage.
      *
-     * @param indexcard     The index card that should be saved to the database.
+     * @param indexcard     The index card that should be saved to the persistence.
      * @return              Status, -1 means an error has been occurred on save.
      */
     public int saveIndexcard(final Indexcard indexcard) {
@@ -30,7 +31,7 @@ public class IndexcardRepository {
 
     /**
      * This method is used to update an object of type "Indexcard" to the persistent
-     * database storage.
+     * persistence storage.
      *
      * @param indexcard     The index card that should be updated.
      * @return              Status, -1 means an error has been occurred on save.
@@ -49,7 +50,7 @@ public class IndexcardRepository {
 
     /**
      * This method is used to find an object of type "Indexcard" in the persistent
-     * database storage.
+     * persistence storage.
      *
      * @param id        The unique id of the index card.
      * @return          The object of type "Indexcard" or null if it does not exist.
@@ -57,6 +58,18 @@ public class IndexcardRepository {
     public Optional<Indexcard> findIndexcard(final double id) {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.find(Indexcard.class, id));
+        }
+    }
+
+    /**
+     * This method is used to get all objects of type "Indexcard" in the persistent
+     * persistence storage.
+     *
+     * @return List of all objects of type "Indexcard".
+     */
+    public List<Indexcard> findAllIndexcards() {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM Indexcard i").getResultList();
         }
     }
 
