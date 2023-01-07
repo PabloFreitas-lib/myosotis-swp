@@ -31,10 +31,12 @@ public class IndexcardRepository {
 
     /**
      * This method is used to update an object of type "Indexcard" to the persistent
-     * persistence storage.
+     * persistence storage. If the Card does not exist at this point it will be created
+     * and added to the database. Otherwise, the content of the given card will be updated
+     * instead.
      *
      * @param indexcard     The index card that should be updated.
-     * @return              Status, -1 means an error has been occurred on save.
+     * @return              Status, -1 means an error has been occurred on update.
      */
     public int updateIndexcard(final Indexcard indexcard) {
         try (final EntityManager em = pm.getEntityManager()) {
@@ -52,12 +54,12 @@ public class IndexcardRepository {
      * This method is used to find an object of type "Indexcard" in the persistent
      * persistence storage.
      *
-     * @param id        The unique id of the index card.
+     * @param name      The unique id of the index card.
      * @return          The object of type "Indexcard" or null if it does not exist.
      */
-    public Optional<Indexcard> findIndexcard(final double id) {
+    public Optional<Indexcard> findIndexcard(final String name) {
         try (final EntityManager em = pm.getEntityManager()) {
-            return Optional.ofNullable(em.find(Indexcard.class, id));
+            return Optional.ofNullable(em.find(Indexcard.class, name));
         }
     }
 
@@ -65,7 +67,7 @@ public class IndexcardRepository {
      * This method is used to get all objects of type "Indexcard" in the persistent
      * persistence storage.
      *
-     * @return List of all objects of type "Indexcard".
+     * @return List of all objects of type "Indexcard", could be empty.
      */
     public List<Indexcard> findAllIndexcards() {
         try (final EntityManager em = pm.getEntityManager()) {

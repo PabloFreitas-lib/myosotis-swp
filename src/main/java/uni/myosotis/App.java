@@ -3,26 +3,17 @@ package uni.myosotis;
 import uni.myosotis.persistence.IndexcardRepository;
 import uni.myosotis.objects.Indexcard;
 
+import java.util.List;
+
 public class App {
     public static void main(String[] args) {
 
         final IndexcardRepository ir = new IndexcardRepository();
 
-        final Indexcard card = new Indexcard();
-        //System.out.println(ir.saveIndexcard(card));
+        final List<Indexcard> cards = ir.findAllIndexcards();
 
-        if (ir.findIndexcard(0).isPresent()) {
-            System.out.println("Index card (0) has been found!");
-        }
-        else {
-            System.out.println("Index card (0) does not exist!");
-        }
-
-        if (ir.findIndexcard(1).isPresent()) {
-            System.out.println("Index card (1) has been found!");
-        }
-        else {
-            System.out.println("Index card (1) does not exist!");
+        for (Indexcard x : cards) {
+            System.out.println("Name:" + x.getName());
         }
 
     }
