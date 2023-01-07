@@ -4,31 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ab98e3d-4fa8-4ca4-bed6-a1f2c14a6611" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/myosotis/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/myosotis/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="useMavenConfig" value="true" />
-      </MavenGeneralSettings>
-    </option>
-  </component>
-  <component name="ProjectId" id="2JaUJ3h1NWR2fH6OXGqZQG7ZtvA" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectId" id="2Jx9tYDWScNouHeA0N078QtnOPE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -37,17 +29,24 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/BOI/Schule/uni/Softwareprojekt/Projekt",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\len\IdeaProjects\SNAPSHOT-1.0.0\src\main\resources\META-INF" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.myosotis.App" />
-      <module name="myosotis" />
+      <option name="MAIN_CLASS_NAME" value="uni.myosotis.App" />
+      <module name="SNAPSHOT-1.0.0" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.myosotis.*" />
+          <option name="PATTERN" value="uni.myosotis.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -55,12 +54,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.myosotis.myosotis.HelloApplication" />
-      <module name="myosotis" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="uni.myosotis.Main" />
+      <module name="SNAPSHOT-1.0.0" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.myosotis.myosotis.*" />
+          <option name="PATTERN" value="uni.myosotis.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -71,30 +70,23 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.App" />
-        <item itemvalue="Application.HelloApplication" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8ab98e3d-4fa8-4ca4-bed6-a1f2c14a6611" name="Changes" comment="" />
-      <created>1672315611285</created>
+      <changelist id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="" />
+      <created>1673009081284</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1672315611285</updated>
+      <updated>1673009081284</updated>
     </task>
     <servers />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
