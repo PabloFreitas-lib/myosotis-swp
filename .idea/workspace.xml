@@ -5,30 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/FirstController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.trace.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/IndexcardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/IndexcardRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/AbstractLayout.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/AbstractLayout.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/DimensionInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/DimensionInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridConstraints.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridConstraints.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridLayoutManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridLayoutManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/HorizontalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/HorizontalInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/LayoutState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/LayoutState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Spacer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Spacer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/VerticalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/VerticalInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/objects/Indexcard.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/objects/Indexcard.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/PersistenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/PersistenceManager.java" afterDir="false" />
     </list>
-    <list id="eb04373c-8d8d-48fc-be76-d845d6de63b6" name="Changes by Kirsten" comment="">
+    <list id="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" name="Changes by Johannes" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,21 +30,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java">
-      <ranges>
-        <range start1="12" end1="13" start2="12" end2="15" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="14" end1="16" start2="16" end2="17" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="17" end1="18" start2="18" end2="23" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="20" end1="20" start2="25" end2="41" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="21" end1="21" start2="42" end2="45" changelist="eb04373c-8d8d-48fc-be76-d845d6de63b6" />
-        <range start1="22" end1="22" start2="46" end2="53" changelist="eb04373c-8d8d-48fc-be76-d845d6de63b6" />
-      </ranges>
-    </file>
     <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java">
       <ranges>
-        <range start1="4" end1="4" start2="4" end2="6" changelist="eb04373c-8d8d-48fc-be76-d845d6de63b6" />
-        <range start1="10" end1="12" start2="12" end2="13" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="13" end1="25" start2="14" end2="16" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="2" end1="2" start2="2" end2="4" changelist="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" />
+        <range start1="10" end1="10" start2="12" end2="19" changelist="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" />
+        <range start1="11" end1="12" start2="20" end2="20" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
       </ranges>
     </file>
   </component>
@@ -72,17 +46,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Kirsten/Documents/Johannes/Informatik-Studium/3. Semester/Softwareprojekt/KurVe&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/len/Downloads/Übungsblätter(2)/uebung1/kurve/kurve",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\len\IdeaProjects\SNAPSHOT-1.0.0\src\main\resources\META-INF" />
