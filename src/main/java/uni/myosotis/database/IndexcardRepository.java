@@ -29,6 +29,25 @@ public class IndexcardRepository {
     }
 
     /**
+     * This method is used to update an object of type "Indexcard" to the persistent
+     * database storage.
+     *
+     * @param indexcard     The index card that should be updated.
+     * @return              Status, -1 means an error has been occurred on save.
+     */
+    public int updateIndexcard(final Indexcard indexcard) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.merge(indexcard);
+            em.getTransaction().commit();
+        }
+        catch (Exception e) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
      * This method is used to find an object of type "Indexcard" in the persistent
      * database storage.
      *

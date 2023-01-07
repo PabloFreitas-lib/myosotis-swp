@@ -19,3 +19,7 @@ create table Indexcard (id float(53) not null, primary key (id)) [42101-214]
 2023-01-07 15:49:11 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "INDEXCARD" already exists; SQL statement:
 create table Indexcard (id float(53) not null, primary key (id)) [42101-214]
+2023-01-07 16:48:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabelle "INDEXCARD" besteht bereits
+Table "INDEXCARD" already exists; SQL statement:
+create table Indexcard (id float(53) not null, primary key (id)) [42101-214]

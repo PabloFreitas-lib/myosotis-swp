@@ -13,7 +13,7 @@
             <property name="jakarta.persistence.jdbc.user" value="myosotis" />
             <property name="jakarta.persistence.jdbc.password" value="secret" />
             <property name="jakarta.persistence.schema-generation.database.action"
-                      value="create"/>
+                      value="drop-and-create"/>
             <!-- drop-and-create -->
             <!-- create -->
             <property name="org.hibernate.dialect" value="h2"/>
