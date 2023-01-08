@@ -7,7 +7,11 @@ import java.awt.event.*;
 
 public class CreateIndexcard extends JDialog {
 
+    /**
+     * The controller.
+     */
     private final Controller controller;
+
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -15,10 +19,16 @@ public class CreateIndexcard extends JDialog {
     private JTextArea textAreaQuestion;
     private JTextArea textAreaAnswer;
 
+    /**
+     * Create a new Dialog to create an Indexcard.
+     *
+     * @param controller The controller.
+     */
     public CreateIndexcard(Controller controller) {
         this.controller = controller;
-        setContentPane(contentPane);
+        setTitle("Karteikarte erstellen");
         setModal(true);
+        setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonOK);
 
         buttonOK.addActionListener(new ActionListener() {
@@ -49,6 +59,9 @@ public class CreateIndexcard extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Create a new Indexcard, if the entered Text isn't empty, and close the window.
+     */
     private void onOK() {
         final String name = textFieldName.getText();
         final String question = textAreaQuestion.getText();
@@ -61,6 +74,9 @@ public class CreateIndexcard extends JDialog {
         }
     }
 
+    /**
+     * Close the Window.
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

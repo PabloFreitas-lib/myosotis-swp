@@ -3,21 +3,26 @@ package uni.myosotis.gui;
 import uni.myosotis.controller.Controller;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
-public class MainMenu extends JDialog {
+public class MainMenu extends JFrame {
     private JPanel contentPane;
 
     private final transient Controller controller;
 
+    /**
+     * Creates a new Window of the MainMenu.
+     *
+     * @param controller The controller.
+     */
     public MainMenu(final Controller controller) {
         this.controller = controller;
         setContentPane(contentPane);
-        setModal(true);
         setTitle("Myosotis");
         createMenu();
-        setMinimumSize(new Dimension(800, 600));
+        pack();
+        setMinimumSize(getSize());
+        setSize(800, 600);
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -50,6 +55,9 @@ public class MainMenu extends JDialog {
         setJMenuBar(menuBar);
     }
 
+    /**
+     * Close the Window, and end the application.
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();
@@ -62,6 +70,7 @@ public class MainMenu extends JDialog {
         final CreateIndexcard createIndexcard = new CreateIndexcard(controller);
         createIndexcard.pack();
         createIndexcard.setMinimumSize(createIndexcard.getSize());
+        createIndexcard.setSize(400, 300);
         createIndexcard.setLocationRelativeTo(this);
         createIndexcard.setVisible(true);
     }
