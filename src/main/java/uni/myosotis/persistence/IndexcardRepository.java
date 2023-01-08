@@ -74,5 +74,22 @@ public class IndexcardRepository {
             return em.createQuery("SELECT i FROM Indexcard i").getResultList();
         }
     }
-
+    /**
+     * This method is used to delete an object of type "Indexcard" in the persistent
+     * persistence storage.
+     *
+     * @param name      The unique id of the index card.
+     * @return          Status, -1 means an error has been occurred on delete.
+     */
+    public int deleteIndexcard(final String name) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            em.remove(em.find(Indexcard.class, name));
+            em.getTransaction().commit();
+        }
+        catch (Exception e) {
+            return -1;
+        }
+        return 0;
+    }
 }

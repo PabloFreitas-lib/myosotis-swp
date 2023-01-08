@@ -65,4 +65,21 @@ public class MainMenu extends JDialog {
         createIndexcard.setLocationRelativeTo(this);
         createIndexcard.setVisible(true);
     }
+    public void displayEditIndexcard() {
+        final EditIndexcard editIndexcard = new EditIndexcard(controller);
+        editIndexcard.pack();
+        editIndexcard.setMinimumSize(editIndexcard.getSize());
+        editIndexcard.setLocationRelativeTo(this);
+        editIndexcard.setVisible(true);
+    }
+
+    public void displayDeleteIndexcard() {
+        /*
+        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller);
+        deleteIndexcard.pack();
+        deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
+        deleteIndexcard.setLocationRelativeTo(this);
+        deleteIndexcard.setVisible(true);
+        */
+    }
 }
