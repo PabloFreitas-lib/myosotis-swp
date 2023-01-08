@@ -1,6 +1,6 @@
 package uni.myosotis;
 
-import uni.myosotis.controller.MainMenuController;
+import uni.myosotis.controller.Controller;
 import uni.myosotis.logic.IndexcardLogic;
 import uni.myosotis.persistence.IndexcardRepository;
 import uni.myosotis.objects.Indexcard;
@@ -12,8 +12,8 @@ public class App {
 
         /* Start the application */
         final IndexcardLogic indexcardLogic = new IndexcardLogic();
-        final MainMenuController mainMenuController = new MainMenuController(indexcardLogic);
-        mainMenuController.startApplication();
+        final Controller controller = new Controller(indexcardLogic);
+        controller.startApplication();
 
 
         /* STUFF ZUM TESTEN */

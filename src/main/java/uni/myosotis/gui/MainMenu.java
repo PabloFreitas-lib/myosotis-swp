@@ -1,29 +1,23 @@
 package uni.myosotis.gui;
 
+import uni.myosotis.controller.Controller;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class MainMenu extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
 
-    public MainMenu() {
+    private final transient Controller controller;
+
+    public MainMenu(final Controller controller) {
+        this.controller = controller;
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
-
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
-
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        setTitle("Myosotis");
+        createMenu();
+        setMinimumSize(new Dimension(800, 600));
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -32,18 +26,28 @@ public class MainMenu extends JDialog {
                 onCancel();
             }
         });
-
-        // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    /**
+     * Creates the Menu of the MainMenu-Window.
+     */
+    private void createMenu() {
+        final JMenuBar menuBar = new JMenuBar();
+        final JMenu indexcardMenu = new JMenu("Karteikarte");
+        final JMenuItem createIndexcard = new JMenuItem("Erstellen");
+        createIndexcard.addActionListener(e -> controller.createIndexcard());
+        final JMenuItem editIndexcard = new JMenuItem("Bearbeiten");
+        editIndexcard.addActionListener(e -> controller.editIndexcard());
+        final JMenuItem deleteIndexcard = new JMenuItem("Entfernen");
+        deleteIndexcard.addActionListener(e -> controller.deleteIndexcard());
+        indexcardMenu.add(createIndexcard);
+        indexcardMenu.addSeparator();
+        indexcardMenu.add(editIndexcard);
+        indexcardMenu.addSeparator();
+        indexcardMenu.add(deleteIndexcard);
+        menuBar.add(indexcardMenu);
+
+        setJMenuBar(menuBar);
     }
 
     private void onCancel() {
@@ -51,11 +55,14 @@ public class MainMenu extends JDialog {
         dispose();
     }
 
-    public static void main(String[] args) {
-        MainMenu dialog = new MainMenu();
-        dialog.pack();
-        dialog.setSize(540, 320);
-        dialog.setVisible(true);
-        System.exit(0);
+    /**
+     * Displays the Dialog to create a new Indexcard and delegate this exercise to the controller.
+     */
+    public void displayCreateIndexcard() {
+        final CreateIndexcard createIndexcard = new CreateIndexcard(controller);
+        createIndexcard.pack();
+        createIndexcard.setMinimumSize(createIndexcard.getSize());
+        createIndexcard.setLocationRelativeTo(this);
+        createIndexcard.setVisible(true);
     }
 }

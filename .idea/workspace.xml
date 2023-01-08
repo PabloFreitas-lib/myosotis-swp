@@ -4,16 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/FirstController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/PersistenceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/PersistenceManager.java" afterDir="false" />
-    </list>
-    <list id="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" name="Changes by Johannes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" afterDir="false" />
-    </list>
+    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="" />
+    <list id="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" name="Changes by Johannes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -29,15 +21,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java">
-      <ranges>
-        <range start1="2" end1="2" start2="2" end2="4" changelist="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" />
-        <range start1="10" end1="10" start2="12" end2="19" changelist="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" />
-        <range start1="11" end1="12" start2="20" end2="20" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-      </ranges>
-    </file>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -50,7 +33,8 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/len/Downloads/Übungsblätter(2)/uebung1/kurve/kurve",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
+    "last_opened_file_path": "C:/Users/Kirsten/Documents/Johannes/Informatik-Studium/3. Semester/Softwareprojekt/myosotis",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -64,8 +48,10 @@
   </component>
   <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="uni.myosotis.App" />
-      <module name="myosotis" />
+      <module name="SNAPSHOT-1.0.0" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uni.myosotis.*" />

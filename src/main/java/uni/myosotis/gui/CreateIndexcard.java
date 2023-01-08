@@ -1,14 +1,22 @@
 package uni.myosotis.gui;
 
+import uni.myosotis.controller.Controller;
+
 import javax.swing.*;
 import java.awt.event.*;
 
 public class CreateIndexcard extends JDialog {
+
+    private final Controller controller;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField textFieldName;
+    private JTextArea textAreaQuestion;
+    private JTextArea textAreaAnswer;
 
-    public CreateIndexcard() {
+    public CreateIndexcard(Controller controller) {
+        this.controller = controller;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
@@ -42,19 +50,19 @@ public class CreateIndexcard extends JDialog {
     }
 
     private void onOK() {
-        // add your code here
-        dispose();
+        final String name = textFieldName.getText();
+        final String question = textAreaQuestion.getText();
+        final String answer = textAreaAnswer.getText();
+        if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
+            controller.createIndexcard(name, question, answer);
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
-    }
-
-    public static void main(String[] args) {
-        CreateIndexcard dialog = new CreateIndexcard();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }
