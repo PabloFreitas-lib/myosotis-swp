@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 import uni.myosotis.objects.Indexcard;
-import uni.myosotis.logic.IndexcardLogic;
 public class EditIndexcard extends JDialog {
 
     private final Controller controller;
@@ -20,13 +19,13 @@ public class EditIndexcard extends JDialog {
     /**
      * Creates a new EditIndexcard-Dialog.
      * @param controller The Controller of the application.
-     * @param indexcard The Indexcard to edit.
      */
     public EditIndexcard(Controller controller) {
         this.controller = controller;
-        setContentPane(contentPane);
         setModal(true);
+        setTitle("Karteikarte bearbeiten");
         getRootPane().setDefaultButton(buttonOK);
+        setContentPane(contentPane);
         //list of all indexcards
         List<Indexcard> indexcards = controller.getIndexcardLogic().findAllIndexcards();
         //Array of all indexcard names
