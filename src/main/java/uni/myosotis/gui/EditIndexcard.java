@@ -27,7 +27,7 @@ public class EditIndexcard extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         setContentPane(contentPane);
         //list of all indexcards
-        List<Indexcard> indexcards = controller.getIndexcardLogic().findAllIndexcards();
+        List<Indexcard> indexcards = controller.getAllIndexcards();
         //Array of all indexcard names
         String[] indexcardsNames = new String[indexcards.size()];
         for (int i = 0; i < indexcards.size(); i++) {
@@ -35,9 +35,10 @@ public class EditIndexcard extends JDialog {
         }
         //ComboBox with all indexcard names
         comboBoxName.setModel(new DefaultComboBoxModel<>(indexcardsNames));
+        
         //ActionListener for the ComboBox
         comboBoxName.addActionListener(e -> {
-            Optional<Indexcard> indexcard = controller.getIndexcardLogic().findIndexcard((String) comboBoxName.getSelectedItem());
+            Optional<Indexcard> indexcard = controller.getIndexcardByName((String) comboBoxName.getSelectedItem());
             if(indexcard.isPresent()){
                 textAreaQuestion.setText(indexcard.get().getQuestion());
                 textAreaAnswer.setText(indexcard.get().getAnswer());

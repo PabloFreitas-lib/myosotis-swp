@@ -2,9 +2,11 @@ package uni.myosotis.controller;
 
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.IndexcardLogic;
-import uni.myosotis.persistence.IndexcardRepository;
+import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
+import java.util.List;
+import java.util.Optional;
 
 public class Controller {
 
@@ -110,7 +112,7 @@ public class Controller {
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -119,7 +121,17 @@ public class Controller {
      *
      * @return A list of all Indexcards.
      */
-    public IndexcardRepository getIndexcardLogic() {
-        return indexcardLogic.getIndexcardRepository();
+    public List<Indexcard> getAllIndexcards() {
+        return indexcardLogic.getAllIndexcards();
+    }
+
+    /**
+     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
+     *
+     * @param indexcard The name of the Indexcard.
+     * @return The Indexcard if it exists.
+     */
+    public Optional<Indexcard> getIndexcardByName(String indexcard) {
+        return indexcardLogic.getIndexcard(indexcard);
     }
 }

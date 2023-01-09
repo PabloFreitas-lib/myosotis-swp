@@ -64,7 +64,7 @@ public class MainMenu extends JFrame {
     }
 
     /**
-     * Displays the Dialog to create a new Indexcard and delegate this exercise to the controller.
+     * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateIndexcard() {
         final CreateIndexcard createIndexcard = new CreateIndexcard(controller);
@@ -74,21 +74,27 @@ public class MainMenu extends JFrame {
         createIndexcard.setLocationRelativeTo(this);
         createIndexcard.setVisible(true);
     }
+
+    /**
+     * Displays the Dialog to edit an existing Indexcard.
+     */
     public void displayEditIndexcard() {
         final EditIndexcard editIndexcard = new EditIndexcard(controller);
         editIndexcard.pack();
         editIndexcard.setMinimumSize(editIndexcard.getSize());
+        editIndexcard.setSize(400, 300);
         editIndexcard.setLocationRelativeTo(this);
         editIndexcard.setVisible(true);
     }
 
+    /**
+     * Displays the Dialog to delete an Indexcard.
+     */
     public void displayDeleteIndexcard() {
-        /*
         final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller);
         deleteIndexcard.pack();
         deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
         deleteIndexcard.setLocationRelativeTo(this);
         deleteIndexcard.setVisible(true);
-        */
     }
 }

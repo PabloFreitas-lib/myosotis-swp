@@ -4,6 +4,7 @@ import uni.myosotis.objects.Indexcard;
 import uni.myosotis.persistence.IndexcardRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public class IndexcardLogic {
@@ -80,6 +81,16 @@ public class IndexcardLogic {
      */
     public List<Indexcard> getAllIndexcards() {
         return indexcardRepository.findAllIndexcards();
+    }
+
+    /**
+     * Return the Indexcard with the given name.
+     *
+     * @param indexcard The name of the Indexcard.
+     * @return The Indexcard if it exists.
+     */
+    public Optional<Indexcard> getIndexcard(String indexcard) {
+        return indexcardRepository.findIndexcard(indexcard);
     }
 
     /**
