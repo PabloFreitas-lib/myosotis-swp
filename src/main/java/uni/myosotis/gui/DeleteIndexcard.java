@@ -1,5 +1,6 @@
 package uni.myosotis.gui;
 
+import org.h2.index.Index;
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
 
@@ -68,6 +69,7 @@ public class DeleteIndexcard extends JDialog {
             JOptionPane.showMessageDialog(this, "Keine Karteikarte ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     private void onCancel() {
         // add your code here if necessary

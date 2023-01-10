@@ -57,9 +57,30 @@ public class Controller {
     public void createIndexcard(String name, String question, String answer) {
         try {
             indexcardLogic.createIndexcard(name, question, answer);
+            okMsgCreateIndexcard();
+        } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * OVERLOAD
+     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
+     * Displays an error, if already an Indexcard with the same name exists.
+     *
+     * @param name The name of the Indexcard.
+     * @param question The question of the Indexcard.
+     * @param answer The answer of the Indexcard.
+     * @param silentMode Boolean variable to hide the notifications spam.
+     */
+    public void createIndexcard(String name, String question, String answer, boolean silentMode) {
+        try {
+            indexcardLogic.createIndexcard(name, question, answer);
+            if (!silentMode) {
+                okMsgCreateIndexcard();
+            }
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
@@ -67,13 +88,17 @@ public class Controller {
         }
     }
     /**
-     * Displays the dialog to edit a Indexcard.
+     * Displays the information when an index card was created successfully.
+     *
      */
-    public void editIndexcard() {
-        mainMenu.displayEditIndexcard();
+    public void okMsgCreateIndexcard() {
+        JOptionPane.showMessageDialog(mainMenu,
+                "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
+                JOptionPane.INFORMATION_MESSAGE);
     }
+
     /**
-     * Delegates the exercise to edit a Indexcard to the IndexcardLogic.
+     * Delegates the exercise to edit an Indexcard to the IndexcardLogic.
      * Displays an error, if there is no Indexcard with the given name.
      *
      * @param name The name of the Indexcard.
@@ -83,17 +108,17 @@ public class Controller {
     public void editIndexcard(String name, String question, String answer) {
         try {
             indexcardLogic.EditIndexcard(name, question, answer);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
-                    JOptionPane.INFORMATION_MESSAGE);
+            okMsgEditIndexCard();
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
     /**
-     * Displays the dialog to delete a Indexcard.
+     * Displays the dialog to delete an Indexcard.
      */
     public void deleteIndexcard() {
         mainMenu.displayDeleteIndexcard();
@@ -107,9 +132,29 @@ public class Controller {
     public void deleteIndexcard(String name) {
         try {
             indexcardLogic.DeleteIndexcard(name);
+            okMsgDeleteIndexCard();
+        } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich gelöscht.", "Karteikarte gelöscht",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Delegates the exercise to delete an Indexcard to the IndexcardLogic.
+     * Displays an error, if there is no Indexcard with the given name.
+     *
+     * @param name The name of the Indexcard.
+     * @param silentMode Boolean variable to hide the notifications spam.
+     */
+    public void deleteIndexcard(String name,boolean silentMode) {
+        try {
+            indexcardLogic.DeleteIndexcard(name);
+            if (!silentMode) {
+                JOptionPane.showMessageDialog(mainMenu,
+                        "Die Karteikarte wurde erfolgreich gelöscht.", "Karteikarte gelöscht",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
@@ -133,5 +178,31 @@ public class Controller {
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
         return indexcardLogic.getIndexcard(indexcard);
+    }
+
+    /**
+     * Displays the information when an index card was edit successfully.
+     *
+     */
+    public void okMsgEditIndexCard() {
+        JOptionPane.showMessageDialog(mainMenu,
+                "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+    /**
+     * Displays the information when an index card was delete successfully.
+     *
+     */
+    public void okMsgDeleteIndexCard(){
+        JOptionPane.showMessageDialog(mainMenu,
+                "Die Karteikarte wurde erfolgreich gelöscht.", "Karteikarte gelöscht",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    /**
+     * Displays the dialog to edit an Indexcard.
+     */
+    public void editIndexcard() {
+        mainMenu.displayEditIndexcard();
     }
 }

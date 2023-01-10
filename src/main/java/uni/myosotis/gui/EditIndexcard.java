@@ -93,9 +93,10 @@ public class EditIndexcard extends JDialog {
         //if the user wants to delete the statistic, the controller has to delete the statistic
         else if(!oldName.isBlank() && !question.isBlank() && !answer.isBlank()
                 && deleteStatistic) {
-            controller.deleteIndexcard();
+            controller.deleteIndexcard(oldName,true);
             //TODO: Controller muss noch Methode zum Löschen der Statistik implementieren
-            controller.createIndexcard(oldName, question, answer);
+            controller.createIndexcard(oldName, question, answer,true);
+            controller.okMsgEditIndexCard();
             dispose();
         }
         else {
