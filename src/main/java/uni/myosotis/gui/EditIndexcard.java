@@ -85,18 +85,8 @@ public class EditIndexcard extends JDialog {
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
         final boolean deleteStatistic = radioButtonDeleteStatisic.isSelected();
-        if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank()
-                && !deleteStatistic) {
-            controller.editIndexcard(oldName, question, answer);
-            dispose();
-        }
-        //if the user wants to delete the statistic, the controller has to delete the statistic
-        else if(!oldName.isBlank() && !question.isBlank() && !answer.isBlank()
-                && deleteStatistic) {
-            controller.deleteIndexcard(oldName,true);
-            //TODO: Controller muss noch Methode zum Löschen der Statistik implementieren
-            controller.createIndexcard(oldName, question, answer,true);
-            controller.okMsgEditIndexCard();
+        if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank()) {
+            controller.editIndexcard(oldName, question, answer, deleteStatistic);
             dispose();
         }
         else {
