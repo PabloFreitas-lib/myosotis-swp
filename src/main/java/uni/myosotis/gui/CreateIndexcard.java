@@ -18,6 +18,8 @@ public class CreateIndexcard extends JDialog {
     private JTextField textFieldName;
     private JTextArea textAreaQuestion;
     private JTextArea textAreaAnswer;
+    private JTextArea textAreaKeyword;
+
 
     /**
      * Create a new Dialog to create an Indexcard.
@@ -66,11 +68,15 @@ public class CreateIndexcard extends JDialog {
         final String name = textFieldName.getText();
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
+        final String keyword = textAreaKeyword.getText();
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
             controller.createIndexcard(name, question, answer);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
+        }
+        if(!keyword.isBlank()){
+            controller.createKeyword(keyword);
         }
     }
 

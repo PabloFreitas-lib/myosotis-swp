@@ -3,6 +3,8 @@ package uni.myosotis.controller;
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.IndexcardLogic;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.logic.KeywordLogic;
+import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
 import java.util.List;
@@ -15,6 +17,12 @@ public class Controller {
      */
     private final IndexcardLogic indexcardLogic;
 
+
+    /**
+     * The KeywordLogic of the application.
+     */
+    private final KeywordLogic keywordLogic;
+
     /**
      * The main-menu of the application.
      */
@@ -24,11 +32,13 @@ public class Controller {
      * Creates a new Controller with the given logic.
      *
      * @param indexcardLogic The logic for the Indexcards.
+     * @param keywordLogic The logic for the Keywords.
      */
-    public Controller(final IndexcardLogic indexcardLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic) {
 
         this.indexcardLogic = indexcardLogic;
-
+;
+        this.keywordLogic = keywordLogic;
     }
 
     /**
@@ -147,5 +157,15 @@ public class Controller {
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
         return indexcardLogic.getIndexcard(indexcard);
+    }
+
+    public void createKeyword(String word){
+        try {
+            keywordLogic.createKeyword(word);
+        } catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert schon so ein Schlagwort", "Wort bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 }

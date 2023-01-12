@@ -4,6 +4,7 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.logic.IndexcardLogic;
 import uni.myosotis.persistence.IndexcardRepository;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.logic.KeywordLogic;
 
 import java.util.List;
 
@@ -11,8 +12,9 @@ public class App {
     public static void main(String[] args) {
 
         /* Start the application */
+        final KeywordLogic keywordLogic = new KeywordLogic();
         final IndexcardLogic indexcardLogic = new IndexcardLogic();
-        final Controller controller = new Controller(indexcardLogic);
+        final Controller controller = new Controller(indexcardLogic, keywordLogic);
         controller.startApplication();
 
 
