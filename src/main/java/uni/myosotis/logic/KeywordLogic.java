@@ -34,6 +34,22 @@ public class KeywordLogic {
             KeywordRepository.saveKeyword(keyword);
         }
     }
+
+    /**
+     * Creates a new Keyword and saves it in the database.
+     * If already an Keyword with the same word exists, it will throw a IllegalStateException.
+     *
+     * @param words The word of the Keyword.
+     */
+    public void createMultiplesKeyword(String words) {
+        // FIXME split the String in the spaces and each word run the createKeyword
+        if (KeywordRepository.findKeyword(words).isPresent()) {
+            throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
+        } else {
+            Keyword keyword = new Keyword(words);
+            KeywordRepository.saveKeyword(keyword);
+        }
+    }
     /**
      * Edits a existing Keyword and saves it in the database.
      * If there is no Keyword with the given word, it will throw a IllegalStateException.

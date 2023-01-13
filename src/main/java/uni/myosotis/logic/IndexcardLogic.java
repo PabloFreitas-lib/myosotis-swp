@@ -1,6 +1,7 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.IndexcardRepository;
 
 import java.util.List;
@@ -42,6 +43,24 @@ public class IndexcardLogic {
             indexcardRepository.saveIndexcard(indexcard);
         }
     }
+
+    /**
+     * Creates a new Indexcard and saves it in the database.
+     * If already an indexcard with the same name exists, it will throw a IllegalStateException.
+     *
+     * @param name The Name of the Indexcard.
+     * @param question  The Question of the Indexcard.
+     * @param answer The Answer of the Indexcard.
+     * @param keywords Keywords which could be added to the Indexcard.
+     */
+    public void createIndexcard(String name, String question, String answer, String keywords) {
+        if (indexcardRepository.findIndexcard(name).isPresent()) {
+            throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
+        } else {
+            Indexcard indexcard = new Indexcard(name, question, answer, keywords);
+            indexcardRepository.saveIndexcard(indexcard);
+        }
+    }
     /**
      * Edits a existing Indexcard and saves it in the database.
      * If there is no indexcard with the given name, it will throw a IllegalStateException.
@@ -53,6 +72,25 @@ public class IndexcardLogic {
     public void EditIndexcard(String name, String question, String answer) {
         if (indexcardRepository.findIndexcard(name).isPresent()) {
             Indexcard indexcard = new Indexcard(name, question, answer);
+            int checkvalue = indexcardRepository.updateIndexcard(indexcard);
+            if (checkvalue != 0) {
+                throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
+            }
+        }
+    }
+
+    /**
+     * Edits a existing Indexcard and saves it in the database.
+     * If there is no indexcard with the given name, it will throw a IllegalStateException.
+     *
+     * @param name The Name of the Indexcard.
+     * @param question  The Question of the Indexcard.
+     * @param answer The Answer of the Indexcard.
+     * @param keywords The keywords of the Indexcard.
+     */
+    public void EditIndexcard(String name, String question, String answer, String keywords) {
+        if (indexcardRepository.findIndexcard(name).isPresent()) {
+            Indexcard indexcard = new Indexcard(name, question, answer, keywords);
             int checkvalue = indexcardRepository.updateIndexcard(indexcard);
             if (checkvalue != 0) {
                 throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");

@@ -14,7 +14,11 @@ public class EditIndexcard extends JDialog {
     private JRadioButton radioButtonDeleteStatisic;
     private JTextArea textAreaQuestion, textAreaAnswer;
     private JComboBox comboBoxName;
+    private JTextArea textAreaKeyword;
+    private JLabel Schlagwort;
     private String oldName, oldQuestion, oldAnswer;
+
+    private String oldKeywords;
 
     /**
      * Creates a new EditIndexcard-Dialog.
@@ -42,14 +46,17 @@ public class EditIndexcard extends JDialog {
             if(indexcard.isPresent()){
                 textAreaQuestion.setText(indexcard.get().getQuestion());
                 textAreaAnswer.setText(indexcard.get().getAnswer());
+                textAreaKeyword.setText(indexcard.get().getKeywordList());
                 oldName = indexcard.get().getName();
                 oldQuestion = indexcard.get().getQuestion();
                 oldAnswer = indexcard.get().getAnswer();
+                oldKeywords = indexcard.get().getKeywordList();
             }
         });
         //Set old values
         textAreaQuestion.setText(oldQuestion);
         textAreaAnswer.setText(oldAnswer);
+        textAreaKeyword.setText(oldKeywords);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -84,12 +91,15 @@ public class EditIndexcard extends JDialog {
     private void onOK() {
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
+        final String keywords = textAreaKeyword.getText();
         final boolean deleteStatistic = radioButtonDeleteStatisic.isSelected();
-        if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank()) {
+        if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank() && keywords.isBlank()) {
             controller.editIndexcard(oldName, question, answer, deleteStatistic);
             dispose();
-        }
-        else {
+        } else if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank() && !keywords.isBlank()) {
+            controller.editIndexcard(oldName, question, answer, deleteStatistic, keywords);
+            dispose();
+        } else {
             JOptionPane.showMessageDialog(this,
                     "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.",
                     JOptionPane.ERROR_MESSAGE);

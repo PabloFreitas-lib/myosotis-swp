@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.ListIterator;
 
 @Entity
 @Embeddable
@@ -18,11 +20,22 @@ public class Indexcard implements Serializable {
 
     String answer;
 
+    String keywordList;
+
     public Indexcard(final String name, final String question, final String answer) {
 
         this.name = name;
         this.question = question;
         this.answer = answer;
+
+    }
+
+    public Indexcard(final String name, final String question, final String answer, final String keywords) {
+
+        this.name = name;
+        this.question = question;
+        this.answer = answer;
+        this.keywordList = keywords;
 
     }
 
@@ -52,6 +65,17 @@ public class Indexcard implements Serializable {
 
     public void setAnswer(final String newAnswer) {
         answer = newAnswer;
+    }
+
+    public void setKeywordList(final String keyword) {
+        keywordList=keyword;
+    }
+    public void emptyKeywordList() {
+        keywordList = "";
+    }
+
+    public String getKeywordList(){
+        return keywordList;
     }
 
 }
