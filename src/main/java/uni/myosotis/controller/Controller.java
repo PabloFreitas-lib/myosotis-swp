@@ -7,6 +7,7 @@ import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
+import java.security.Key;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,11 +85,12 @@ public class Controller {
      * @param name The name of the Indexcard.
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
+     * @param keywords The keywords of the Indexcard.
      */
     public void createIndexcard(String name, String question, String answer, String keywords) {
         try {
-            // Parse the String keyword
             indexcardLogic.createIndexcard(name, question, answer,keywords);
+            keywordLogic.createKeyword(keywords,name);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -205,6 +207,15 @@ public class Controller {
     }
 
     /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public List<Keyword> getAllKeywords() {
+        return keywordLogic.getAllKeywords();
+    }
+
+    /**
      * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
      *
      * @param indexcard The name of the Indexcard.
@@ -214,13 +225,34 @@ public class Controller {
         return indexcardLogic.getIndexcard(indexcard);
     }
 
-    public void createKeyword(String word){
+    public void createKeyword(String word, String indexcard_name){
         try {
-            keywordLogic.createKeyword(word);
+            keywordLogic.createKeyword(word, indexcard_name);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert schon so ein Schlagwort", "Wort bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * Display all Indexcards from the IndexCard repository into the IndexCardPanel.
+     *
+     *
+     */
+    public void setIndexCardPanel() {
+        List<Indexcard> indexcardList = getAllIndexcards();
+        String[] indexcardsNames = new String[indexcardList.size()];
+        for (int i = 0; i < indexcardList.size(); i++) {
+            indexcardsNames[i] = indexcardList.get(i).getName();
+        }
+        //FIXME Return the names not the Objects
+        JList<Indexcard> indexcardJList = new JList<>(indexcardList.toArray(new Indexcard[indexcardList.size()]));
+        //indexcardJList.setListData(indexcardJList);
+        mainMenu.getIndexcardsPane().setViewportView(indexcardJList);
+    }
+
+    public void setKeywordComboBox(){
+        mainMenu.setKeywordComboBox();
     }
 }

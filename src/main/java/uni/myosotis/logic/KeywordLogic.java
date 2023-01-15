@@ -25,12 +25,13 @@ public class KeywordLogic {
      * If already an Keyword with the same word exists, it will throw a IllegalStateException.
      *
      * @param word The word of the Keyword.
+     * @param indexcard_name The name of the Indexcard.
      */
-    public void createKeyword(String word) {
+    public void createKeyword(String word, String indexcard_name) {
         if (KeywordRepository.findKeyword(word).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            Keyword keyword = new Keyword(word);
+            Keyword keyword = new Keyword(word,indexcard_name);
             KeywordRepository.saveKeyword(keyword);
         }
     }
@@ -41,12 +42,12 @@ public class KeywordLogic {
      *
      * @param words The word of the Keyword.
      */
-    public void createMultiplesKeyword(String words) {
+    public void createMultiplesKeyword(String words, String name) {
         // FIXME split the String in the spaces and each word run the createKeyword
         if (KeywordRepository.findKeyword(words).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            Keyword keyword = new Keyword(words);
+            Keyword keyword = new Keyword(words, name);
             KeywordRepository.saveKeyword(keyword);
         }
     }
@@ -56,9 +57,9 @@ public class KeywordLogic {
      *
      * @param word The word of the Keyword.
      */
-    public void editKeyword(String word) {
+    public void editKeyword(String word, String name) {
         if (KeywordRepository.findKeyword(word).isPresent()) {
-            Keyword Keyword = new Keyword(word);
+            Keyword Keyword = new Keyword(word, name);
             int checkvalue = KeywordRepository.updateKeyword(Keyword);
             if (checkvalue != 0) {
                 throw new IllegalStateException("Es existiert kein Schlagwort mit diesem Namen.");
@@ -85,7 +86,7 @@ public class KeywordLogic {
      *
      * @return All Indexcards.
      */
-    public List<Keyword> getAllKey() {
+    public List<Keyword> getAllKeywords() {
         return KeywordRepository.findAllKeywords();
     }
 

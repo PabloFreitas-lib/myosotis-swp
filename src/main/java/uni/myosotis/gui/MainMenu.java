@@ -1,12 +1,23 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 public class MainMenu extends JFrame {
     private JPanel contentPane;
+    private JScrollPane IndexcardsPane;
+    private DefaultComboBoxModel<String> keywordModel = new DefaultComboBoxModel<>();
+    private JComboBox KeywordComboBox = new JComboBox<>(keywordModel);
+    private JLabel VerschlagwortungLabel;
+    private JLabel KarteikartenLabel;
 
     private final transient Controller controller;
 
@@ -20,6 +31,7 @@ public class MainMenu extends JFrame {
         setContentPane(contentPane);
         setTitle("Myosotis");
         createMenu();
+        setKeywordComboBox();
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
@@ -31,6 +43,25 @@ public class MainMenu extends JFrame {
                 onCancel();
             }
         });
+    }
+
+
+    /**
+     * Display all Keyword in the ComboBox.
+     *
+     *
+     */
+    public void setKeywordComboBox(){
+        //list of all indexcards
+        List<Keyword> keywordList = controller.getAllKeywords();
+
+        //Array of all indexcard names
+        //String[] keywordsNames = new String[keywordList.size()];
+        for (int i = 0; i < keywordList.size(); i++) {
+            keywordModel.addElement(keywordList.get(i).getKeyword());
+        }
+        KeywordComboBox.updateUI();
+        //ComboBox with all indexcard names
     }
 
     /**
@@ -96,5 +127,21 @@ public class MainMenu extends JFrame {
         deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
         deleteIndexcard.setLocationRelativeTo(this);
         deleteIndexcard.setVisible(true);
+    }
+
+    public JScrollPane getIndexcardsPane(){
+        return this.IndexcardsPane;
+    }
+
+    public void setIndexcardsPane(JScrollPane indexcardsPane) {
+        this.IndexcardsPane = indexcardsPane;
+    }
+
+    public JComboBox getKeywordComboBox(){
+        return this.KeywordComboBox;
+    }
+
+    public void setKeywordComboBox(JComboBox keywordComboBox) {
+        this.KeywordComboBox = keywordComboBox;
     }
 }

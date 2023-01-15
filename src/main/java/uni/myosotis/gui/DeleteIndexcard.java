@@ -64,6 +64,8 @@ public class DeleteIndexcard extends JDialog {
         String indexCardToDelete = (String) comboBoxName.getSelectedItem();
         if (indexCardToDelete != null) {
             controller.deleteIndexcard((String) comboBoxName.getSelectedItem());
+            controller.setIndexCardPanel();
+            controller.setKeywordComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Keine Karteikarte ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);

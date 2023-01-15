@@ -12,11 +12,20 @@ public class Keyword implements Serializable{
     @Id
     String word;
 
+    String name;
+
+
     //@Embedded?
     //String name;?
 
-    public Keyword(final String name){
-        this.word = name;
+    public Keyword(final String word, Indexcard indexcard){
+        this.word = word;
+        this.name = indexcard.getName();
+    }
+
+    public Keyword(final String word, String name){
+        this.word = word;
+        this.name = name;
     }
 
     public String getKeyword(){

@@ -72,12 +72,16 @@ public class CreateIndexcard extends JDialog {
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank() && keyword.isBlank()) {
             controller.createIndexcard(name, question, answer);
             dispose();
+
         } else if (!name.isBlank() && !question.isBlank() && !answer.isBlank() && !keyword.isBlank()) {
             controller.createIndexcard(name, question, answer, keyword);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
         }
+        controller.setIndexCardPanel();
+        controller.setKeywordComboBox();
+        dispose();
 
 
     }

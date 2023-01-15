@@ -104,6 +104,9 @@ public class EditIndexcard extends JDialog {
                     "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.",
                     JOptionPane.ERROR_MESSAGE);
         }
+        controller.setIndexCardPanel();
+        controller.setKeywordComboBox();
+        dispose();
     }
     /**
      * When the Cancel-Button is pressed, the Dialog is closed.
