@@ -211,6 +211,15 @@ public class Controller {
      *
      * @return A list of all Indexcards.
      */
+    public List<String> getAllIndexcards(String keyword) {
+        return indexcardLogic.getAllIndexcards(keyword);
+    }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
     public List<Keyword> getAllKeywords() {
         return keywordLogic.getAllKeywords();
     }
@@ -248,6 +257,20 @@ public class Controller {
         }
         //FIXME Return the names not the Objects
         JList<Indexcard> indexcardJList = new JList<>(indexcardList.toArray(new Indexcard[indexcardList.size()]));
+        //indexcardJList.setListData(indexcardJList);
+        mainMenu.getIndexcardsPane().setViewportView(indexcardJList);
+    }
+
+    /**
+     * Display all Indexcards from the IndexCard repository into the IndexCardPanel.
+     *
+     * @param keyword
+     */
+    public void filternIndexCardPanel(String keyword) {
+        List<String> indexcardList = getAllIndexcards(keyword);
+
+        //FIXME Return the names not the Objects
+        JList<String> indexcardJList = new JList<>(indexcardList.toArray(new String[indexcardList.size()]));
         //indexcardJList.setListData(indexcardJList);
         mainMenu.getIndexcardsPane().setViewportView(indexcardJList);
     }

@@ -1,6 +1,5 @@
 package uni.myosotis.objects;
 
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -18,9 +17,8 @@ public class Keyword implements Serializable{
     //@Embedded?
     //String name;?
 
-    public Keyword(final String word, Indexcard indexcard){
-        this.word = word;
-        this.name = indexcard.getName();
+
+    public Keyword() {
     }
 
     public Keyword(final String word, String name){

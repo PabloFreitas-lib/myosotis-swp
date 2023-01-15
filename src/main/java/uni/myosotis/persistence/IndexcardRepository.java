@@ -74,6 +74,19 @@ public class IndexcardRepository {
             return em.createQuery("SELECT i FROM Indexcard i").getResultList();
         }
     }
+
+    /**
+     * This method is used to get all objects of type "Indexcard" in the persistent
+     * persistence storage.
+     *
+     * @return List of all objects of type "Indexcard", could be empty.
+     */
+    public List<String> findAllIndexcards(String keyword) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            List<String> queryList = em.createNativeQuery("SELECT name FROM Keyword WHERE word = :name").setParameter("name",keyword).getResultList();
+            return queryList;
+        }
+    }
     /**
      * This method is used to delete an object of type "Indexcard" in the persistent
      * persistence storage.

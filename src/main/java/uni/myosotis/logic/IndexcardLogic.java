@@ -122,6 +122,15 @@ public class IndexcardLogic {
     }
 
     /**
+     * Returns all Indexcards.
+     *
+     * @return All Indexcards.
+     */
+    public List<String> getAllIndexcards(String keyword) {
+        return indexcardRepository.findAllIndexcards(keyword);
+    }
+
+    /**
      * Return the Indexcard with the given name.
      *
      * @param indexcard The name of the Indexcard.

@@ -29,7 +29,7 @@ public class KeywordLogic {
      */
     public void createKeyword(String word, String indexcard_name) {
         if (KeywordRepository.findKeyword(word).isPresent()) {
-            throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
+            throw new IllegalStateException("Es existiert bereits eine Keyword mit diesem Namen.");
         } else {
             Keyword keyword = new Keyword(word,indexcard_name);
             KeywordRepository.saveKeyword(keyword);
@@ -37,22 +37,7 @@ public class KeywordLogic {
     }
 
     /**
-     * Creates a new Keyword and saves it in the database.
-     * If already an Keyword with the same word exists, it will throw a IllegalStateException.
-     *
-     * @param words The word of the Keyword.
-     */
-    public void createMultiplesKeyword(String words, String name) {
-        // FIXME split the String in the spaces and each word run the createKeyword
-        if (KeywordRepository.findKeyword(words).isPresent()) {
-            throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
-        } else {
-            Keyword keyword = new Keyword(words, name);
-            KeywordRepository.saveKeyword(keyword);
-        }
-    }
-    /**
-     * Edits a existing Keyword and saves it in the database.
+     * Edits an existing Keyword and saves it in the database.
      * If there is no Keyword with the given word, it will throw a IllegalStateException.
      *
      * @param word The word of the Keyword.
@@ -67,7 +52,7 @@ public class KeywordLogic {
         }
     }
     /**
-     * Deletes a existing Keyword and saves it in the database.
+     * Deletes an existing Keyword and saves it in the database.
      * If there is no Keyword with the given word, it will throw a IllegalStateException.
      *
      * @param word The word of the Keyword.

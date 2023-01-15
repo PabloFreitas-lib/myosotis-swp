@@ -1,23 +1,20 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class MainMenu extends JFrame {
     private JPanel contentPane;
     private JScrollPane IndexcardsPane;
-    private DefaultComboBoxModel<String> keywordModel = new DefaultComboBoxModel<>();
-    private JComboBox KeywordComboBox = new JComboBox<>(keywordModel);
+    //private DefaultComboBoxModel<String> keywordModel = new DefaultComboBoxModel<>();
+    private JComboBox KeywordComboBox;
     private JLabel VerschlagwortungLabel;
     private JLabel KarteikartenLabel;
+    private JButton filternButton;
 
     private final transient Controller controller;
 
@@ -43,8 +40,24 @@ public class MainMenu extends JFrame {
                 onCancel();
             }
         });
+        filternButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onFiltern();
+            }
+        });
     }
 
+    /**
+     * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
+     */
+    private void onFiltern() {
+        String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
+        if (keyword2Filtern != null) {
+            controller.filternIndexCardPanel(keyword2Filtern);
+        } else {
+            JOptionPane.showMessageDialog(this, "Keine Keyword ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
     /**
      * Display all Keyword in the ComboBox.
@@ -54,14 +67,10 @@ public class MainMenu extends JFrame {
     public void setKeywordComboBox(){
         //list of all indexcards
         List<Keyword> keywordList = controller.getAllKeywords();
-
-        //Array of all indexcard names
-        //String[] keywordsNames = new String[keywordList.size()];
-        for (int i = 0; i < keywordList.size(); i++) {
-            keywordModel.addElement(keywordList.get(i).getKeyword());
-        }
-        KeywordComboBox.updateUI();
-        //ComboBox with all indexcard names
+        // Array of all Keywords
+        String[] keywordNames = controller.getAllKeywords().stream().
+                map(Keyword::getKeyword).toList().toArray(new String[0]);
+        KeywordComboBox.setModel(new DefaultComboBoxModel<>(keywordNames));
     }
 
     /**
