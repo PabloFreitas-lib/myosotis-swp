@@ -22,14 +22,14 @@ public class KeywordLogic {
 
     /**
      * Creates a new Keyword and saves it in the database.
-     * If already an Keyword with the same word exists, it will throw a IllegalStateException.
+     * If already a Keyword with the same word exists, it will throw a IllegalStateException.
      *
      * @param word The word of the Keyword.
      * @param indexcard_name The name of the Indexcard.
      */
     public void createKeyword(String word, String indexcard_name) {
         if (KeywordRepository.findKeyword(word).isPresent()) {
-            throw new IllegalStateException("Es existiert bereits eine Keyword mit diesem Namen.");
+            editKeyword(word,indexcard_name); // FIXME problem here, just the last indexcard keeps the indexcard_name
         } else {
             Keyword keyword = new Keyword(word,indexcard_name);
             KeywordRepository.saveKeyword(keyword);

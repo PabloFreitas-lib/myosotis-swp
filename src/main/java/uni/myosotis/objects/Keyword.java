@@ -13,11 +13,6 @@ public class Keyword implements Serializable{
 
     String name;
 
-
-    //@Embedded?
-    //String name;?
-
-
     public Keyword() {
     }
 
