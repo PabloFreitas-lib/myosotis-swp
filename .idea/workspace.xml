@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/myosotis.lock.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/App.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditIndexcard.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditIndexcard.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditIndexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/IndexcardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/IndexcardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" afterDir="false" />
     </list>
     <list id="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" name="Changes by Johannes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,7 +49,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "false",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/Kirsten/Documents/Johannes/Informatik-Studium/3. Semester/Softwareprojekt/myosotis",
     "project.structure.last.edited": "Modules",
@@ -62,7 +68,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="uni.myosotis.App" />
-      <module name="SNAPSHOT-1.0.0" />
+      <module name="myosotis" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uni.myosotis.*" />
@@ -103,6 +109,9 @@
       <updated>1673009081284</updated>
       <workItem from="1673208762520" duration="5590000" />
       <workItem from="1673360642185" duration="2243000" />
+      <workItem from="1673800083113" duration="614000" />
+      <workItem from="1673806359328" duration="659000" />
+      <workItem from="1673884567548" duration="56929000" />
     </task>
     <servers />
   </component>
@@ -119,6 +128,32 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java</url>
+          <line>306</line>
+          <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java</url>
+          <line>250</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java</url>
+          <line>222</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="deleteKeyword" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

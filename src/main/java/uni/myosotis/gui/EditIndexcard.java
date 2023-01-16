@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.*;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.Keyword;
+
 public class EditIndexcard extends JDialog {
 
     private final Controller controller;
@@ -16,6 +18,7 @@ public class EditIndexcard extends JDialog {
     private JComboBox comboBoxName;
     private JTextArea textAreaKeyword;
     private JLabel Schlagwort;
+    private JTextField textFieldName;
     private String oldName, oldQuestion, oldAnswer;
 
     private String oldKeywords;
@@ -44,13 +47,14 @@ public class EditIndexcard extends JDialog {
         comboBoxName.addActionListener(e -> {
             Optional<Indexcard> indexcard = controller.getIndexcardByName((String) comboBoxName.getSelectedItem());
             if(indexcard.isPresent()){
+                textFieldName.setText(indexcard.get().getName());
                 textAreaQuestion.setText(indexcard.get().getQuestion());
                 textAreaAnswer.setText(indexcard.get().getAnswer());
-                textAreaKeyword.setText(indexcard.get().getKeywordList());
+                textAreaKeyword.setText(indexcard.get().getKeyword().getKeywordWord());
                 oldName = indexcard.get().getName();
                 oldQuestion = indexcard.get().getQuestion();
                 oldAnswer = indexcard.get().getAnswer();
-                oldKeywords = indexcard.get().getKeywordList();
+                oldKeywords = indexcard.get().getKeyword().getKeywordWord();
             }
         });
         //Set old values
@@ -89,26 +93,39 @@ public class EditIndexcard extends JDialog {
      * When the OK-Button is pressed, the Indexcard is edited.
      */
     private void onOK() {
+        //Old Parameters
+        final Indexcard oldIndexcard = controller.getIndexcardByName(oldName).get();
+        Keyword oldKeyword = oldIndexcard.getKeyword();
+        final Long oldIndexcardId = oldIndexcard.getId();
+
+        //New Parameters
+        String name = textFieldName.getText();
+        if(name.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Bitte geben Sie einen Namen ein.", "Es wurde keine Karteikarte ausgewählt", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
-        final String keywords = textAreaKeyword.getText();
+        final String keywordName = textAreaKeyword.getText();
         final boolean deleteStatistic = radioButtonDeleteStatisic.isSelected();
-        if (oldName == null){
-            JOptionPane.showMessageDialog(this,
-                    "Bitte wählen Sie eine Karteikarte zum bearbeiten aus", "Karteikarte nicht ausgewählt",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-        else if (oldName != null && !question.isBlank() && !answer.isBlank() && keywords.isBlank()) {
-            controller.editIndexcard(oldName, question, answer, deleteStatistic);
+        Keyword newKeyword = new Keyword(keywordName);
+
+        if (!question.isBlank() && !answer.isBlank() && keywordName.isBlank()) {
+            controller.editIndexcard(name, question, answer, deleteStatistic, oldIndexcardId);
             dispose();
-        } else if (oldName != null && !question.isBlank() && !answer.isBlank() && !keywords.isBlank()) {
-            controller.editIndexcard(oldName, question, answer, deleteStatistic, keywords);
+        }
+        else if (!question.isBlank() && !answer.isBlank() && !keywordName.isBlank()) {
+            controller.editIndexcard(name, question, answer, deleteStatistic, newKeyword, oldIndexcardId);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this,
                     "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.",
                     JOptionPane.ERROR_MESSAGE);
         }
+        if(!oldKeyword.getKeywordWord().equals(keywordName)){ //If the keyword has changed
+            controller.editKeyword(oldKeyword, newKeyword, keywordName,controller.getIndexcardByName(name).get(), oldIndexcard);
+        }
+
         controller.setKeywordComboBox();
         controller.setIndexCardPanel();
     }

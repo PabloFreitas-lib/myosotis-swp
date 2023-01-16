@@ -1,26 +1,26 @@
 package uni.myosotis.objects;
 
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Proxy;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.ListIterator;
 
 @Entity
 @Embeddable
 public class Indexcard implements Serializable {
 
-    // id of the index card, needs to be unique within the persistence
-    @Id
     String name;
 
     String question;
 
     String answer;
 
-    String keywordList;
+    @ManyToOne
+    private Keyword keyword;
+    // id of the index card, needs to be unique within the persistence
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     public Indexcard(final String name, final String question, final String answer) {
 
@@ -30,13 +30,19 @@ public class Indexcard implements Serializable {
 
     }
 
-    public Indexcard(final String name, final String question, final String answer, final String keywords) {
+    public Indexcard(final String name, final String question, final String answer, final Keyword keyword) {
 
         this.name = name;
         this.question = question;
         this.answer = answer;
-        this.keywordList = keywords;
-
+        this.keyword = keyword;
+    }
+    public Indexcard(final String name, final String question, final String answer, final Keyword keyword, Long id) {
+        this.name = name;
+        this.question = question;
+        this.answer = answer;
+        this.keyword = keyword;
+        this.id = id;
     }
 
     public Indexcard () {
@@ -55,6 +61,10 @@ public class Indexcard implements Serializable {
         return answer;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public void setName(final String newName) {
         name = newName;
     }
@@ -67,15 +77,16 @@ public class Indexcard implements Serializable {
         answer = newAnswer;
     }
 
-    public void setKeywordList(final String keyword) {
-        keywordList=keyword;
-    }
-    public void emptyKeywordList() {
-        keywordList = "";
+    public Keyword getKeyword() {
+        return keyword;
     }
 
-    public String getKeywordList(){
-        return keywordList;
+    public void setKeywords(final Keyword keyword) {
+        this.keyword = keyword;
+    }
+
+    public void emptyKeyword() {
+        this.keyword = null;
     }
 
 }

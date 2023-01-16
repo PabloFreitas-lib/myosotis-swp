@@ -72,7 +72,6 @@ public class CreateIndexcard extends JDialog {
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank() && keyword.isBlank()) {
             controller.createIndexcard(name, question, answer);
             dispose();
-
         } else if (!name.isBlank() && !question.isBlank() && !answer.isBlank() && !keyword.isBlank()) {
             controller.createIndexcard(name, question, answer, keyword);
             dispose();

@@ -32,7 +32,6 @@ public class MainMenu extends JFrame {
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
-
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -53,7 +52,7 @@ public class MainMenu extends JFrame {
     private void onFiltern() {
         String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
         if (keyword2Filtern != null) {
-            controller.filternIndexCardPanel(keyword2Filtern);
+            controller.filterIndexCardPanel(keyword2Filtern);
         } else {
             JOptionPane.showMessageDialog(this, "Keine Keyword ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
         }
@@ -61,15 +60,13 @@ public class MainMenu extends JFrame {
 
     /**
      * Display all Keyword in the ComboBox.
-     *
-     *
      */
     public void setKeywordComboBox(){
         //list of all indexcards
         List<Keyword> keywordList = controller.getAllKeywords();
         // Array of all Keywords
         String[] keywordNames = controller.getAllKeywords().stream().
-                map(Keyword::getKeyword).toList().toArray(new String[0]);
+                map(Keyword::getKeywordWord).toList().toArray(new String[0]);
         KeywordComboBox.setModel(new DefaultComboBoxModel<>(keywordNames));
     }
 
@@ -91,7 +88,7 @@ public class MainMenu extends JFrame {
         indexcardMenu.addSeparator();
         indexcardMenu.add(deleteIndexcard);
         menuBar.add(indexcardMenu);
-
+        createExampleIndexcards(); //TODO: Remove this line
         setJMenuBar(menuBar);
     }
 
@@ -142,9 +139,7 @@ public class MainMenu extends JFrame {
         return this.IndexcardsPane;
     }
 
-    public void setIndexcardsPane(JScrollPane indexcardsPane) {
-        this.IndexcardsPane = indexcardsPane;
-    }
+
 
     public JComboBox getKeywordComboBox(){
         return this.KeywordComboBox;
@@ -152,5 +147,18 @@ public class MainMenu extends JFrame {
 
     public void setKeywordComboBox(JComboBox keywordComboBox) {
         this.KeywordComboBox = keywordComboBox;
+    }
+    /**
+     * Creates a ExampleMenu for Testing and Development.
+     */
+    public void createExampleIndexcards(){
+        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2");
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2");
+        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3");
+        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4");
     }
 }

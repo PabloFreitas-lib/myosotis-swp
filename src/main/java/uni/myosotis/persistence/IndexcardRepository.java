@@ -1,8 +1,8 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
+import org.hibernate.annotations.Proxy;
 import uni.myosotis.objects.Indexcard;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -51,42 +51,52 @@ public class IndexcardRepository {
     }
 
     /**
-     * This method is used to find an object of type "Indexcard" in the persistent
-     * persistence storage.
-     *
-     * @param name      The unique id of the index card.
-     * @return          The object of type "Indexcard" or null if it does not exist.
-     */
-    public Optional<Indexcard> findIndexcard(final String name) {
-        try (final EntityManager em = pm.getEntityManager()) {
-            return Optional.ofNullable(em.find(Indexcard.class, name));
-        }
-    }
-
-    /**
      * This method is used to get all objects of type "Indexcard" in the persistent
      * persistence storage.
      *
      * @return List of all objects of type "Indexcard", could be empty.
      */
-    public List<Indexcard> findAllIndexcards() {
+    public List<Indexcard> findAllIndexcards(){
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT i FROM Indexcard i").getResultList();
         }
     }
 
     /**
-     * This method is used to get all objects of type "Indexcard" in the persistent
+     * This method is used to find an object of type "Indexcard" in the persistent
      * persistence storage.
+     *
+     * @param name      The unique id of the index card.
+     * @return          The object of type "Indexcard" or null if it does not exist.
+     */
+    public Optional<Indexcard> findIndexcardByName(final String name) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            final List<Indexcard> indexcards = em.createQuery("SELECT i FROM Indexcard i WHERE i.name = :name").setParameter("name", name).getResultList();
+            if (indexcards.size() == 1) {
+                return Optional.of(indexcards.get(0));
+            }
+            else {
+                return Optional.empty();
+            }
+        }
+    }
+
+    /**
+     * This method is used to get all objects of type "Indexcard" in the persistence storage.
+     * Which have the given keyword in their keyword list.
      *
      * @return List of all objects of type "Indexcard", could be empty.
      */
-    public List<String> findAllIndexcards(String keyword) {
-        try (final EntityManager em = pm.getEntityManager()) {
-            List<String> queryList = em.createNativeQuery("SELECT name FROM Keyword WHERE word = :name").setParameter("name",keyword).getResultList();
-            return queryList;
-        }
+    public List<Indexcard> findAllIndexcardsByKeyword(String keyword) {
+
+        /*try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM Indexcard WHERE word = :keyword")
+                    .setParameter("keyword", keyword)
+                    .getResultList();
+        }*/
+        return null;
     }
+
     /**
      * This method is used to delete an object of type "Indexcard" in the persistent
      * persistence storage.
@@ -94,15 +104,27 @@ public class IndexcardRepository {
      * @param name      The unique id of the index card.
      * @return          Status, -1 means an error has been occurred on delete.
      */
-    public int deleteIndexcard(final String name) {
+    public int deleteIndexcard(final Long id) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            em.remove(em.find(Indexcard.class, name));
+            em.remove(em.find(Indexcard.class, id));
             em.getTransaction().commit();
         }
         catch (Exception e) {
             return -1;
         }
         return 0;
+    }
+
+    public Long findIndexcardIdByName(String indexcard) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return (Long) em.createNativeQuery("SELECT id FROM Indexcard WHERE name = :name").setParameter("name",indexcard).getSingleResult();
+        }
+    }
+
+    public Optional<Indexcard> findIndexcardById(Long id) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return Optional.ofNullable(em.find(Indexcard.class, id));
+        }
     }
 }

@@ -1,6 +1,7 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
+import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 
 import java.util.List;
@@ -37,13 +38,16 @@ public class KeywordRepository {
      * and added to the database. Otherwise, the content of the given keyword will be updated
      * instead.
      *
-     * @param keyword     The keyword that should be updated.
-     * @return            Status, -1 means an error has been occurred on update.
+     * @param oldKeyword  The keyword that should be updated in the persistence.
+     * @param word        The new name that should be saved to the persistence.
+     * @param indexcards  The new indexcards that should be saved to the persistence.
      */
-    public int updateKeyword(final Keyword keyword) {
+    public int updateKeyword(final Keyword oldKeyword, final String word, final List<Indexcard> indexcards) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            em.merge(keyword);
+            oldKeyword.setWord(word);
+            oldKeyword.setIndexcards(indexcards);
+            em.merge(oldKeyword);
             em.getTransaction().commit();
         }
         catch (Exception e) {
@@ -56,31 +60,30 @@ public class KeywordRepository {
      * This method is used to find an object of type "Keyword" in the persistent
      * persistence storage.
      *
-     * @param word      The unique id of the keyword.
+     * @param word      The word of the keyword.
      * @return          The object of type "Keyword" or null if it does not exist.
      */
-    public Optional<Keyword> findKeyword(final String word) {
+    public Optional<Keyword> getKeywordByName(final String word) {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.find(Keyword.class, word));
         }
     }
-
     /**
      * This method is used to get all objects of type "Keyword" in the persistent
      * persistence storage.
      *
      * @return List of all objects of type "Keyword", could be empty.
      */
-    public List<Keyword> findAllKeywords() {
+    public Optional<List<Keyword>> getAllKeywords(){
         try (final EntityManager em = pm.getEntityManager()) {
-            return em.createQuery("SELECT i FROM Keyword i").getResultList();
+            return Optional.ofNullable(em.createQuery("SELECT k FROM Keyword k", Keyword.class).getResultList());
         }
     }
     /**
      * This method is used to delete an object of type "Keyword" in the persistent
      * persistence storage.
      *
-     * @param word      The unique id of the keywords.
+     * @param word      The word of the keywords.
      * @return          Status, -1 means an error has been occurred on delete.
      */
     public int deleteKeyword(final String word) {
@@ -95,4 +98,13 @@ public class KeywordRepository {
         return 0;
     }
 
+    public List<Indexcard> getIndexcardsFromKeyword(Keyword getkeyword) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            Keyword keyword = em.find(Keyword.class, getkeyword.getKeywordWord());
+            List<Indexcard> indexcards = keyword.getIndexcards();
+            em.getTransaction().commit();
+            return indexcards;
+        }
+    }
 }

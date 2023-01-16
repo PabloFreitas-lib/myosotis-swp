@@ -1,10 +1,10 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Indexcard;
-import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.IndexcardRepository;
-
+import uni.myosotis.objects.Keyword;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -18,6 +18,7 @@ public class IndexcardLogic {
      */
     final IndexcardRepository indexcardRepository;
 
+
     /**
      * Creates a new IndexcardLogic.
      */
@@ -25,6 +26,15 @@ public class IndexcardLogic {
 
         this.indexcardRepository = new IndexcardRepository();
 
+    }
+
+    public Indexcard getIndexcardById(Long id) {
+        Optional<Indexcard> indexcard = indexcardRepository.findIndexcardById(id);
+        if (indexcard.isPresent()) {
+            return indexcard.get();
+        } else {
+            throw new IllegalStateException("Indexcard with id " + id + " not found");
+        }
     }
 
     /**
@@ -36,7 +46,7 @@ public class IndexcardLogic {
      * @param answer The Answer of the Indexcard.
      */
     public void createIndexcard(String name, String question, String answer) {
-        if (indexcardRepository.findIndexcard(name).isPresent()) {
+        if (indexcardRepository.findIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
             Indexcard indexcard = new Indexcard(name, question, answer);
@@ -53,11 +63,11 @@ public class IndexcardLogic {
      * @param answer The Answer of the Indexcard.
      * @param keywords Keywords which could be added to the Indexcard.
      */
-    public void createIndexcard(String name, String question, String answer, String keywords) {
-        if (indexcardRepository.findIndexcard(name).isPresent()) {
+    public void createIndexcard(String name, String question, String answer, Keyword keyword) {
+        if (indexcardRepository.findIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            Indexcard indexcard = new Indexcard(name, question, answer, keywords);
+            Indexcard indexcard = new Indexcard(name, question, answer, keyword);
             indexcardRepository.saveIndexcard(indexcard);
         }
     }
@@ -69,9 +79,9 @@ public class IndexcardLogic {
      * @param question  The Question of the Indexcard.
      * @param answer The Answer of the Indexcard.
      */
-    public void EditIndexcard(String name, String question, String answer) {
-        if (indexcardRepository.findIndexcard(name).isPresent()) {
-            Indexcard indexcard = new Indexcard(name, question, answer);
+    public void EditIndexcard(String name, String question, String answer, Long id) {
+        if (indexcardRepository.findIndexcardById(id).isPresent()) {
+            Indexcard indexcard = new Indexcard(name, question, answer,null, id);
             int checkvalue = indexcardRepository.updateIndexcard(indexcard);
             if (checkvalue != 0) {
                 throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
@@ -86,11 +96,12 @@ public class IndexcardLogic {
      * @param name The Name of the Indexcard.
      * @param question  The Question of the Indexcard.
      * @param answer The Answer of the Indexcard.
-     * @param keywords The keywords of the Indexcard.
+     * @param keyword The keywords of the Indexcard.
+     * @param id The id of the Indexcard.
      */
-    public void EditIndexcard(String name, String question, String answer, String keywords) {
-        if (indexcardRepository.findIndexcard(name).isPresent()) {
-            Indexcard indexcard = new Indexcard(name, question, answer, keywords);
+    public void EditIndexcard(String name, String question, String answer, Keyword keyword, Long id) {
+        if (indexcardRepository.findIndexcardById(id).isPresent()) {
+            Indexcard indexcard = new Indexcard(name, question, answer, keyword, id);
             int checkvalue = indexcardRepository.updateIndexcard(indexcard);
             if (checkvalue != 0) {
                 throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
@@ -103,9 +114,9 @@ public class IndexcardLogic {
      *
      * @param name The Name of the Indexcard.
      */
-    public void DeleteIndexcard(String name) {
-        if (indexcardRepository.findIndexcard(name).isPresent()) {
-            int checkvalue = indexcardRepository.deleteIndexcard(name);
+    public void DeleteIndexcard(Long id) {
+        if (indexcardRepository.findIndexcardById(id).isPresent()) {
+            int checkvalue = indexcardRepository.deleteIndexcard(id);
             if (checkvalue != 0) {
                 throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
             }
@@ -126,8 +137,10 @@ public class IndexcardLogic {
      *
      * @return All Indexcards.
      */
-    public List<String> getAllIndexcards(String keyword) {
-        return indexcardRepository.findAllIndexcards(keyword);
+    public List<Indexcard> getAllIndexcardsByKeyword(String keyword) {
+        List<Indexcard> all = indexcardRepository.findAllIndexcards();
+        all.removeIf(indexcard -> !indexcard.getKeyword().getKeywordWord().contains(keyword));
+        return all;
     }
 
     /**
@@ -136,10 +149,13 @@ public class IndexcardLogic {
      * @param indexcard The name of the Indexcard.
      * @return The Indexcard if it exists.
      */
-    public Optional<Indexcard> getIndexcard(String indexcard) {
-        return indexcardRepository.findIndexcard(indexcard);
+    public Optional<Indexcard> getIndexcardByName(String indexcard) {
+        return indexcardRepository.findIndexcardByName(indexcard);
     }
 
+    public Long getIndexcardId(String indexcard) {
+        return indexcardRepository.findIndexcardIdByName(indexcard);
+    }
     /**
      * Returns indexcardRepository.
      *

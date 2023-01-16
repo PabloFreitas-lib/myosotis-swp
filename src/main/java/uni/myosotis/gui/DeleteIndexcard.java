@@ -1,6 +1,5 @@
 package uni.myosotis.gui;
 
-import org.h2.index.Index;
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
 
