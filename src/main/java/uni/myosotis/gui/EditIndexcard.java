@@ -93,10 +93,15 @@ public class EditIndexcard extends JDialog {
         final String answer = textAreaAnswer.getText();
         final String keywords = textAreaKeyword.getText();
         final boolean deleteStatistic = radioButtonDeleteStatisic.isSelected();
-        if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank() && keywords.isBlank()) {
+        if (oldName == null){
+            JOptionPane.showMessageDialog(this,
+                    "Bitte wählen Sie eine Karteikarte zum bearbeiten aus", "Karteikarte nicht ausgewählt",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        else if (oldName != null && !question.isBlank() && !answer.isBlank() && keywords.isBlank()) {
             controller.editIndexcard(oldName, question, answer, deleteStatistic);
             dispose();
-        } else if (!oldName.isBlank() && !question.isBlank() && !answer.isBlank() && !keywords.isBlank()) {
+        } else if (oldName != null && !question.isBlank() && !answer.isBlank() && !keywords.isBlank()) {
             controller.editIndexcard(oldName, question, answer, deleteStatistic, keywords);
             dispose();
         } else {
@@ -104,9 +109,8 @@ public class EditIndexcard extends JDialog {
                     "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.",
                     JOptionPane.ERROR_MESSAGE);
         }
-        controller.setIndexCardPanel();
         controller.setKeywordComboBox();
-        dispose();
+        controller.setIndexCardPanel();
     }
     /**
      * When the Cancel-Button is pressed, the Dialog is closed.
