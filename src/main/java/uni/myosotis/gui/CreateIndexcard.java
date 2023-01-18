@@ -1,7 +1,6 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-
 import javax.swing.*;
 import java.awt.event.*;
 

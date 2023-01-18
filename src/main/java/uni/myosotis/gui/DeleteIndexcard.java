@@ -2,7 +2,6 @@ package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
-
 import javax.swing.*;
 import java.awt.event.*;
 

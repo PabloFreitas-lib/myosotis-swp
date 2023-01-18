@@ -1,8 +1,6 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Proxy;
-
 import java.io.Serializable;
 
 @Entity
@@ -17,7 +15,8 @@ public class Indexcard implements Serializable {
 
     @ManyToOne
     private Keyword keyword;
-    // id of the index card, needs to be unique within the persistence
+
+    // unique id of the index card
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

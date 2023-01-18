@@ -5,9 +5,7 @@ import uni.myosotis.logic.IndexcardLogic;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
-
 import javax.swing.*;
-import java.security.Key;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +36,6 @@ public class Controller {
     public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic) {
 
         this.indexcardLogic = indexcardLogic;
-;
         this.keywordLogic = keywordLogic;
     }
 

@@ -2,7 +2,6 @@ package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Keyword;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
