@@ -1,13 +1,14 @@
 package uni.myosotis.controller;
 
 import uni.myosotis.gui.MainMenu;
+import uni.myosotis.logic.CategoryLogic;
 import uni.myosotis.logic.IndexcardLogic;
+import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
-import java.security.Key;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,12 @@ public class Controller {
     private final KeywordLogic keywordLogic;
 
     /**
+     * The CategoryLogic of the application.
+     */
+    private final CategoryLogic categoryLogic;
+
+
+    /**
      * The main-menu of the application.
      */
     private MainMenu mainMenu;
@@ -35,11 +42,14 @@ public class Controller {
      * @param indexcardLogic The logic for the Indexcards.
      * @param keywordLogic The logic for the Keywords.
      */
-    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic) {
 
         this.indexcardLogic = indexcardLogic;
 ;
         this.keywordLogic = keywordLogic;
+
+        this.categoryLogic = categoryLogic;
+
     }
 
     /**
@@ -56,6 +66,14 @@ public class Controller {
      */
     public void createIndexcard() {
         mainMenu.displayCreateIndexcard();
+    }
+
+    public void createCategory() {
+        mainMenu.displayCreateCategory();
+    }
+
+    public void createCategory(String name) {
+
     }
 
     /**
@@ -103,6 +121,31 @@ public class Controller {
     }
 
     /**
+     * Delegates the exercise to create a new Indexcard to the IndexcardLogic (Overload to be used as testing - silent mode).
+     * Displays an error, if already an Indexcard with the same name exists.
+     *
+     * @param name The name of the Indexcard.
+     * @param question The question of the Indexcard.
+     * @param answer The answer of the Indexcard.
+     * @param keywords The keywords of the Indexcard.
+     */
+    public void createIndexcard(String name, String question, String answer, String keywords, Boolean silentMode) {
+        try {
+            createIndexcardLogic(name, question, answer, keywords);
+            if (!silentMode) {
+                JOptionPane.showMessageDialog(mainMenu,
+                        "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
      * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
      * @param name
      * @param question
@@ -122,6 +165,8 @@ public class Controller {
         Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
         keywordLogic.addIndexcardToKeyword(name , newCard.get());
     }
+
+
 
     /**
      * Displays the dialog to edit an Indexcard.
@@ -266,6 +311,20 @@ public class Controller {
     }
 
     /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public List<Category> getAllCategories() {
+        if(categoryLogic.getAllCategories().isEmpty()){
+            return null;
+        }
+        else {
+            return categoryLogic.getAllCategories().get();
+        }
+    }
+
+    /**
      * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
      *
      * @param indexcard The name of the Indexcard.
@@ -317,6 +376,10 @@ public class Controller {
         mainMenu.setKeywordComboBox();
     }
 
+    public void setCategoryComboBox(){
+        mainMenu.setCategoryComboBox();
+    }
+
     public void editKeyword(Keyword oldKeyword, Keyword newKeyword, String keywordName, Indexcard newIndexcard, Indexcard oldIndexcard){
         if(keywordLogic.KeywordIsPresent(keywordName)){ //Keyword exist already
             List<Indexcard> list = oldKeyword.getIndexcards();
@@ -329,4 +392,19 @@ public class Controller {
         //Indexcard add to new Keyword
         keywordLogic.addIndexcardToKeyword(newKeyword.getKeywordWord(), newIndexcard);
     }
+
+    public void createCategory(String name, List<Indexcard> indexcardList){
+        try {
+            categoryLogic.createCategory(name,indexcardList);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

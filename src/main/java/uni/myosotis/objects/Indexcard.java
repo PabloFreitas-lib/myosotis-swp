@@ -17,6 +17,9 @@ public class Indexcard implements Serializable {
 
     @ManyToOne
     private Keyword keyword;
+
+    @ManyToOne
+    private Category category;
     // id of the index card, needs to be unique within the persistence
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +46,14 @@ public class Indexcard implements Serializable {
         this.answer = answer;
         this.keyword = keyword;
         this.id = id;
+    }
+    public Indexcard(final String name, final String question, final String answer, final Keyword keyword, Long id,final Category category) {
+        this.name = name;
+        this.question = question;
+        this.answer = answer;
+        this.keyword = keyword;
+        this.id = id;
+        this.category = category;
     }
 
     public Indexcard () {
@@ -89,4 +100,6 @@ public class Indexcard implements Serializable {
         this.keyword = null;
     }
 
+    public void setCategory(final Category category) { this.category = category;}
+    public Category getCategory(){return category;}
 }

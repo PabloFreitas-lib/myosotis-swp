@@ -1,6 +1,9 @@
 package uni.myosotis.gui;
 
+import org.h2.index.Index;
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Category;
+import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
@@ -15,6 +18,7 @@ public class MainMenu extends JFrame {
     private JLabel VerschlagwortungLabel;
     private JLabel KarteikartenLabel;
     private JButton filternButton;
+    private JComboBox CategoryComboBox;
 
     private final transient Controller controller;
 
@@ -29,6 +33,7 @@ public class MainMenu extends JFrame {
         setTitle("Myosotis");
         createMenu();
         setKeywordComboBox();
+        setCategoryComboBox();
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
@@ -71,6 +76,18 @@ public class MainMenu extends JFrame {
     }
 
     /**
+     * Display all Category in the ComboBox.
+     */
+    public void setCategoryComboBox(){
+        //list of all indexcards
+        List<Category> categoriesList = controller.getAllCategories();
+        // Array of all Categories
+        String[] categoriesNames = controller.getAllCategories().stream().
+                map(Category::getCategoryName).toList().toArray(new String[0]);
+        CategoryComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
+    }
+
+    /**
      * Creates the Menu of the MainMenu-Window.
      */
     private void createMenu() {
@@ -82,13 +99,21 @@ public class MainMenu extends JFrame {
         editIndexcard.addActionListener(e -> controller.editIndexcard());
         final JMenuItem deleteIndexcard = new JMenuItem("Entfernen");
         deleteIndexcard.addActionListener(e -> controller.deleteIndexcard());
+
+        final JMenu categoryMenu = new JMenu("Kategorie");
+        final JMenuItem createCategory = new JMenuItem("Erstellen");
+        createCategory.addActionListener(e -> controller.createCategory());
+
         indexcardMenu.add(createIndexcard);
         indexcardMenu.addSeparator();
         indexcardMenu.add(editIndexcard);
         indexcardMenu.addSeparator();
         indexcardMenu.add(deleteIndexcard);
+        categoryMenu.add(createCategory);
+        categoryMenu.addSeparator();
         menuBar.add(indexcardMenu);
-        createExampleIndexcards(); //TODO: Remove this line
+        menuBar.add(categoryMenu);
+        createExampleIndexcards(); //TODO: Remove this line FIXME
         setJMenuBar(menuBar);
     }
 
@@ -135,6 +160,19 @@ public class MainMenu extends JFrame {
         deleteIndexcard.setVisible(true);
     }
 
+    /**
+     * Displays the Dialog to create a new Indexcard.
+     */
+    public void displayCreateCategory() {
+        final CreateCategory createCategory = new CreateCategory(controller);
+        createCategory.pack();
+        createCategory.setMinimumSize(createCategory.getSize());
+        createCategory.setSize(400, 300);
+        createCategory.setLocationRelativeTo(this);
+        createCategory.setVisible(true);
+    }
+
+
     public JScrollPane getIndexcardsPane(){
         return this.IndexcardsPane;
     }
@@ -149,16 +187,18 @@ public class MainMenu extends JFrame {
         this.KeywordComboBox = keywordComboBox;
     }
     /**
-     * Creates a ExampleMenu for Testing and Development.
+     * Creates a ExampleMenu for Testing and Development (This is used without any notification).
      */
     public void createExampleIndexcards(){
-        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2");
-        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2");
-        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3");
-        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4");
+
+        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", "TestkeywordGRUPPE1",true);
+        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", "TestkeywordGRUPPE1",true);
+        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", "TestkeywordGRUPPE1",true);
+        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1",true);
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2",true);
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2",true);
+        controller.createCategory("CategorieTest", controller.getAllIndexcards());
+        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3",true);
+        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4",true);
     }
 }
