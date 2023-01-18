@@ -113,14 +113,16 @@ public class Controller {
         if(keywordLogic.KeywordIsPresent(keywords)) {
             Optional<Keyword> updateKeyword = keywordLogic.getKeyword(keywords);
             indexcardLogic.createIndexcard(name, question, answer, updateKeyword.get());
+            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
+            keywordLogic.addIndexcardToKeyword(name , newCard.get());
         }
         else{
             keywordLogic.createKeywordWithNoIndexcard(keywords);
             Optional<Keyword> newKeyword = keywordLogic.getKeyword(keywords);
             indexcardLogic.createIndexcard(name, question, answer, newKeyword.get());
+            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
+            keywordLogic.addIndexcardToKeyword(name , newCard.get());
         }
-        Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
-        keywordLogic.addIndexcardToKeyword(name , newCard.get());
     }
 
     /**
