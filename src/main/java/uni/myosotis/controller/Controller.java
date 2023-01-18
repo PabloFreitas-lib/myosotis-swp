@@ -7,7 +7,6 @@ import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
-
 import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +44,6 @@ public class Controller {
     public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic) {
 
         this.indexcardLogic = indexcardLogic;
-;
         this.keywordLogic = keywordLogic;
 
         this.categoryLogic = categoryLogic;
@@ -156,14 +154,16 @@ public class Controller {
         if(keywordLogic.KeywordIsPresent(keywords)) {
             Optional<Keyword> updateKeyword = keywordLogic.getKeyword(keywords);
             indexcardLogic.createIndexcard(name, question, answer, updateKeyword.get());
+            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
+            keywordLogic.addIndexcardToKeyword(name , newCard.get());
         }
         else{
             keywordLogic.createKeywordWithNoIndexcard(keywords);
             Optional<Keyword> newKeyword = keywordLogic.getKeyword(keywords);
             indexcardLogic.createIndexcard(name, question, answer, newKeyword.get());
+            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
+            keywordLogic.addIndexcardToKeyword(name , newCard.get());
         }
-        Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
-        keywordLogic.addIndexcardToKeyword(name , newCard.get());
     }
 
 

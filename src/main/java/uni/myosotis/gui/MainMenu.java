@@ -5,7 +5,6 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;

@@ -1,7 +1,6 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
-import org.hibernate.annotations.Proxy;
 import uni.myosotis.objects.Indexcard;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +10,8 @@ public class IndexcardRepository {
     private final PersistenceManager pm = new PersistenceManager();
 
     /**
+     * @author Len Thiemann
+     *
      * This method is used to save an object of type "Indexcard" to the persistent
      * persistence storage.
      *
@@ -30,6 +31,8 @@ public class IndexcardRepository {
     }
 
     /**
+     * @author Johannes Neugebauer
+     *
      * This method is used to update an object of type "Indexcard" to the persistent
      * persistence storage. If the Card does not exist at this point it will be created
      * and added to the database. Otherwise, the content of the given card will be updated
@@ -101,7 +104,7 @@ public class IndexcardRepository {
      * This method is used to delete an object of type "Indexcard" in the persistent
      * persistence storage.
      *
-     * @param name      The unique id of the index card.
+     * @param id      The unique id of the index card.
      * @return          Status, -1 means an error has been occurred on delete.
      */
     public int deleteIndexcard(final Long id) {
