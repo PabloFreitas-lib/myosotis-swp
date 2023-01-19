@@ -54,15 +54,14 @@ public class EditCategory extends JDialog {
             if(selectedCategory != null){
                 // Set the indexCardsScrollPane with the Indexcards inside the Category.
                 //oldCategoryName = selectedCategory.get().getCategoryName();
-                String[] indexcardsNames = controller.getAllIndexcards().stream().
-                        map(Indexcard::getName).toList().toArray(new String[0]);
+                //String[] indexcardsNames = controller.getAllIndexcards().stream().
+                  //      map(Indexcard::getName).toList().toArray(new String[0]);
 
-                String[] indexcardsNamesCategory = selectedCategory.getIndexcardList().stream().
-                        map(Indexcard::getName).toList().toArray(new String[0]);
-                indexcardsNamesList = new JList<>(indexcardsNamesCategory);
-                indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                indexcardsNamesList.setSelectedValue(indexcardsNamesCategory,true);
-                indexCardsScrollPane.setViewportView(indexcardsNamesList);
+                //String[] indexcardsNamesCategory = selectedCategory.getIndexcardList().toArray(new String[0]);
+                //indexcardsNamesList = new JList<>(indexcardsNamesCategory);
+                //indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                //indexcardsNamesList.setSelectedValue(indexcardsNamesCategory,true);
+                //indexCardsScrollPane.setViewportView(indexcardsNamesList);
             }
             else {
                 String[] indexcardsNames = controller.getAllIndexcards().stream().

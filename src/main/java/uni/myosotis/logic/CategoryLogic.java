@@ -2,7 +2,6 @@ package uni.myosotis.logic;
 
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
-import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.List;
@@ -31,9 +30,10 @@ public class CategoryLogic {
      * @param word The word of the Keyword.
      * @param indexcard The name of the Indexcard.
      */
-    public void createCategory(String word, List<Indexcard> indexcards) {
+    public void createCategory(String word, List<String> indexcards) {
+
         if (CategoryIsPresent(word)) {
-            addIndexcardToCategory(word, indexcards);
+            addIndexcardToCategory(word,indexcards);
         } else {
             Category category = new Category(word, indexcards);
             categoryRepository.saveCategory(category);
@@ -45,7 +45,7 @@ public class CategoryLogic {
      * @param word The word of the Keyword.
      * @param indexcard The Indexcard which should be added.
      */
-    public void addIndexcardToCategory(String word, List<Indexcard> indexcards) {
+    public void addIndexcardToCategory(String word, List<String> indexcards) {
         Optional<Category> category = categoryRepository.getCategoryByName(word);
         if (category.isPresent()) {
             Category category1 = category.get();
@@ -80,7 +80,7 @@ public class CategoryLogic {
      * @param word
      * @param indexcards
      */
-    public void editCategoryIndexcards(String word, List<Indexcard> indexcards) {
+    public void editCategoryIndexcards(String word, List<String> indexcards) {
         Optional<Category> Category = getCategoryByName(word);
         if (Category.isPresent()) {
             Category.get().setIndexcardList(indexcards);
@@ -138,7 +138,7 @@ public class CategoryLogic {
      * @param category
      * @param indexcards
      */
-    public void deleteIndexcardFromCategory(Category category, List<Indexcard> indexcards) {
+    public void deleteIndexcardFromCategory(Category category, List<String> indexcards) {
         categoryRepository.updateCategory(category, category.getCategoryName(), indexcards);
     }
 

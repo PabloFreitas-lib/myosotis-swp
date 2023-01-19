@@ -12,16 +12,16 @@ public class Category implements Serializable{
     @Id
     String name;
 
-    @OneToMany(mappedBy = "categoryList", fetch = FetchType.EAGER)
-    private List<Indexcard> indexcardList;
+    //@OneToMany(mappedBy = "categoryList", fetch = FetchType.EAGER)
+    private List<String> indexcardListNames;
 
 
     public Category() {
     }
 
-    public Category(final String name, List<Indexcard> indexcardList){
+    public Category(final String name, List<String> indexcardListNames){
         this.name = name;
-        this.indexcardList = indexcardList;
+        this.indexcardListNames = indexcardListNames;
     }
 
     /*
@@ -43,22 +43,22 @@ public class Category implements Serializable{
      * Getter for Indexcard from Category.
      * @return The Indexcard of the Category.
      */
-    public List<Indexcard> getIndexcardList() {
-        return this.indexcardList;
+    public List<String> getIndexcardList() {
+        return this.indexcardListNames;
     }
     /*
      * Adds an Indexcard to the Category.
      * @param indexcard The Indexcard which should be added.
      */
-    public void addIndexcard(Indexcard indexcard){
-        indexcardList.add(indexcard);
+    public void addIndexcard(String indexcard){
+        indexcardListNames.add(indexcard);
     }
     /*
      * Sets the Indexcards of the Category.
      * @param indexcards The Indexcardslist which should be set.
      */
-    public void setIndexcardList(List<Indexcard> indexcardList) {
-        this.indexcardList = indexcardList;
+    public void setIndexcardList(List<String> indexcardList) {
+        this.indexcardListNames = indexcardList;
     }
 
 }

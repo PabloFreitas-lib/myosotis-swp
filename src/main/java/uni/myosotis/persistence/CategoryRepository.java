@@ -42,7 +42,7 @@ public class CategoryRepository {
      * @param word        The new name that should be saved to the persistence.
      * @param indexcards  The new indexcards that should be saved to the persistence.
      */
-    public int updateCategory(final Category oldCategory, final String word, final List<Indexcard> indexcards) {
+    public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             oldCategory.setName(word);
@@ -100,11 +100,11 @@ public class CategoryRepository {
         return 0;
     }
 
-    public List<Indexcard> getIndexcardsFromCategory(Category getCategory) {
+    public List<String> getIndexcardsFromCategory(Category getCategory) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             Category Category = em.find(Category.class, getCategory.getCategoryName());
-            List<Indexcard> indexcards = Category.getIndexcardList();
+            List<String> indexcards = Category.getIndexcardList();
             em.getTransaction().commit();
             return indexcards;
         }

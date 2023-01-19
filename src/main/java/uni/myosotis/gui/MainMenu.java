@@ -17,7 +17,7 @@ public class MainMenu extends JFrame {
     private JLabel KarteikartenLabel;
     private JButton filternButton;
     private JComboBox CategoryComboBox;
-    private JButton filternCategorie;
+    private JButton filternCategory;
     private JButton filternEntfernenButton;
 
     private final transient Controller controller;
@@ -49,9 +49,9 @@ public class MainMenu extends JFrame {
                 onFiltern();
             }
         });
-        filternCategorie.addActionListener(new ActionListener() {
+        filternCategory.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onFilternCategorie();
+                onFilternCategory();
             }
         });
 
@@ -77,12 +77,12 @@ public class MainMenu extends JFrame {
     /**
      * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
      */
-    private void onFilternCategorie() {
-        String categorie2Filtern = (String) CategoryComboBox.getSelectedItem();
-        if (categorie2Filtern != null) {
-            controller.filterIndexCardPanelByCategories(categorie2Filtern);
+    private void onFilternCategory() {
+        String category2Filtern = (String) CategoryComboBox.getSelectedItem();
+        if (category2Filtern != null) {
+            controller.filterIndexCardPanelByCategories(category2Filtern);
         } else {
-            JOptionPane.showMessageDialog(this, "Keine Keyword ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Keine Kategorie ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -266,7 +266,7 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1",true);
         controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2",true);
         controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2",true);
-        controller.createCategory("CategorieTest", controller.getAllIndexcards(),true);
+        //controller.createCategory("CategorieTest", controller.getAllIndexcards(),true);
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3",true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4",true);
     }

@@ -411,10 +411,10 @@ public class Controller {
      * @param name
      */
     public void filterIndexCardPanelByCategories(String name) {
-        List<Indexcard> indexcardList = getAllIndexcardsByCategory(name);
+        List<String> indexcardList = getCategoryByName(name).get().getIndexcardList();
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Indexcard card : indexcardList) {
-            listModel.addElement(card.getName());
+        for (String indexCardName : indexcardList) {
+            listModel.addElement(indexCardName);
         }
         JList<String> cardList = new JList<>(listModel);
         mainMenu.getIndexcardsPane().setViewportView(cardList);
@@ -441,7 +441,7 @@ public class Controller {
         keywordLogic.addIndexcardToKeyword(newKeyword.getKeywordWord(), newIndexcard);
     }
 
-    public void createCategory(String name, List<Indexcard> indexcardList){
+    public void createCategory(String name, List<String> indexcardList){
         try {
             categoryLogic.createCategory(name,indexcardList);
             JOptionPane.showMessageDialog(mainMenu,
@@ -455,8 +455,9 @@ public class Controller {
         }
     }
 
-    public void createCategory(String name, List<Indexcard> indexcardList, boolean silentMode){
+    public void createCategory(String name, List<String> indexcardList, boolean silentMode){
         try {
+
             categoryLogic.createCategory(name,indexcardList);
             if (!silentMode) {
                 JOptionPane.showMessageDialog(mainMenu,

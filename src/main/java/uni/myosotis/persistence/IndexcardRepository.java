@@ -142,4 +142,6 @@ public class IndexcardRepository {
             return em.createQuery("SELECT i FROM Indexcard i JOIN Category c WHERE name = :name", Indexcard.class).setParameter("name", categorieName).getResultList();
         }
     }
+
+
 }
