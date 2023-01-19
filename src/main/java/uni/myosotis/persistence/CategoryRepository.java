@@ -13,17 +13,17 @@ public class CategoryRepository {
     private final PersistenceManager pm = new PersistenceManager();
 
     /**
-     * This method is used to save an object of type "Category" to the persistent
+     * This method is used to save an object of type "category" to the persistent
      * persistence storage.
      *
-     * @param Category     The Category that should be saved to the persistence.
+     * @param category     The category that should be saved to the persistence.
      * @return            Status, -1 means an error has been occurred on save.
      */
 
-    public int saveCategory(final Category Category) {
+    public int saveCategory(final Category category) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            em.persist(Category);
+            em.persist(category);
             em.getTransaction().commit();
         }
         catch (Exception e) {
@@ -46,7 +46,7 @@ public class CategoryRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             oldCategory.setName(word);
-            oldCategory.setIndexcards(indexcards);
+            oldCategory.setIndexcardList(indexcards);
             em.merge(oldCategory);
             em.getTransaction().commit();
         }
@@ -74,11 +74,13 @@ public class CategoryRepository {
      *
      * @return List of all objects of type "Category", could be empty.
      */
-    public Optional<List<Category>> getAllCategories(){
+    public List<Category> getAllCategories(){
         try (final EntityManager em = pm.getEntityManager()) {
-            return Optional.ofNullable(em.createQuery("SELECT k FROM Category k", Category.class).getResultList());
+            return em.createQuery("SELECT k FROM Category k", Category.class).getResultList();
         }
     }
+
+
     /**
      * This method is used to delete an object of type "Category" in the persistent
      * persistence storage.
@@ -102,7 +104,7 @@ public class CategoryRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             Category Category = em.find(Category.class, getCategory.getCategoryName());
-            List<Indexcard> indexcards = Category.getIndexcards();
+            List<Indexcard> indexcards = Category.getIndexcardList();
             em.getTransaction().commit();
             return indexcards;
         }

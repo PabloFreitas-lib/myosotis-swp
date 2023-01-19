@@ -1,9 +1,9 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Proxy;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Embeddable
@@ -19,7 +19,7 @@ public class Indexcard implements Serializable {
     private Keyword keyword;
 
     @ManyToOne
-    private Category category;
+    private List<Category> categoryList;
     // id of the index card, needs to be unique within the persistence
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,13 +47,13 @@ public class Indexcard implements Serializable {
         this.keyword = keyword;
         this.id = id;
     }
-    public Indexcard(final String name, final String question, final String answer, final Keyword keyword, Long id,final Category category) {
+    public Indexcard(final String name, final String question, final String answer, final Keyword keyword, Long id,final List<Category> category) {
         this.name = name;
         this.question = question;
         this.answer = answer;
         this.keyword = keyword;
         this.id = id;
-        this.category = category;
+        this.categoryList = category;
     }
 
     public Indexcard () {
@@ -100,6 +100,8 @@ public class Indexcard implements Serializable {
         this.keyword = null;
     }
 
-    public void setCategory(final Category category) { this.category = category;}
-    public Category getCategory(){return category;}
+    public void setCategoryList(final List<Category> categoryList) { this.categoryList = categoryList;}
+
+    public void addCategory(final Category category){ this.categoryList.add(category);}
+    public List<Category> getCategoryList(){return categoryList;}
 }

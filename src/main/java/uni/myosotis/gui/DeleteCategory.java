@@ -1,7 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.Category;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -14,7 +14,7 @@ public class DeleteCategory extends JDialog{
     private final Controller controller;
 
     private JPanel contentPane;
-    private JComboBox comboBoxName;
+    private JComboBox categoryNamesComboBox;
     private JButton buttonDelete;
 
     public DeleteCategory(Controller controller) {
@@ -25,10 +25,10 @@ public class DeleteCategory extends JDialog{
         getRootPane().setDefaultButton(buttonDelete);
 
         // Array of all Kategorie
-        String[] categoriesNames = controller.getAllIndexcards().stream().
-                map(Indexcard::getName).toList().toArray(new String[0]);
+        String[] categoriesNames = controller.getAllCategories().stream().
+                map(Category::getCategoryName).toList().toArray(new String[0]);
 
-        comboBoxName.setModel(new DefaultComboBoxModel<>(categoriesNames));
+        categoryNamesComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
 
         buttonDelete.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -56,9 +56,9 @@ public class DeleteCategory extends JDialog{
      * Deletes an Indexcard. If no Indexcard is select, an error will be displayed.
      */
     private void onDelete() {
-        String categoryToDelete = (String) comboBoxName.getSelectedItem();
+        String categoryToDelete = (String) categoryNamesComboBox.getSelectedItem();
         if (categoryToDelete != null) {
-            controller.deleteIndexcard((String) comboBoxName.getSelectedItem());
+            controller.deleteIndexcard((String) categoryNamesComboBox.getSelectedItem());
             controller.setIndexCardPanel();
             controller.setKeywordComboBox();
             dispose();

@@ -1,9 +1,11 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class CreateCategory extends JDialog{
     /**
@@ -15,7 +17,9 @@ public class CreateCategory extends JDialog{
     private JTextField categoryTextField;
     private JLabel categoryLabel;
     private JPanel contentPane;
-    private JCheckBox karteiKartenBox;
+    private JScrollPane indexCardsScrollPane;
+
+    private JList<String> indexcardsNamesList;
 
     public CreateCategory(Controller controller) {
         this.controller = controller;
@@ -23,6 +27,14 @@ public class CreateCategory extends JDialog{
         setModal(true);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonOK);
+
+        String[] indexcardsNames = controller.getAllIndexcards().stream().
+                map(Indexcard::getName).toList().toArray(new String[0]);
+        // Multiple selection
+        indexcardsNamesList = new JList<>(indexcardsNames);
+        indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        indexCardsScrollPane.setViewportView(indexcardsNamesList);
+
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -56,11 +68,12 @@ public class CreateCategory extends JDialog{
      */
     private void onOK() {
         final String name = categoryTextField.getText();
-        if (!name.isBlank()) {
-            controller.createCategory(name, controller.getAllIndexcards());
+        final List<String> selectedItems = indexcardsNamesList.getSelectedValuesList();
+        if (!name.isBlank() && !selectedItems.isEmpty()){
+            controller.createCategory(name, controller.getAllIndexcardsByName(selectedItems));
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Kategorie nicht erstellt.", JOptionPane.ERROR_MESSAGE);
         }
         controller.setIndexCardPanel();
         controller.setKeywordComboBox();

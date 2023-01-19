@@ -130,4 +130,16 @@ public class IndexcardRepository {
             return Optional.ofNullable(em.find(Indexcard.class, id));
         }
     }
+
+    /**
+     * This method is used to get all objects of type "Category" in the persistent
+     * persistence storage.
+     *
+     * @return List of all objects of type "Category", could be empty.
+     */
+    public List<Indexcard> getAllIndexcardByCategories(String categorieName){
+        try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM Indexcard i JOIN Category c WHERE name = :name", Indexcard.class).setParameter("name", categorieName).getResultList();
+        }
+    }
 }

@@ -8,6 +8,7 @@ import uni.myosotis.objects.Indexcard;
 import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,6 @@ public class Controller {
 
         this.indexcardLogic = indexcardLogic;
         this.keywordLogic = keywordLogic;
-
         this.categoryLogic = categoryLogic;
 
     }
@@ -70,9 +70,14 @@ public class Controller {
         mainMenu.displayCreateCategory();
     }
 
-    public void createCategory(String name) {
-
+    public void deleteCategory() {
+        mainMenu.displayDeleteCategory();
     }
+
+    public  void editCategory(){
+        mainMenu.displayEditCategory();
+    }
+
 
     /**
      * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
@@ -301,6 +306,16 @@ public class Controller {
      *
      * @return A list of all Indexcards.
      */
+    public List<Indexcard> getAllIndexcardsByCategory(String Category) {
+        return indexcardLogic.getAllIndexcardsByCategory(Category);
+    }
+
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
     public List<Keyword> getAllKeywords() {
         if(keywordLogic.getAllKeywords().isEmpty()){
             return null;
@@ -316,12 +331,7 @@ public class Controller {
      * @return A list of all Indexcards.
      */
     public List<Category> getAllCategories() {
-        if(categoryLogic.getAllCategories().isEmpty()){
-            return null;
-        }
-        else {
-            return categoryLogic.getAllCategories().get();
-        }
+        return categoryLogic.getAllCategories();
     }
 
     /**
@@ -332,6 +342,29 @@ public class Controller {
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
         return indexcardLogic.getIndexcardByName(indexcard);
+    }
+
+    /**
+     * Delegates the exercise to find an Category with the given name to the CategoryLogic.
+     *
+     * @param category The name of the Category.
+     * @return The Category if it exists.
+     */
+    public Optional<Category> getCategoryByName(String category) {
+        return categoryLogic.getCategoryByName(category);
+    }
+    /**
+     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
+     *
+     * @param indexcardNameList The list of name from the Indexcards.
+     * @return The IndexcardList if it exists.
+     */
+    public List<Indexcard> getAllIndexcardsByName(List<String> indexcardNameList) {
+        List<Indexcard> indexcardList = new ArrayList<>();
+        for (int i=0; i< indexcardNameList.size(); i++){
+            indexcardList.add(indexcardLogic.getIndexcardByName(indexcardNameList.get(i)).get());
+        }
+        return indexcardList;
     }
 
     /**
@@ -362,8 +395,23 @@ public class Controller {
      * filtered with the specific Keyword.
      * @param keyword
      */
-    public void filterIndexCardPanel(String keyword) {
+    public void filterIndexCardPanelByKeyword(String keyword) {
         List<Indexcard> indexcardList = getAllIndexcardsByKeyword(keyword);
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (Indexcard card : indexcardList) {
+            listModel.addElement(card.getName());
+        }
+        JList<String> cardList = new JList<>(listModel);
+        mainMenu.getIndexcardsPane().setViewportView(cardList);
+    }
+
+    /**
+     * Display all Indexcards from the IndexCard repository into the IndexCardPanel
+     * filtered with the specific Keyword.
+     * @param name
+     */
+    public void filterIndexCardPanelByCategories(String name) {
+        List<Indexcard> indexcardList = getAllIndexcardsByCategory(name);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (Indexcard card : indexcardList) {
             listModel.addElement(card.getName());
@@ -399,6 +447,22 @@ public class Controller {
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void createCategory(String name, List<Indexcard> indexcardList, boolean silentMode){
+        try {
+            categoryLogic.createCategory(name,indexcardList);
+            if (!silentMode) {
+                JOptionPane.showMessageDialog(mainMenu,
+                        "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,

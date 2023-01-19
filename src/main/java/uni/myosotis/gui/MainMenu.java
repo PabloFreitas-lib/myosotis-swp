@@ -1,6 +1,5 @@
 package uni.myosotis.gui;
 
-import org.h2.index.Index;
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
@@ -18,6 +17,8 @@ public class MainMenu extends JFrame {
     private JLabel KarteikartenLabel;
     private JButton filternButton;
     private JComboBox CategoryComboBox;
+    private JButton filternCategorie;
+    private JButton filternEntfernenButton;
 
     private final transient Controller controller;
 
@@ -48,6 +49,17 @@ public class MainMenu extends JFrame {
                 onFiltern();
             }
         });
+        filternCategorie.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onFilternCategorie();
+            }
+        });
+
+        filternEntfernenButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onRemoveFiltern();
+            }
+        });
     }
 
     /**
@@ -56,10 +68,35 @@ public class MainMenu extends JFrame {
     private void onFiltern() {
         String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
         if (keyword2Filtern != null) {
-            controller.filterIndexCardPanel(keyword2Filtern);
+            controller.filterIndexCardPanelByKeyword(keyword2Filtern);
         } else {
             JOptionPane.showMessageDialog(this, "Keine Keyword ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
+     */
+    private void onFilternCategorie() {
+        String categorie2Filtern = (String) CategoryComboBox.getSelectedItem();
+        if (categorie2Filtern != null) {
+            controller.filterIndexCardPanelByCategories(categorie2Filtern);
+        } else {
+            JOptionPane.showMessageDialog(this, "Keine Keyword ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
+     */
+    private void onRemoveFiltern() {
+        List<Indexcard> indexcardList = controller.getAllIndexcards();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (Indexcard card : indexcardList) {
+            listModel.addElement(card.getName());
+        }
+        JList<String> cardList = new JList<>(listModel);
+        getIndexcardsPane().setViewportView(cardList);
     }
 
     /**
@@ -102,14 +139,24 @@ public class MainMenu extends JFrame {
         final JMenu categoryMenu = new JMenu("Kategorie");
         final JMenuItem createCategory = new JMenuItem("Erstellen");
         createCategory.addActionListener(e -> controller.createCategory());
+        final JMenuItem deleteCategory = new JMenuItem("Entfernen");
+        deleteCategory.addActionListener(e -> controller.deleteCategory());
+        final JMenuItem editCategory = new JMenuItem("Bearbeiten");
+        editCategory.addActionListener(e -> controller.editCategory());
 
         indexcardMenu.add(createIndexcard);
         indexcardMenu.addSeparator();
         indexcardMenu.add(editIndexcard);
         indexcardMenu.addSeparator();
         indexcardMenu.add(deleteIndexcard);
+
         categoryMenu.add(createCategory);
         categoryMenu.addSeparator();
+        categoryMenu.add(editCategory);
+        categoryMenu.addSeparator();
+        categoryMenu.add(deleteCategory);
+        categoryMenu.addSeparator();
+
         menuBar.add(indexcardMenu);
         menuBar.add(categoryMenu);
         createExampleIndexcards(); //TODO: Remove this line FIXME
@@ -171,6 +218,29 @@ public class MainMenu extends JFrame {
         createCategory.setVisible(true);
     }
 
+    /**
+     * Displays the Dialog to edit an existing Indexcard.
+     */
+    public void displayEditCategory() {
+        final EditCategory editCategory = new EditCategory(controller);
+        editCategory.pack();
+        editCategory.setMinimumSize(editCategory.getSize());
+        editCategory.setSize(400, 300);
+        editCategory.setLocationRelativeTo(this);
+        editCategory.setVisible(true);
+    }
+
+    /**
+     * Displays the Dialog to delete an Indexcard.
+     */
+    public void displayDeleteCategory() {
+        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller);
+        deleteIndexcard.pack();
+        deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
+        deleteIndexcard.setLocationRelativeTo(this);
+        deleteIndexcard.setVisible(true);
+    }
+
 
     public JScrollPane getIndexcardsPane(){
         return this.IndexcardsPane;
@@ -196,7 +266,7 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1",true);
         controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2",true);
         controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2",true);
-        controller.createCategory("CategorieTest", controller.getAllIndexcards());
+        controller.createCategory("CategorieTest", controller.getAllIndexcards(),true);
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3",true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4",true);
     }

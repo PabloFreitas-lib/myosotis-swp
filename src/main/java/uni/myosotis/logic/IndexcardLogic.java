@@ -1,10 +1,11 @@
 package uni.myosotis.logic;
 
+import jakarta.persistence.EntityManager;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.persistence.IndexcardRepository;
+import uni.myosotis.persistence.CategoryRepository;
 import uni.myosotis.objects.Keyword;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -17,6 +18,7 @@ public class IndexcardLogic {
      * The repository for the Indexcards.
      */
     final IndexcardRepository indexcardRepository;
+    final CategoryRepository categoryRepository;
 
 
     /**
@@ -25,6 +27,7 @@ public class IndexcardLogic {
     public IndexcardLogic () {
 
         this.indexcardRepository = new IndexcardRepository();
+        this.categoryRepository = new CategoryRepository();
 
     }
 
@@ -142,6 +145,20 @@ public class IndexcardLogic {
         all.removeIf(indexcard -> !indexcard.getKeyword().getKeywordWord().contains(keyword));
         return all;
     }
+
+    /**
+     * Returns all Indexcards.
+     *
+     * @return All Indexcards.
+     */
+    public List<Indexcard> getAllIndexcardsByCategory(String categoryName) {
+        //List<Indexcard> all = indexcardRepository.findAllIndexcards();
+        //all.removeIf(indexcard -> !indexcard.getCategoryList().getCategoryName().contains(categoryName));
+        return indexcardRepository.getAllIndexcardByCategories(categoryName);
+        //return all;
+    }
+
+
 
     /**
      * Return the Indexcard with the given name.
