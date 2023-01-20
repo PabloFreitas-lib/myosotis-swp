@@ -36,13 +36,13 @@ public class KeywordRepository {
      * This method is used to delete an object of type "Keyword" in the
      * persistence storage.
      *
-     * @param word      The word of the keywords.
+     * @param name      The name of the keywords.
      * @return          Status, -1 means an error has been occurred on delete.
      */
-    public int deleteKeyword(final String word) {
+    public int deleteKeyword(final String name) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            em.remove(em.find(Keyword.class, word));
+            em.remove(em.find(Keyword.class, name));
             em.getTransaction().commit();
         }
         catch (Exception e) {

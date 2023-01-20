@@ -75,10 +75,10 @@ public class CreateIndexcard extends JDialog {
                 .replaceAll(" ", "")
                 .split("#");
 
-        List<Keyword> keywords = new ArrayList<>();
+        List<String> keywords = new ArrayList<>();
         for (String keyword : keywordStrings) {
             if (!keyword.isBlank()) {
-                keywords.add(new Keyword(keyword));
+                keywords.add(keyword);
             }
         }
 

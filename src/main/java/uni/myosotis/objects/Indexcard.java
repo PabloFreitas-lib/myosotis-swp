@@ -14,7 +14,7 @@ public class Indexcard implements Serializable {
 
     String answer;
 
-    @ManyToMany(mappedBy = "indexcards")
+    @ManyToMany(mappedBy = "indexcards", fetch = FetchType.EAGER)
     private List<Keyword> keywords;
 
     //@ManyToOne

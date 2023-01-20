@@ -26,11 +26,12 @@ public class KeywordLogic {
      *
      * @param name The name of the Keyword.
      */
-    public void createKeyword(String name) {
+    public Keyword createKeyword(String name) {
         Keyword keyword = new Keyword(name);
         if (KeywordRepository.saveKeyword(keyword) < 0) {
             throw new IllegalStateException("Keyword could not be saved to the database!");
         }
+        return keyword;
     }
 
     /**

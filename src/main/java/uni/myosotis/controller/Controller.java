@@ -8,6 +8,7 @@ import uni.myosotis.objects.Indexcard;
 import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
 import javax.swing.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -75,9 +76,15 @@ public class Controller {
      * @param answer The answer of the Indexcard.
      * @param keywords A List of keywords linked to the Indexcard.
      */
-    public void createIndexcard(String name, String question, String answer, List<Keyword> keywords) {
+    public void createIndexcard(String name, String question, String answer, List<String> keywords) {
         try {
-            indexcardLogic.createIndexcard(name, question, answer, keywords);
+            final List<Keyword> keywordObjects = new ArrayList<>();
+
+            for (String keyword : keywords) {
+                keywordObjects.add(keywordLogic.createKeyword(keyword));
+            }
+
+            indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -149,15 +156,20 @@ public class Controller {
             id = indexcard.getId();
             List<Keyword> keywords = indexcard.getKeywords();
 
+            System.out.println("Keywords:");
+            for (Keyword x : keywords) {
+                System.out.println(x.getName());
+            }
+
             // Delete the Indexcard
             indexcardLogic.deleteIndexcard(id);
 
             // Indexcard that should be deleted needs to be removed from the list
             // of Indexcards this keyword is attached to.
-
             for (Keyword keyword : keywords) {
                 if (indexcardLogic.getIndexcardsByKeyword(keyword.getName()).isEmpty()) {
                     keywordLogic.deleteKeyword(keyword.getName());
+                    System.out.println(keyword.getName());
                 }
             }
 
@@ -190,14 +202,6 @@ public class Controller {
         return indexcardLogic.getIndexcardByName(indexcard);
     }
 
-    /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
-     *
-     * @return A list of all Indexcards.
-     */
-    public List<Indexcard> getIndexcardsByKeyword(String keyword) {
-        return indexcardLogic.getIndexcardsByKeyword(keyword);
-    }
 
     /**
      * Delegates the exercise to find all Indexcards to the IndexcardLogic.
@@ -269,10 +273,10 @@ public class Controller {
      * @param keyword The keyword.
      */
     public void filterIndexCardPanelByKeyword(String keyword) {
-        List<Indexcard> indexcardList = getIndexcardsByKeyword(keyword);
+        List<Indexcard> indexcards = indexcardLogic.getIndexcardsByKeyword(keyword);
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Indexcard card : indexcardList) {
-            listModel.addElement(card.getName());
+        for (Indexcard indexcard : indexcards) {
+            listModel.addElement(indexcard.getName());
         }
         JList<String> cardList = new JList<>(listModel);
         mainMenu.getIndexcardsPane().setViewportView(cardList);
