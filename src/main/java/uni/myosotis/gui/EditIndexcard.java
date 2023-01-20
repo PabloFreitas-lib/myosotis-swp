@@ -83,21 +83,32 @@ public class EditIndexcard extends JDialog {
      * When the OK-Button is pressed, the Indexcard is edited.
      */
     private void onOK() {
+
+        Indexcard oldIndexcard;
         //Old Parameters
-        final Indexcard oldIndexcard = controller.getIndexcardByName(oldName).get();
+        if (controller.getIndexcardByName(oldName).isPresent()) {
+            oldIndexcard = controller.getIndexcardByName(oldName).get();
+        }
+        else {
+            throw new IllegalStateException("Karteikarte zum Bearbeiten existiert nicht!");
+        }
+
         final Long oldIndexcardId = oldIndexcard.getId();
 
-        //New Parameters
+        // New Parameters
         final String name = textFieldName.getText();
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
-        String keywordString = textPaneKeywords.getText();
-        keywordString = keywordString.replaceAll(" ", "");
-        String[] keywordsStrings = keywordString.split("#");
-        List<Keyword> keywords = null;
-        for (String keyword : keywordsStrings) {
+
+        String[] keywordStrings = textPaneKeywords.getText()
+                .replaceAll(" ", "")
+                .split("#");
+
+        List<Keyword> keywords = new ArrayList<>();
+        for (String keyword : keywordStrings) {
             keywords.add(new Keyword(keyword));
         }
+
         final boolean deleteStatistic = radioButtonDeleteStatisic.isSelected();
 
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {

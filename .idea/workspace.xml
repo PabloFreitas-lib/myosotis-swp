@@ -7,18 +7,30 @@
     <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.trace.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteIndexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditIndexcard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/IndexcardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/IndexcardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" afterDir="false" />
     </list>
-    <list id="26cc3e7e-51dd-40c4-83fb-3a0c86b8c5dd" name="Changes by Johannes" comment="" />
+    <list id="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" name="Changes by Johannes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteIndexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,6 +45,141 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java">
+      <ranges>
+        <range start1="8" end1="9" start2="8" end2="8" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="17" end1="18" start2="16" end2="17" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java">
+      <ranges>
+        <range start1="67" end1="80" start2="67" end2="67" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="88" end1="88" start2="75" end2="76" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="101" end1="172" start2="89" end2="89" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="179" end1="188" start2="96" end2="96" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="210" end1="211" start2="118" end2="119" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="223" end1="224" start2="131" end2="131" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="230" end1="230" start2="137" end2="138" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="239" end1="246" start2="147" end2="152" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="247" end1="249" start2="153" end2="161" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="256" end1="257" start2="168" end2="169" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="270" end1="270" start2="182" end2="192" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="275" end1="277" start2="197" end2="199" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="284" end1="286" start2="206" end2="208" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="288" end1="289" start2="210" end2="210" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="295" end1="301" start2="216" end2="217" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="311" end1="321" start2="227" end2="227" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="323" end1="324" start2="229" end2="230" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="345" end1="355" start2="251" end2="251" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="371" end1="372" start2="267" end2="269" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="374" end1="375" start2="271" end2="272" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="405" end1="418" start2="302" end2="302" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="450" end1="450" start2="334" end2="408" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="451" end1="452" start2="409" end2="409" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Keyword.java">
+      <ranges>
+        <range start1="8" end1="9" start2="8" end2="9" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="11" end1="12" start2="11" end2="12" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="13" end1="14" start2="13" end2="18" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="20" end1="22" start2="24" end2="31" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="24" end1="25" start2="33" end2="76" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="27" end1="35" start2="78" end2="79" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="37" end1="38" start2="81" end2="82" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="40" end1="40" start2="84" end2="85" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="42" end1="43" start2="87" end2="89" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="47" end1="47" start2="93" end2="94" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="49" end1="50" start2="96" end2="97" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="55" end1="55" start2="102" end2="103" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="57" end1="58" start2="105" end2="106" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="63" end1="63" start2="111" end2="112" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="65" end1="66" start2="114" end2="115" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java">
+      <ranges>
+        <range start1="3" end1="3" start2="3" end2="5" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="5" end1="5" start2="7" end2="9" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="69" end1="72" start2="73" end2="89" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="73" end1="76" start2="90" end2="90" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="79" end1="85" start2="93" end2="93" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java">
+      <ranges>
+        <range start1="15" end1="16" start2="15" end2="16" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="35" end1="39" start2="35" end2="37" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="40" end1="43" start2="38" end2="40" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="44" end1="45" start2="41" end2="42" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="47" end1="50" start2="44" end2="45" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="59" end1="60" start2="54" end2="55" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="70" end1="70" start2="65" end2="66" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="71" end1="72" start2="67" end2="68" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="76" end1="77" start2="72" end2="73" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="78" end1="79" start2="74" end2="75" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="81" end1="99" start2="77" end2="77" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="100" end1="101" start2="78" end2="136" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="103" end1="105" start2="138" end2="141" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="106" end1="107" start2="142" end2="142" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="108" end1="109" start2="143" end2="159" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java">
+      <ranges>
+        <range start1="7" end1="8" start2="7" end2="7" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="12" end1="15" start2="11" end2="12" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="18" end1="19" start2="15" end2="16" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="20" end1="21" start2="17" end2="18" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="24" end1="25" start2="21" end2="21" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="27" end1="38" start2="23" end2="25" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="39" end1="55" start2="26" end2="27" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="56" end1="62" start2="28" end2="32" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="64" end1="64" start2="34" end2="35" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="68" end1="69" start2="39" end2="40" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="72" end1="72" start2="43" end2="62" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="73" end1="104" start2="63" end2="66" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="105" end1="106" start2="67" end2="68" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="107" end1="112" start2="69" end2="73" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="116" end1="124" start2="77" end2="79" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="125" end1="134" start2="80" end2="84" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="140" end1="141" start2="90" end2="91" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="142" end1="143" start2="92" end2="94" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="149" end1="152" start2="100" end2="106" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="153" end1="154" start2="107" end2="109" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="155" end1="156" start2="110" end2="169" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="157" end1="160" start2="170" end2="181" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="163" end1="164" start2="184" end2="203" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/IndexcardLogic.java">
+      <ranges>
+        <range start1="3" end1="5" start2="3" end2="3" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="6" end1="6" start2="4" end2="7" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="8" end1="9" start2="9" end2="9" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="11" end1="14" start2="11" end2="11" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="19" end1="19" start2="16" end2="20" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="21" end1="22" start2="22" end2="22" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="31" end1="40" start2="31" end2="31" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="54" end1="56" start2="45" end2="48" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="66" end1="67" start2="58" end2="59" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="69" end1="75" start2="61" end2="74" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="76" end1="78" start2="75" end2="80" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="80" end1="80" start2="82" end2="83" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="87" end1="91" start2="90" end2="93" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="100" end1="101" start2="102" end2="103" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="105" end1="105" start2="107" end2="132" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="107" end1="108" start2="134" end2="135" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="109" end1="110" start2="136" end2="138" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="111" end1="115" start2="139" end2="150" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="122" end1="123" start2="157" end2="158" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="128" end1="140" start2="163" end2="163" changelist="3911fa1e-771d-4c00-a06c-b2e4aefc1adc" />
+        <range start1="141" end1="141" start2="164" end2="177" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+        <range start1="143" end1="153" start2="179" end2="180" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -127,25 +274,6 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java</url>
-          <line>303</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java</url>
-          <line>247</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java</url>
-          <line>219</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="deleteKeyword" />

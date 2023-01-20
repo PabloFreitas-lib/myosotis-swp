@@ -61,7 +61,7 @@ public class DeleteIndexcard extends JDialog {
     private void onDelete() {
         String indexCardToDelete = (String) comboBoxName.getSelectedItem();
         if (indexCardToDelete != null) {
-            controller.deleteIndexcard((String) comboBoxName.getSelectedItem());
+            controller.deleteIndexcard(controller.getIndexcardByName(indexCardToDelete).get().getId());
             controller.setIndexCardPanel();
             controller.setKeywordComboBox();
             dispose();

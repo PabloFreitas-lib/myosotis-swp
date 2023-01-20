@@ -66,19 +66,6 @@ public class Controller {
         mainMenu.displayCreateIndexcard();
     }
 
-    public void createCategory() {
-        mainMenu.displayCreateCategory();
-    }
-
-    public void deleteCategory() {
-        mainMenu.displayDeleteCategory();
-    }
-
-    public  void editCategory(){
-        mainMenu.displayEditCategory();
-    }
-
-
     /**
      * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
      * Displays an error, if already an Indexcard with the same name exists.
@@ -86,6 +73,7 @@ public class Controller {
      * @param name The name of the Indexcard.
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
+     * @param keywords A List of keywords linked to the Indexcard.
      */
     public void createIndexcard(String name, String question, String answer, List<Keyword> keywords) {
         try {
@@ -101,91 +89,11 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
-     * Displays an error, if already an Indexcard with the same name exists.
-     *
-     * @param name The name of the Indexcard.
-     * @param question The question of the Indexcard.
-     * @param answer The answer of the Indexcard.
-     * @param keywords The keywords of the Indexcard.
-     */
-    public void createIndexcard(String name, String question, String answer, String keywords) {
-        try {
-            createIndexcardLogic(name, question, answer, keywords);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Delegates the exercise to create a new Indexcard to the IndexcardLogic (Overload to be used as testing - silent mode).
-     * Displays an error, if already an Indexcard with the same name exists.
-     *
-     * @param name The name of the Indexcard.
-     * @param question The question of the Indexcard.
-     * @param answer The answer of the Indexcard.
-     * @param keywords The keywords of the Indexcard.
-     */
-    public void createIndexcard(String name, String question, String answer, String keywords, Boolean silentMode) {
-        try {
-            createIndexcardLogic(name, question, answer, keywords);
-            if (!silentMode) {
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
-     * @param name
-     * @param question
-     * @param answer
-     * @param keywords
-     */
-    private void createIndexcardLogic(String name, String question, String answer, String keywords){
-        if(keywordLogic.KeywordIsPresent(keywords)) {
-            Optional<Keyword> updateKeyword = keywordLogic.getKeyword(keywords);
-            indexcardLogic.createIndexcard(name, question, answer, updateKeyword.get());
-            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
-            keywordLogic.addIndexcardToKeyword(name , newCard.get());
-        }
-        else{
-            keywordLogic.createKeywordWithNoIndexcard(keywords);
-            Optional<Keyword> newKeyword = keywordLogic.getKeyword(keywords);
-            indexcardLogic.createIndexcard(name, question, answer, newKeyword.get());
-            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
-            keywordLogic.addIndexcardToKeyword(name , newCard.get());
-        }
-    }
-
-    /**
      * Displays the dialog to edit an Indexcard.
      */
     public void editIndexcard() {
         mainMenu.displayEditIndexcard();
     }
-    /**
-     * Delegates the exercise to edit an Indexcard to the IndexcardLogic.
-     * Displays an error, if there is no Indexcard with the given name.
-     *
-     * @param name The name of the Indexcard.
-     * @param question The question of the Indexcard.
-     * @param answer The answer of the Indexcard.
-     * @param deleteStatistic Whether the statistic should be deleted or not.
-     */
 
     /**
      * Delegates the exercise to edit an Indexcard to the IndexcardLogic.
@@ -208,7 +116,7 @@ public class Controller {
                         "Karteikarte bearbeitet", JOptionPane.INFORMATION_MESSAGE);
             }
             else {
-                indexcardLogic.editIndexcard(name, question, answer, keywords, id);
+                indexcardLogic.updateIndexcard(name, question, answer, keywords, id);
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -221,13 +129,13 @@ public class Controller {
         }
     }
 
-
     /**
      * Displays the dialog to delete an Indexcard.
      */
     public void deleteIndexcard() {
         mainMenu.displayDeleteIndexcard();
     }
+
     /**
      * Delegates the exercise to delete an Indexcard to the IndexcardLogic.
      * Delegates the exercise to delete the Indexcard from the Keyword to the KeywordLogic.
@@ -237,16 +145,20 @@ public class Controller {
      */
     public void deleteIndexcard(Long id) {
         try {
-            Indexcard deleteCard = indexcardLogic.getIndexcardById(id).get();
-            Long id = deleteCard.getId();
-            Keyword deleteKeyword = deleteCard.getKeyword();
-            String word = deleteKeyword.getKeywordWord();
-            List <Indexcard> indexcards = deleteKeyword.getIndexcards();
-            indexcards.remove(deleteCard);
-            keywordLogic.deleteIndexcardFromKeyword(deleteKeyword, indexcards);
+            Indexcard indexcard = indexcardLogic.getIndexcardById(id);
+            id = indexcard.getId();
+            List<Keyword> keywords = indexcard.getKeywords();
+
+            // Delete the Indexcard
             indexcardLogic.deleteIndexcard(id);
-            if (deleteKeyword.getIndexcards().isEmpty()) {
-                keywordLogic.deleteKeyword(word);
+
+            // Indexcard that should be deleted needs to be removed from the list
+            // of Indexcards this keyword is attached to.
+
+            for (Keyword keyword : keywords) {
+                if (indexcardLogic.getIndexcardsByKeyword(keyword.getName()).isEmpty()) {
+                    keywordLogic.deleteKeyword(keyword.getName());
+                }
             }
 
             JOptionPane.showMessageDialog(mainMenu,
@@ -254,7 +166,7 @@ public class Controller {
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
+                    "Die Karteikarte konnte nicht gelöscht werden.", "Karteikarte nicht gelöscht",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -269,12 +181,13 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
      *
-     * @return A list of all Indexcards.
+     * @param indexcard The name of the Indexcard.
+     * @return The Indexcard if it exists.
      */
-    public List<Indexcard> getAllIndexcardsByKeyword(String keyword) {
-        return indexcardLogic.getAllIndexcardsByKeyword(keyword);
+    public Optional<Indexcard> getIndexcardByName(String indexcard) {
+        return indexcardLogic.getIndexcardByName(indexcard);
     }
 
     /**
@@ -282,10 +195,18 @@ public class Controller {
      *
      * @return A list of all Indexcards.
      */
-    public List<Indexcard> getAllIndexcardsByCategory(String Category) {
-        return indexcardLogic.getAllIndexcardsByCategory(Category);
+    public List<Indexcard> getIndexcardsByKeyword(String keyword) {
+        return indexcardLogic.getIndexcardsByKeyword(keyword);
     }
 
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public List<Indexcard> getIndexcardsByCategory(String Category) {
+        return indexcardLogic.getIndexcardsByCategory(Category);
+    }
 
     /**
      * Delegates the exercise to find all Indexcards to the IndexcardLogic.
@@ -293,12 +214,7 @@ public class Controller {
      * @return A list of all Indexcards.
      */
     public List<Keyword> getAllKeywords() {
-        if(keywordLogic.getAllKeywords().isEmpty()){
-            return null;
-        }
-        else {
-            return keywordLogic.getAllKeywords().get();
-        }
+        return keywordLogic.getAllKeywords();
     }
 
     /**
@@ -311,17 +227,7 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
-     *
-     * @param indexcard The name of the Indexcard.
-     * @return The Indexcard if it exists.
-     */
-    public Optional<Indexcard> getIndexcardByName(String indexcard) {
-        return indexcardLogic.getIndexcardByName(indexcard);
-    }
-
-    /**
-     * Delegates the exercise to find an Category with the given name to the CategoryLogic.
+     * Delegates the exercise to find a Category with the given name to the CategoryLogic.
      *
      * @param category The name of the Category.
      * @return The Category if it exists.
@@ -344,16 +250,6 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to update the Name of an Keyword to the KeywordLogic.
-     * @param keyword
-     * @param name
-     */
-    public void updateKeywordName(Keyword keyword, String name) {
-        keywordLogic.updateKeywordName(keyword, name);
-    }
-
-
-    /**
      * Display all Indexcards from the IndexCard repository into the IndexCardPanel.
      */
     public void setIndexCardPanel() {
@@ -369,10 +265,11 @@ public class Controller {
     /**
      * Display all Indexcards from the IndexCard repository into the IndexCardPanel
      * filtered with the specific Keyword.
-     * @param keyword
+     *
+     * @param keyword The keyword.
      */
     public void filterIndexCardPanelByKeyword(String keyword) {
-        List<Indexcard> indexcardList = getAllIndexcardsByKeyword(keyword);
+        List<Indexcard> indexcardList = getIndexcardsByKeyword(keyword);
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (Indexcard card : indexcardList) {
             listModel.addElement(card.getName());
@@ -402,19 +299,6 @@ public class Controller {
 
     public void setCategoryComboBox(){
         mainMenu.setCategoryComboBox();
-    }
-
-    public void editKeyword(Keyword oldKeyword, Keyword newKeyword, String keywordName, Indexcard newIndexcard, Indexcard oldIndexcard){
-        if(keywordLogic.KeywordIsPresent(keywordName)){ //Keyword exist already
-            List<Indexcard> list = oldKeyword.getIndexcards();
-            list.remove(newIndexcard);
-            keywordLogic.deleteIndexcardFromKeyword(oldKeyword, list);
-            if(oldKeyword.getIndexcards().isEmpty()){
-                keywordLogic.deleteKeyword(oldKeyword.getKeywordWord());
-            }
-        }
-        //Indexcard add to new Keyword
-        keywordLogic.addIndexcardToKeyword(newKeyword.getKeywordWord(), newIndexcard);
     }
 
     public void createCategory(String name, List<String> indexcardList){
@@ -447,5 +331,79 @@ public class Controller {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+
+    public void createCategory() {
+        mainMenu.displayCreateCategory();
+    }
+
+    public void deleteCategory() {
+        mainMenu.displayDeleteCategory();
+    }
+
+    public  void editCategory(){
+        mainMenu.displayEditCategory();
+    }
+
+    // END OF CLASS
+
+
+
+
+
+
+
+
+
+    /**
+     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
+     * @param name
+     * @param question
+     * @param answer
+     * @param keywords
+     */
+    /*private void createIndexcardLogic(String name, String question, String answer, String keywords){
+        if(keywordLogic.KeywordIsPresent(keywords)) {
+            Optional<Keyword> updateKeyword = keywordLogic.getKeyword(keywords);
+            indexcardLogic.createIndexcard(name, question, answer, updateKeyword.get());
+            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
+            keywordLogic.addIndexcardToKeyword(name , newCard.get());
+        }
+        else{
+            keywordLogic.createKeyword(keywords);
+            Optional<Keyword> newKeyword = keywordLogic.getKeyword(keywords);
+            indexcardLogic.createIndexcard(name, question, answer, newKeyword.get());
+            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
+            keywordLogic.addIndexcardToKeyword(name , newCard.get());
+        }
+    }*/
+
+
+
+    /**
+     * Delegates the exercise to update the Name of an Keyword to the KeywordLogic.
+     * @param keyword
+     * @param name
+     */
+    /*
+    public void updateKeywordName(Keyword keyword, String name) {
+        keywordLogic.updateKeywordName(keyword, name);
+    }*/
+
+
+
+    /*
+    public void editKeyword(Keyword oldKeyword, Keyword newKeyword, String keywordName, Indexcard newIndexcard, Indexcard oldIndexcard){
+        if(keywordLogic.KeywordIsPresent(keywordName)){ //Keyword exist already
+            List<Indexcard> list = oldKeyword.getIndexcards();
+            list.remove(newIndexcard);
+            keywordLogic.deleteIndexcardFromKeyword(oldKeyword, list);
+            if(oldKeyword.getIndexcards().isEmpty()){
+                keywordLogic.deleteKeyword(oldKeyword.getName());
+            }
+        }
+        //Indexcard add to new Keyword
+        keywordLogic.addIndexcardToKeyword(newKeyword.getName(), newIndexcard);
+    }*/
 
 }

@@ -1,7 +1,12 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Index;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.Keyword;
+
+import java.security.Key;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,14 +24,24 @@ public class IndexcardRepository {
      * @return              Status, -1 means an error has been occurred on save.
      */
     public int saveIndexcard(final Indexcard indexcard) {
+
+        /*Keyword keyword = new Keyword("test");
+        List<Keyword> keywords = new ArrayList<>();
+        keywords.add(keyword);
+        indexcard = new Indexcard("Test Karte", "Frage", "Antwort", keywords);*/
+
+
+
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             em.persist(indexcard);
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            System.out.println("KARTEIKARTE FEHLER!");
             return -1;
         }
+        System.out.println("KARTEIKARTE ERSTELLT!");
         return 0;
     }
 
@@ -125,7 +140,7 @@ public class IndexcardRepository {
         }
     }
 
-    public Optional<Indexcard> findIndexcardById(Long id) {
+    public Optional<Indexcard> getIndexcardById(Long id) {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.find(Indexcard.class, id));
         }

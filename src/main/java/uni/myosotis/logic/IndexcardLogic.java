@@ -1,24 +1,24 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Indexcard;
-import uni.myosotis.persistence.IndexcardRepository;
-import uni.myosotis.persistence.CategoryRepository;
 import uni.myosotis.objects.Keyword;
+import uni.myosotis.persistence.CategoryRepository;
+import uni.myosotis.persistence.IndexcardRepository;
+
 import java.util.List;
 import java.util.Optional;
 
-
 public class IndexcardLogic {
-    // Show all Indexcards
-    // Sort by
-    //
 
     /**
      * The repository for the Indexcards.
      */
     final IndexcardRepository indexcardRepository;
-    final CategoryRepository categoryRepository;
 
+    /**
+     * The repository for the Categorys.
+     */
+    final CategoryRepository categoryRepository;
 
     /**
      * Creates a new IndexcardLogic.
@@ -28,15 +28,6 @@ public class IndexcardLogic {
         this.indexcardRepository = new IndexcardRepository();
         this.categoryRepository = new CategoryRepository();
 
-    }
-
-    public Indexcard getIndexcardById(Long id) {
-        Optional<Indexcard> indexcard = indexcardRepository.findIndexcardById(id);
-        if (indexcard.isPresent()) {
-            return indexcard.get();
-        } else {
-            throw new IllegalStateException("Indexcard with id " + id + " not found");
-        }
     }
 
     /**
@@ -52,8 +43,9 @@ public class IndexcardLogic {
         if (indexcardRepository.findIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            Indexcard indexcard = new Indexcard(name, question, answer, keywords);
-            indexcardRepository.saveIndexcard(indexcard);
+            if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords)) < 0) {
+                throw new IllegalStateException("Karteikarte konnte nicht erstellt werden, Fehler beim Speichern in der Datenbank");
+            }
         }
     }
 
@@ -64,20 +56,31 @@ public class IndexcardLogic {
      * @param name The Name of the Indexcard.
      * @param question  The Question of the Indexcard.
      * @param answer The Answer of the Indexcard.
-     * @param keyword The keywords of the Indexcard.
+     * @param keywords The keywords of the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void editIndexcard(String name, String question, String answer, List<Keyword> keywords, Long id) {
-        if (indexcardRepository.findIndexcardById(id).isPresent()) {
-            Indexcard indexcard = new Indexcard(name, question, answer, keywords, id);
-            int checkvalue = indexcardRepository.updateIndexcard(indexcard);
-            if (checkvalue != 0) {
-                throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
+    public void updateIndexcard(String name, String question, String answer, List<Keyword> keywords, Long id) {
+        if (indexcardRepository.getIndexcardById(id).isPresent()) {
+            Indexcard indexcard = indexcardRepository.getIndexcardById(id).get();
+
+            // Updates all values of the old indexcard.
+            indexcard.setName(name);
+            indexcard.setQuestion(question);
+            indexcard.setAnswer(answer);
+            indexcard.setKeywords(keywords);
+
+            // Update in database failed.
+            if (indexcardRepository.updateIndexcard(indexcard) < 0) {
+                throw new IllegalStateException("Die Karteikarte konnte nicht aktualisiert werden.");
             }
-        } else {
-            throw new IllegalStateException("Die zu bearbeitende Karteikarte exisitiert nicht.");
+
+        }
+        // Invalid id, indexcard does not exist.
+        else {
+            throw new IllegalStateException("Die zu bearbeitende Karteikarte existiert nicht.");
         }
     }
+
     /**
      * Deletes an existing Indexcard and saves it in the database.
      * If there is no indexcard with the given id, it will throw a IllegalStateException.
@@ -85,10 +88,9 @@ public class IndexcardLogic {
      * @param id The id of the Indexcard.
      */
     public void deleteIndexcard(Long id) {
-        if (indexcardRepository.findIndexcardById(id).isPresent()) {
-            int checkvalue = indexcardRepository.deleteIndexcard(id);
-            if (checkvalue != 0) {
-                throw new IllegalStateException("Die Karteikarte konnte nicht verändert werden.");
+        if (indexcardRepository.getIndexcardById(id).isPresent()) {
+            if (indexcardRepository.deleteIndexcard(id) < 0) {
+                throw new IllegalStateException("Die Karteikarte konnte nicht gelöscht werden.");
             }
         } else {
             throw new IllegalStateException("Die zu löschende Karteikarte existiert nicht.");
@@ -98,36 +100,26 @@ public class IndexcardLogic {
     /**
      * Returns all Indexcards.
      *
-     * @return All Indexcards.
+     * @return          A list of all indexcards.
      */
     public List<Indexcard> getAllIndexcards() {
         return indexcardRepository.findAllIndexcards();
     }
-
+    
     /**
-     * Returns all Indexcards.
+     * Returns the Indexcard with the given id.
      *
-     * @return All Indexcards.
+     * @param id The id.
+     * @return The Indexcard with this id.
      */
-    public List<Indexcard> getAllIndexcardsByKeyword(String keyword) {
-        List<Indexcard> all = indexcardRepository.findAllIndexcards();
-        all.removeIf(indexcard -> !indexcard.getKeyword().getKeywordWord().contains(keyword));
-        return all;
+    public Indexcard getIndexcardById(Long id) {
+        Optional<Indexcard> indexcard = indexcardRepository.getIndexcardById(id);
+        if (indexcard.isPresent()) {
+            return indexcard.get();
+        } else {
+            throw new IllegalStateException("Indexcard with id " + id + " not found");
+        }
     }
-
-    /**
-     * Returns all Indexcards.
-     *
-     * @return All Indexcards.
-     */
-    public List<Indexcard> getAllIndexcardsByCategory(String categoryName) {
-        //List<Indexcard> all = indexcardRepository.findAllIndexcards();
-        //all.removeIf(indexcard -> !indexcard.getCategoryList().getCategoryName().contains(categoryName));
-        return indexcardRepository.getAllIndexcardByCategories(categoryName);
-        //return all;
-    }
-
-
 
     /**
      * Return the Indexcard with the given name.
@@ -139,16 +131,51 @@ public class IndexcardLogic {
         return indexcardRepository.findIndexcardByName(indexcard);
     }
 
-    public Long getIndexcardId(String indexcard) {
-        return indexcardRepository.findIndexcardIdByName(indexcard);
-    }
     /**
-     * Returns indexcardRepository.
+     * Returns all Indexcards that have the given Keyword.
      *
-     * @return indexcardRepository
+     * @param           keyword The Keyword.
+     * @return          All Indexcards with that Keyword.
      */
-    public IndexcardRepository getIndexcardRepository() {
-        return indexcardRepository;
+    public List<Indexcard> getIndexcardsByKeyword(String keyword) {
+
+        List<Indexcard> indexcards = indexcardRepository.findAllIndexcards();
+
+        // Remove the Indexcards that do not have the given keyword
+        indexcards.removeIf(indexcard -> !indexcard.getKeywords().stream()
+                .map(Keyword::getName)
+                .toList()
+                .contains(keyword));
+
+        return indexcards;
     }
 
+    /**
+     * Returns all Indexcards.
+     *
+     * @return All Indexcards.
+     */
+    public List<Indexcard> getIndexcardsByCategory(String categoryName) {
+        //List<Indexcard> all = indexcardRepository.findAllIndexcards();
+        //all.removeIf(indexcard -> !indexcard.getCategoryList().getCategoryName().contains(categoryName));
+        return indexcardRepository.getAllIndexcardByCategories(categoryName);
+        //return all;
+    }
+
+    // END OF CLASS
+
+
+
+
+
+
+
+
+
+
+
+    /*
+    public Long getIndexcardId(String indexcard) {
+        return indexcardRepository.findIndexcardIdByName(indexcard);
+    }*/
 }

@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Embeddable
 public class Indexcard implements Serializable {
 
     String name;
@@ -15,7 +14,7 @@ public class Indexcard implements Serializable {
 
     String answer;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "indexcards")
     private List<Keyword> keywords;
 
     //@ManyToOne

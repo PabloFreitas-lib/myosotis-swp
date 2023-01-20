@@ -1,8 +1,12 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Keyword;
+
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateIndexcard extends JDialog {
 
@@ -67,22 +71,26 @@ public class CreateIndexcard extends JDialog {
         final String name = textFieldName.getText();
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
-        final String keyword = textAreaKeyword.getText();
-        if (!name.isBlank() && !question.isBlank() && !answer.isBlank() && keyword.isBlank()) {
-            controller.createIndexcard(name, question, answer);
-            dispose();
-        } else if (!name.isBlank() && !question.isBlank() && !answer.isBlank() && !keyword.isBlank()) {
-            controller.createIndexcard(name, question, answer, keyword);
+        String[] keywordStrings = textAreaKeyword.getText()
+                .replaceAll(" ", "")
+                .split("#");
+
+        List<Keyword> keywords = new ArrayList<>();
+        for (String keyword : keywordStrings) {
+            if (!keyword.isBlank()) {
+                keywords.add(new Keyword(keyword));
+            }
+        }
+
+        if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
+            controller.createIndexcard(name, question, answer, keywords);
+            controller.setIndexCardPanel();
+            controller.setKeywordComboBox();
+            controller.setCategoryComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
         }
-        controller.setIndexCardPanel();
-        controller.setKeywordComboBox();
-        controller.setCategoryComboBox();
-        dispose();
-
-
     }
 
     /**

@@ -58,7 +58,7 @@ public class DeleteCategory extends JDialog{
     private void onDelete() {
         String categoryToDelete = (String) categoryNamesComboBox.getSelectedItem();
         if (categoryToDelete != null) {
-            controller.deleteIndexcard((String) categoryNamesComboBox.getSelectedItem());
+            //controller.deleteCategory((String) categoryNamesComboBox.getSelectedItem());
             controller.setIndexCardPanel();
             controller.setKeywordComboBox();
             dispose();

@@ -106,8 +106,8 @@ public class MainMenu extends JFrame {
         //list of all indexcards
         List<Keyword> keywordList = controller.getAllKeywords();
         // Array of all Keywords
-        String[] keywordNames = controller.getAllKeywords().stream().
-                map(Keyword::getKeywordWord).toList().toArray(new String[0]);
+        String[] keywordNames = controller.getAllKeywords().stream()
+                        .map(Keyword::getName).toList().toArray(new String[0]);
         KeywordComboBox.setModel(new DefaultComboBoxModel<>(keywordNames));
     }
 
@@ -260,14 +260,16 @@ public class MainMenu extends JFrame {
      */
     public void createExampleIndexcards(){
 
-        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", "TestkeywordGRUPPE1",true);
-        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", "TestkeywordGRUPPE1",true);
-        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", "TestkeywordGRUPPE1",true);
-        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1",true);
-        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2",true);
-        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2",true);
+        /*
+        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", {"TestkeywordGRUPPE1"});
+        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1");
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2");
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2");
         //controller.createCategory("CategorieTest", controller.getAllIndexcards(),true);
-        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3",true);
-        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4",true);
+        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3");
+        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4");
+        */
     }
 }
