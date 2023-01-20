@@ -329,6 +329,22 @@ public class Controller {
         }
     }
 
+    public void createCategory(String name, List<String> indexcardList, boolean silentMode){
+        try {
+            categoryLogic.createCategory(name,indexcardList);
+            if(!silentMode) {
+                JOptionPane.showMessageDialog(mainMenu,
+                        "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Kategorie mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void deleteCategory(String name){
         try {
             categoryLogic.deleteCategory(name);
@@ -343,17 +359,34 @@ public class Controller {
         }
     }
 
-    public void createCategory(String name, List<String> indexcardList, boolean silentMode){
+    /**
+     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
+     * Displays an error, if already an Indexcard with the same name exists.
+     *
+     * @param name The name of the Indexcard.
+     * @param question The question of the Indexcard.
+     * @param answer The answer of the Indexcard.
+     * @param keywords A List of keywords linked to the Indexcard.
+     */
+    public void createIndexcard(String name, String question, String answer, List<String> keywords, boolean silentMode) {
         try {
+            final List<Keyword> keywordObjects = new ArrayList<>();
 
-            categoryLogic.createCategory(name,indexcardList);
+            for (String keyword : keywords) {
+                if (keywordLogic.getKeywordByName(keyword).isEmpty()) {
+                    keywordObjects.add(keywordLogic.createKeyword(keyword));
+                } else {
+                    keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
+                }
+            }
+
+            indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
             if (!silentMode) {
                 JOptionPane.showMessageDialog(mainMenu,
-                        "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
+                        "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
                         JOptionPane.INFORMATION_MESSAGE);
             }
-        }
-        catch (final IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);

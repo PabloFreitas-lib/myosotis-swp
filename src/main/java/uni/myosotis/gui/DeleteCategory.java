@@ -17,6 +17,11 @@ public class DeleteCategory extends JDialog{
     private JComboBox categoryNamesComboBox;
     private JButton buttonDelete;
 
+    /**
+     * Constructor.
+     * @param controller Controller.
+     */
+
     public DeleteCategory(Controller controller) {
         this.controller = controller;
         setContentPane(contentPane);
@@ -53,7 +58,7 @@ public class DeleteCategory extends JDialog{
     }
 
     /**
-     * Deletes an Indexcard. If no Indexcard is select, an error will be displayed.
+     * Deletes a Category. If no Category is select, an error will be displayed.
      */
     private void onDelete() {
         String categoryToDelete = (String) categoryNamesComboBox.getSelectedItem();

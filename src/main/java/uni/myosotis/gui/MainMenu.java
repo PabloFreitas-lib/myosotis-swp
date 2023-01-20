@@ -260,16 +260,17 @@ public class MainMenu extends JFrame {
      */
     public void createExampleIndexcards(){
 
-        /*
-        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", {"TestkeywordGRUPPE1"});
-        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", "TestkeywordGRUPPE1");
-        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", "TestkeywordGRUPPE2");
-        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", "TestkeywordGRUPPE2");
-        //controller.createCategory("CategorieTest", controller.getAllIndexcards(),true);
-        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", "TestkeywordGRUPPE3");
-        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", "TestkeywordGRUPPE4");
-        */
+
+        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}),true);
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}),true);
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte","Testkarteikarte2","Testkarteikart4","Testkarteikarte6"}),true);
+        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
+        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
+        controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikart7"}),true);
+
     }
 }

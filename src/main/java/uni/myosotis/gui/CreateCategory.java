@@ -21,6 +21,11 @@ public class CreateCategory extends JDialog{
 
     private JList<String> indexcardsNamesList;
 
+    /**
+     * Constructor.
+     *
+     * @param controller The controller.
+     */
     public CreateCategory(Controller controller) {
         this.controller = controller;
         setTitle("Kategorie erstellen");
@@ -64,7 +69,7 @@ public class CreateCategory extends JDialog{
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
     /**
-     * Create a new Indexcard, if the entered Text isn't empty, and close the window.
+     * Create a new Category, if the entered Text isn't empty, and close the window.
      */
     private void onOK() {
         final String name = categoryTextField.getText();

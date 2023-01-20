@@ -15,7 +15,7 @@ public class CategoryLogic {
     final CategoryRepository categoryRepository;
 
     /**
-     * Creates a new CategorysLogic.
+     * Creates a new CategoriesLogic.
      */
     public CategoryLogic () {
         this.categoryRepository = new CategoryRepository();
@@ -24,11 +24,11 @@ public class CategoryLogic {
 
 
     /**
-     * Creates a new Keyword and saves it in the database.
-     * If already a Keyword with the same word exists, it will throw a IllegalStateException.
+     * Creates a new Category and saves it in the database.
+     * If already a Category with the same word exists, it will throw a IllegalStateException.
      *
      * @param word The word of the Keyword.
-     * @param indexcard The name of the Indexcard.
+     * @param indexcards The name of the Indexcard.
      */
     public void createCategory(String word, List<String> indexcards) {
 
@@ -41,15 +41,15 @@ public class CategoryLogic {
     }
 
     /**
-     * Adds an Indexcard to a Keyword.
-     * @param word The word of the Keyword.
-     * @param indexcard The Indexcard which should be added.
+     * Adds an Indexcard to a Category.
+     * @param categoryName The categoryName of the Category.
+     * @param indexcardNameList The Indexcard which should be added.
      */
-    public void addIndexcardToCategory(String word, List<String> indexcards) {
-        Optional<Category> category = categoryRepository.getCategoryByName(word);
+    public void addIndexcardToCategory(String categoryName, List<String> indexcardNameList) {
+        Optional<Category> category = categoryRepository.getCategoryByName(categoryName);
         if (category.isPresent()) {
             Category category1 = category.get();
-            category1.setIndexcardList(indexcards);
+            category1.setIndexcardList(indexcardNameList);
             categoryRepository.saveCategory(category1);
         }
     }
