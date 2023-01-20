@@ -234,11 +234,11 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteCategory() {
-        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller);
-        deleteIndexcard.pack();
-        deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
-        deleteIndexcard.setLocationRelativeTo(this);
-        deleteIndexcard.setVisible(true);
+        final DeleteCategory deleteCategory = new DeleteCategory(controller);
+        deleteCategory.pack();
+        deleteCategory.setMinimumSize(deleteCategory.getSize());
+        deleteCategory.setLocationRelativeTo(this);
+        deleteCategory.setVisible(true);
     }
 
 

@@ -8,14 +8,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CreateIndexcard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/KeywordLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
     </list>
-    <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/KeywordRepository.java" afterDir="false" />
-    </list>
+    <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,21 +27,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java">
-      <ranges>
-        <range start1="10" end1="10" start2="10" end2="11" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="77" end1="78" start2="78" end2="79" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="79" end1="80" start2="80" end2="87" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="150" end1="150" start2="157" end2="162" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="156" end1="157" start2="168" end2="168" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="160" end1="160" start2="171" end2="172" changelist="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" />
-        <range start1="192" end1="200" start2="204" end2="204" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="271" end1="272" start2="275" end2="276" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="273" end1="275" start2="277" end2="279" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -77,7 +59,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="uni.myosotis.App" />
-      <module name="myosotis" />
+      <module name="SNAPSHOT-1.0.0" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uni.myosotis.*" />

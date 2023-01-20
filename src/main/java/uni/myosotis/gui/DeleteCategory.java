@@ -58,9 +58,8 @@ public class DeleteCategory extends JDialog{
     private void onDelete() {
         String categoryToDelete = (String) categoryNamesComboBox.getSelectedItem();
         if (categoryToDelete != null) {
-            //controller.deleteCategory((String) categoryNamesComboBox.getSelectedItem());
-            controller.setIndexCardPanel();
-            controller.setKeywordComboBox();
+            controller.deleteCategory(categoryToDelete);
+            controller.setCategoryComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Keine Kategorie ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);

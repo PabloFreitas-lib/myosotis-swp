@@ -324,7 +324,21 @@ public class Controller {
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    "Es existiert bereits eine Kategorie mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void deleteCategory(String name){
+        try {
+            categoryLogic.deleteCategory(name);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich gelöscht.", "Kategorie gelöscht",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Kategorie mit diesem Namen!.", "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
