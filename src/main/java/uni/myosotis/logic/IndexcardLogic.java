@@ -40,7 +40,7 @@ public class IndexcardLogic {
      * @param keywords Keywords which could be added to the Indexcard.
      */
     public void createIndexcard(String name, String question, String answer, List<Keyword> keywords) {
-        if (indexcardRepository.findIndexcardByName(name).isPresent()) {
+        if (indexcardRepository.getIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
             if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords)) < 0) {
@@ -103,7 +103,7 @@ public class IndexcardLogic {
      * @return          A list of all indexcards.
      */
     public List<Indexcard> getAllIndexcards() {
-        return indexcardRepository.findAllIndexcards();
+        return indexcardRepository.getAllIndexcards();
     }
     
     /**
@@ -128,7 +128,7 @@ public class IndexcardLogic {
      * @return The Indexcard if it exists.
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
-        return indexcardRepository.findIndexcardByName(indexcard);
+        return indexcardRepository.getIndexcardByName(indexcard);
     }
 
     /**
@@ -139,7 +139,7 @@ public class IndexcardLogic {
      */
     public List<Indexcard> getIndexcardsByKeyword(String keyword) {
 
-        List<Indexcard> indexcards = indexcardRepository.findAllIndexcards();
+        List<Indexcard> indexcards = indexcardRepository.getAllIndexcards();
 
         // Remove the Indexcards that do not have the given keyword
         indexcards.removeIf(indexcard -> !indexcard.getKeywords().stream()

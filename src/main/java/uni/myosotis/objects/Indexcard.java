@@ -8,19 +8,21 @@ import java.util.List;
 @Entity
 public class Indexcard implements Serializable {
 
-    String name;
+    private String name;
 
-    String question;
+    private String question;
 
-    String answer;
+    private String answer;
 
-    @ManyToMany(mappedBy = "indexcards", fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Keyword> keywords;
 
     //@ManyToOne
     //private List<Category> categoryList;
 
-    // id of the index card, needs to be unique within the persistence
+    /**
+     * Id of the index card, needs to be unique within the persistence.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,38 +40,83 @@ public class Indexcard implements Serializable {
 
     }
 
+    /**
+     * Returns the name of the Indexcard.
+     *
+     * @return The name of the Indexcard.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the question of the Indexcard.
+     *
+     * @return The question of the Indexcard.
+     */
     public String getQuestion() {
         return question;
     }
 
+    /**
+     * Returns the answer of the Indexcard.
+     *
+     * @return The answer of the Indexcard.
+     */
     public String getAnswer() {
         return answer;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setName(final String newName) {
-        name = newName;
-    }
-
-    public void setQuestion(final String newQuestion) {
-        question = newQuestion;
-    }
-
-    public void setAnswer(final String newAnswer) {
-        answer = newAnswer;
-    }
-
+    /**
+     * Returns the keywords of the Indexcard.
+     *
+     * @return The keywords of the Indexcard.
+     */
     public List<Keyword> getKeywords() {
         return keywords;
     }
 
+    /**
+     * Returns the id of the Indexcard.
+     *
+     * @return The id of the Indexcard.
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the name of the Indexcard to the given name.
+     *
+     * @param name The name.
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
+     * Sets the question of the Indexcard to the given name.
+     *
+     * @param question The question.
+     */
+    public void setQuestion(final String question) {
+        this.question = question;
+    }
+
+    /**
+     * Sets the answer of the Indexcard to the given name.
+     *
+     * @param answer The answer.
+     */
+    public void setAnswer(final String answer) {
+        this.answer = answer;
+    }
+
+    /**
+     * Sets the name of the Indexcard to the given name.
+     *
+     * @param keywords The Keywords.
+     */
     public void setKeywords(final List<Keyword> keywords) {
         this.keywords = keywords;
     }

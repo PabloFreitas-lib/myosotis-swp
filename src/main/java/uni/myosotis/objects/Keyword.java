@@ -12,10 +12,6 @@ public class Keyword implements Serializable {
     String name;
 
     @ManyToMany
-    @JoinTable(
-            name = "keywords",
-            joinColumns = @JoinColumn(name = "name_keyword"),
-            inverseJoinColumns = @JoinColumn(name = "name_indexcard"))
     private List<Indexcard> indexcards;
 
     public Keyword() {

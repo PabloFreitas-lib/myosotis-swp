@@ -13,7 +13,7 @@ public class MainMenu extends JFrame {
     private JScrollPane IndexcardsPane;
     //private DefaultComboBoxModel<String> keywordModel = new DefaultComboBoxModel<>();
     private JComboBox KeywordComboBox;
-    private JLabel VerschlagwortungLabel;
+    private JLabel SchlagwortLabel;
     private JLabel KarteikartenLabel;
     private JButton filternButton;
     private JComboBox CategoryComboBox;

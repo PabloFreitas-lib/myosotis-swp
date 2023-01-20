@@ -1,12 +1,10 @@
 package uni.myosotis.logic;
 
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.KeywordRepository;
 
 import java.util.List;
 import java.util.Optional;
-
 
 public class KeywordLogic {
 
@@ -52,12 +50,12 @@ public class KeywordLogic {
     }
 
     /**
-     * Return the Keyword with the given word.
+     * Return the Keyword with the given name.
      *
      * @param           name The name of the Keyword.
      * @return               The Keyword or null if it does not exist
      */
-    public Optional<Keyword> getKeyword(String name) {
+    public Optional<Keyword> getKeywordByName(String name) {
         return KeywordRepository.getKeywordByName(name);
     }
 
@@ -176,7 +174,7 @@ public class KeywordLogic {
      * @param indexcards
      */
     /*public void editKeywordIndexcards(String word, List<Indexcard> indexcards) {
-        Optional<Keyword> keyword = getKeyword(word);
+        Optional<Keyword> keyword = getKeywordByName(word);
         if (keyword.isPresent()) {
             keyword.get().setIndexcards(indexcards);
             KeywordRepository.updateKeyword(keyword.get(), keyword.get().getName(), indexcards);
@@ -194,7 +192,7 @@ public class KeywordLogic {
      * @param newWord
      */
     /*public void editKeywordWord(String name, String newWord) {
-        Optional<Keyword> keyword = getKeyword(name);
+        Optional<Keyword> keyword = getKeywordByName(name);
         if (keyword.isPresent()) {
             keyword.get().setWord(newWord);
             KeywordRepository.updateKeyword(keyword.get(), newWord, keyword.get().getIndexcards());

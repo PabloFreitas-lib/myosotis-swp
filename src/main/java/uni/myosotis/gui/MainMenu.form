@@ -45,12 +45,12 @@
         </constraints>
         <properties/>
       </component>
-      <component id="a1aa7" class="javax.swing.JLabel" binding="VerschlagwortungLabel">
+      <component id="a1aa7" class="javax.swing.JLabel" binding="SchlagwortLabel">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Verschlagwortung"/>
+          <text value="Schlagwort"/>
         </properties>
       </component>
       <component id="caedd" class="javax.swing.JLabel" binding="KarteikartenLabel">
@@ -58,7 +58,7 @@
           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Karteikarten List"/>
+          <text value="Karteikarten"/>
         </properties>
       </component>
       <component id="417ea" class="javax.swing.JButton" binding="filternButton" default-binding="true">

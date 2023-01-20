@@ -3,12 +3,12 @@ package uni.myosotis.controller;
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.CategoryLogic;
 import uni.myosotis.logic.IndexcardLogic;
+import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
-import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Keyword;
+
 import javax.swing.*;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +81,11 @@ public class Controller {
             final List<Keyword> keywordObjects = new ArrayList<>();
 
             for (String keyword : keywords) {
-                keywordObjects.add(keywordLogic.createKeyword(keyword));
+                if (keywordLogic.getKeywordByName(keyword).isEmpty()) {
+                    keywordObjects.add(keywordLogic.createKeyword(keyword));
+                } else {
+                    keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
+                }
             }
 
             indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
@@ -113,17 +117,28 @@ public class Controller {
      * @param keywords Keywords for the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void editIndexcard(String name, String question, String answer, List<Keyword> keywords, Boolean deleteStatistic, Long id) {
+    public void editIndexcard(String name, String question, String answer, List<String> keywords, Boolean deleteStatistic, Long id) {
         try {
-            if(deleteStatistic){
+            final List<Keyword> keywordObjects = new ArrayList<>();
+
+            // Create new added Keywords
+            for (String keyword : keywords) {
+                if (keywordLogic.getKeywordByName(keyword).isEmpty()) {
+                    keywordObjects.add(keywordLogic.createKeyword(keyword));
+                } else {
+                    keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
+                }
+            }
+
+            if (deleteStatistic) {
                 indexcardLogic.deleteIndexcard(id);
-                indexcardLogic.createIndexcard(name, question, answer, keywords);
+                indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Karteikarte wurde erfolgreich bearbeitet und die Statistik zurückgesetzt",
                         "Karteikarte bearbeitet", JOptionPane.INFORMATION_MESSAGE);
             }
             else {
-                indexcardLogic.updateIndexcard(name, question, answer, keywords, id);
+                indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, id);
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -156,11 +171,6 @@ public class Controller {
             id = indexcard.getId();
             List<Keyword> keywords = indexcard.getKeywords();
 
-            System.out.println("Keywords:");
-            for (Keyword x : keywords) {
-                System.out.println(x.getName());
-            }
-
             // Delete the Indexcard
             indexcardLogic.deleteIndexcard(id);
 
@@ -169,7 +179,6 @@ public class Controller {
             for (Keyword keyword : keywords) {
                 if (indexcardLogic.getIndexcardsByKeyword(keyword.getName()).isEmpty()) {
                     keywordLogic.deleteKeyword(keyword.getName());
-                    System.out.println(keyword.getName());
                 }
             }
 
@@ -239,6 +248,7 @@ public class Controller {
     public Optional<Category> getCategoryByName(String category) {
         return categoryLogic.getCategoryByName(category);
     }
+
     /**
      * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
      *

@@ -17,11 +17,12 @@ public class EditIndexcard extends JDialog {
     private JTextArea textAreaQuestion, textAreaAnswer;
     private JComboBox comboBoxName;
     private JTextField textFieldName;
-    private JTextPane textPaneKeywords;
+    private JTextField textFieldKeywords;
     private String oldName;
 
     /**
      * Creates a new EditIndexcard-Dialog.
+     *
      * @param controller The Controller of the application.
      */
     public EditIndexcard(Controller controller) {
@@ -47,7 +48,11 @@ public class EditIndexcard extends JDialog {
                 textFieldName.setText(indexcard.get().getName());
                 textAreaQuestion.setText(indexcard.get().getQuestion());
                 textAreaAnswer.setText(indexcard.get().getAnswer());
-                textPaneKeywords.setText(indexcard.get().getKeywords().toString()); //TODO
+                StringBuilder keywords = new StringBuilder();
+                for (Keyword keyword : indexcard.get().getKeywords()) {
+                    keywords.append("#").append(keyword.getName()).append(" ");
+                }
+                textFieldKeywords.setText(keywords.toString());
                 oldName = indexcard.get().getName();
             }
         });
@@ -100,14 +105,13 @@ public class EditIndexcard extends JDialog {
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
 
-        String[] keywordStrings = textPaneKeywords.getText()
+        // Separate Keywords
+        String[] keywordStrings = textFieldKeywords.getText()
                 .replaceAll(" ", "")
                 .split("#");
 
-        List<Keyword> keywords = new ArrayList<>();
-        for (String keyword : keywordStrings) {
-            keywords.add(new Keyword(keyword));
-        }
+        List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
+        keywords.remove(0);
 
         final boolean deleteStatistic = radioButtonDeleteStatisic.isSelected();
 

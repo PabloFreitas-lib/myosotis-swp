@@ -1,11 +1,11 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CreateIndexcard extends JDialog {
@@ -21,8 +21,7 @@ public class CreateIndexcard extends JDialog {
     private JTextField textFieldName;
     private JTextArea textAreaQuestion;
     private JTextArea textAreaAnswer;
-    private JTextArea textAreaKeyword;
-
+    private JTextField textFieldKeywords;
 
     /**
      * Create a new Dialog to create an Indexcard.
@@ -71,16 +70,13 @@ public class CreateIndexcard extends JDialog {
         final String name = textFieldName.getText();
         final String question = textAreaQuestion.getText();
         final String answer = textAreaAnswer.getText();
-        String[] keywordStrings = textAreaKeyword.getText()
+
+        // Separate Keywords
+        String[] keywordStrings = textFieldKeywords.getText()
                 .replaceAll(" ", "")
                 .split("#");
-
-        List<String> keywords = new ArrayList<>();
-        for (String keyword : keywordStrings) {
-            if (!keyword.isBlank()) {
-                keywords.add(keyword);
-            }
-        }
+        List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
+        keywords.remove(0);
 
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
             controller.createIndexcard(name, question, answer, keywords);
