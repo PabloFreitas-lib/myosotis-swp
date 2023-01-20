@@ -87,9 +87,9 @@ public class Controller {
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
      */
-    public void createIndexcard(String name, String question, String answer) {
+    public void createIndexcard(String name, String question, String answer, List<Keyword> keywords) {
         try {
-            indexcardLogic.createIndexcard(name, question, answer);
+            indexcardLogic.createIndexcard(name, question, answer, keywords);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -171,8 +171,6 @@ public class Controller {
         }
     }
 
-
-
     /**
      * Displays the dialog to edit an Indexcard.
      */
@@ -188,28 +186,6 @@ public class Controller {
      * @param answer The answer of the Indexcard.
      * @param deleteStatistic Whether the statistic should be deleted or not.
      */
-    public void editIndexcard(String name, String question, String answer, Boolean deleteStatistic, Long id) {
-        try {
-            if(deleteStatistic){
-                indexcardLogic.DeleteIndexcard(id);
-                indexcardLogic.createIndexcard(name, question, answer);
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Karteikarte wurde erfolgreich bearbeitet und die Statistik zurückgesetzt",
-                        "Karteikarte bearbeitet", JOptionPane.INFORMATION_MESSAGE);
-            }
-            else {
-                indexcardLogic.EditIndexcard(name, question, answer, id);
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
 
     /**
      * Delegates the exercise to edit an Indexcard to the IndexcardLogic.
@@ -219,20 +195,20 @@ public class Controller {
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
      * @param deleteStatistic Whether the statistic should be deleted or not.
-     * @param keyword Keywords for the Indexcard.
+     * @param keywords Keywords for the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void editIndexcard(String name, String question, String answer, Boolean deleteStatistic, Keyword keyword, Long id) {
+    public void editIndexcard(String name, String question, String answer, List<Keyword> keywords, Boolean deleteStatistic, Long id) {
         try {
             if(deleteStatistic){
-                indexcardLogic.DeleteIndexcard(id);
-                indexcardLogic.createIndexcard(name, question, answer, keyword);
+                indexcardLogic.deleteIndexcard(id);
+                indexcardLogic.createIndexcard(name, question, answer, keywords);
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Karteikarte wurde erfolgreich bearbeitet und die Statistik zurückgesetzt",
                         "Karteikarte bearbeitet", JOptionPane.INFORMATION_MESSAGE);
             }
             else {
-                indexcardLogic.EditIndexcard(name, question, answer, keyword, id);
+                indexcardLogic.editIndexcard(name, question, answer, keywords, id);
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
                         JOptionPane.INFORMATION_MESSAGE);
@@ -257,18 +233,18 @@ public class Controller {
      * Delegates the exercise to delete the Indexcard from the Keyword to the KeywordLogic.
      * Displays an error, if there is no Indexcard with the given name.
      *
-     * @param name The name of the Indexcard.
+     * @param id The id of the Indexcard.
      */
-    public void deleteIndexcard(String name) {
+    public void deleteIndexcard(Long id) {
         try {
-            Indexcard deleteCard = indexcardLogic.getIndexcardByName(name).get();
+            Indexcard deleteCard = indexcardLogic.getIndexcardById(id).get();
             Long id = deleteCard.getId();
             Keyword deleteKeyword = deleteCard.getKeyword();
             String word = deleteKeyword.getKeywordWord();
             List <Indexcard> indexcards = deleteKeyword.getIndexcards();
             indexcards.remove(deleteCard);
             keywordLogic.deleteIndexcardFromKeyword(deleteKeyword, indexcards);
-            indexcardLogic.DeleteIndexcard(id);
+            indexcardLogic.deleteIndexcard(id);
             if (deleteKeyword.getIndexcards().isEmpty()) {
                 keywordLogic.deleteKeyword(word);
             }

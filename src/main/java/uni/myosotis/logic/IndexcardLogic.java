@@ -1,6 +1,5 @@
 package uni.myosotis.logic;
 
-import jakarta.persistence.EntityManager;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.persistence.IndexcardRepository;
 import uni.myosotis.persistence.CategoryRepository;
@@ -47,53 +46,19 @@ public class IndexcardLogic {
      * @param name The Name of the Indexcard.
      * @param question  The Question of the Indexcard.
      * @param answer The Answer of the Indexcard.
-     */
-    public void createIndexcard(String name, String question, String answer) {
-        if (indexcardRepository.findIndexcardByName(name).isPresent()) {
-            throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
-        } else {
-            Indexcard indexcard = new Indexcard(name, question, answer);
-            indexcardRepository.saveIndexcard(indexcard);
-        }
-    }
-
-    /**
-     * Creates a new Indexcard and saves it in the database.
-     * If already an indexcard with the same name exists, it will throw a IllegalStateException.
-     *
-     * @param name The Name of the Indexcard.
-     * @param question  The Question of the Indexcard.
-     * @param answer The Answer of the Indexcard.
      * @param keywords Keywords which could be added to the Indexcard.
      */
-    public void createIndexcard(String name, String question, String answer, Keyword keyword) {
+    public void createIndexcard(String name, String question, String answer, List<Keyword> keywords) {
         if (indexcardRepository.findIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            Indexcard indexcard = new Indexcard(name, question, answer, keyword);
+            Indexcard indexcard = new Indexcard(name, question, answer, keywords);
             indexcardRepository.saveIndexcard(indexcard);
-        }
-    }
-    /**
-     * Edits a existing Indexcard and saves it in the database.
-     * If there is no indexcard with the given name, it will throw a IllegalStateException.
-     *
-     * @param name The Name of the Indexcard.
-     * @param question  The Question of the Indexcard.
-     * @param answer The Answer of the Indexcard.
-     */
-    public void EditIndexcard(String name, String question, String answer, Long id) {
-        if (indexcardRepository.findIndexcardById(id).isPresent()) {
-            Indexcard indexcard = new Indexcard(name, question, answer,null, id);
-            int checkvalue = indexcardRepository.updateIndexcard(indexcard);
-            if (checkvalue != 0) {
-                throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
-            }
         }
     }
 
     /**
-     * Edits a existing Indexcard and saves it in the database.
+     * Edits an existing Indexcard and saves it in the database.
      * If there is no indexcard with the given name, it will throw a IllegalStateException.
      *
      * @param name The Name of the Indexcard.
@@ -102,27 +67,31 @@ public class IndexcardLogic {
      * @param keyword The keywords of the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void EditIndexcard(String name, String question, String answer, Keyword keyword, Long id) {
+    public void editIndexcard(String name, String question, String answer, List<Keyword> keywords, Long id) {
         if (indexcardRepository.findIndexcardById(id).isPresent()) {
-            Indexcard indexcard = new Indexcard(name, question, answer, keyword, id);
+            Indexcard indexcard = new Indexcard(name, question, answer, keywords, id);
             int checkvalue = indexcardRepository.updateIndexcard(indexcard);
             if (checkvalue != 0) {
                 throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
             }
+        } else {
+            throw new IllegalStateException("Die zu bearbeitende Karteikarte exisitiert nicht.");
         }
     }
     /**
-     * Deletes a existing Indexcard and saves it in the database.
-     * If there is no indexcard with the given name, it will throw a IllegalStateException.
+     * Deletes an existing Indexcard and saves it in the database.
+     * If there is no indexcard with the given id, it will throw a IllegalStateException.
      *
-     * @param name The Name of the Indexcard.
+     * @param id The id of the Indexcard.
      */
-    public void DeleteIndexcard(Long id) {
+    public void deleteIndexcard(Long id) {
         if (indexcardRepository.findIndexcardById(id).isPresent()) {
             int checkvalue = indexcardRepository.deleteIndexcard(id);
             if (checkvalue != 0) {
-                throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
+                throw new IllegalStateException("Die Karteikarte konnte nicht verändert werden.");
             }
+        } else {
+            throw new IllegalStateException("Die zu löschende Karteikarte existiert nicht.");
         }
     }
 

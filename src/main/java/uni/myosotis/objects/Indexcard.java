@@ -15,37 +15,24 @@ public class Indexcard implements Serializable {
 
     String answer;
 
-    @ManyToOne
-    private Keyword keyword;
+    @ManyToMany
+    private List<Keyword> keywords;
 
     //@ManyToOne
     //private List<Category> categoryList;
+
     // id of the index card, needs to be unique within the persistence
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Indexcard(final String name, final String question, final String answer) {
+    public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords) {
 
         this.name = name;
         this.question = question;
         this.answer = answer;
+        this.keywords = keywords;
 
-    }
-
-    public Indexcard(final String name, final String question, final String answer, final Keyword keyword) {
-
-        this.name = name;
-        this.question = question;
-        this.answer = answer;
-        this.keyword = keyword;
-    }
-    public Indexcard(final String name, final String question, final String answer, final Keyword keyword, Long id) {
-        this.name = name;
-        this.question = question;
-        this.answer = answer;
-        this.keyword = keyword;
-        this.id = id;
     }
 
     public Indexcard () {
@@ -80,16 +67,12 @@ public class Indexcard implements Serializable {
         answer = newAnswer;
     }
 
-    public Keyword getKeyword() {
-        return keyword;
+    public List<Keyword> getKeywords() {
+        return keywords;
     }
 
-    public void setKeywords(final Keyword keyword) {
-        this.keyword = keyword;
-    }
-
-    public void emptyKeyword() {
-        this.keyword = null;
+    public void setKeywords(final List<Keyword> keywords) {
+        this.keywords = keywords;
     }
 
     //public void setCategoryList(final List<Category> categoryList) { this.categoryList = categoryList;}
