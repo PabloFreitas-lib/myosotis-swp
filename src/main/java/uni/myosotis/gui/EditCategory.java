@@ -6,8 +6,10 @@ import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 public class EditCategory extends JDialog {
     private JComboBox categoryBoxName;
@@ -17,8 +19,8 @@ public class EditCategory extends JDialog {
     private JPanel contentPane;
     private final Controller controller;
 
-    private String oldCategoryName;
-    private Category selectedCategory;
+    private String selectedCategoryName;
+    private Optional<Category> selectedCategory;
 
     private JList<String> indexcardsNamesList;
 
@@ -43,25 +45,26 @@ public class EditCategory extends JDialog {
         categoryBoxName.setModel(new DefaultComboBoxModel<>(allCategoriesNames));
         //ActionListener for the ComboBox
         categoryBoxName.addActionListener(e -> {
-            List<Category> allCategoriesList = controller.getAllCategories();
-            String categorySelectedName = (String) categoryBoxName.getSelectedItem();
-            for(int i = 0; i < allCategoriesList.size() ; i++){
-                if(Objects.equals(allCategoriesList.get(i).getCategoryName(), categorySelectedName)){
-                    selectedCategory = allCategoriesList.get(i);
-                }
-            }
-            //selectedCategory = controller.getCategoryByName((String) categoryBoxName.getSelectedItem());
-            if(selectedCategory != null){
-                // Set the indexCardsScrollPane with the Indexcards inside the Category.
-                //oldCategoryName = selectedCategory.get().getCategoryName();
-                //String[] indexcardsNames = controller.getAllIndexcards().stream().
-                  //      map(Indexcard::getName).toList().toArray(new String[0]);
+            selectedCategoryName = (String) categoryBoxName.getSelectedItem();
+            selectedCategory = controller.getCategoryByName(selectedCategoryName);
 
-                //String[] indexcardsNamesCategory = selectedCategory.getIndexcardList().toArray(new String[0]);
-                //indexcardsNamesList = new JList<>(indexcardsNamesCategory);
-                //indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                //indexcardsNamesList.setSelectedValue(indexcardsNamesCategory,true);
-                //indexCardsScrollPane.setViewportView(indexcardsNamesList);
+            if(selectedCategory.get() != null){
+                selectedCategory.get().getIndexcardList();
+                List<String> indexcardsNames = selectedCategory.get().getIndexcardList().stream().toList();
+                //String[] allIndexcardsNames = selectedCategory.get().getIndexcardList().stream().toList().toArray(new String[0]);
+                String[] allIndexcardsNames = controller.getAllIndexcards().stream().
+                        map(Indexcard::getName).toList().toArray(new String[0]);
+                List<String> allIndexcardsNamesList = controller.getAllIndexcards().stream().
+                        map(Indexcard::getName).toList();
+                indexcardsNamesList = new JList<>(allIndexcardsNames);
+                ArrayList<Integer> indices = new ArrayList<>();
+                indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                for(int i = 0; i < indexcardsNames.size(); i++) {
+                    indices.add(allIndexcardsNamesList.indexOf(indexcardsNames.get(i)));
+                }
+                int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
+                indexcardsNamesList.setSelectedIndices(indicesArray);
+                indexCardsScrollPane.setViewportView(indexcardsNamesList);
             }
             else {
                 String[] indexcardsNames = controller.getAllIndexcards().stream().
@@ -71,11 +74,6 @@ public class EditCategory extends JDialog {
                 indexCardsScrollPane.setViewportView(indexcardsNamesList);
             }
         });
-        //Set old values
-
-        //textAreaQuestion.setText(oldQuestion);
-        //textAreaAnswer.setText(oldAnswer);
-        //textAreaKeyword.setText(oldKeywords);
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -111,10 +109,10 @@ public class EditCategory extends JDialog {
      */
     private void onOK() {
         //Old Parameters
-        //final Category oldCategory = controller.getCategoryByName(oldCategoryName).get();
-        //Keyword oldKeyword = oldCategory.getKeyword();
-        //final Long oldCategoryId = oldCategory.getId();
-
+        if(selectedCategory.isPresent()) {
+            controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList());
+            dispose();
+        }
 
     }
     /**

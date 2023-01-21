@@ -1,6 +1,8 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Category;
+import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.List;
@@ -132,6 +134,34 @@ public class CategoryLogic {
      */
     public void deleteIndexcardFromCategory(Category category, List<String> indexcards) {
         categoryRepository.updateCategory(category, category.getCategoryName(), indexcards);
+    }
+
+    /**
+     * Edits an existing Category and saves it in the database.
+     * If there is no Category with the given name, it will throw a IllegalStateException.
+     *
+     * @param name The Name of the Category.
+     * @param indexCardsNameList  The Question of the Category.
+     */
+    public void updateCategory(String name, List<String> indexCardsNameList) {
+        if (categoryRepository.getCategoryByName(name).isPresent()) {
+            Category category2Edit = categoryRepository.getCategoryByName(name).get();
+
+            // Updates all values of the old category2Edit.
+            category2Edit.setName(name);
+            category2Edit.setIndexcardList(indexCardsNameList);
+
+
+            // Update in database failed.
+            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
+                throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
+            }
+
+        }
+        // Invalid id, Category does not exist.
+        else {
+            throw new IllegalStateException("Die zu bearbeitende Kategorie existiert nicht.");
+        }
     }
 
 }

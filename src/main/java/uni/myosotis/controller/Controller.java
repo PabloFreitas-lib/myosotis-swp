@@ -358,6 +358,28 @@ public class Controller {
     }
 
     /**
+     * Delegates the exercise to delete an existing Category to the CategoryLogic.
+     * Displays an error, if no Category with the same name exists.
+     *
+     * @param name The name of the Category.
+     */
+    public void deleteCategory(String name, boolean silentMode){
+        try {
+            categoryLogic.deleteCategory(name);
+            if (!silentMode) {
+                JOptionPane.showMessageDialog(mainMenu,
+                        "Die Kategorie wurde erfolgreich gelöscht.", "Kategorie gelöscht",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Kategorie mit diesem Namen!.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
      * Delegates the exercise to find all Indexcards to the IndexcardLogic.
      *
      * @return A list of all Indexcards.
@@ -439,11 +461,29 @@ public class Controller {
 
     // END OF CLASS
 
+    /**
+     * Delegates the exercise to edit an Category to the CategoryLogic.
+     * Displays an error, if there is no Category with the given name.
+     *
+     * @param name The name of the Category.
+     * @param indexCardListNames The question of the Category.
+     */
+    public void editCategory(String name, List<String> indexCardListNames) {
+        try {
+            //Optional<Category> category2Edit = getCategoryByName(name);
+            // Create new added Keywords
+            categoryLogic.updateCategory(name, indexCardListNames);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
+                    JOptionPane.INFORMATION_MESSAGE);
 
-
-
-
-
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
 
