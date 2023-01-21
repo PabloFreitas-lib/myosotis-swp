@@ -144,6 +144,11 @@ public class MainMenu extends JFrame {
         final JMenuItem editCategory = new JMenuItem("Bearbeiten");
         editCategory.addActionListener(e -> controller.editCategory());
 
+        final JMenu glossarMenu = new JMenu("Glossar");
+        final JMenuItem showGlossar = new JMenuItem("Zeigen");
+        showGlossar.addActionListener(e -> controller.showGlossar());
+
+
         indexcardMenu.add(createIndexcard);
         indexcardMenu.addSeparator();
         indexcardMenu.add(editIndexcard);
@@ -157,8 +162,12 @@ public class MainMenu extends JFrame {
         categoryMenu.add(deleteCategory);
         categoryMenu.addSeparator();
 
+        glossarMenu.add(showGlossar);
+        glossarMenu.addSeparator();
+
         menuBar.add(indexcardMenu);
         menuBar.add(categoryMenu);
+        menuBar.add(glossarMenu);
         createExampleIndexcards(); //TODO: Remove this line FIXME
         setJMenuBar(menuBar);
     }
@@ -259,18 +268,32 @@ public class MainMenu extends JFrame {
     public void createExampleIndexcards(){
 
 
-        /*controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}),true);
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}),true);
         controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}),true);
         controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
-        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}),true);
-        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}),true);
-        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikart4","Testkarteikarte6"}),true);
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte6"}),true);
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
-        controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikart7"}),true);
-        controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikart4","Testkarteikarte6"}),true);
+        controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),true);
+        controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}),true);
         controller.deleteCategory("CategoryTest2Delete",true);
-        */
+
+
     }
+
+    /**
+     * Displays the Dialog to create a new Glossar.
+     */
+    public void displayCreateGlossar() {
+        final Glossar createGlossar = new Glossar(controller);
+        createGlossar.pack();
+        createGlossar.setMinimumSize(createGlossar.getSize());
+        createGlossar.setSize(400, 300);
+        createGlossar.setLocationRelativeTo(this);
+        createGlossar.setVisible(true);
+    }
+
 }

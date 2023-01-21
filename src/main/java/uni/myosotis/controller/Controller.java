@@ -1,5 +1,6 @@
 package uni.myosotis.controller;
 
+import com.sun.tools.javac.Main;
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.CategoryLogic;
 import uni.myosotis.logic.IndexcardLogic;
@@ -281,35 +282,35 @@ public class Controller {
 
     /**
      * Delegates the exercise to create a new Category to the CategoryLogic.
-     * Displays an error, if already a Category with the same name exists.
+     * Displays an error, if already a Category with the same categoryName exists.
      *
-     * @param name The name of the Category.
+     * @param categoryName The categoryName of the Category.
      * @param indexcardList The Indexcards that should be in this Category.
      */
-    public void createCategory(String name, List<String> indexcardList){
+    public void createCategory(String categoryName, List<String> indexcardList){
         try {
-            categoryLogic.createCategory(name,indexcardList);
+            categoryLogic.createCategory(categoryName,indexcardList);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen.", "Name bereits vergeben",
+                    "Es existiert bereits eine Kategorie mit diesem Namen." + e.toString(), "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
      * Delegates the exercise to create a new Category to the CategoryLogic.
-     * Displays an error, if already a Category with the same name exists.
+     * Displays an error, if already a Category with the same categoryName exists.
      *
-     * @param name The name of the Category.
+     * @param categoryName The categoryName of the Category.
      * @param indexcardList The Indexcards that should be in this Category.
      */
-    public void createCategory(String name, List<String> indexcardList, boolean silentMode){
+    public void createCategory(String categoryName, List<String> indexcardList, boolean silentMode){
         try {
-            categoryLogic.createCategory(name,indexcardList);
+            categoryLogic.createCategory(categoryName,indexcardList);
             if (!silentMode) {
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
@@ -318,7 +319,7 @@ public class Controller {
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen.", "Name bereits vergeben",
+                    "Es existiert bereits eine Kategorie mit diesem Namen. " + e.toString(), "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -470,8 +471,6 @@ public class Controller {
      */
     public void editCategory(String name, List<String> indexCardListNames) {
         try {
-            //Optional<Category> category2Edit = getCategoryByName(name);
-            // Create new added Keywords
             categoryLogic.updateCategory(name, indexCardListNames);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
@@ -483,6 +482,13 @@ public class Controller {
                     "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
                     JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    /**
+     * Displays glossar.
+     */
+    public void showGlossar(){
+        mainMenu.displayCreateGlossar();
     }
 
 

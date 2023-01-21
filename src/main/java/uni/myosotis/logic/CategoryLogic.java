@@ -5,6 +5,7 @@ import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.CategoryRepository;
 
+import javax.swing.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,28 +16,34 @@ public class CategoryLogic {
      */
     final CategoryRepository categoryRepository;
 
+    final IndexcardLogic indexcardLogic;
+
     /**
      * Creates a new CategoryLogic.
      */
     public CategoryLogic () {
+
         this.categoryRepository = new CategoryRepository();
+        this.indexcardLogic = new IndexcardLogic();
     }
 
 
 
     /**
      * Creates a new Category and saves it in the database.
-     * If already a Category with the same name exists, it will throw a IllegalStateException.
+     * If already a Category with the same categoryName exists, it will throw a IllegalStateException.
      *
-     * @param name The name of the Category.
-     * @param indexcards The Indexcards in this Category.
+     * @param categoryName The categoryName of the Category.
+     * @param indexcardList The Indexcards in this Category.
      */
-    public void createCategory(String name, List<String> indexcards) {
+    public void createCategory(String categoryName, List<String> indexcardList) {
+        for(int i = 0; i < indexcardList.size(); i++)
+            indexcardLogic.updateCategoryFromIndexcard(indexcardList.get(i),categoryName);
 
-        if (CategoryIsPresent(name)) {
-            addIndexcardsToCategory(name,indexcards);
+        if (CategoryIsPresent(categoryName)) {
+            addIndexcardsToCategory(categoryName,indexcardList);
         } else {
-            Category category = new Category(name, indexcards);
+            Category category = new Category(categoryName, indexcardList);
             categoryRepository.saveCategory(category);
         }
     }
@@ -101,9 +108,14 @@ public class CategoryLogic {
      */
     public void deleteCategory(String name) {
         if (CategoryIsPresent(name)) {
+            Category category2delete = getCategoryByName(name).get();
+            List<String> indexCardsNameList = category2delete.getIndexcardList();
+            for(int i = 0; i < indexCardsNameList.size(); i++)
+                indexcardLogic.removeCategoryFromIndexcard(indexCardsNameList.get(i),name);
             if (categoryRepository.deleteCategory(name) < 0) {
                 throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
             }
+
         }
     }
 
@@ -156,6 +168,10 @@ public class CategoryLogic {
             if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
                 throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
             }
+
+            // Update the indexCards categories
+            for(int i = 0; i < indexCardsNameList.size(); i++)
+                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
 
         }
         // Invalid id, Category does not exist.
