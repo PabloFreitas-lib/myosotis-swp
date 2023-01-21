@@ -61,12 +61,12 @@
           <text value="Karteikarten"/>
         </properties>
       </component>
-      <component id="417ea" class="javax.swing.JButton" binding="filternButton" default-binding="true">
+      <component id="417ea" class="javax.swing.JButton" binding="filternKeyword">
         <constraints>
           <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="Filtern"/>
+          <text value="Filtern Keyword"/>
         </properties>
       </component>
       <component id="a5a2e" class="javax.swing.JComboBox" binding="CategoryComboBox">

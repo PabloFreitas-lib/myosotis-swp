@@ -1,21 +1,20 @@
 package uni.myosotis.logic;
 
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
 import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-
 public class CategoryLogic {
+
     /**
-     * The repository for the Categorys.
+     * The repository for the Category's.
      */
     final CategoryRepository categoryRepository;
 
     /**
-     * Creates a new CategorysLogic.
+     * Creates a new CategoryLogic.
      */
     public CategoryLogic () {
         this.categoryRepository = new CategoryRepository();
@@ -24,29 +23,29 @@ public class CategoryLogic {
 
 
     /**
-     * Creates a new Keyword and saves it in the database.
-     * If already a Keyword with the same word exists, it will throw a IllegalStateException.
+     * Creates a new Category and saves it in the database.
+     * If already a Category with the same name exists, it will throw a IllegalStateException.
      *
-     * @param word The word of the Keyword.
-     * @param indexcard The name of the Indexcard.
+     * @param name The name of the Category.
+     * @param indexcards The Indexcards in this Category.
      */
-    public void createCategory(String word, List<String> indexcards) {
+    public void createCategory(String name, List<String> indexcards) {
 
-        if (CategoryIsPresent(word)) {
-            addIndexcardToCategory(word,indexcards);
+        if (CategoryIsPresent(name)) {
+            addIndexcardsToCategory(name,indexcards);
         } else {
-            Category category = new Category(word, indexcards);
+            Category category = new Category(name, indexcards);
             categoryRepository.saveCategory(category);
         }
     }
 
     /**
-     * Adds an Indexcard to a Keyword.
-     * @param word The word of the Keyword.
-     * @param indexcard The Indexcard which should be added.
+     * Adds Indexcard to a Category.
+     * @param name The name of the Category.
+     * @param indexcards The Indexcards which should be added.
      */
-    public void addIndexcardToCategory(String word, List<String> indexcards) {
-        Optional<Category> category = categoryRepository.getCategoryByName(word);
+    public void addIndexcardsToCategory(String name, List<String> indexcards) {
+        Optional<Category> category = categoryRepository.getCategoryByName(name);
         if (category.isPresent()) {
             Category category1 = category.get();
             category1.setIndexcardList(indexcards);
@@ -55,33 +54,35 @@ public class CategoryLogic {
     }
     /**
      * Returns if the Category already exists.
-     * @param word The word of the Category.
+     * @param name The name of the Category.
      */
-    public Boolean CategoryIsPresent(String word) {
-        return categoryRepository.getCategoryByName(word).isPresent();
+    public Boolean CategoryIsPresent(String name) {
+        return categoryRepository.getCategoryByName(name).isPresent();
     }
 
     /**
-     * edits the word of a Category.
-     * @param word
-     * @param newWord
+     * Edits the name of a Category.
+     * @param name The current name of the Category
+     * @param newName The new name of the Category
      */
-    public void editCategoryWord(String word, String newWord) {
-        Optional<Category> Category = getCategoryByName(word);
+    public void editCategoryName(String name, String newName) {
+        Optional<Category> Category = getCategoryByName(name);
         if (Category.isPresent()) {
-            Category.get().setName(newWord);
-            categoryRepository.updateCategory(Category.get(), newWord, Category.get().getIndexcardList());
+            Category.get().setName(newName);
+            categoryRepository.updateCategory(Category.get(), newName, Category.get().getIndexcardList());
         } else {
             throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
         }
     }
+
     /**
-     * edits the Indexcards of a Category.
-     * @param word
-     * @param indexcards
+     * Edits the Indexcards of a Category.
+     *
+     * @param name The name of the Category.
+     * @param indexcards The updated Indexcards.
      */
-    public void editCategoryIndexcards(String word, List<String> indexcards) {
-        Optional<Category> Category = getCategoryByName(word);
+    public void editCategoryIndexcards(String name, List<String> indexcards) {
+        Optional<Category> Category = getCategoryByName(name);
         if (Category.isPresent()) {
             Category.get().setIndexcardList(indexcards);
             categoryRepository.updateCategory(Category.get(), Category.get().getCategoryName(), indexcards);
@@ -91,33 +92,32 @@ public class CategoryLogic {
     }
 
     /**
-     * Deletes an existing Category and saves it in the database.
-     * If there is no Category with the given word, it will throw a IllegalStateException.
+     * Deletes an existing Category from the database.
+     * If there is no Category with the given name, it will throw a IllegalStateException.
      *
-     * @param word The word of the Category.
+     * @param name The name of the Category.
      */
-    public void deleteCategory(String word) {
-        if (CategoryIsPresent(word)) {
-            int checkvalue = categoryRepository.deleteCategory(word);
-            if (checkvalue != 0) {
+    public void deleteCategory(String name) {
+        if (CategoryIsPresent(name)) {
+            if (categoryRepository.deleteCategory(name) < 0) {
                 throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
             }
         }
     }
 
     /**
-     * Returns all Indexcards.
+     * Returns all Category's.
      *
-     * @return All Indexcards.
+     * @return All Category's.
      */
     public List<Category> getAllCategories() {
         return categoryRepository.getAllCategories();
     }
 
     /**
-     * Return the category with the given word.
+     * Return the category with the given name.
      *
-     * @param category The word of the category.
+     * @param category The name of the category.
      * @return The category if it exists.
      */
     public Optional<Category> getCategoryByName(String category) {
@@ -125,32 +125,13 @@ public class CategoryLogic {
     }
 
     /**
-     * Returns CategoryRepository.
+     * Deletes specific Indexcards from a category.
      *
-     * @return CategoryRepository
-     */
-    public CategoryRepository getCategoryRepository() {
-        return categoryRepository;
-    }
-
-    /**
-     * Deletes a specific Indexcard from a category.
-     * @param category
-     * @param indexcards
+     * @param category The Category
+     * @param indexcards The indexcards
      */
     public void deleteIndexcardFromCategory(Category category, List<String> indexcards) {
         categoryRepository.updateCategory(category, category.getCategoryName(), indexcards);
     }
 
-    public void updateCategoryName(Category category, String name) {
-        categoryRepository.updateCategory(category, name, category.getIndexcardList());
-    }
-
-    public Category getCategoryByWord(String categoryName) {
-        if(categoryRepository.getCategoryByName(categoryName).isPresent()) {
-            return categoryRepository.getCategoryByName(categoryName).get();
-        } else {
-            throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
-        }
-    }
 }

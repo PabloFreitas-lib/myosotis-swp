@@ -71,16 +71,13 @@ public class CreateCategory extends JDialog{
         final List<String> selectedItems = indexcardsNamesList.getSelectedValuesList();
         if (!name.isBlank() && !selectedItems.isEmpty()){
             controller.createCategory(name, selectedItems);
+            controller.setIndexCardPanel();
+            controller.setKeywordComboBox();
+            controller.setCategoryComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Kategorie nicht erstellt.", JOptionPane.ERROR_MESSAGE);
         }
-        controller.setIndexCardPanel();
-        controller.setKeywordComboBox();
-        controller.setCategoryComboBox();
-        dispose();
-
-
     }
 
     /**
