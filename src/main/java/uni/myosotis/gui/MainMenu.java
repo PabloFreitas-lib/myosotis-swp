@@ -15,7 +15,7 @@ public class MainMenu extends JFrame {
     private JComboBox KeywordComboBox;
     private JLabel SchlagwortLabel;
     private JLabel KarteikartenLabel;
-    private JButton filternButton;
+    private JButton filternKeyword;
     private JComboBox CategoryComboBox;
     private JButton filternCategory;
     private JButton filternEntfernenButton;
@@ -44,7 +44,7 @@ public class MainMenu extends JFrame {
                 onCancel();
             }
         });
-        filternButton.addActionListener(new ActionListener() {
+        filternKeyword.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onFiltern();
             }
@@ -63,19 +63,19 @@ public class MainMenu extends JFrame {
     }
 
     /**
-     * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
+     * Filters on a Keyword. If no keyword is select, an error will be displayed.
      */
     private void onFiltern() {
         String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
         if (keyword2Filtern != null) {
             controller.filterIndexCardPanelByKeyword(keyword2Filtern);
         } else {
-            JOptionPane.showMessageDialog(this, "Keine Keyword ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Kein Keyword ausgewählt.", "Filtern nicht möglich", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     /**
-     * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
+     * Filters on a Category. If no Category is select, an error will be displayed.
      */
     private void onFilternCategory() {
         String category2Filtern = (String) CategoryComboBox.getSelectedItem();
@@ -87,7 +87,7 @@ public class MainMenu extends JFrame {
     }
 
     /**
-     * Filtern a Keyword. If no Indexcard is select, an error will be displayed.
+     * Removes the used filters.
      */
     private void onRemoveFiltern() {
         List<Indexcard> indexcardList = controller.getAllIndexcards();
@@ -100,7 +100,7 @@ public class MainMenu extends JFrame {
     }
 
     /**
-     * Display all Keyword in the ComboBox.
+     * Display all Keywords in the ComboBox.
      */
     public void setKeywordComboBox(){
         //list of all indexcards
@@ -112,7 +112,7 @@ public class MainMenu extends JFrame {
     }
 
     /**
-     * Display all Category in the ComboBox.
+     * Display all Category's in the ComboBox.
      */
     public void setCategoryComboBox(){
         //list of all indexcards
@@ -241,12 +241,9 @@ public class MainMenu extends JFrame {
         deleteCategory.setVisible(true);
     }
 
-
     public JScrollPane getIndexcardsPane(){
         return this.IndexcardsPane;
     }
-
-
 
     public JComboBox getKeywordComboBox(){
         return this.KeywordComboBox;
@@ -255,6 +252,7 @@ public class MainMenu extends JFrame {
     public void setKeywordComboBox(JComboBox keywordComboBox) {
         this.KeywordComboBox = keywordComboBox;
     }
+
     /**
      * Creates a ExampleMenu for Testing and Development (This is used without any notification).
      */

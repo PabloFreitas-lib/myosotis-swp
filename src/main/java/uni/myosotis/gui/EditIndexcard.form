@@ -81,7 +81,7 @@
               <text value="Antwort"/>
             </properties>
           </component>
-          <component id="22d0b" class="javax.swing.JRadioButton" binding="radioButtonDeleteStatisic">
+          <component id="22d0b" class="javax.swing.JRadioButton" binding="radioButtonDeleteStatistic">
             <constraints>
               <grid row="5" column="1" row-span="1" col-span="10" vsize-policy="6" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

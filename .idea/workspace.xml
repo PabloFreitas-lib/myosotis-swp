@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DeleteCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
-    </list>
+    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="" />
     <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
