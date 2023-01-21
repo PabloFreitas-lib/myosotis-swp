@@ -259,7 +259,7 @@ public class MainMenu extends JFrame {
     public void createExampleIndexcards(){
 
 
-        controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
+        /*controller.createIndexcard("Testkarteikarte", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
         controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
         controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
@@ -269,6 +269,6 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikart7"}),true);
-
+        */
     }
 }
