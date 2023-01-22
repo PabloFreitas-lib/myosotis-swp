@@ -1,13 +1,16 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Category;
+import uni.myosotis.objects.CategoryGraph;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.CategoryRepository;
 
 import javax.swing.*;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class CategoryLogic {
 
@@ -25,6 +28,39 @@ public class CategoryLogic {
 
         this.categoryRepository = new CategoryRepository();
         this.indexcardLogic = new IndexcardLogic();
+    }
+
+    /**
+     * Search for a category in a CategoryGraph
+     */
+    public Category search(CategoryGraph graph, String name) {
+        Set<Category> visited = new HashSet<>();
+        for (Category root : graph.getRoots()) {
+            Category result = DFS(root, name, visited);
+            if (result != null) {
+                return result;
+            }
+        }
+        return null;
+    }
+    /**
+     * Search for a category in a CategoryGraph DFS
+     * FIXME
+     */
+    private Category DFS(Category node, String name, Set<Category> visited) {
+        if (node.getCategoryName().equals(name)) {
+            return node;
+        }
+        visited.add(node);
+        //for (Category child : graph.getChildren(node)) {
+        //    if (!visited.contains(child)) {
+         //       Category result = DFS(child, name, visited);
+        //        if (result != null) {
+        //            return result;
+        //        }
+        //    }
+        //}
+        return null;
     }
 
 
@@ -56,9 +92,9 @@ public class CategoryLogic {
     public void addIndexcardsToCategory(String name, List<String> indexcards) {
         Optional<Category> category = categoryRepository.getCategoryByName(name);
         if (category.isPresent()) {
-            Category category1 = category.get();
-            category1.setIndexcardList(indexcards);
-            categoryRepository.saveCategory(category1);
+            Category category2Save = category.get();
+            category2Save.setIndexcardList(indexcards);
+            categoryRepository.saveCategory(category2Save);
         }
     }
     /**
@@ -75,10 +111,10 @@ public class CategoryLogic {
      * @param newName The new name of the Category
      */
     public void editCategoryName(String name, String newName) {
-        Optional<Category> Category = getCategoryByName(name);
-        if (Category.isPresent()) {
-            Category.get().setName(newName);
-            categoryRepository.updateCategory(Category.get(), newName, Category.get().getIndexcardList());
+        Optional<Category> category = getCategoryByName(name);
+        if (category.isPresent()) {
+            category.get().setName(newName);
+            categoryRepository.updateCategory(category.get(), newName, category.get().getIndexcardList());
         } else {
             throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
         }
@@ -116,7 +152,6 @@ public class CategoryLogic {
             if (categoryRepository.deleteCategory(categoryName) < 0) {
                 throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
             }
-
         }
     }
 
