@@ -1,6 +1,8 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import uni.myosotis.objects.CategoryGraph;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
 
@@ -11,6 +13,7 @@ import java.util.Optional;
 public class CategoryRepository {
 
     private final PersistenceManager pm = new PersistenceManager();
+
 
     /**
      * This method is used to save an object of type "category" to the persistent
@@ -31,6 +34,7 @@ public class CategoryRepository {
         }
         return 0;
     }
+
 
     /**
      * This method is used to update an object of type "Category" to the persistent
@@ -65,9 +69,13 @@ public class CategoryRepository {
      */
     public Optional<Category> getCategoryByName(final String name) {
         try (final EntityManager em = pm.getEntityManager()) {
-            return Optional.ofNullable(em.find(Category.class, name));
+            return Optional.ofNullable(em.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class).setParameter("name", name).getSingleResult());
+        }
+         catch (NoResultException e) {
+            return Optional.empty();
         }
     }
+
     /**
      * This method is used to get all objects of type "Category" in the persistent
      * persistence storage.
@@ -89,13 +97,16 @@ public class CategoryRepository {
      * @return          Status, -1 means an error has been occurred on delete.
      */
     public int deleteCategory(final String name) {
-        try (final EntityManager em = pm.getEntityManager()) {
+        final EntityManager em = pm.getEntityManager();
+        try {
             em.getTransaction().begin();
-            em.remove(em.find(Category.class, name));
+            Category category = getCategoryByName(name).get();
+            category = em.find(Category.class, category.getId());
+            em.remove(category);
             em.getTransaction().commit();
-        }
-        catch (Exception e) {
-            return -1;
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
         }
         return 0;
     }
@@ -109,4 +120,5 @@ public class CategoryRepository {
             return indexcards;
         }
     }
+
 }
