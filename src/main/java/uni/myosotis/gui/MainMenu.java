@@ -266,8 +266,6 @@ public class MainMenu extends JFrame {
      * Creates a ExampleMenu for Testing and Development (This is used without any notification).
      */
     public void createExampleIndexcards(){
-
-
         controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}),true);
         controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}),true);
         controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
@@ -280,8 +278,6 @@ public class MainMenu extends JFrame {
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),true);
         controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}),true);
         controller.deleteCategory("CategoryTest2Delete",true);
-
-
     }
 
     /**
