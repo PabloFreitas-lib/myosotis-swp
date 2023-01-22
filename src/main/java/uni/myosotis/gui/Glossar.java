@@ -63,6 +63,9 @@ public class Glossar extends JDialog {
             }
         });
     }
+    public JPanel getGlossarPane(){
+        return contentPane;
+    }
 
     private void onFilternEntfernen() {
         setGlossar();

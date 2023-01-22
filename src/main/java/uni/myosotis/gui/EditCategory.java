@@ -17,6 +17,7 @@ public class EditCategory extends JDialog {
     private JButton buttonCancel;
     private JScrollPane indexCardsScrollPane;
     private JPanel contentPane;
+    private JTree tree1;
     private final Controller controller;
 
     private String selectedCategoryName;

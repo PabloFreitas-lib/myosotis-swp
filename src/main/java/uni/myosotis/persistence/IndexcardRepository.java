@@ -123,4 +123,11 @@ public class IndexcardRepository {
     }
 
 
+    public List<Indexcard> searchIndexcard(String text) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM Indexcard i WHERE LOWER(i.name) LIKE :text", Indexcard.class)
+                    .setParameter("text", "%" + text.toLowerCase() + "%")
+                    .getResultList();
+        }
+    }
 }

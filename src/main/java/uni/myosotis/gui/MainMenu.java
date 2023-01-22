@@ -4,12 +4,25 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
 
 public class MainMenu extends JFrame {
-    private JPanel contentPane;
+    private JTabbedPane tabbedPane;
+
+    private JPanel statistikPane;
+    private JPanel categoriePane;
+
+    private JPanel keywordPane;
+
+    private JPanel indexcardPane;
+    private JPanel glossarPane;
+    private JPanel filterPane;
+
+    private JPanel settingsPanel;
+
     private JScrollPane IndexcardsPane;
     //private DefaultComboBoxModel<String> keywordModel = new DefaultComboBoxModel<>();
     private JComboBox KeywordComboBox;
@@ -29,7 +42,9 @@ public class MainMenu extends JFrame {
      */
     public MainMenu(final Controller controller) {
         this.controller = controller;
-        setContentPane(contentPane);
+        //Tabs
+        tabbedPane = new JTabbedPane();
+        setContentPane(tabbedPane);
         setTitle("Myosotis");
         createMenu();
         setKeywordComboBox();
@@ -60,6 +75,26 @@ public class MainMenu extends JFrame {
                 onRemoveFiltern();
             }
         });
+
+        //Add all the Tabs
+        Glossar glossar = new Glossar(controller);
+        glossarPane = glossar.getGlossarPane();
+
+        IndexcardTab indexcardTab = new IndexcardTab(controller);
+        indexcardPane = indexcardTab.getIndexcardPane();
+
+        statistikPane = new JPanel();
+        categoriePane = new JPanel();
+        keywordPane = new JPanel();
+
+        settingsPanel = new JPanel();
+        tabbedPane.addTab("Glossar", glossarPane);
+        tabbedPane.addTab("Statistiken", statistikPane);
+        tabbedPane.addTab("Kategorien", categoriePane);
+        tabbedPane.addTab("Schlagworte", keywordPane);
+        tabbedPane.addTab("Karteikarten", indexcardPane);
+        tabbedPane.addTab("Filter", filterPane);
+        tabbedPane.addTab("Einstellungen", settingsPanel);
     }
 
     /**
@@ -128,14 +163,6 @@ public class MainMenu extends JFrame {
      */
     private void createMenu() {
         final JMenuBar menuBar = new JMenuBar();
-        final JMenu indexcardMenu = new JMenu("Karteikarte");
-        final JMenuItem createIndexcard = new JMenuItem("Erstellen");
-        createIndexcard.addActionListener(e -> controller.createIndexcard());
-        final JMenuItem editIndexcard = new JMenuItem("Bearbeiten");
-        editIndexcard.addActionListener(e -> controller.editIndexcard());
-        final JMenuItem deleteIndexcard = new JMenuItem("Entfernen");
-        deleteIndexcard.addActionListener(e -> controller.deleteIndexcard());
-
         final JMenu categoryMenu = new JMenu("Kategorie");
         final JMenuItem createCategory = new JMenuItem("Erstellen");
         createCategory.addActionListener(e -> controller.createCategory());
@@ -146,14 +173,6 @@ public class MainMenu extends JFrame {
 
         final JMenu glossarMenu = new JMenu("Glossar");
         final JMenuItem showGlossar = new JMenuItem("Zeigen");
-        showGlossar.addActionListener(e -> controller.showGlossar());
-
-
-        indexcardMenu.add(createIndexcard);
-        indexcardMenu.addSeparator();
-        indexcardMenu.add(editIndexcard);
-        indexcardMenu.addSeparator();
-        indexcardMenu.add(deleteIndexcard);
 
         categoryMenu.add(createCategory);
         categoryMenu.addSeparator();
@@ -165,7 +184,6 @@ public class MainMenu extends JFrame {
         glossarMenu.add(showGlossar);
         glossarMenu.addSeparator();
 
-        menuBar.add(indexcardMenu);
         menuBar.add(categoryMenu);
         menuBar.add(glossarMenu);
         createExampleIndexcards(); //TODO: Remove this line FIXME
@@ -201,6 +219,15 @@ public class MainMenu extends JFrame {
         editIndexcard.setMinimumSize(editIndexcard.getSize());
         editIndexcard.setSize(400, 300);
         editIndexcard.setLocationRelativeTo(this);
+        editIndexcard.setVisible(true);
+    }
+    public void displayEditIndexcard(Indexcard indexcard) {
+        final EditIndexcard editIndexcard = new EditIndexcard(controller);
+        editIndexcard.pack();
+        editIndexcard.setMinimumSize(editIndexcard.getSize());
+        editIndexcard.setSize(400, 300);
+        editIndexcard.setLocationRelativeTo(this);
+        editIndexcard.setIndexcard(indexcard);
         editIndexcard.setVisible(true);
     }
 
@@ -278,18 +305,6 @@ public class MainMenu extends JFrame {
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),true);
         controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}),true);
         controller.deleteCategory("CategoryTest2Delete",true);
-    }
-
-    /**
-     * Displays the Dialog to create a new Glossar.
-     */
-    public void displayCreateGlossar() {
-        final Glossar createGlossar = new Glossar(controller);
-        createGlossar.pack();
-        createGlossar.setMinimumSize(createGlossar.getSize());
-        createGlossar.setSize(400, 300);
-        createGlossar.setLocationRelativeTo(this);
-        createGlossar.setVisible(true);
     }
 
 }

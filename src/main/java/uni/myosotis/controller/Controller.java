@@ -139,6 +139,10 @@ public class Controller {
         mainMenu.displayEditIndexcard();
     }
 
+    public void editIndexcard(Indexcard indexcard) {
+        mainMenu.displayEditIndexcard(indexcard);
+    }
+
     /**
      * Delegates the exercise to edit an Indexcard to the IndexcardLogic.
      * Displays an error, if there is no Indexcard with the given name.
@@ -483,18 +487,13 @@ public class Controller {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-
-    /**
-     * Displays glossar.
-     */
-    public void showGlossar(){
-        mainMenu.displayCreateGlossar();
-    }
-
     public void setFilterInGlossar(){
 
     }
 
+    public List<Indexcard> searchIndexcard(String text) {
+        return indexcardLogic.searchIndexcard(text);
+    }
 
 
     /**

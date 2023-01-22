@@ -84,6 +84,7 @@ public class EditIndexcard extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
+
     /**
      * When the OK-Button is pressed, the Indexcard is edited.
      */
@@ -126,6 +127,14 @@ public class EditIndexcard extends JDialog {
 
         controller.setKeywordComboBox();
         controller.setIndexCardPanel();
+    }
+
+    /**
+     * Sets a indexcard to edit by setting the ComboBox to the indexcard name.
+     * @param indexcard
+     */
+    public void setIndexcard(Indexcard indexcard){
+        comboBoxName.setSelectedItem(indexcard.getName());
     }
     /**
      * When the Cancel-Button is pressed, the Dialog is closed.

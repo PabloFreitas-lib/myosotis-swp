@@ -211,4 +211,8 @@ public class IndexcardLogic {
             throw new IllegalStateException("Die zu bearbeitende Karteikarte existiert nicht." + indexCardName);
         }
     }
+
+    public List<Indexcard> searchIndexcard(String text) {
+        return indexcardRepository.searchIndexcard(text);
+    }
 }

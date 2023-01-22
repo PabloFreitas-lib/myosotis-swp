@@ -14,6 +14,5 @@ public class App {
         final CategoryLogic categoryLogic = new CategoryLogic();
         final Controller controller = new Controller(indexcardLogic, keywordLogic, categoryLogic);
         controller.startApplication();
-
     }
 }
