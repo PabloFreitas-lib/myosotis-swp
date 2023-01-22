@@ -59,6 +59,10 @@ public class IndexcardTab extends JDialog{
         });
     }
 
+    /**
+     * Updates the list of indexcards
+     * @param indexcards the list of indexcards to be displayed
+     */
     private void onRemoveFilter() {
         updateList(controller.getAllIndexcards());
     }
@@ -105,19 +109,30 @@ public class IndexcardTab extends JDialog{
             controller.editIndexcard();
         }
     }
-
+    /**
+     * Opens the dialog to create a new indexcard
+     */
     private void onCreate() {
         controller.createIndexcard();
         updateList(controller.getAllIndexcards());
     }
-
+    /**
+     * Checks if the user has entered a search term
+     * If so it searches for indexcards with the search term in the name
+     * If not it displays all indexcards
+     */
     private void onSearch(){
         updateList(controller.searchIndexcard(textField1.getText()));
     }
-
+    /**
+     * returns the contentPane
+     */
     public JPanel getIndexcardPane() {
         return contentPane;
     }
+    /**
+     * closes the dialog
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

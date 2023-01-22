@@ -44,6 +44,10 @@ public class DisplayIndexcard  extends JDialog{
             }
         });
     }
+    /**
+     * This method is called when the user clicks the "Answered" button.
+     * It shows the answer.
+     */
 
     private void onAnswered(Indexcard indexcard) {
         answerLabel.setText(indexcard.getAnswer());

@@ -221,6 +221,10 @@ public class MainMenu extends JFrame {
         editIndexcard.setLocationRelativeTo(this);
         editIndexcard.setVisible(true);
     }
+    /**
+     * Displays the Dialog to create a new Category.
+     * @param indexcard The Indexcard which is preset to be edited
+     */
     public void displayEditIndexcard(Indexcard indexcard) {
         final EditIndexcard editIndexcard = new EditIndexcard(controller);
         editIndexcard.pack();
