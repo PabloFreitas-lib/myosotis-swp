@@ -102,17 +102,18 @@ public class CategoryLogic {
 
     /**
      * Deletes an existing Category from the database.
-     * If there is no Category with the given name, it will throw a IllegalStateException.
+     * If there is no Category with the given categoryName, it will throw a IllegalStateException.
      *
-     * @param name The name of the Category.
+     * @param categoryName The categoryName of the Category.
      */
-    public void deleteCategory(String name) {
-        if (CategoryIsPresent(name)) {
-            Category category2delete = getCategoryByName(name).get();
+    public void deleteCategory(String categoryName) {
+
+        if (CategoryIsPresent(categoryName)) {
+            Category category2delete = getCategoryByName(categoryName).get();
             List<String> indexCardsNameList = category2delete.getIndexcardList();
             for(int i = 0; i < indexCardsNameList.size(); i++)
-                indexcardLogic.removeCategoryFromIndexcard(indexCardsNameList.get(i),name);
-            if (categoryRepository.deleteCategory(name) < 0) {
+                indexcardLogic.removeCategoryFromIndexcard(indexCardsNameList.get(i),categoryName);
+            if (categoryRepository.deleteCategory(categoryName) < 0) {
                 throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
             }
 
@@ -158,20 +159,24 @@ public class CategoryLogic {
     public void updateCategory(String name, List<String> indexCardsNameList) {
         if (categoryRepository.getCategoryByName(name).isPresent()) {
             Category category2Edit = categoryRepository.getCategoryByName(name).get();
-
+            List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
+                    map(Indexcard::getName).toList();
             // Updates all values of the old category2Edit.
             category2Edit.setName(name);
             category2Edit.setIndexcardList(indexCardsNameList);
-
+            // Update the indexCards categories
+            for(int i = 0; i < allIndexcardsList.size(); i++)
+                indexcardLogic.removeCategoryFromIndexcard(allIndexcardsList.get(i),name);
+            // Update the indexCards categories
+            for(int i = 0; i < indexCardsNameList.size(); i++)
+                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
 
             // Update in database failed.
             if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
                 throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
             }
 
-            // Update the indexCards categories
-            for(int i = 0; i < indexCardsNameList.size(); i++)
-                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
+
 
         }
         // Invalid id, Category does not exist.

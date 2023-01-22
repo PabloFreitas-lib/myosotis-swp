@@ -205,7 +205,6 @@ public class IndexcardLogic {
             if (indexcardRepository.updateIndexcard(indexcard) < 0) {
                 throw new IllegalStateException("Die Karteikarte konnte nicht aktualisiert werden.");
             }
-
         }
         // Invalid id, indexcard does not exist.
         else {

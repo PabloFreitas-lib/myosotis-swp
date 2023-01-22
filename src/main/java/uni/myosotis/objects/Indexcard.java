@@ -168,7 +168,7 @@ public class Indexcard implements Serializable {
      */
     public void removeCategoryList(final String categoryName) {
         if (categoryList.contains(categoryName))
-            this.categoryList.remove(categoryName);
+            categoryList.remove(categoryName);
     }
     /**
      * Get a category of the Indexcard to the given name.
