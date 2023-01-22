@@ -491,6 +491,10 @@ public class Controller {
         mainMenu.displayCreateGlossar();
     }
 
+    public void setFilterInGlossar(){
+
+    }
+
 
 
     /**
