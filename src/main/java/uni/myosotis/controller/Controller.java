@@ -311,6 +311,28 @@ public class Controller {
      *
      * @param categoryName The categoryName of the Category.
      * @param indexcardList The Indexcards that should be in this Category.
+     * @param parent The parent category.
+     */
+    public void createCategory(String categoryName, List<String> indexcardList,Category parent){
+        try {
+            categoryLogic.createCategory(categoryName,indexcardList,parent);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Kategorie mit diesem Namen." + e.toString(), "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Delegates the exercise to create a new Category to the CategoryLogic.
+     * Displays an error, if already a Category with the same categoryName exists.
+     *
+     * @param categoryName The categoryName of the Category.
+     * @param indexcardList The Indexcards that should be in this Category.
      */
     public void createCategory(String categoryName, List<String> indexcardList, boolean silentMode){
         try {
@@ -473,9 +495,9 @@ public class Controller {
      * @param name The name of the Category.
      * @param indexCardListNames The question of the Category.
      */
-    public void editCategory(String name, List<String> indexCardListNames) {
+    public void editCategory(String name, List<String> indexCardListNames, Category parent) {
         try {
-            categoryLogic.updateCategory(name, indexCardListNames);
+            categoryLogic.updateCategory(name, indexCardListNames,parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);

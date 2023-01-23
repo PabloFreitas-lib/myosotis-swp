@@ -29,7 +29,7 @@ public class MainMenu extends JFrame {
     private JLabel SchlagwortLabel;
     private JLabel KarteikartenLabel;
     private JButton filternKeyword;
-    private JComboBox CategoryComboBox;
+    private JComboBox categoryComboBox;
     private JButton filternCategory;
     private JButton filternEntfernenButton;
 
@@ -113,7 +113,7 @@ public class MainMenu extends JFrame {
      * Filters on a Category. If no Category is select, an error will be displayed.
      */
     private void onFilternCategory() {
-        String category2Filtern = (String) CategoryComboBox.getSelectedItem();
+        String category2Filtern = (String) categoryComboBox.getSelectedItem();
         if (category2Filtern != null) {
             controller.filterIndexCardPanelByCategories(category2Filtern);
         } else {
@@ -153,9 +153,10 @@ public class MainMenu extends JFrame {
         //list of all indexcards
         List<Category> categoriesList = controller.getAllCategories();
         // Array of all Categories
-        String[] categoriesNames = controller.getAllCategories().stream().
+        String[] categoriesNames = categoriesList.stream().
                 map(Category::getCategoryName).toList().toArray(new String[0]);
-        CategoryComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
+        categoryComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
+
     }
 
     /**
@@ -307,6 +308,7 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),true);
+        controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
         controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}),true);
         controller.deleteCategory("CategoryTest2Delete",true);
     }

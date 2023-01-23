@@ -85,6 +85,26 @@ public class CategoryLogic {
     }
 
     /**
+     * Creates a new Category and saves it in the database.
+     * If already a Category with the same categoryName exists, it will throw a IllegalStateException.
+     *
+     * @param categoryName The categoryName of the Category.
+     * @param indexcardList The Indexcards in this Category.
+     * @param parent The parent Category.
+     */
+    public void createCategory(String categoryName, List<String> indexcardList,Category parent) {
+        for(int i = 0; i < indexcardList.size(); i++)
+            indexcardLogic.updateCategoryFromIndexcard(indexcardList.get(i),categoryName);
+
+        if (CategoryIsPresent(categoryName)) {
+            addIndexcardsToCategory(categoryName,indexcardList);
+        } else {
+            Category category = new Category(categoryName, indexcardList,parent);
+            categoryRepository.saveCategory(category);
+        }
+    }
+
+    /**
      * Adds Indexcard to a Category.
      * @param name The name of the Category.
      * @param indexcards The Indexcards which should be added.
@@ -191,7 +211,7 @@ public class CategoryLogic {
      * @param name The Name of the Category.
      * @param indexCardsNameList  The Question of the Category.
      */
-    public void updateCategory(String name, List<String> indexCardsNameList) {
+    public void updateCategory(String name, List<String> indexCardsNameList, Category parent) {
         if (categoryRepository.getCategoryByName(name).isPresent()) {
             Category category2Edit = categoryRepository.getCategoryByName(name).get();
             List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
@@ -207,7 +227,7 @@ public class CategoryLogic {
                 indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
 
             // Update in database failed.
-            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
+            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList,parent) < 0) {
                 throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
             }
 

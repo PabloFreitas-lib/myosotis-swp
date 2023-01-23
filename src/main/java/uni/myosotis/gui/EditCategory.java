@@ -6,10 +6,7 @@ import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class EditCategory extends JDialog {
     private JComboBox categoryBoxName;
@@ -18,12 +15,15 @@ public class EditCategory extends JDialog {
     private JScrollPane indexCardsScrollPane;
     private JPanel contentPane;
     private JTree tree1;
+    private JScrollPane categoryParentScrollPane;
     private final Controller controller;
 
     private String selectedCategoryName;
     private Optional<Category> selectedCategory;
 
     private JList<String> indexcardsNamesList;
+
+    private JList<String> categoriesNamesList;
 
     /**
      * Creates a new EditCategory-Dialog.
@@ -38,10 +38,8 @@ public class EditCategory extends JDialog {
         //list of all Categories
         List<Category> allCategories = controller.getAllCategories();
         //Array of all Category names
-        String[] allCategoriesNames = new String[allCategories.size()];
-        for (int i = 0; i < allCategories.size(); i++) {
-            allCategoriesNames[i] = allCategories.get(i).getCategoryName();
-        }
+        String[] allCategoriesNames = controller.getAllCategories().stream().
+                map(Category::getName).toList().toArray(new String[0]);
         //ComboBox with all Category names
         categoryBoxName.setModel(new DefaultComboBoxModel<>(allCategoriesNames));
         //ActionListener for the ComboBox
@@ -52,7 +50,6 @@ public class EditCategory extends JDialog {
             if(selectedCategory.get() != null){
                 selectedCategory.get().getIndexcardList();
                 List<String> indexcardsNames = selectedCategory.get().getIndexcardList().stream().toList();
-                //String[] allIndexcardsNames = selectedCategory.get().getIndexcardList().stream().toList().toArray(new String[0]);
                 String[] allIndexcardsNames = controller.getAllIndexcards().stream().
                         map(Indexcard::getName).toList().toArray(new String[0]);
                 List<String> allIndexcardsNamesList = controller.getAllIndexcards().stream().
@@ -60,12 +57,25 @@ public class EditCategory extends JDialog {
                 indexcardsNamesList = new JList<>(allIndexcardsNames);
                 ArrayList<Integer> indices = new ArrayList<>();
                 indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+
                 for(int i = 0; i < indexcardsNames.size(); i++) {
                     indices.add(allIndexcardsNamesList.indexOf(indexcardsNames.get(i)));
                 }
                 int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
                 indexcardsNamesList.setSelectedIndices(indicesArray);
                 indexCardsScrollPane.setViewportView(indexcardsNamesList);
+
+                // Category Parents
+                // FIXME
+                String[] categoriesNames = controller.getAllCategories().stream().
+                        map(Category::getName).toList().toArray(new String[0]);
+                categoriesNamesList = new JList<>(categoriesNames);
+                categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                if (selectedCategory.get().getParent() != null) {
+                    categoriesNamesList.setSelectedIndices(new int[]{Arrays.stream(categoriesNames).toList().indexOf(selectedCategory.get().getParent().getName())});
+                }
+                categoryParentScrollPane.setViewportView(categoriesNamesList);
+
             }
             else {
                 String[] indexcardsNames = controller.getAllIndexcards().stream().
@@ -73,6 +83,12 @@ public class EditCategory extends JDialog {
                 indexcardsNamesList = new JList<>(indexcardsNames);
                 indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 indexCardsScrollPane.setViewportView(indexcardsNamesList);
+
+                String[] categoriesNames = controller.getAllCategories().stream().
+                        map(Category::getName).toList().toArray(new String[0]);
+                categoriesNamesList = new JList<>(categoriesNames);
+                categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+                categoryParentScrollPane.setViewportView(categoriesNamesList);
             }
         });
 
@@ -111,7 +127,7 @@ public class EditCategory extends JDialog {
     private void onOK() {
         //Old Parameters
         if(selectedCategory.isPresent()) {
-            controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList());
+            controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList(),controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(0)).get());
             dispose();
         }
 

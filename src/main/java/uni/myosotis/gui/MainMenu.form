@@ -129,7 +129,7 @@
                   <text value="Filtern Keyword"/>
                 </properties>
               </component>
-              <component id="a5a2e" class="javax.swing.JComboBox" binding="CategoryComboBox">
+              <component id="a5a2e" class="javax.swing.JComboBox" binding="categoryComboBox">
                 <constraints>
                   <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

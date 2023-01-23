@@ -1,6 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
@@ -18,8 +19,15 @@ public class CreateCategory extends JDialog{
     private JLabel categoryLabel;
     private JPanel contentPane;
     private JScrollPane indexCardsScrollPane;
+    private JScrollPane parentCategoryScrollPane;
+    private JScrollPane childCategoryScrollPane;
 
     private JList<String> indexcardsNamesList;
+
+    private JList<String> categoryParentNamesList;
+
+    private JList<String> categoryChildNamesList;
+
 
     /**
      * Constructor.
@@ -39,6 +47,22 @@ public class CreateCategory extends JDialog{
         indexcardsNamesList = new JList<>(indexcardsNames);
         indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         indexCardsScrollPane.setViewportView(indexcardsNamesList);
+
+        // Array of all Kategorie
+        String[] categoriesNames = controller.getAllCategories().stream().
+                map(Category::getCategoryName).toList().toArray(new String[0]);
+        categoryParentNamesList = new JList<>(categoriesNames);
+        categoryParentNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        // Parents options
+        parentCategoryScrollPane.setViewportView(categoryParentNamesList);
+
+        // Child options
+
+        categoryChildNamesList = new JList<>(categoriesNames);
+        categoryChildNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        childCategoryScrollPane.setViewportView(categoryChildNamesList);
+
+
 
 
         buttonOK.addActionListener(new ActionListener() {
@@ -73,14 +97,24 @@ public class CreateCategory extends JDialog{
      */
     private void onOK() {
         final String name = categoryTextField.getText();
-        final List<String> selectedItems = indexcardsNamesList.getSelectedValuesList();
-        if (!name.isBlank() && !selectedItems.isEmpty()){
-            controller.createCategory(name, selectedItems);
+        final List<String> indexcardsSelectedItems = indexcardsNamesList.getSelectedValuesList();
+        final List<String> categoryParentSelectedItems = categoryParentNamesList.getSelectedValuesList();
+        final List<String> categoryChildSelectedItems = categoryChildNamesList.getSelectedValuesList();
+        if (!name.isBlank() && !indexcardsSelectedItems.isEmpty()){
+            controller.createCategory(name, indexcardsSelectedItems);
             controller.setIndexCardPanel();
             controller.setKeywordComboBox();
             controller.setCategoryComboBox();
             dispose();
-        } else {
+        }else if (!name.isBlank() && !indexcardsSelectedItems.isEmpty() && !categoryParentSelectedItems.isEmpty()){
+            // TODO just for testing
+            Category parent = controller.getCategoryByName(categoryParentSelectedItems.get(0)).get();
+            controller.createCategory(name, indexcardsSelectedItems,parent);
+            controller.setIndexCardPanel();
+            controller.setKeywordComboBox();
+            controller.setCategoryComboBox();
+        }
+        else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Kategorie nicht erstellt.", JOptionPane.ERROR_MESSAGE);
         }
     }

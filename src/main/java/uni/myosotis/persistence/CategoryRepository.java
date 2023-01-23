@@ -45,6 +45,32 @@ public class CategoryRepository {
      * @param oldCategory  The Category that should be updated in the persistence.
      * @param word        The new name that should be saved to the persistence.
      * @param indexcards  The new indexcards that should be saved to the persistence.
+     * @param parent The parent from the Category.
+     */
+    public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards, Category parent) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            em.getTransaction().begin();
+            oldCategory.setName(word);
+            oldCategory.setIndexcardList(indexcards);
+            oldCategory.setParent(parent);
+            em.merge(oldCategory);
+            em.getTransaction().commit();
+        }
+        catch (Exception e) {
+            return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * This method is used to update an object of type "Category" to the persistent
+     * persistence storage. If the Category does not exist at this point it will be created
+     * and added to the database. Otherwise, the content of the given Category will be updated
+     * instead.
+     *
+     * @param oldCategory  The Category that should be updated in the persistence.
+     * @param word        The new name that should be saved to the persistence.
+     * @param indexcards  The new indexcards that should be saved to the persistence.
      */
     public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards) {
         try (final EntityManager em = pm.getEntityManager()) {
