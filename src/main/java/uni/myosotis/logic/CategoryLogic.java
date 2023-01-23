@@ -52,14 +52,7 @@ public class CategoryLogic {
             return node;
         }
         visited.add(node);
-        //for (Category child : graph.getChildren(node)) {
-        //    if (!visited.contains(child)) {
-         //       Category result = DFS(child, name, visited);
-        //        if (result != null) {
-        //            return result;
-        //        }
-        //    }
-        //}
+
         return null;
     }
 
@@ -239,5 +232,6 @@ public class CategoryLogic {
             throw new IllegalStateException("Die zu bearbeitende Kategorie existiert nicht.");
         }
     }
+
 
 }

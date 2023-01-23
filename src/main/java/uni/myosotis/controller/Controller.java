@@ -3,10 +3,12 @@ package uni.myosotis.controller;
 import com.sun.tools.javac.Main;
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.CategoryLogic;
+import uni.myosotis.logic.IndexcardBoxLogic;
 import uni.myosotis.logic.IndexcardLogic;
 import uni.myosotis.logic.KeywordLogic;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
@@ -21,6 +23,10 @@ public class Controller {
      */
     private final IndexcardLogic indexcardLogic;
 
+    /**
+     * The IndexcardBoxLogic of the application.
+     */
+    private final IndexcardBoxLogic indexcardBoxLogic;
 
     /**
      * The KeywordLogic of the application.
@@ -44,11 +50,12 @@ public class Controller {
      * @param indexcardLogic The logic for the Indexcards.
      * @param keywordLogic The logic for the Keywords.
      */
-    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final IndexcardBoxLogic indexcardBoxLogic) {
 
         this.indexcardLogic = indexcardLogic;
         this.keywordLogic = keywordLogic;
         this.categoryLogic = categoryLogic;
+        this.indexcardBoxLogic = indexcardBoxLogic;
 
     }
 
@@ -66,6 +73,33 @@ public class Controller {
      */
     public void createIndexcard() {
         mainMenu.displayCreateIndexcard();
+    }
+
+    /**
+     * Displays the dialog to create a new Indexcard.
+     */
+    public void createIndexcardBox() {
+        mainMenu.displayCreateIndexcardBox();
+    }
+
+    /**
+     * Delegates the exercise to create a new Indexcardbox to the IndexcardBoxLogic.
+     * Displays an error, if already an IndexcardBox with the same name exists.
+     *
+     * @param name The name of the Indexcard.
+     */
+    public void createIndexcardBox(String name, List<Category> categoryList) {
+        try {
+            //logic
+            indexcardBoxLogic.createIndexcardBox(name,categoryList);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Karteikästen wurde erfolgreich erstellt.", "Karteikästen erstellt",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Karteikaste mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -206,6 +240,13 @@ public class Controller {
     }
 
     /**
+     * Displays the dialog to delete an Indexcard.
+     */
+    public void deleteIndexcardBox() {
+        mainMenu.displayDeleteIndexcardBox();
+    }
+
+    /**
      * Delegates the exercise to delete an Indexcard to the IndexcardLogic.
      * Delegates the exercise to delete the Indexcard from the Keyword to the KeywordLogic.
      * Displays an error, if there is no Indexcard with the given name.
@@ -249,6 +290,15 @@ public class Controller {
     }
 
     /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public List<IndexcardBox> getAllIndexcardBoxes() {
+        return indexcardBoxLogic.getAllIndexcardBoxes();
+    }
+
+    /**
      * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
      *
      * @param indexcard The name of the Indexcard.
@@ -256,6 +306,16 @@ public class Controller {
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
         return indexcardLogic.getIndexcardByName(indexcard);
+    }
+
+    /**
+     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
+     *
+     * @param indexcardBoxName The name of the Indexcard.
+     * @return The Indexcard if it exists.
+     */
+    public Optional<IndexcardBox> getIndexcardBoxByName(String indexcardBoxName) {
+        return Optional.ofNullable(indexcardBoxLogic.getIndexcardBoxByName(indexcardBoxName));
     }
 
     /**
@@ -380,6 +440,26 @@ public class Controller {
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert keine Kategorie mit diesem Namen!.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Delegates the exercise to delete an existing Category to the CategoryLogic.
+     * Displays an error, if no Category with the same name exists.
+     *
+     * @param name The name of the Category.
+     */
+    public void deleteIndexcardBox(String name){
+        try {
+            indexcardBoxLogic.deleteIndexcardBox(name);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Karteikasten wurde erfolgreich gelöscht.", "Karteikasten gelöscht",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Karteikasten mit diesem Namen!.", "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -32,6 +32,7 @@ public class MainMenu extends JFrame {
     private JComboBox categoryComboBox;
     private JButton filternCategory;
     private JButton filternEntfernenButton;
+    private JPanel indexCardBoxPane;
 
     private final transient Controller controller;
 
@@ -83,6 +84,9 @@ public class MainMenu extends JFrame {
         IndexcardTab indexcardTab = new IndexcardTab(controller);
         indexcardPane = indexcardTab.getIndexcardPane();
 
+        IndexcardBoxTab indexcardBoxTab = new IndexcardBoxTab(controller);
+        indexCardBoxPane = indexcardBoxTab.getIndexcardPane();
+
         statistikPane = new JPanel();
         categoriePane = new JPanel();
         keywordPane = new JPanel();
@@ -95,6 +99,7 @@ public class MainMenu extends JFrame {
         tabbedPane.addTab("Karteikarten", indexcardPane);
         tabbedPane.addTab("Filter", filterPane);
         tabbedPane.addTab("Einstellungen", settingsPanel);
+        tabbedPane.addTab("Karteikästen",indexCardBoxPane);
     }
 
     /**
@@ -212,6 +217,18 @@ public class MainMenu extends JFrame {
     }
 
     /**
+     * Displays the Dialog to create a new Indexcard.
+     */
+    public void displayCreateIndexcardBox() {
+        final CreateIndexcardBox createIndexcardBox = new CreateIndexcardBox(controller);
+        createIndexcardBox.pack();
+        createIndexcardBox.setMinimumSize(createIndexcardBox.getSize());
+        createIndexcardBox.setSize(400, 300);
+        createIndexcardBox.setLocationRelativeTo(this);
+        createIndexcardBox.setVisible(true);
+    }
+
+    /**
      * Displays the Dialog to edit an existing Indexcard.
      */
     public void displayEditIndexcard() {
@@ -245,6 +262,17 @@ public class MainMenu extends JFrame {
         deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
         deleteIndexcard.setLocationRelativeTo(this);
         deleteIndexcard.setVisible(true);
+    }
+
+    /**
+     * Displays the Dialog to delete an Indexcard.
+     */
+    public void displayDeleteIndexcardBox() {
+        final DeleteIndexcardBox deleteIndexcardBox = new DeleteIndexcardBox(controller);
+        deleteIndexcardBox.pack();
+        deleteIndexcardBox.setMinimumSize(deleteIndexcardBox.getSize());
+        deleteIndexcardBox.setLocationRelativeTo(this);
+        deleteIndexcardBox.setVisible(true);
     }
 
     /**
@@ -308,7 +336,7 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),true);
-        controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
+        //controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
         controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}),true);
         controller.deleteCategory("CategoryTest2Delete",true);
     }

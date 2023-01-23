@@ -1,31 +1,37 @@
 package uni.myosotis.gui;
+
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.IndexcardBox;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
-public class IndexcardTab extends JDialog{
+public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
     private JPanel contentPane;
-    private JLabel KarteikartenLabel;
+    private JLabel KarteikästenLabel;
     private JButton searchButton;
     private JList indexcardBoxList;
-    private JTextField searchByNameTextField;
+    private JTextField textField1;
     private JButton deleteButton;
     private JButton editButton;
     private JButton createButton;
     private JPanel middlePanel;
+    private JButton removeFilterButton;
 
-    public IndexcardTab(Controller controller) {
+    public IndexcardBoxTab(Controller controller) {
         this.controller = controller;
         setContentPane(contentPane);
-        setTitle("Karteikarten");
+        setTitle("Karteikästen");
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
-        updateList(controller.getAllIndexcards());
+        updateList(controller.getAllIndexcardBoxes());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
@@ -56,16 +62,19 @@ public class IndexcardTab extends JDialog{
     /**
      * Updates the list of indexcards
      */
+    private void onRemoveFilter() {
+        updateList(controller.getAllIndexcardBoxes());
+    }
 
     /**
      * This method updates the list of indexcards and displays the Names in the list.
      * @param indexcardList the list of indexcards which should be displayed
      */
 
-    private void updateList(List<Indexcard> indexcardList) {
+    private void updateList(List<IndexcardBox> indexcardBoxList) {
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Indexcard indexcard : indexcardList) {
-            listModel.addElement(indexcard.getName());
+        for (IndexcardBox indexcardBox : indexcardBoxList) {
+            listModel.addElement(indexcardBox.getName());
         }
         this.indexcardBoxList.setModel(listModel);
     }
@@ -77,14 +86,16 @@ public class IndexcardTab extends JDialog{
      */
     private void onDelete() {
         if (indexcardBoxList.getSelectedValue() != null) {
-            for (Object indexcardName : indexcardBoxList.getSelectedValuesList()) {
-                controller.deleteIndexcard(controller.getIndexcardByName(indexcardName.toString()).get().getId());
-            }
-            updateList(controller.getAllIndexcards());
+            //FIXME
+            //for (Object indexcardBoxName : indexcardBoxList.getSelectedValuesList()) {
+             //   controller.deleteIndexcardBox(controller.getIndexcardByName(indexcardBoxName.toString()).get().getName());
+            //}
         }
         else {
-            controller.deleteIndexcard();
+            controller.deleteIndexcardBox();
         }
+        updateList(controller.getAllIndexcardBoxes());
+
     }
     /**
      * Checks if the user has selected an indexcard if so
@@ -103,8 +114,8 @@ public class IndexcardTab extends JDialog{
      * Opens the dialog to create a new indexcard
      */
     private void onCreate() {
-        controller.createIndexcard();
-        //updateList(controller.getAllIndexcards());
+        controller.createIndexcardBox();
+        updateList(controller.getAllIndexcardBoxes());
     }
     /**
      * Checks if the user has entered a search term
@@ -112,7 +123,7 @@ public class IndexcardTab extends JDialog{
      * If not it displays all indexcards
      */
     private void onSearch(){
-        updateList(controller.searchIndexcard(searchByNameTextField.getText()));
+        //updateList(controller.searchIndexcard(textField1.getText()));
     }
     /**
      * returns the contentPane
@@ -127,5 +138,4 @@ public class IndexcardTab extends JDialog{
         // add your code here if necessary
         dispose();
     }
-
 }

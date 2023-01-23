@@ -2,6 +2,7 @@ package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
 import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.IndexcardBox;
 
 import java.util.List;
 import java.util.Optional;
@@ -97,6 +98,25 @@ public class IndexcardRepository {
             final List<Indexcard> indexcards = em.createQuery("SELECT i FROM Indexcard i WHERE i.name = :name").setParameter("name", name).getResultList();
             if (indexcards.size() == 1) {
                 return Optional.of(indexcards.get(0));
+            }
+            else {
+                return Optional.empty();
+            }
+        }
+    }
+
+    /**
+     * This method is used to find an object of type "Indexcard" in the persistent
+     * persistence storage.
+     *
+     * @param name      The unique id of the index card.
+     * @return          The object of type "Indexcard" or null if it does not exist.
+     */
+    public Optional<IndexcardBox> getIndexcardBoxByName(final String name) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            final List<IndexcardBox> indexcardBoxList = em.createQuery("SELECT i FROM IndexcardBox i WHERE i.name = :name").setParameter("name", name).getResultList();
+            if (indexcardBoxList.size() == 1) {
+                return Optional.of(indexcardBoxList.get(0));
             }
             else {
                 return Optional.empty();
