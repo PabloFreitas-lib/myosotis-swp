@@ -127,7 +127,14 @@ public class EditCategory extends JDialog {
     private void onOK() {
         //Old Parameters
         if(selectedCategory.isPresent()) {
-            controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList(),controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(0)).get());
+            Category parent = null;
+            if (!categoriesNamesList.getSelectedValuesList().isEmpty())
+                parent = controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(0)).get();
+            if (parent != null)
+                controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList(),parent);
+            else
+                controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList());
+
             dispose();
         }
 

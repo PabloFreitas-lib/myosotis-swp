@@ -589,6 +589,28 @@ public class Controller {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    /**
+     * Delegates the exercise to edit an Category to the CategoryLogic.
+     * Displays an error, if there is no Category with the given name.
+     *
+     * @param name The name of the Category.
+     * @param indexCardListNames The question of the Category.
+     */
+    public void editCategory(String name, List<String> indexCardListNames) {
+        try {
+            categoryLogic.updateCategory(name, indexCardListNames);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
     public void setFilterInGlossar(){
 
     }

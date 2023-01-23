@@ -223,9 +223,39 @@ public class CategoryLogic {
             if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList,parent) < 0) {
                 throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
             }
+        }
+        // Invalid id, Category does not exist.
+        else {
+            throw new IllegalStateException("Die zu bearbeitende Kategorie existiert nicht.");
+        }
+    }
 
+    /**
+     * Edits an existing Category and saves it in the database.
+     * If there is no Category with the given name, it will throw a IllegalStateException.
+     *
+     * @param name The Name of the Category.
+     * @param indexCardsNameList  The Question of the Category.
+     */
+    public void updateCategory(String name, List<String> indexCardsNameList) {
+        if (categoryRepository.getCategoryByName(name).isPresent()) {
+            Category category2Edit = categoryRepository.getCategoryByName(name).get();
+            List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
+                    map(Indexcard::getName).toList();
+            // Updates all values of the old category2Edit.
+            category2Edit.setName(name);
+            category2Edit.setIndexcardList(indexCardsNameList);
+            // Update the indexCards categories
+            for(int i = 0; i < allIndexcardsList.size(); i++)
+                indexcardLogic.removeCategoryFromIndexcard(allIndexcardsList.get(i),name);
+            // Update the indexCards categories
+            for(int i = 0; i < indexCardsNameList.size(); i++)
+                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
 
-
+            // Update in database failed.
+            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
+                throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
+            }
         }
         // Invalid id, Category does not exist.
         else {
