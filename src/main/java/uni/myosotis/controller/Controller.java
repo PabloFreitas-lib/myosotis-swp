@@ -687,4 +687,8 @@ public class Controller {
     public void updateLearnsystem(Learnsystem learnsystem) {
         learnsystemLogic.updateLearnsystem(learnsystem);
     }
+
+    public List<IndexcardBox> searchIndexcardBox(String text) {
+        return indexcardBoxLogic.searchIndexcardBox(text);
+    }
 }
