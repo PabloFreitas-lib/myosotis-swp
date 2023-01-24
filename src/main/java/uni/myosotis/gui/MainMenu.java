@@ -4,6 +4,8 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.*;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.event.*;
 import java.util.List;
 
@@ -17,7 +19,8 @@ public class MainMenu extends JFrame {
 
     private JPanel indexcardPane;
     private JPanel glossarPane;
-    private JPanel filterPane;
+
+    //private JPanel filterPane;
 
     private JPanel settingsPanel;
 
@@ -77,6 +80,7 @@ public class MainMenu extends JFrame {
         Glossar glossar = new Glossar(controller);
         glossarPane = glossar.getGlossarPane();
 
+
         IndexcardTab indexcardTab = new IndexcardTab(controller);
         indexcardPane = indexcardTab.getIndexcardPane();
 
@@ -93,13 +97,28 @@ public class MainMenu extends JFrame {
         settingsPanel = new JPanel();
 
         tabbedPane.addTab("Glossar", glossarPane);
-        tabbedPane.addTab("Statistiken", statistikPane);
         tabbedPane.addTab("Kategorien", categoriePane);
-        tabbedPane.addTab("Schlagworte", keywordPane);
         tabbedPane.addTab("Karteikarten", indexcardPane);
-        tabbedPane.addTab("Filter", filterPane);
-        tabbedPane.addTab("Einstellungen", settingsPanel);
         tabbedPane.addTab("Karteikästen",indexCardBoxPane);
+        tabbedPane.addTab("Statistiken", statistikPane);
+        tabbedPane.addTab("Schlagworte", keywordPane);
+        tabbedPane.addTab("Einstellungen", settingsPanel);
+        //tabbedPane.addTab("Filter", filterPane);
+
+        tabbedPane.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                // Get the index of the selected tab
+                int selectedTab = tabbedPane.getSelectedIndex();
+
+                // Call your function here, passing in the selected tab index as a parameter
+                if (selectedTab == 0) {
+                    glossar.setCategoryComboBox();
+                    glossar.setKeywordComboBox();
+                    glossar.setGlossar();
+                }
+
+            }
+        });
 
     }
 
@@ -193,6 +212,17 @@ public class MainMenu extends JFrame {
         createIndexcardBox.setVisible(true);
     }
 
+    /**
+     * Displays the Dialog to edit a new Indexcard.
+     */
+    public void displayEditIndexcardBox() {
+        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller);
+        editIndexcardBox.pack();
+        editIndexcardBox.setMinimumSize(editIndexcardBox.getSize());
+        editIndexcardBox.setSize(400, 300);
+        editIndexcardBox.setLocationRelativeTo(this);
+        editIndexcardBox.setVisible(true);
+    }
     /**
      * Displays the Dialog to edit an existing Indexcard.
      */
@@ -302,19 +332,20 @@ public class MainMenu extends JFrame {
      * Creates a ExampleMenu for Testing and Development (This is used without any notification).
      */
     public void createExampleIndexcards(){
-        controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}),true);
-        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}),true);
-        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
-        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}),true);
-        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
-        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
-        controller.createCategory("CategoryTestA", controller.getAllIndexcards(),true);
-        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
-        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
-        controller.createCategory("CategoryTestB", controller.getAllIndexcards(),true);
+        controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}));
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}));
+        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}));
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}));
+        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}));
+        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}));
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte6"}));
+        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}));
+        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}));
+        controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}));
         //controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
-        controller.createCategory("CategoryTest2Delete", controller.getAllIndexcards(),true);
-        controller.deleteCategory("CategoryTest2Delete",true);
+        controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}));
+        controller.deleteCategory("CategoryTest2Delete");
+        controller.createIndexcardBox("Box",controller.getAllCategories());
     }
 
 }

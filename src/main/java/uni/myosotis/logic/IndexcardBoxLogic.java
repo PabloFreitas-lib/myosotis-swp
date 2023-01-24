@@ -47,4 +47,22 @@ public class IndexcardBoxLogic {
             }
         }
     }
+
+    public void updateIndexcardBox(String indexcardBoxName, List<Category> indexcardBoxList) {
+        if (indexcardBoxRepository.getIndexcardBoxByName(indexcardBoxName).isPresent()) {
+            IndexcardBox indexcardBox = indexcardBoxRepository.getIndexcardBoxByName(indexcardBoxName).get();
+            // Updates all values of the old indexcardBox.
+            indexcardBox.setName(indexcardBoxName);
+            indexcardBox.setCategoryList(indexcardBoxList);
+             // Update in database failed.
+            if (indexcardBoxRepository.updateIndexcardBox(indexcardBox) < 0) {
+                throw new IllegalStateException("Die Karteikästen konnte nicht aktualisiert werden.");
+            }
+
+        }
+        // Invalid id, indexcardBox does not exist.
+        else {
+            throw new IllegalStateException("Die zu bearbeitende Karteikästen existiert nicht.");
+        }
+    }
 }

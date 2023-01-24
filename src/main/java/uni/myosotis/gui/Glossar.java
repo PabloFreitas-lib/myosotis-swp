@@ -42,6 +42,7 @@ public class Glossar extends JDialog {
                 onCancel();
             }
         });
+
         filternKeyword.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onFilternKeyword();

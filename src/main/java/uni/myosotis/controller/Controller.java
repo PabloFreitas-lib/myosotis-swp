@@ -245,6 +245,20 @@ public class Controller {
     }
 
     /**
+     * Displays the dialog to delete an Indexcard.
+     */
+    public void updateIndexcardBox() {
+        mainMenu.displayEditIndexcardBox();
+    }
+
+    /**
+     * Displays the dialog to delete an Indexcard.
+     */
+    public void updateIndexcardBox(String indexcardBoxName, List<Category> indexcardBoxList) {
+        indexcardBoxLogic.updateIndexcardBox(indexcardBoxName, indexcardBoxList);
+    }
+
+    /**
      * Delegates the exercise to delete an Indexcard to the IndexcardLogic.
      * Delegates the exercise to delete the Indexcard from the Keyword to the KeywordLogic.
      * Displays an error, if there is no Indexcard with the given name.
@@ -294,6 +308,15 @@ public class Controller {
      */
     public List<String> getAllIndexcardNames() {
         return getAllIndexcards().stream().map(Indexcard::getName).toList();
+    }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public String[] getAllIndexcardBoxNames() {
+        return getAllIndexcardBoxes().stream().map(IndexcardBox::getName).toList().toArray(new String[0]);
     }
 
     /**

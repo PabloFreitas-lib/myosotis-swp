@@ -99,15 +99,14 @@ public class IndexcardBoxTab extends JDialog {
 
     /**
      * Checks if the user has selected an indexcard if so it deletes it
-     * If multiple indexcards are selected it deletes all of them.
-     * If not it opens a dialog to delete an indexcard.
+     * If multiple indexcards are selected it deletes all of them
+     * If not it opens a dialog to delete an indexcard
      */
     private void onDelete() {
         if (indexcardBoxList.getSelectedValue() != null) {
-            //FIXME
-            //for (Object indexcardBoxName : indexcardBoxList.getSelectedValuesList()) {
-             //   controller.deleteIndexcardBox(controller.getIndexcardByName(indexcardBoxName.toString()).get().getName());
-            //}
+            for (Object indexcardBoxName : indexcardBoxList.getSelectedValuesList()) {
+                controller.deleteIndexcardBox(controller.getIndexcardBoxByName(indexcardBoxName.toString()).get().getName());
+            }
         }
         else {
             controller.deleteIndexcardBox();
@@ -121,12 +120,8 @@ public class IndexcardBoxTab extends JDialog {
      * If not it opens a dialog to edit a indexcard
      */
     private void onEdit() {
-        if (indexcardBoxList.getSelectedValue() != null) {
-            controller.editIndexcard(controller.getIndexcardByName(indexcardBoxList.getSelectedValue().toString()).get());
-        }
-        else {
-            controller.editIndexcard();
-        }
+            controller.updateIndexcardBox();
+            updateList(controller.getAllIndexcardBoxes());
     }
     /**
      * Opens the dialog to create a new indexcard
