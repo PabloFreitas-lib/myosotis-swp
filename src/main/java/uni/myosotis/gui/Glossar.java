@@ -1,9 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
-import uni.myosotis.objects.Keyword;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,12 +15,12 @@ public class Glossar extends JDialog {
 
     private final Controller controller;
     private JPanel contentPane;
-    private JScrollPane IndexcardsPane;
+    private JScrollPane indexcardsPane;
     private JComboBox KeywordComboBox;
     private JLabel SchlagwortLabel;
     private JLabel KarteikartenLabel;
     private JButton filternKeyword;
-    private JComboBox CategoryComboBox;
+    private JComboBox categoryComboBox;
     private JButton filternCategory;
     private JButton filternEntfernenButton;
     private JTable indexCardTable;
@@ -44,7 +42,6 @@ public class Glossar extends JDialog {
                 onCancel();
             }
         });
-
         filternKeyword.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onFilternKeyword();
@@ -96,15 +93,14 @@ public class Glossar extends JDialog {
 
         indexCardTable.setModel(glossarModel);
         // add data JTable
-        IndexcardsPane.setViewportView(indexCardTable);
+        indexcardsPane.setViewportView(indexCardTable);
 
 
     }
 
     public void onFilternKeyword(){
         String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
-        List<String> indexCardsNameList = controller.getAllIndexcards().stream().
-                map(Indexcard::getName).toList();
+        List<String> indexCardsNameList = controller.getAllIndexcardNames();
         List<String> questionList = controller.getAllIndexcards().stream().
                 map(Indexcard::getQuestion).toList();
         List<String> answerList = controller.getAllIndexcards().stream().
@@ -124,13 +120,12 @@ public class Glossar extends JDialog {
         }
         indexCardTable.setModel(glossarModel);
         // add data JTable
-        IndexcardsPane.setViewportView(indexCardTable);
+        indexcardsPane.setViewportView(indexCardTable);
     }
 
     public void onFilternCategory(){
-        String category2Filtern = (String) CategoryComboBox.getSelectedItem();
-        List<String> indexCardsNameList = controller.getAllIndexcards().stream().
-                map(Indexcard::getName).toList();
+        String category2Filtern = (String) categoryComboBox.getSelectedItem();
+        List<String> indexCardsNameList = controller.getAllIndexcardNames();
         List<String> questionList = controller.getAllIndexcards().stream().
                 map(Indexcard::getQuestion).toList();
         List<String> answerList = controller.getAllIndexcards().stream().
@@ -150,24 +145,15 @@ public class Glossar extends JDialog {
         }
         indexCardTable.setModel(glossarModel);
         // add data JTable
-        IndexcardsPane.setViewportView(indexCardTable);
+        indexcardsPane.setViewportView(indexCardTable);
     }
 
     public void setCategoryComboBox(){
-        //list of all indexcards
-        List<Category> categoriesList = controller.getAllCategories();
         // Array of all Categories
-        String[] categoriesNames = controller.getAllCategories().stream().
-                map(Category::getCategoryName).toList().toArray(new String[0]);
-        CategoryComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
+        categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllCategoryNames()));
     }
 
     public void setKeywordComboBox(){
-        //list of all indexcards
-        List<Keyword> keywordList = controller.getAllKeywords();
-        // Array of all Keywords
-        String[] keywordNames = controller.getAllKeywords().stream()
-                .map(Keyword::getName).toList().toArray(new String[0]);
-        KeywordComboBox.setModel(new DefaultComboBoxModel<>(keywordNames));
+        KeywordComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllKeywordNames()));
     }
 }

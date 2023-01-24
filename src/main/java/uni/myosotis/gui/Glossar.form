@@ -24,7 +24,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <scrollpane id="fe1fe" binding="IndexcardsPane">
+              <scrollpane id="fe1fe" binding="indexcardsPane">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="2" use-parent-layout="false">
                     <preferred-size width="1000" height="500"/>
@@ -72,7 +72,7 @@
               <text value="Filtern Keyword"/>
             </properties>
           </component>
-          <component id="a68a8" class="javax.swing.JComboBox" binding="CategoryComboBox">
+          <component id="a68a8" class="javax.swing.JComboBox" binding="categoryComboBox">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>

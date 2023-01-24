@@ -1,6 +1,5 @@
 package uni.myosotis.controller;
 
-import com.sun.tools.javac.Main;
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.CategoryLogic;
 import uni.myosotis.logic.IndexcardBoxLogic;
@@ -294,6 +293,15 @@ public class Controller {
      *
      * @return A list of all Indexcards.
      */
+    public List<String> getAllIndexcardNames() {
+        return getAllIndexcards().stream().map(Indexcard::getName).toList();
+    }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
     public List<IndexcardBox> getAllIndexcardBoxes() {
         return indexcardBoxLogic.getAllIndexcardBoxes();
     }
@@ -336,6 +344,17 @@ public class Controller {
     public List<Keyword> getAllKeywords() {
         return keywordLogic.getAllKeywords();
     }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public String[] getAllKeywordNames() {
+        return getAllKeywords().stream().map(Keyword::getName).toList().toArray(new String[0]);
+    }
+
+
 
     /**
      * Displays the Dialog to create a new Category.
@@ -494,6 +513,18 @@ public class Controller {
     public List<Category> getAllCategories() {
         return categoryLogic.getAllCategories();
     }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public String [] getAllCategoryNames() {
+        return getAllCategories().stream().map(Category::getCategoryName).toList().toArray(new String[0]);
+    }
+
+
+
 
     /**
      * Delegates the exercise to find a Category with the given name to the CategoryLogic.

@@ -47,8 +47,7 @@ public class MainMenu extends JFrame {
         tabbedPane = new JTabbedPane();
         setContentPane(tabbedPane);
         setTitle("Myosotis");
-        setKeywordComboBox();
-        setCategoryComboBox();
+        createExampleIndexcards(); //TODO: Remove this line FIXME
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
@@ -104,7 +103,6 @@ public class MainMenu extends JFrame {
         tabbedPane.addTab("Einstellungen", settingsPanel);
         tabbedPane.addTab("Karteikästen",indexCardBoxPane);
 
-        createExampleIndexcards(); //TODO: Remove this line FIXME
     }
 
     /**
@@ -161,11 +159,7 @@ public class MainMenu extends JFrame {
      */
     public void setCategoryComboBox(){
         //list of all indexcards
-        List<Category> categoriesList = controller.getAllCategories();
-        // Array of all Categories
-        String[] categoriesNames = categoriesList.stream().
-                map(Category::getCategoryName).toList().toArray(new String[0]);
-        categoryComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
+        categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllCategoryNames()));
 
     }
 
