@@ -683,7 +683,7 @@ public class Controller {
         mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"));
     }
 
-    public void updateLearnsystem(Learnsystem learnsystem) {
+    public void updateLearnsystem(LearnSystem learnsystem) {
         learnsystemLogic.updateLearnsystem(learnsystem);
     }
 

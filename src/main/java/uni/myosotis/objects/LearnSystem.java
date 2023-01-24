@@ -1,14 +1,9 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 @Entity
-public abstract class Learnsystem {
+public class LearnSystem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,16 +20,16 @@ public abstract class Learnsystem {
     @OneToOne
     private IndexcardBox indexcardBox;
 
-    public Learnsystem() {
+    public LearnSystem() {
 
     }
 
     /**
-     * Creates a new Learnsystem connected to the IndexcardBox.
+     * Creates a new LearnSystem connected to the IndexcardBox.
      *
      * @param indexcardBox The connected IndexcardBox.
      */
-    public Learnsystem(IndexcardBox indexcardBox)  {
+    public LearnSystem(IndexcardBox indexcardBox)  {
         this.indexcardBox = indexcardBox;
         this.progress = 0;
     }
@@ -64,5 +59,13 @@ public abstract class Learnsystem {
      */
     public long getId() {
         return id;
+    }
+
+    public IndexcardBox getIndexcardBox() {
+        return indexcardBox;
+    }
+
+    public void setIndexcardBox(IndexcardBox indexcardBox) {
+        this.indexcardBox = indexcardBox;
     }
 }

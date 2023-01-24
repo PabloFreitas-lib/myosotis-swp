@@ -2,7 +2,6 @@ package uni.myosotis;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.logic.*;
-import uni.myosotis.objects.Learnsystem;
 
 public class App {
     public static void main(String[] args) {

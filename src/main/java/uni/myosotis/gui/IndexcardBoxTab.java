@@ -89,7 +89,7 @@ public class IndexcardBoxTab extends JDialog {
         if (indexcardBoxList.getModel().getSize() == 0) {
             JOptionPane.showMessageDialog(this, "Es existiert noch kein Karteikasten."
                     , "Es existieren keine Karteikästen.", JOptionPane.INFORMATION_MESSAGE);
-        } else if (indexcardBoxList.getSelectedValues().length != 1) {
+        } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
             JOptionPane.showMessageDialog(this, "Bitte wähle einen Karteikasten zum Lernen aus"
                     , "Keinen oder zu viele Karteikästen ausgewählt.", JOptionPane.INFORMATION_MESSAGE);
         } else {

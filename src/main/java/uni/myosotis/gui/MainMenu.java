@@ -301,7 +301,7 @@ public class MainMenu extends JFrame {
     /**
      * Displays the Menu for learning.
      */
-    public void displayLearning(Learnsystem learnsystem) {
+    public void displayLearning(LearnSystem learnsystem) {
         final Learning learning = new Learning(controller, learnsystem);
         learning.pack();
         learning.setMinimumSize(learning.getSize());

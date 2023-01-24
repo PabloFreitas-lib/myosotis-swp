@@ -1,8 +1,8 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.IndexcardBox;
-import uni.myosotis.objects.Learnsystem;
-import uni.myosotis.objects.LeitnerLearnsystem;
+import uni.myosotis.objects.LearnSystem;
+import uni.myosotis.objects.LeitnerLearnSystem;
 import uni.myosotis.persistence.LearnsystemRepository;
 
 public class LearnsystemLogic {
@@ -17,17 +17,17 @@ public class LearnsystemLogic {
     }
 
     /**
-     * This method is used to learn an IndexcardBox. If there is no Learnsystem connected to this Indexcardbox,
+     * This method is used to learn an IndexcardBox. If there is no LearnSystem connected to this Indexcardbox,
      * a new one will be created.
      *
      * @param indexcardBox The IndexcardBox that should be learnend.
      * @param learnsystemName The learnsystem that should be used.
      */
-    public <T extends Learnsystem> T learn(IndexcardBox indexcardBox, String learnsystemName) {
+    public <T extends LearnSystem> T learn(IndexcardBox indexcardBox, String learnsystemName) {
         if (learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).isEmpty()) {
             if (learnsystemName.equals("Leitner")) {
-                T learnsystem = (T) new LeitnerLearnsystem(indexcardBox);
-                learnsystemRepository.safeLearnSystem(learnsystem);
+                T learnsystem = (T) new LeitnerLearnSystem(indexcardBox);
+                learnsystemRepository.saveLearnSystem(learnsystem);
             }
         }
         return (T) learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).get();
@@ -38,7 +38,7 @@ public class LearnsystemLogic {
      *
      * @param learnsystem The learnsystem that should be updated.
      */
-    public void updateLearnsystem(Learnsystem learnsystem) {
+    public void updateLearnsystem(LearnSystem learnsystem) {
         learnsystemRepository.updateLearnystem(learnsystem);
     }
 }

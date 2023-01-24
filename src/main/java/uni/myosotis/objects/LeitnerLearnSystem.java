@@ -2,13 +2,12 @@ package uni.myosotis.objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class LeitnerLearnsystem extends Learnsystem {
+public class LeitnerLearnSystem extends LearnSystem {
 
     @OneToMany
     private List<Indexcard> box1;
@@ -17,7 +16,10 @@ public class LeitnerLearnsystem extends Learnsystem {
     @OneToMany
     private List<Indexcard> box3;
 
-    public LeitnerLearnsystem(IndexcardBox indexcardBox) {
+    public LeitnerLearnSystem() {
+    }
+
+    public LeitnerLearnSystem(IndexcardBox indexcardBox) {
         super(indexcardBox);
         box1 = new ArrayList<>();
         for (Category category : indexcardBox.getCategoryList()) {

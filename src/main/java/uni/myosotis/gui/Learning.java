@@ -1,7 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Learnsystem;
+import uni.myosotis.objects.LearnSystem;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -26,7 +26,7 @@ public class Learning extends JFrame{
      * @param controller The controller.
      * @param learnsystem The learnsystem.
      */
-    public Learning(Controller controller, Learnsystem learnsystem) {
+    public Learning(Controller controller, LearnSystem learnsystem) {
         this.controller = controller;
         this.learnProgressBar.setMinimum(0);
 
