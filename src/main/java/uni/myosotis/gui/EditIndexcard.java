@@ -13,7 +13,6 @@ public class EditIndexcard extends JDialog {
 
     private JPanel contentPane;
     private JButton buttonOK, buttonCancel;
-    private JRadioButton radioButtonDeleteStatistic;
     private JTextArea textAreaQuestion, textAreaAnswer;
     private JComboBox comboBoxName;
     private JTextField textFieldName;
@@ -114,10 +113,8 @@ public class EditIndexcard extends JDialog {
         List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
         keywords.remove(0);
 
-        final boolean deleteStatistic = radioButtonDeleteStatistic.isSelected();
-
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
-            controller.editIndexcard(name, question, answer, keywords, deleteStatistic, oldIndexcardId);
+            controller.editIndexcard(name, question, answer, keywords, oldIndexcardId);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this,

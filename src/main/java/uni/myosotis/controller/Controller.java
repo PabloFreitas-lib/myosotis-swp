@@ -186,7 +186,7 @@ public class Controller {
      * @param keywords Keywords for the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void editIndexcard(String name, String question, String answer, List<String> keywords, Boolean deleteStatistic, Long id) {
+    public void editIndexcard(String name, String question, String answer, List<String> keywords, Long id) {
         try {
             final List<Keyword> keywordObjects = new ArrayList<>();
 
@@ -201,20 +201,10 @@ public class Controller {
                     keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
                 }
             }
-
-            if (deleteStatistic) {
-                indexcardLogic.deleteIndexcard(id);
-                indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Karteikarte wurde erfolgreich bearbeitet und die Statistik zurückgesetzt",
-                        "Karteikarte bearbeitet", JOptionPane.INFORMATION_MESSAGE);
-            } else {
-                indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, id);
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-
+            indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, id);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
+                    JOptionPane.INFORMATION_MESSAGE);
             // Remove Keywords that are not used anymore
             for (Keyword keyword : oldKeywords) {
                 if (indexcardLogic.getIndexcardsByKeyword(keyword.getName()).isEmpty()) {
