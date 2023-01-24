@@ -1,6 +1,7 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,8 +21,8 @@ public class Category implements Serializable{
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    //@OneToMany(mappedBy = "categoryList", fetch = FetchType.EAGER)
-    private List<String> indexcardListNames;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Indexcard> indexcardList;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Category> children;
@@ -32,13 +33,13 @@ public class Category implements Serializable{
         children = new ArrayList<>();
     }
 
-    public Category(String name, List<String> indexcardListNames) {
+    public Category(String name, List<Indexcard> indexcardListNames) {
         this();
         this.name = name;
-        this.indexcardListNames = indexcardListNames;
+        this.indexcardList = indexcardListNames;
     }
 
-    public Category(String name, List<String> indexcardListNames, Category parent) {
+    public Category(String name, List<Indexcard> indexcardListNames, Category parent) {
         this(name, indexcardListNames);
         this.parent = parent;
         parent.addChild(this);
@@ -57,22 +58,22 @@ public class Category implements Serializable{
      * Getter for Indexcard from Category.
      * @return The Indexcard of the Category.
      */
-    public List<String> getIndexcardList() {
-        return this.indexcardListNames;
+    public List<Indexcard> getIndexcardList() {
+        return this.indexcardList;
     }
     /*
      * Adds an Indexcard to the Category.
      * @param indexcard The Indexcard which should be added.
      */
-    public void addIndexcard(String indexcard){
-        indexcardListNames.add(indexcard);
+    public void addIndexcard(Indexcard indexcard){
+        indexcardList.add(indexcard);
     }
     /*
      * Sets the Indexcards of the Category.
      * @param indexcards The Indexcardslist which should be set.
      */
-    public void setIndexcardList(List<String> indexcardList) {
-        this.indexcardListNames = indexcardList;
+    public void setIndexcardList(List<Indexcard> indexcardList) {
+        this.indexcardList = indexcardList;
     }
 
 

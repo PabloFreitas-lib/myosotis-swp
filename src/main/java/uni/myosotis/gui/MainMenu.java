@@ -1,9 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Category;
-import uni.myosotis.objects.Indexcard;
-import uni.myosotis.objects.Keyword;
+import uni.myosotis.objects.*;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -277,6 +275,17 @@ public class MainMenu extends JFrame {
         deleteCategory.setVisible(true);
     }
 
+    /**
+     * Displays the Menu for learning.
+     */
+    public void displayLearning(Learnsystem learnsystem) {
+        final Learning learning = new Learning(controller, learnsystem);
+        learning.pack();
+        learning.setMinimumSize(learning.getSize());
+        learning.setLocationRelativeTo(this);
+        learning.setVisible(true);
+    }
+
     public JScrollPane getIndexcardsPane(){
         return this.IndexcardsPane;
     }
@@ -299,12 +308,12 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}),true);
         controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}),true);
-        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte6"}),true);
+        controller.createCategory("CategoryTestA", controller.getAllIndexcards(),true);
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}),true);
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}),true);
-        controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),true);
+        controller.createCategory("CategoryTestB", controller.getAllIndexcards(),true);
         //controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
-        controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}),true);
+        controller.createCategory("CategoryTest2Delete", controller.getAllIndexcards(),true);
         controller.deleteCategory("CategoryTest2Delete",true);
     }
 

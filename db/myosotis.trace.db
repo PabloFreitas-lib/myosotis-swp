@@ -1,0 +1,4 @@
+2023-01-24 10:35:00 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLDataException: Wert zu groß / lang für Feld "INDEXCARDBOX BINARY VARYING(255)": "X'aced000573720021756e692e6d796f736f7469732e6f626a656374732e496e6465786361726442... (1132)"
+Value too long for column "INDEXCARDBOX BINARY VARYING(255)": "X'aced000573720021756e692e6d796f736f7469732e6f626a656374732e496e6465786361726442... (1132)"; SQL statement:
+insert into Learnsystem (id, indexcardBox, progress) values (default, ?, ?) [22001-214]

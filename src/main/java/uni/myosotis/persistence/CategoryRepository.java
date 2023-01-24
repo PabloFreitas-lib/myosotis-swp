@@ -2,6 +2,7 @@ package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import uni.myosotis.objects.CategoryGraph;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
@@ -47,7 +48,7 @@ public class CategoryRepository {
      * @param indexcards  The new indexcards that should be saved to the persistence.
      * @param parent The parent from the Category.
      */
-    public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards, Category parent) {
+    public int updateCategory(final Category oldCategory, final String word, final List<Indexcard> indexcards, Category parent) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             oldCategory.setName(word);
@@ -72,7 +73,7 @@ public class CategoryRepository {
      * @param word        The new name that should be saved to the persistence.
      * @param indexcards  The new indexcards that should be saved to the persistence.
      */
-    public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards) {
+    public int updateCategory(final Category oldCategory, final String word, final List<Indexcard> indexcards) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             oldCategory.setName(word);
@@ -137,11 +138,11 @@ public class CategoryRepository {
         return 0;
     }
 
-    public List<String> getIndexcardsFromCategory(Category getCategory) {
+    public List<Indexcard> getIndexcardsFromCategory(Category getCategory) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             Category Category = em.find(Category.class, getCategory.getCategoryName());
-            List<String> indexcards = Category.getIndexcardList();
+            List<Indexcard> indexcards = Category.getIndexcardList();
             em.getTransaction().commit();
             return indexcards;
         }

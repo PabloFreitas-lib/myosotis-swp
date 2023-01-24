@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" afterDir="false" />
-    </list>
+    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="" />
     <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,21 +29,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
-    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;406&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/kasim/Desktop/myosotis/src/main/java/uni/myosotis/logic&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "186",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
+    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "215",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/kasim/Desktop/myosotis/src/main/java/uni/myosotis/logic",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kasim\Desktop\myosotis\src\main\java\uni\myosotis\logic" />

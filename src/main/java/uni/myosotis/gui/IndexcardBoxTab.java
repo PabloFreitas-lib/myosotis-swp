@@ -1,7 +1,6 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
 
 import javax.swing.*;
@@ -22,6 +21,7 @@ public class IndexcardBoxTab extends JDialog {
     private JButton editButton;
     private JButton createButton;
     private JPanel middlePanel;
+    private JButton learnButton;
     private JButton removeFilterButton;
 
     public IndexcardBoxTab(Controller controller) {
@@ -57,6 +57,11 @@ public class IndexcardBoxTab extends JDialog {
                 onDelete();
             }
         });
+        learnButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onLearn();
+            }
+        });
     }
 
     /**
@@ -68,7 +73,7 @@ public class IndexcardBoxTab extends JDialog {
 
     /**
      * This method updates the list of indexcards and displays the Names in the list.
-     * @param indexcardList the list of indexcards which should be displayed
+     * @param indexcardBoxList the list of indexcards which should be displayed
      */
 
     private void updateList(List<IndexcardBox> indexcardBoxList) {
@@ -79,10 +84,23 @@ public class IndexcardBoxTab extends JDialog {
         this.indexcardBoxList.setModel(listModel);
     }
 
+    //
+    private void onLearn() {
+        if (indexcardBoxList.getModel().getSize() == 0) {
+            JOptionPane.showMessageDialog(this, "Es existiert noch kein Karteikasten."
+                    , "Es existieren keine Karteikästen.", JOptionPane.INFORMATION_MESSAGE);
+        } else if (indexcardBoxList.getSelectedValues().length != 1) {
+            JOptionPane.showMessageDialog(this, "Bitte wähle einen Karteikasten zum Lernen aus"
+                    , "Keinen oder zu viele Karteikästen ausgewählt.", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            controller.learn(controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get());
+        }
+    }
+
     /**
      * Checks if the user has selected an indexcard if so it deletes it
-     * If multiple indexcards are selected it deletes all of them
-     * If not it opens a dialog to delete a indexcard
+     * If multiple indexcards are selected it deletes all of them.
+     * If not it opens a dialog to delete an indexcard.
      */
     private void onDelete() {
         if (indexcardBoxList.getSelectedValue() != null) {

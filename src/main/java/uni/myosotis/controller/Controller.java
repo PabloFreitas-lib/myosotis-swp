@@ -1,14 +1,8 @@
 package uni.myosotis.controller;
 
 import uni.myosotis.gui.MainMenu;
-import uni.myosotis.logic.CategoryLogic;
-import uni.myosotis.logic.IndexcardBoxLogic;
-import uni.myosotis.logic.IndexcardLogic;
-import uni.myosotis.logic.KeywordLogic;
-import uni.myosotis.objects.Category;
-import uni.myosotis.objects.Indexcard;
-import uni.myosotis.objects.IndexcardBox;
-import uni.myosotis.objects.Keyword;
+import uni.myosotis.logic.*;
+import uni.myosotis.objects.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -37,6 +31,10 @@ public class Controller {
      */
     private final CategoryLogic categoryLogic;
 
+    /**
+     * The LearnsystemLogic of the application.
+     */
+    private final LearnsystemLogic learnsystemLogic;
 
     /**
      * The main-menu of the application.
@@ -49,12 +47,13 @@ public class Controller {
      * @param indexcardLogic The logic for the Indexcards.
      * @param keywordLogic The logic for the Keywords.
      */
-    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final IndexcardBoxLogic indexcardBoxLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final IndexcardBoxLogic indexcardBoxLogic, final LearnsystemLogic learnsystemLogic) {
 
         this.indexcardLogic = indexcardLogic;
         this.keywordLogic = keywordLogic;
         this.categoryLogic = categoryLogic;
         this.indexcardBoxLogic = indexcardBoxLogic;
+        this.learnsystemLogic = learnsystemLogic;
 
     }
 
@@ -368,10 +367,14 @@ public class Controller {
      * Displays an error, if already a Category with the same categoryName exists.
      *
      * @param categoryName The categoryName of the Category.
-     * @param indexcardList The Indexcards that should be in this Category.
+     * @param indexcardListNames The Indexcards that should be in this Category.
      */
-    public void createCategory(String categoryName, List<String> indexcardList){
+    public void createCategory(String categoryName, List<String> indexcardListNames){
         try {
+            List<Indexcard> indexcardList = new ArrayList<>();
+            for (String s : indexcardListNames) {
+                indexcardList.add(getIndexcardByName(s).get());
+            }
             categoryLogic.createCategory(categoryName,indexcardList);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
@@ -379,7 +382,7 @@ public class Controller {
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen." + e.toString(), "Name bereits vergeben",
+                    "Es existiert bereits eine Kategorie mit diesem Namen." + e, "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -389,11 +392,15 @@ public class Controller {
      * Displays an error, if already a Category with the same categoryName exists.
      *
      * @param categoryName The categoryName of the Category.
-     * @param indexcardList The Indexcards that should be in this Category.
+     * @param indexcardListNames The Indexcards that should be in this Category.
      * @param parent The parent category.
      */
-    public void createCategory(String categoryName, List<String> indexcardList,Category parent){
+    public void createCategory(String categoryName, List<String> indexcardListNames,Category parent){
         try {
+            List<Indexcard> indexcardList = new ArrayList<>();
+            for (String s : indexcardListNames) {
+                indexcardList.add(getIndexcardByName(s).get());
+            }
             categoryLogic.createCategory(categoryName,indexcardList,parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
@@ -401,7 +408,7 @@ public class Controller {
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen." + e.toString(), "Name bereits vergeben",
+                    "Es existiert bereits eine Kategorie mit diesem Namen." + e, "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -413,7 +420,7 @@ public class Controller {
      * @param categoryName The categoryName of the Category.
      * @param indexcardList The Indexcards that should be in this Category.
      */
-    public void createCategory(String categoryName, List<String> indexcardList, boolean silentMode){
+    public void createCategory(String categoryName, List<Indexcard> indexcardList, boolean silentMode){
         try {
             categoryLogic.createCategory(categoryName,indexcardList);
             if (!silentMode) {
@@ -424,7 +431,7 @@ public class Controller {
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen. " + e.toString(), "Name bereits vergeben",
+                    "Es existiert bereits eine Kategorie mit diesem Namen. " + e, "Name bereits vergeben",
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -573,10 +580,10 @@ public class Controller {
      */
     public void filterIndexCardPanelByCategories(String name) {
         if (getCategoryByName(name).isPresent()) {
-            List<String> indexcardList = getCategoryByName(name).get().getIndexcardList();
+            List<Indexcard> indexcardList = getCategoryByName(name).get().getIndexcardList();
             DefaultListModel<String> listModel = new DefaultListModel<>();
-            for (String indexCardName : indexcardList) {
-                listModel.addElement(indexCardName);
+            for (Indexcard indexCard : indexcardList) {
+                listModel.addElement(indexCard.getName());
             }
             JList<String> cardList = new JList<>(listModel);
             mainMenu.getIndexcardsPane().setViewportView(cardList);
@@ -600,7 +607,7 @@ public class Controller {
     // END OF CLASS
 
     /**
-     * Delegates the exercise to edit an Category to the CategoryLogic.
+     * Delegates the exercise to edit a Category to the CategoryLogic.
      * Displays an error, if there is no Category with the given name.
      *
      * @param name The name of the Category.
@@ -608,7 +615,11 @@ public class Controller {
      */
     public void editCategory(String name, List<String> indexCardListNames, Category parent) {
         try {
-            categoryLogic.updateCategory(name, indexCardListNames,parent);
+            List<Indexcard> indexCardList = new ArrayList<>();
+            for (String s : indexCardListNames) {
+                indexCardList.add(getIndexcardByName(s).get());
+            }
+            categoryLogic.updateCategory(name, indexCardList,parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -622,7 +633,7 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to edit an Category to the CategoryLogic.
+     * Delegates the exercise to edit a Category to the CategoryLogic.
      * Displays an error, if there is no Category with the given name.
      *
      * @param name The name of the Category.
@@ -630,7 +641,11 @@ public class Controller {
      */
     public void editCategory(String name, List<String> indexCardListNames) {
         try {
-            categoryLogic.updateCategory(name, indexCardListNames);
+            List<Indexcard> indexCardList = new ArrayList<>();
+            for (String s : indexCardListNames) {
+                indexCardList.add(getIndexcardByName(s).get());
+            }
+            categoryLogic.updateCategory(name, indexCardList);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -642,64 +657,21 @@ public class Controller {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    public void setFilterInGlossar(){
-
-    }
 
     public List<Indexcard> searchIndexcard(String text) {
         return indexcardLogic.searchIndexcard(text);
     }
 
-
     /**
-     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
-     * @param name
-     * @param question
-     * @param answer
-     * @param keywords
+     * Delegates the exercise to learn an IndexcardBox to the LearnsystemLogic.
+     *
+     * @param indexcardBox The IndexcardBox that should be learned.
      */
-    /*private void createIndexcardLogic(String name, String question, String answer, String keywords){
-        if(keywordLogic.KeywordIsPresent(keywords)) {
-            Optional<Keyword> updateKeyword = keywordLogic.getKeyword(keywords);
-            indexcardLogic.createIndexcard(name, question, answer, updateKeyword.get());
-            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
-            keywordLogic.addIndexcardToKeyword(name , newCard.get());
-        }
-        else{
-            keywordLogic.createKeyword(keywords);
-            Optional<Keyword> newKeyword = keywordLogic.getKeyword(keywords);
-            indexcardLogic.createIndexcard(name, question, answer, newKeyword.get());
-            Optional<Indexcard> newCard = indexcardLogic.getIndexcardByName(name);
-            keywordLogic.addIndexcardToKeyword(name , newCard.get());
-        }
-    }*/
+    public void learn(IndexcardBox indexcardBox) {
+        mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox));
+    }
 
-
-
-    /**
-     * Delegates the exercise to update the Name of a Keyword to the KeywordLogic.
-     * @param keyword
-     * @param name
-     */
-    /*
-    public void updateKeywordName(Keyword keyword, String name) {
-        keywordLogic.updateKeywordName(keyword, name);
-    }*/
-
-
-
-    /*
-    public void editKeyword(Keyword oldKeyword, Keyword newKeyword, String keywordName, Indexcard newIndexcard, Indexcard oldIndexcard){
-        if(keywordLogic.KeywordIsPresent(keywordName)){ //Keyword exist already
-            List<Indexcard> list = oldKeyword.getIndexcards();
-            list.remove(newIndexcard);
-            keywordLogic.deleteIndexcardFromKeyword(oldKeyword, list);
-            if(oldKeyword.getIndexcards().isEmpty()){
-                keywordLogic.deleteKeyword(oldKeyword.getName());
-            }
-        }
-        //Indexcard add to new Keyword
-        keywordLogic.addIndexcardToKeyword(newKeyword.getName(), newIndexcard);
-    }*/
-
+    public void updateLearnsystem(Learnsystem learnsystem) {
+        learnsystemLogic.updateLearnsystem(learnsystem);
+    }
 }
