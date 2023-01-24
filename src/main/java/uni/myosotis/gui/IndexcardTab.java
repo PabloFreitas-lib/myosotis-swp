@@ -80,11 +80,13 @@ public class IndexcardTab extends JDialog{
             for (Object indexcardName : indexcardBoxList.getSelectedValuesList()) {
                 controller.deleteIndexcard(controller.getIndexcardByName(indexcardName.toString()).get().getId());
             }
-            updateList(controller.getAllIndexcards());
         }
         else {
+            // Pop-out
             controller.deleteIndexcard();
         }
+        updateList(controller.getAllIndexcards());
+
     }
     /**
      * Checks if the user has selected an indexcard if so
@@ -98,13 +100,14 @@ public class IndexcardTab extends JDialog{
         else {
             controller.editIndexcard();
         }
+        updateList(controller.getAllIndexcards());
     }
     /**
      * Opens the dialog to create a new indexcard
      */
     private void onCreate() {
         controller.createIndexcard();
-        //updateList(controller.getAllIndexcards());
+        updateList(controller.getAllIndexcards());
     }
     /**
      * Checks if the user has entered a search term
