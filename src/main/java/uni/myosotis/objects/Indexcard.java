@@ -28,6 +28,14 @@ public class Indexcard implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Creates a new Indexcard with the given name, question, answer and keywords.
+     *
+     * @param name     The name of the Indexcard.
+     * @param question The question of the Indexcard.
+     * @param answer   The answer of the Indexcard.
+     * @param keywords The list keywords of the Indexcard.
+     */
     public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords) {
 
         this.name = name;
@@ -36,7 +44,15 @@ public class Indexcard implements Serializable {
         this.keywords = keywords;
 
     }
-
+    /**
+     * Creates a new Indexcard with the given name, question, answer and keywords.
+     *
+     * @param name     The name of the Indexcard.
+     * @param question The question of the Indexcard.
+     * @param answer   The answer of the Indexcard.
+     * @param keywords The keywords of the Indexcard.
+     * @categoryList The categories of the Indexcard.
+     */
     public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords, List<String> categoryList) {
 
         this.name = name;
@@ -46,7 +62,9 @@ public class Indexcard implements Serializable {
         this.categoryList = categoryList;
 
     }
-
+    /** Creates a new Indexcard with the given name, question, answer and keywords.
+     * default constructor.
+     */
     public Indexcard () {
 
     }
@@ -170,10 +188,10 @@ public class Indexcard implements Serializable {
         if (categoryList.contains(categoryName))
             categoryList.remove(categoryName);
     }
+
     /**
      * Get a category of the Indexcard to the given name.
      */
-
     public List<String> getCategoryList(){
         return categoryList;
     }

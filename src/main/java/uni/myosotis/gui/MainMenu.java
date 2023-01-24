@@ -301,12 +301,12 @@ public class MainMenu extends JFrame {
     /**
      * Displays the Menu for learning.
      */
-    public void displayLearning(LearnSystem learnsystem) {
-        final Learning learning = new Learning(controller, learnsystem);
-        learning.pack();
-        learning.setMinimumSize(learning.getSize());
-        learning.setLocationRelativeTo(this);
-        learning.setVisible(true);
+    public void displayLearning(LearnSystem learnsystem, IndexcardBox indexCardBox){
+        final DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, learnsystem, indexCardBox);
+        displayIndexcard.pack();
+        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
+        displayIndexcard.setLocationRelativeTo(this);
+        displayIndexcard.setVisible(true);
     }
 
     public JScrollPane getIndexcardsPane(){
@@ -325,19 +325,21 @@ public class MainMenu extends JFrame {
      * Creates a ExampleMenu for Testing and Development (This is used without any notification).
      */
     public void createExampleIndexcards(){
-        controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}));
-        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}));
+        /*controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}));
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1"}));
+        controller.createIndexcardBox("Box",controller.getAllCategories());*/
+        controller.createIndexcard("Testkarteikarte1", "Testfrage1", "Testantwort1", List.of(new String[]{"#TestkeywordGRUPPE1"}));
         controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}));
         controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}));
         controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}));
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}));
-        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte6"}));
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte5"}));
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}));
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}));
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}));
         //controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
-        controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}));
-        controller.deleteCategory("CategoryTest2Delete");
+        //controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}));
+        //controller.deleteCategory("CategoryTest2Delete");
         controller.createIndexcardBox("Box",controller.getAllCategories());
     }
 

@@ -13,7 +13,7 @@ import java.util.List;
 public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
     private JPanel contentPane;
-    private JLabel KarteikästenLabel;
+    private JLabel KarteikastenLabel;
     private JButton searchButton;
     private JList indexcardBoxList;
     private JTextField textField1;
@@ -84,7 +84,11 @@ public class IndexcardBoxTab extends JDialog {
         this.indexcardBoxList.setModel(listModel);
     }
 
-    //
+    /**
+     * Display the lean window and should show the first Indexcard from the categories inside the
+     * selected IndexcardBox.
+     * For now just one Box can be learned at the time.
+     */
     private void onLearn() {
         if (indexcardBoxList.getModel().getSize() == 0) {
             JOptionPane.showMessageDialog(this, "Es existiert noch kein Karteikasten."
