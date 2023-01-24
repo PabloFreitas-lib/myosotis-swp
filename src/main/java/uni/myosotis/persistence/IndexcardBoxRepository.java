@@ -104,4 +104,17 @@ public class IndexcardBoxRepository {
             return em.createQuery("SELECT i FROM IndexcardBox i").getResultList();
         }
     }
+
+    /**
+     * This method gets all IndexcardBoxes that contains a part of
+     * the given text in their name, by using a LIKE query and
+     * UPPER function to make it case insensitiv.
+     * @param text
+     * @return
+     */
+    public List<IndexcardBox> searchIndexcardBox(String text) {
+           try (final EntityManager em = pm.getEntityManager()) {
+                return em.createQuery("SELECT i FROM IndexcardBox i WHERE UPPER(i.name) LIKE UPPER(:text)").setParameter("text", "%" + text + "%").getResultList();
+           }
+    }
 }

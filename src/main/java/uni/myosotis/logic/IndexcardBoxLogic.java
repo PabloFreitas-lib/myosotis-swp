@@ -65,4 +65,8 @@ public class IndexcardBoxLogic {
             throw new IllegalStateException("Die zu bearbeitende Karteikästen existiert nicht.");
         }
     }
+
+    public List<IndexcardBox> searchIndexcardBox(String text) {
+        return indexcardBoxRepository.searchIndexcardBox(text);
+    }
 }

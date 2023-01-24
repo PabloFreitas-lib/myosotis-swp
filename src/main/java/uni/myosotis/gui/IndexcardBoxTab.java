@@ -136,7 +136,7 @@ public class IndexcardBoxTab extends JDialog {
      * If not it displays all indexcards
      */
     private void onSearch(){
-        //updateList(controller.searchIndexcard(textField1.getText()));
+        updateList(controller.searchIndexcardBox(textField1.getText()));
     }
     /**
      * returns the contentPane

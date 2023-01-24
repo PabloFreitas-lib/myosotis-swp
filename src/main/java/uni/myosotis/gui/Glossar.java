@@ -180,7 +180,8 @@ public class Glossar extends JDialog {
                     glossarModel.addRow(new Object[]{indexCardsNameList.get(i), questionList.get(i), answerList.get(i), keywordList.get(i), categoryList.get(i)});
             }
         }
-        indexCardTable.setModel(sort(glossarModel,true));
+        indexCardTable.setModel(sort(glossarModel,true)
+        );
         // add data JTable
         indexcardsPane.setViewportView(indexCardTable);
     }
