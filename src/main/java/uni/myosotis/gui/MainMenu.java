@@ -47,7 +47,6 @@ public class MainMenu extends JFrame {
         tabbedPane = new JTabbedPane();
         setContentPane(tabbedPane);
         setTitle("Myosotis");
-        createMenu();
         setKeywordComboBox();
         setCategoryComboBox();
         pack();
@@ -88,10 +87,14 @@ public class MainMenu extends JFrame {
         indexCardBoxPane = indexcardBoxTab.getIndexcardPane();
 
         statistikPane = new JPanel();
-        categoriePane = new JPanel();
+
+        CategoryTab categoryTab = new CategoryTab(controller);
+        categoriePane = categoryTab.getCategoryPane();
+
         keywordPane = new JPanel();
 
         settingsPanel = new JPanel();
+
         tabbedPane.addTab("Glossar", glossarPane);
         tabbedPane.addTab("Statistiken", statistikPane);
         tabbedPane.addTab("Kategorien", categoriePane);
@@ -100,6 +103,8 @@ public class MainMenu extends JFrame {
         tabbedPane.addTab("Filter", filterPane);
         tabbedPane.addTab("Einstellungen", settingsPanel);
         tabbedPane.addTab("Karteikästen",indexCardBoxPane);
+
+        createExampleIndexcards(); //TODO: Remove this line FIXME
     }
 
     /**
@@ -162,38 +167,6 @@ public class MainMenu extends JFrame {
                 map(Category::getCategoryName).toList().toArray(new String[0]);
         categoryComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
 
-    }
-
-    /**
-     * Creates the Menu of the MainMenu-Window.
-     */
-    private void createMenu() {
-        final JMenuBar menuBar = new JMenuBar();
-        final JMenu categoryMenu = new JMenu("Kategorie");
-        final JMenuItem createCategory = new JMenuItem("Erstellen");
-        createCategory.addActionListener(e -> controller.createCategory());
-        final JMenuItem deleteCategory = new JMenuItem("Entfernen");
-        deleteCategory.addActionListener(e -> controller.deleteCategory());
-        final JMenuItem editCategory = new JMenuItem("Bearbeiten");
-        editCategory.addActionListener(e -> controller.editCategory());
-
-        final JMenu glossarMenu = new JMenu("Glossar");
-        final JMenuItem showGlossar = new JMenuItem("Zeigen");
-
-        categoryMenu.add(createCategory);
-        categoryMenu.addSeparator();
-        categoryMenu.add(editCategory);
-        categoryMenu.addSeparator();
-        categoryMenu.add(deleteCategory);
-        categoryMenu.addSeparator();
-
-        glossarMenu.add(showGlossar);
-        glossarMenu.addSeparator();
-
-        menuBar.add(categoryMenu);
-        menuBar.add(glossarMenu);
-        createExampleIndexcards(); //TODO: Remove this line FIXME
-        setJMenuBar(menuBar);
     }
 
     /**

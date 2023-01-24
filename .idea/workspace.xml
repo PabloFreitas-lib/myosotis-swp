@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/persistence/IndexcardRepository.class" afterDir="false" />
     </list>
     <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="" />

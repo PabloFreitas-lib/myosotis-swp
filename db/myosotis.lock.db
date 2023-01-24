@@ -1,6 +1,6 @@
 #FileLock
-#Mon Jan 23 15:19:29 CET 2023
-server=192.168.0.111\:64607
-hostName=192.168.0.111
+#Tue Jan 24 09:12:24 CET 2023
+server=192.168.178.30\:50018
+hostName=Kirstens-PC.fritz.box
 method=file
-id=185deff9365ac2bb2d587f20631b5289ae4fdbd566c
+id=185e2d5d9928e190d49c19d837fd90103b3704eb004
