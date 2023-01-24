@@ -182,7 +182,6 @@ public class Controller {
      * @param name The name of the Indexcard.
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
-     * @param deleteStatistic Whether the statistic should be deleted or not.
      * @param keywords Keywords for the Indexcard.
      * @param id The id of the Indexcard.
      */
@@ -681,7 +680,7 @@ public class Controller {
      * @param indexcardBox The IndexcardBox that should be learned.
      */
     public void learn(IndexcardBox indexcardBox) {
-        mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox));
+        mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"));
     }
 
     public void updateLearnsystem(Learnsystem learnsystem) {

@@ -29,8 +29,6 @@ public class Learning extends JFrame{
     public Learning(Controller controller, Learnsystem learnsystem) {
         this.controller = controller;
         this.learnProgressBar.setMinimum(0);
-        this.learnProgressBar.setMaximum(learnsystem.getIndexcardsToLearn().size() + learnsystem.getLearnedIndexcards().size());
-        this.learnProgressBar.setValue(learnsystem.getProgress());
 
         setContentPane(contentPane);
         setTitle("Karteikarten");
@@ -45,31 +43,22 @@ public class Learning extends JFrame{
             }
         });
 
-        this.questionLabel.setText(learnsystem.getIndexcardsToLearn().get(0).getQuestion());
         this.answerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                answerLabel.setText(learnsystem.getIndexcardsToLearn().get(0).getAnswer());
+
             }
         });
         this.rightAnswerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                learnsystem.getLearnedIndexcards().add(learnsystem.getIndexcardsToLearn().get(0));
-                learnsystem.getIndexcardsToLearn().remove(0);
-                learnsystem.setProgress(learnsystem.getProgress() + 1);
-                controller.updateLearnsystem(learnsystem);
-                learnProgressBar.setValue(learnsystem.getProgress());
-                questionLabel.setText(learnsystem.getIndexcardsToLearn().get(0).getQuestion());
+
             }
         });
         this.wrongAnswerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                learnsystem.getIndexcardsToLearn().add(learnsystem.getIndexcardsToLearn().get(0));
-                learnsystem.getIndexcardsToLearn().remove(0);
-                controller.updateLearnsystem(learnsystem);
-                questionLabel.setText(learnsystem.getLearnedIndexcards().get(0).getQuestion());
+
             }
         });
     }

@@ -1,12 +1,14 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
-public class Learnsystem {
+public abstract class Learnsystem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +25,6 @@ public class Learnsystem {
     @OneToOne
     private IndexcardBox indexcardBox;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Indexcard> indexcardsToLearn;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Indexcard> learnedIndexcards;
-
     public Learnsystem() {
 
     }
@@ -40,11 +36,6 @@ public class Learnsystem {
      */
     public Learnsystem(IndexcardBox indexcardBox)  {
         this.indexcardBox = indexcardBox;
-        learnedIndexcards = new ArrayList<>();
-        indexcardsToLearn = new ArrayList<>();
-        for (Category category : indexcardBox.getCategoryList()) {
-            indexcardsToLearn.addAll(category.getIndexcardList());
-        }
         this.progress = 0;
     }
 
@@ -64,24 +55,6 @@ public class Learnsystem {
      */
     public void setProgress(int progress) {
         this.progress = progress;
-    }
-
-    /**
-     * Returns the Indexcards that are to learn.
-     *
-     * @return The not learned Indexcards.
-     */
-    public List<Indexcard> getIndexcardsToLearn() {
-        return indexcardsToLearn;
-    }
-
-    /**
-     * Returns the Indexcards that are learned.
-     *
-     * @return The learned Indexcards.
-     */
-    public List<Indexcard> getLearnedIndexcards() {
-        return learnedIndexcards;
     }
 
     /**

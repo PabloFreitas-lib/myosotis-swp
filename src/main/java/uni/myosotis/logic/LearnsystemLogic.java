@@ -2,6 +2,7 @@ package uni.myosotis.logic;
 
 import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.objects.Learnsystem;
+import uni.myosotis.objects.LeitnerLearnsystem;
 import uni.myosotis.persistence.LearnsystemRepository;
 
 public class LearnsystemLogic {
@@ -20,13 +21,16 @@ public class LearnsystemLogic {
      * a new one will be created.
      *
      * @param indexcardBox The IndexcardBox that should be learnend.
+     * @param learnsystemName The learnsystem that should be used.
      */
-    public Learnsystem learn(IndexcardBox indexcardBox) {
+    public <T extends Learnsystem> T learn(IndexcardBox indexcardBox, String learnsystemName) {
         if (learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).isEmpty()) {
-            Learnsystem learnsystem = new Learnsystem(indexcardBox);
-            learnsystemRepository.safeLearnSystem(learnsystem);
+            if (learnsystemName.equals("Leitner")) {
+                T learnsystem = (T) new LeitnerLearnsystem(indexcardBox);
+                learnsystemRepository.safeLearnSystem(learnsystem);
+            }
         }
-        return learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).get();
+        return (T) learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).get();
     }
 
     /**

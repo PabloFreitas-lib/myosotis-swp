@@ -70,9 +70,9 @@ public class LearnsystemRepository {
      * @param indexcardBox The Indexcardbox connected to the Learnsystem.
      * @return The Learnsystem, if it exists.
      */
-    public Optional<Learnsystem> getLearnsystemByIndexcardBox(IndexcardBox indexcardBox) {
+    public <T extends Learnsystem> Optional<T> getLearnsystemByIndexcardBox(IndexcardBox indexcardBox) {
         try (final EntityManager em = pm.getEntityManager()) {
-            final List<Learnsystem> learnsystemList = em.createQuery("SELECT l FROM Learnsystem l WHERE l.indexcardBox = :indexcardBox").setParameter("indexcardBox", indexcardBox).getResultList();
+            final List<T> learnsystemList = em.createQuery("SELECT l FROM Learnsystem l WHERE l.indexcardBox = :indexcardBox").setParameter("indexcardBox", indexcardBox).getResultList();
             if (learnsystemList.isEmpty()) {
                 return Optional.empty();
             } else {
