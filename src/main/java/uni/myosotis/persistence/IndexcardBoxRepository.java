@@ -58,7 +58,7 @@ public class IndexcardBoxRepository {
      * This method is used to delete an object of type "IndexcardBox" in the persistent
      * persistence storage.
      *
-     * @param id      The unique id of the index card.
+     * @param name      The unique id of the index card.
      * @return          Status, -1 means an error has been occurred on delete.
      */
     public int deleteIndexcardBox(final String name) {

@@ -99,13 +99,13 @@ public class MainMenu extends JFrame {
         settingsPanel = new JPanel();
 
         tabbedPane.addTab("Glossar", glossarPane);
-        tabbedPane.addTab("Statistiken", statistikPane);
         tabbedPane.addTab("Kategorien", categoriePane);
-        tabbedPane.addTab("Schlagworte", keywordPane);
         tabbedPane.addTab("Karteikarten", indexcardPane);
-        //tabbedPane.addTab("Filter", filterPane);
-        tabbedPane.addTab("Einstellungen", settingsPanel);
         tabbedPane.addTab("Karteikästen",indexCardBoxPane);
+        tabbedPane.addTab("Statistiken", statistikPane);
+        tabbedPane.addTab("Schlagworte", keywordPane);
+        tabbedPane.addTab("Einstellungen", settingsPanel);
+        //tabbedPane.addTab("Filter", filterPane);
 
         tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -214,6 +214,17 @@ public class MainMenu extends JFrame {
         createIndexcardBox.setVisible(true);
     }
 
+    /**
+     * Displays the Dialog to edit a new Indexcard.
+     */
+    public void displayEditIndexcardBox() {
+        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller);
+        editIndexcardBox.pack();
+        editIndexcardBox.setMinimumSize(editIndexcardBox.getSize());
+        editIndexcardBox.setSize(400, 300);
+        editIndexcardBox.setLocationRelativeTo(this);
+        editIndexcardBox.setVisible(true);
+    }
     /**
      * Displays the Dialog to edit an existing Indexcard.
      */
@@ -325,6 +336,7 @@ public class MainMenu extends JFrame {
         //controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
         controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}));
         controller.deleteCategory("CategoryTest2Delete");
+        controller.createIndexcardBox("Box",controller.getAllCategories());
     }
 
 }

@@ -37,6 +37,10 @@ public class IndexcardBox implements Serializable{
         return categoryList;
     }
 
+    public String[] getCategoryNameList() {
+        return categoryList.stream().map(Category::getName).toList().toArray(new String[0]);
+    }
+
     public void setCategoryList(List<Category> categoryList) {
         this.categoryList = categoryList;
     }
