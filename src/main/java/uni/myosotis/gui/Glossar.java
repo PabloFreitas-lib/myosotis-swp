@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.List;
+import java.util.*;
 
 public class Glossar extends JDialog {
 
@@ -24,6 +24,8 @@ public class Glossar extends JDialog {
     private JButton filternCategory;
     private JButton filternEntfernenButton;
     private JTable indexCardTable;
+    private JRadioButton sortRadioButton;
+
 
     public Glossar(Controller controller) {
         this.controller = controller;
@@ -60,6 +62,16 @@ public class Glossar extends JDialog {
                 onFilternEntfernen();
             }
         });
+        sortRadioButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (sortRadioButton.isSelected()){
+                    sort((DefaultTableModel) indexCardTable.getModel(),false);
+                } else {
+                    sort((DefaultTableModel) indexCardTable.getModel(),true);
+                }
+            }
+        });
     }
     public JPanel getGlossarPane(){
         return contentPane;
@@ -91,12 +103,36 @@ public class Glossar extends JDialog {
         for (int i = 0; i < controller.getAllIndexcards().size(); i++){
             glossarModel.addRow(new Object[] {indexCardsNameList.get(i),questionList.get(i),answerList.get(i),keywordList.get(i),categoryList.get(i)});
         }
-
-        indexCardTable.setModel(glossarModel);
+        indexCardTable.setModel(sort(glossarModel,true));
         // add data JTable
         indexcardsPane.setViewportView(indexCardTable);
+    }
 
-
+    /**
+     * sorts the glossar table by the first column (indexcard name)
+     * @param glossarModel the table model
+     * @param order if true ascending, if false descending
+     * @return the sorted table model
+     */
+    public DefaultTableModel sort(DefaultTableModel glossarModel, boolean order){
+        List<Vector> data = new ArrayList<>();
+        for (int i = 0; i < glossarModel.getRowCount(); i++) {
+            data.add((Vector) glossarModel.getDataVector().get(i));
+        }
+        Collections.sort(data, new Comparator<Vector>() {
+            @Override
+            public int compare(Vector o1, Vector o2) {
+                return o1.get(0).toString().compareTo(o2.get(0).toString());
+            }
+        });
+        if (!order) {
+            Collections.reverse(data);
+        }
+        glossarModel.setRowCount(0);
+        for (Vector row : data) {
+            glossarModel.addRow(row);
+        }
+        return glossarModel;
     }
 
     public void onFilternKeyword(){
@@ -119,7 +155,7 @@ public class Glossar extends JDialog {
                     glossarModel.addRow(new Object[]{indexCardsNameList.get(i), questionList.get(i), answerList.get(i), keywordList.get(i), categoryList.get(i)});
             }
         }
-        indexCardTable.setModel(glossarModel);
+        indexCardTable.setModel(sort(glossarModel,true));
         // add data JTable
         indexcardsPane.setViewportView(indexCardTable);
     }
@@ -144,7 +180,7 @@ public class Glossar extends JDialog {
                     glossarModel.addRow(new Object[]{indexCardsNameList.get(i), questionList.get(i), answerList.get(i), keywordList.get(i), categoryList.get(i)});
             }
         }
-        indexCardTable.setModel(glossarModel);
+        indexCardTable.setModel(sort(glossarModel,true));
         // add data JTable
         indexcardsPane.setViewportView(indexCardTable);
     }

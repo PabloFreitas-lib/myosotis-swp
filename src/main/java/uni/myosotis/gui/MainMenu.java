@@ -80,19 +80,14 @@ public class MainMenu extends JFrame {
         Glossar glossar = new Glossar(controller);
         glossarPane = glossar.getGlossarPane();
 
-
         IndexcardTab indexcardTab = new IndexcardTab(controller);
         indexcardPane = indexcardTab.getIndexcardPane();
 
         IndexcardBoxTab indexcardBoxTab = new IndexcardBoxTab(controller);
         indexCardBoxPane = indexcardBoxTab.getIndexcardPane();
 
-        statistikPane = new JPanel();
-
         CategoryTab categoryTab = new CategoryTab(controller);
         categoriePane = categoryTab.getCategoryPane();
-
-        keywordPane = new JPanel();
 
         settingsPanel = new JPanel();
 
@@ -100,8 +95,6 @@ public class MainMenu extends JFrame {
         tabbedPane.addTab("Kategorien", categoriePane);
         tabbedPane.addTab("Karteikarten", indexcardPane);
         tabbedPane.addTab("Karteikästen",indexCardBoxPane);
-        tabbedPane.addTab("Statistiken", statistikPane);
-        tabbedPane.addTab("Schlagworte", keywordPane);
         tabbedPane.addTab("Einstellungen", settingsPanel);
         //tabbedPane.addTab("Filter", filterPane);
 

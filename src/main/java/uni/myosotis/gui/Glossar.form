@@ -102,6 +102,14 @@
               <text value="Filtern entfernen"/>
             </properties>
           </component>
+          <component id="130cd" class="javax.swing.JRadioButton" binding="sortRadioButton">
+            <constraints>
+              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Sortierung Umkehren"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>
