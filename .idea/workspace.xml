@@ -7,7 +7,9 @@
     <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/myosotis.lock.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.lock.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/Glossar.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/Glossar.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/Glossar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/Glossar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" afterDir="false" />
     </list>
@@ -68,7 +70,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="uni.myosotis.App" />
-      <module name="SNAPSHOT-1.0.0" />
+      <module name="myosotis" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uni.myosotis.*" />
@@ -113,6 +115,7 @@
       <workItem from="1673806359328" duration="659000" />
       <workItem from="1673884567548" duration="56929000" />
       <workItem from="1674568451644" duration="744000" />
+      <workItem from="1674671582025" duration="11808000" />
     </task>
     <servers />
   </component>
@@ -137,6 +140,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardTab.java</url>
           <line>107</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/uni/myosotis/gui/Glossar.java</url>
+          <line>130</line>
+          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

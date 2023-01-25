@@ -5,30 +5,32 @@ import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Glossar extends JDialog {
 
     private final Controller controller;
     private JPanel contentPane;
     private JScrollPane indexcardsPane;
-    private JComboBox KeywordComboBox;
+    private JComboBox keywordComboBox;
     private JLabel SchlagwortLabel;
     private JLabel KarteikartenLabel;
-    private JButton filternKeyword;
+    private JButton filtern;
     private JComboBox categoryComboBox;
-    private JButton filternCategory;
     private JButton filternEntfernenButton;
     private JTable indexCardTable;
     private JRadioButton sortRadioButton;
+    private JTextField searchTextField;
+    private JButton searchButton;
 
+    private String selectedCategory = "Wählen Sie ein Kategorie aus";
+    private String selectedKeyword = "Wählen Sie eine Schlagwort aus";
 
     public Glossar(Controller controller) {
         this.controller = controller;
@@ -57,15 +59,9 @@ public class Glossar extends JDialog {
             }
         });
 
-        filternKeyword.addActionListener(new ActionListener() {
+        filtern.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onFilternKeyword();
-            }
-        });
-
-        filternCategory.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onFilternCategory();
+                onFiltern();
             }
         });
 
@@ -84,39 +80,73 @@ public class Glossar extends JDialog {
                 }
             }
         });
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                search(searchTextField.getText());
+            }
+        });
     }
+
+    /**
+     * Sucht nach dem übergebenen Text in den Indexkarten und zeigt die Ergebnisse in der Tabelle an
+     * ist Case Insensitive
+     * @param text
+     */
+    private void search(String text) {
+        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Schlagwörter", "Kategorien"};
+        DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
+        List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
+                .filter(indexCard -> indexCard.getName().toLowerCase().contains(text.toLowerCase()) ||
+                        indexCard.getQuestion().toLowerCase().contains(text.toLowerCase()) ||
+                        indexCard.getAnswer().toLowerCase().contains(text.toLowerCase()) ||
+                        indexCard.getKeywordNames().toString().toLowerCase().contains(text.toLowerCase()) ||
+                        indexCard.getCategoryList().toString().toLowerCase().contains(text.toLowerCase()))
+                .collect(Collectors.toList());
+
+        for (Indexcard indexCard : filteredIndexCards) {
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+        }
+        indexCardTable.setModel(sort(glossarModel, true));
+        // add data JTable
+        indexcardsPane.setViewportView(indexCardTable);
+    }
+
     public JPanel getGlossarPane(){
         return contentPane;
     }
 
     private void onFilternEntfernen() {
         setGlossar();
+        setCategoryComboBox();
+        setKeywordComboBox();
+        searchTextField.setText("");
     }
 
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
-
-    public void setGlossar(){
-        List<String> indexCardsNameList = controller.getAllIndexcards().stream().
-                map(Indexcard::getName).toList();
-        List<String> questionList = controller.getAllIndexcards().stream().
-                map(Indexcard::getQuestion).toList();
-        List<String> answerList = controller.getAllIndexcards().stream().
-                map(Indexcard::getAnswer).toList();
-        List<List<String>> keywordList = controller.getAllIndexcards().stream().
-                map(Indexcard::getKeywordNames).toList();
-        List<List<String>> categoryList = controller.getAllIndexcards().stream().
-                map(Indexcard::getCategoryList).toList();
-
-        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Verschlagworten", "Kategorien"};
-        DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
-        for (int i = 0; i < controller.getAllIndexcards().size(); i++){
-            glossarModel.addRow(new Object[] {indexCardsNameList.get(i),questionList.get(i),answerList.get(i),keywordList.get(i),categoryList.get(i)});
+    private void onFiltern(){
+        if(!keywordComboBox.getSelectedItem().equals(selectedKeyword) && !categoryComboBox.getSelectedItem().equals(selectedCategory)){
+            onFilternCategoryAndKeyword();
+        } else if (!keywordComboBox.getSelectedItem().equals(selectedKeyword) && categoryComboBox.getSelectedItem().equals(selectedCategory)){
+            onFilternKeyword();
+        } else if (keywordComboBox.getSelectedItem().equals(selectedKeyword) && !categoryComboBox.getSelectedItem().equals(selectedCategory)){
+            onFilternCategory();
         }
-        indexCardTable.setModel(sort(glossarModel,true));
-        // add data JTable
+
+    }
+
+    public void setGlossar() {
+        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Schlagwörter", "Kategorien"};
+        DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
+
+        for (Indexcard indexCard : controller.getAllIndexcards()) {
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+        }
+
+        indexCardTable.setModel(sort(glossarModel, true));
         indexcardsPane.setViewportView(indexCardTable);
     }
 
@@ -147,63 +177,75 @@ public class Glossar extends JDialog {
         return glossarModel;
     }
 
-    public void onFilternKeyword(){
-        String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
-        List<String> indexCardsNameList = controller.getAllIndexcardNames();
-        List<String> questionList = controller.getAllIndexcards().stream().
-                map(Indexcard::getQuestion).toList();
-        List<String> answerList = controller.getAllIndexcards().stream().
-                map(Indexcard::getAnswer).toList();
-        List<List<String>> keywordList = controller.getAllIndexcards().stream().
-                map(Indexcard::getKeywordNames).toList();
-        List<List<String>> categoryList = controller.getAllIndexcards().stream().
-                map(Indexcard::getCategoryList).toList();
-
-        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Verschlagworten", "Kategorien"};
+    public void onFilternKeyword() {
+        String keywordToFilter = (String) keywordComboBox.getSelectedItem();
+        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Schlagwörter", "Kategorien"};
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
-        for (int i = 0; i < controller.getAllIndexcards().size(); i++){
-            for (int j = 0; j < keywordList.get(i).size(); j++) {
-                if (keywordList.get(i).get(j).equals(keyword2Filtern))
-                    glossarModel.addRow(new Object[]{indexCardsNameList.get(i), questionList.get(i), answerList.get(i), keywordList.get(i), categoryList.get(i)});
-            }
+
+        List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
+                .filter(indexCard -> indexCard.getKeywordNames().contains(keywordToFilter))
+                .collect(Collectors.toList());
+
+        for (Indexcard indexCard : filteredIndexCards) {
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
         }
-        indexCardTable.setModel(sort(glossarModel,true));
-        // add data JTable
+
+        indexCardTable.setModel(sort(glossarModel, true));
         indexcardsPane.setViewportView(indexCardTable);
     }
 
-    public void onFilternCategory(){
-        String category2Filtern = (String) categoryComboBox.getSelectedItem();
-        List<String> indexCardsNameList = controller.getAllIndexcardNames();
-        List<String> questionList = controller.getAllIndexcards().stream().
-                map(Indexcard::getQuestion).toList();
-        List<String> answerList = controller.getAllIndexcards().stream().
-                map(Indexcard::getAnswer).toList();
-        List<List<String>> keywordList = controller.getAllIndexcards().stream().
-                map(Indexcard::getKeywordNames).toList();
-        List<List<String>> categoryList = controller.getAllIndexcards().stream().
-                map(Indexcard::getCategoryList).toList();
-
-        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Verschlagworten", "Kategorien"};
+    public void onFilternCategory() {
+        String categoryToFilter = (String) categoryComboBox.getSelectedItem();
+        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Schlagwörter", "Kategorien"};
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
-        for (int i = 0; i < controller.getAllIndexcards().size(); i++){
-            for (int j = 0; j < categoryList.get(i).size(); j++) {
-                if (categoryList.get(i).get(j).equals(category2Filtern))
-                    glossarModel.addRow(new Object[]{indexCardsNameList.get(i), questionList.get(i), answerList.get(i), keywordList.get(i), categoryList.get(i)});
-            }
+
+        List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
+                .filter(indexCard -> indexCard.getCategoryList().contains(categoryToFilter))
+                .collect(Collectors.toList());
+
+        for (Indexcard indexCard : filteredIndexCards) {
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
         }
-        indexCardTable.setModel(sort(glossarModel,true)
-        );
-        // add data JTable
+
+        indexCardTable.setModel(sort(glossarModel, true));
         indexcardsPane.setViewportView(indexCardTable);
     }
 
+    /**
+     * filters the glossar table by the selected category and keyword
+     */
+    void onFilternCategoryAndKeyword(){
+        String categoryToFilter = (String) categoryComboBox.getSelectedItem();
+        String keywordToFilter = (String) keywordComboBox.getSelectedItem();
+
+        String[] columnNames = {"Begriffen", "Fragen","Antworten","Schlagwörter", "Kategorien"};
+        DefaultTableModel glossaryModel = new DefaultTableModel(columnNames, 0);
+
+        List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
+                .filter(indexCard -> indexCard.getCategoryList().contains(categoryToFilter) && indexCard.getKeywordNames().contains(keywordToFilter))
+                .collect(Collectors.toList());
+
+        for (Indexcard indexCard : filteredIndexCards) {
+            glossaryModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+        }
+
+        indexCardTable.setModel(sort(glossaryModel, true));
+        indexcardsPane.setViewportView(indexCardTable);
+    }
+
+    /**
+     * Set the CategoryComboBox with all Categories, which are in the Database.
+     * The first Item is "Wählen Sie eine Kategorie aus" which if selected is "null".
+     */
     public void setCategoryComboBox(){
-        // Array of all Categories
-        categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllCategoryNames()));
+        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getAllCategoryNames());
+        comboModel.setSelectedItem(selectedCategory);
+        categoryComboBox.setModel(comboModel);
     }
 
     public void setKeywordComboBox(){
-        KeywordComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllKeywordNames()));
+        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getAllKeywordNames());
+        comboModel.setSelectedItem(selectedKeyword);
+        keywordComboBox.setModel(comboModel);
     }
 }
