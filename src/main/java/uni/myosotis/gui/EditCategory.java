@@ -14,7 +14,6 @@ public class EditCategory extends JDialog {
     private JButton buttonCancel;
     private JScrollPane indexCardsScrollPane;
     private JPanel contentPane;
-    private JTree tree1;
     private JScrollPane categoryParentScrollPane;
     private final Controller controller;
 
@@ -46,12 +45,12 @@ public class EditCategory extends JDialog {
                 selectedCategory.get().getIndexcardList();
                 List<Indexcard> indexcardsNamesFromSelectedCategory = selectedCategory.get().getIndexcardList();
                 List<String> allIndexcardsNamesList = controller.getAllIndexcardNames();
-                indexcardsNamesList = new JList<>((ListModel) controller.getAllIndexcardNames());
+                indexcardsNamesList = new JList<>(allIndexcardsNamesList.toArray(new String[0]));
                 ArrayList<Integer> indices = new ArrayList<>();
                 indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
                 for(int i = 0; i < indexcardsNamesFromSelectedCategory.size(); i++) {
-                    indices.add(allIndexcardsNamesList.indexOf(indexcardsNamesFromSelectedCategory.get(i)));
+                    indices.add(allIndexcardsNamesList.indexOf(indexcardsNamesFromSelectedCategory.get(i).getName()));
                 }
                 int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
                 indexcardsNamesList.setSelectedIndices(indicesArray);

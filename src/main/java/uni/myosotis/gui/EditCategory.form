@@ -44,12 +44,7 @@
             </constraints>
             <properties/>
             <border type="none"/>
-            <children>
-              <component id="29b98" class="javax.swing.JTree" binding="tree1" default-binding="true">
-                <constraints/>
-                <properties/>
-              </component>
-            </children>
+            <children/>
           </scrollpane>
           <scrollpane id="8e765" binding="categoryParentScrollPane">
             <constraints>
