@@ -5,11 +5,14 @@ import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
+import java.util.List;
 
 public class Glossar extends JDialog {
 
@@ -34,9 +37,18 @@ public class Glossar extends JDialog {
         setKeywordComboBox();
         setGlossar();
         setTitle("Glossar");
+        //indexCardTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        indexCardTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        //indexCardTable.setPreferredSize(new Dimension(900, 700));
+        //int answerColumnIndex = 2;
+        //TableColumn answerColumn = indexCardTable.getColumnModel().getColumn(answerColumnIndex);
+        //answerColumn.setPreferredWidth(300);
+
+
+
         pack();
         setMinimumSize(getSize());
-        setSize(800, 600);
+        //setSize(900, 700);
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
