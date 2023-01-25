@@ -6,34 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/myosotis.lock.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.lock.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/DisplayIndexcard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/IndexcardBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/IndexcardBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/AbstractLayout.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/AbstractLayout.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/DimensionInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/DimensionInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridConstraints.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridConstraints.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridLayoutManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/GridLayoutManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/HorizontalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/HorizontalInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/LayoutState.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/LayoutState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Spacer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Spacer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode$TextWithMnemonic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/SupportCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/VerticalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/intellij/uiDesigner/core/VerticalInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/uni/myosotis/gui/MainMenu.class" afterDir="false" />
     </list>
     <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="" />
-    <list id="a133c578-17a7-4578-936b-bb70e2dd75ff" name="Changes by pablofreitas" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/EditCategory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardBoxTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/IndexcardBoxTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/CategoryGraph.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/Indexcard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/IndexcardBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/IndexcardBox.java" afterDir="false" />
-    </list>
+    <list id="a133c578-17a7-4578-936b-bb70e2dd75ff" name="Changes by pablofreitas" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,27 +28,6 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/objects/IndexcardBox.java">
-      <ranges>
-        <range start1="6" end1="6" start2="6" end2="7" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-        <range start1="20" end1="21" start2="21" end2="26" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-        <range start1="26" end1="27" start2="31" end2="35" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-        <range start1="30" end1="31" start2="38" end2="40" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-        <range start1="34" end1="35" start2="43" end2="46" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-        <range start1="39" end1="39" start2="50" end2="82" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="42" end1="43" start2="85" end2="89" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-      </ranges>
-    </file>
-    <file path="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/MainMenu.java">
-      <ranges>
-        <range start1="303" end1="309" start2="303" end2="309" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="327" end1="329" start2="327" end2="331" changelist="a133c578-17a7-4578-936b-bb70e2dd75ff" />
-        <range start1="333" end1="334" start2="335" end2="336" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-        <range start1="338" end1="340" start2="340" end2="342" changelist="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" />
-      </ranges>
-    </file>
-  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -78,22 +36,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH": "282",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW": "true",
-    "UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH": "264",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/kasim/Desktop/myosotis/src/main/java/uni/myosotis/logic",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;282&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.SHOW&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;264&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kasim/Desktop/myosotis/src/main/java/uni/myosotis/logic&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kasim\Desktop\myosotis\src\main\java\uni\myosotis\logic" />
@@ -110,7 +68,7 @@
       <option name="ALTERNATIVE_JRE_PATH" value="17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="uni.myosotis.App" />
-      <module name="myosotis" />
+      <module name="SNAPSHOT-1.0.0" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="uni.myosotis.*" />

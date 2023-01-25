@@ -91,7 +91,7 @@ public class Controller {
             //logic
             indexcardBoxLogic.createIndexcardBox(name,categoryList);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikästen wurde erfolgreich erstellt.", "Karteikästen erstellt",
+                    String.format("Die Karteikästen (%s) wurde erfolgreich erstellt.",name), "Karteikästen erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
@@ -123,7 +123,7 @@ public class Controller {
 
             indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
+                    String.format("Die Karteikarte (%s) wurde erfolgreich erstellt.",name), "Karteikarte erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
@@ -389,7 +389,7 @@ public class Controller {
             }
             categoryLogic.createCategory(categoryName,indexcardList);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
+                    String.format("Die Kategorie (%s) wurde erfolgreich erstellt.",categoryName), "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
