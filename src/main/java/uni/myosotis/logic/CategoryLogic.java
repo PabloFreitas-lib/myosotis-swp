@@ -185,6 +185,10 @@ public class CategoryLogic {
         return categoryRepository.getCategoryByName(category);
     }
 
+    public List<Category> getCategoriesByCategoryNameList(List<String> categoryNames){
+        return categoryRepository.getCategoriesByCategoryNameList(categoryNames);
+    }
+
     /**
      * Deletes specific Indexcards from a category.
      *

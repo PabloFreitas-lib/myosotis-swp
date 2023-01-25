@@ -103,6 +103,12 @@ public class CategoryRepository {
         }
     }
 
+    public List<Category> getCategoriesByCategoryNameList(final List<String> categoryNames) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT c FROM Category c WHERE c.name IN :categoryNames", Category.class).setParameter("categoryNames", categoryNames).getResultList();
+        }
+    }
+
     /**
      * This method is used to get all objects of type "Category" in the persistent
      * persistence storage.

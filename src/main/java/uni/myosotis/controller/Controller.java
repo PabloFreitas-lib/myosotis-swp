@@ -542,11 +542,20 @@ public class Controller {
         return getAllCategories().stream().map(Category::getCategoryName).toList().toArray(new String[0]);
     }
 
+    /**
+     * Delegates the exercise to find all CategoryNames from a CategoryList to the CategoryLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public String [] getAllCategoryNames(List<Category> categoryList) {
+        return categoryList.stream().map(Category::getCategoryName).toList().toArray(new String[0]);
+    }
+
 
 
 
     /**
-     * Delegates the exercise to find a Category with the given name to the CategoryLogic.
+     * Delegates the exercise to find a Category with the given name.
      *
      * @param category The name of the Category.
      * @return The Category if it exists.
@@ -554,6 +563,14 @@ public class Controller {
     public Optional<Category> getCategoryByName(String category) {
         return categoryLogic.getCategoryByName(category);
     }
+
+    /**
+     * Delegates the exercise to find all Categories from a CategoryNameList.
+     */
+    public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
+        return categoryLogic.getCategoriesByCategoryNameList(categoryNameList);
+    }
+
 
     /**
      * Display all Indexcards from the IndexCard repository into the IndexCardPanel.
