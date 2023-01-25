@@ -1,7 +1,6 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Category;
-import uni.myosotis.objects.CategoryGraph;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.persistence.CategoryRepository;
 
@@ -28,19 +27,6 @@ public class CategoryLogic {
         this.indexcardLogic = new IndexcardLogic();
     }
 
-    /**
-     * Search for a category in a CategoryGraph
-     */
-    public Category search(CategoryGraph graph, String name) {
-        Set<Category> visited = new HashSet<>();
-        for (Category root : graph.getRoots()) {
-            Category result = DFS(root, name, visited);
-            if (result != null) {
-                return result;
-            }
-        }
-        return null;
-    }
     /**
      * Search for a category in a CategoryGraph DFS
      * FIXME

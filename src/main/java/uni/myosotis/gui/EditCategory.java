@@ -35,13 +35,8 @@ public class EditCategory extends JDialog {
         setTitle("Kategorie bearbeiten");
         getRootPane().setDefaultButton(buttonOK);
         setContentPane(contentPane);
-        //list of all Categories
-        List<Category> allCategories = controller.getAllCategories();
-        //Array of all Category names
-        String[] allCategoriesNames = controller.getAllCategories().stream().
-                map(Category::getName).toList().toArray(new String[0]);
         //ComboBox with all Category names
-        categoryBoxName.setModel(new DefaultComboBoxModel<>(allCategoriesNames));
+        categoryBoxName.setModel(new DefaultComboBoxModel<>(controller.getAllCategoryNames()));
         //ActionListener for the ComboBox
         categoryBoxName.addActionListener(e -> {
             selectedCategoryName = (String) categoryBoxName.getSelectedItem();
@@ -49,17 +44,14 @@ public class EditCategory extends JDialog {
 
             if(selectedCategory.get() != null){
                 selectedCategory.get().getIndexcardList();
-                List<Indexcard> indexcardsNames = selectedCategory.get().getIndexcardList();
-                String[] allIndexcardsNames = controller.getAllIndexcards().stream().
-                        map(Indexcard::getName).toList().toArray(new String[0]);
-                List<String> allIndexcardsNamesList = controller.getAllIndexcards().stream().
-                        map(Indexcard::getName).toList();
-                indexcardsNamesList = new JList<>(allIndexcardsNames);
+                List<Indexcard> indexcardsNamesFromSelectedCategory = selectedCategory.get().getIndexcardList();
+                List<String> allIndexcardsNamesList = controller.getAllIndexcardNames();
+                indexcardsNamesList = new JList<>((ListModel) controller.getAllIndexcardNames());
                 ArrayList<Integer> indices = new ArrayList<>();
                 indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-                for(int i = 0; i < indexcardsNames.size(); i++) {
-                    indices.add(allIndexcardsNamesList.indexOf(indexcardsNames.get(i)));
+                for(int i = 0; i < indexcardsNamesFromSelectedCategory.size(); i++) {
+                    indices.add(allIndexcardsNamesList.indexOf(indexcardsNamesFromSelectedCategory.get(i)));
                 }
                 int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
                 indexcardsNamesList.setSelectedIndices(indicesArray);
@@ -67,8 +59,7 @@ public class EditCategory extends JDialog {
 
                 // Category Parents
                 // FIXME
-                String[] categoriesNames = controller.getAllCategories().stream().
-                        map(Category::getName).toList().toArray(new String[0]);
+                String[] categoriesNames = controller.getAllCategoryNames();
                 categoriesNamesList = new JList<>(categoriesNames);
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 if (selectedCategory.get().getParent() != null) {
@@ -78,14 +69,12 @@ public class EditCategory extends JDialog {
 
             }
             else {
-                String[] indexcardsNames = controller.getAllIndexcards().stream().
-                        map(Indexcard::getName).toList().toArray(new String[0]);
+                String[] indexcardsNames = controller.getAllIndexcardNames().toArray(new String[0]);
                 indexcardsNamesList = new JList<>(indexcardsNames);
                 indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 indexCardsScrollPane.setViewportView(indexcardsNamesList);
 
-                String[] categoriesNames = controller.getAllCategories().stream().
-                        map(Category::getName).toList().toArray(new String[0]);
+                String[] categoriesNames = controller.getAllCategoryNames();
                 categoriesNamesList = new JList<>(categoriesNames);
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 categoryParentScrollPane.setViewportView(categoriesNamesList);
@@ -143,7 +132,6 @@ public class EditCategory extends JDialog {
      * When the Cancel-Button is pressed, the Dialog is closed.
      */
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 }

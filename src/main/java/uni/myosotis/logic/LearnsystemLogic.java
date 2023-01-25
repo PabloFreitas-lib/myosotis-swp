@@ -24,14 +24,19 @@ public class LearnsystemLogic {
      * @param learnsystemName The learnsystem that should be used.
      */
     public <T extends LearnSystem> T learn(IndexcardBox indexcardBox, String learnsystemName) {
-        if (learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).isEmpty()) {
-            if (learnsystemName.equals("Leitner")) {
+        if (learnsystemName.equals("Leitner")) {
+            if (learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).isEmpty()) {
                 T learnsystem = (T) new LeitnerLearnSystem(indexcardBox);
                 learnsystemRepository.saveLearnSystem(learnsystem);
+                return learnsystem;
+            } else {
+                return (T) learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).get();
             }
+        }else {
+            throw new IllegalArgumentException("Invalid learnsystem name");
         }
-        return (T) learnsystemRepository.getLearnsystemByIndexcardBox(indexcardBox).get();
     }
+
 
     /**
      * Delegates the exercise to update a learnsystem to the learnsystemRepository.

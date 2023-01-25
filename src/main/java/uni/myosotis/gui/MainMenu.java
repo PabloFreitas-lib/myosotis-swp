@@ -301,12 +301,12 @@ public class MainMenu extends JFrame {
     /**
      * Displays the Menu for learning.
      */
-    public void displayLearning(LearnSystem learnsystem) {
-        final Learning learning = new Learning(controller, learnsystem);
-        learning.pack();
-        learning.setMinimumSize(learning.getSize());
-        learning.setLocationRelativeTo(this);
-        learning.setVisible(true);
+    public void displayLearning(LearnSystem learnsystem, IndexcardBox indexCardBox){
+        final DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, learnsystem, indexCardBox);
+        displayIndexcard.pack();
+        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
+        displayIndexcard.setLocationRelativeTo(this);
+        displayIndexcard.setVisible(true);
     }
 
     public JScrollPane getIndexcardsPane(){
@@ -331,7 +331,7 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}));
         controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}));
         controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}));
-        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte6"}));
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte5"}));
         controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}));
         controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}));
         controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}));

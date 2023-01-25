@@ -697,7 +697,7 @@ public class Controller {
      * @param indexcardBox The IndexcardBox that should be learned.
      */
     public void learn(IndexcardBox indexcardBox) {
-        mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"));
+        mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"), indexcardBox);
     }
 
     public void updateLearnsystem(LearnSystem learnsystem) {

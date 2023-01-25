@@ -3,7 +3,6 @@ package uni.myosotis.persistence;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
-import uni.myosotis.objects.CategoryGraph;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
 

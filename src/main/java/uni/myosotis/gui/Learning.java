@@ -12,6 +12,7 @@ import java.awt.event.WindowEvent;
 public class Learning extends JFrame{
 
     private final Controller controller;
+    private final LearnSystem learnsystem;
     private JPanel contentPane;
     private JProgressBar learnProgressBar;
     private JLabel questionLabel;
@@ -27,6 +28,7 @@ public class Learning extends JFrame{
      * @param learnsystem The learnsystem.
      */
     public Learning(Controller controller, LearnSystem learnsystem) {
+        this.learnsystem = learnsystem;
         this.controller = controller;
         this.learnProgressBar.setMinimum(0);
 
@@ -35,14 +37,11 @@ public class Learning extends JFrame{
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
-
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                controller.updateLearnsystem(learnsystem);
-                dispose();
+                onCancel();
             }
         });
-
         this.answerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,5 +60,9 @@ public class Learning extends JFrame{
 
             }
         });
+    }
+    private void onCancel() {
+        //controller.updateLearnsystem(learnsystem);
+        dispose();
     }
 }
