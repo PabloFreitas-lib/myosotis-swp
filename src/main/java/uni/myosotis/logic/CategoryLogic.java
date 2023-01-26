@@ -251,5 +251,8 @@ public class CategoryLogic {
         }
     }
 
+    public List<Category> searchCategory(String text) {
+        return categoryRepository.searchCategory(text);
+    }
 
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
+import uni.myosotis.objects.IndexcardBox;
 
 import java.util.List;
 import java.util.Optional;
@@ -150,6 +151,14 @@ public class CategoryRepository {
             List<Indexcard> indexcards = Category.getIndexcardList();
             em.getTransaction().commit();
             return indexcards;
+        }
+    }
+
+    public List<Category> searchCategory(String text) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM Category i WHERE LOWER(i.name) LIKE :text", Category.class)
+                    .setParameter("text", "%" + text.toLowerCase() + "%")
+                    .getResultList();
         }
     }
 

@@ -707,4 +707,8 @@ public class Controller {
     public List<IndexcardBox> searchIndexcardBox(String text) {
         return indexcardBoxLogic.searchIndexcardBox(text);
     }
+
+    public List<Category> searchCategory(String text) {
+        return categoryLogic.searchCategory(text);
+    }
 }

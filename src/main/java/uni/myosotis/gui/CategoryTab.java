@@ -1,12 +1,15 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Category;
+import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 public class CategoryTab extends JFrame{
 
@@ -15,6 +18,9 @@ public class CategoryTab extends JFrame{
     private JButton createCategoryButton;
     private JButton editCategoryButton;
     private JButton deleteCategoryButton;
+    private JList categoryList;
+    private JTextField searchField;
+    private JButton searchButton;
 
     public CategoryTab(Controller controller) {
         this.controller = controller;
@@ -23,7 +29,7 @@ public class CategoryTab extends JFrame{
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
-
+        updateList(controller.getAllCategories());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
@@ -32,19 +38,47 @@ public class CategoryTab extends JFrame{
 
         createCategoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.createCategory();
+                onCreate();
             }
         });
         editCategoryButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                controller.editCategory();
-            }
+            public void actionPerformed(ActionEvent e) {onEdit();}
         });
         deleteCategoryButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                controller.deleteCategory();
+                onDelete();
             }
         });
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) { onSearch();}
+        });
+    }
+
+    private void onCreate(){
+        controller.createCategory();
+        updateList(controller.getAllCategories());
+    }
+
+    private void onEdit(){
+        controller.editCategory();
+        updateList(controller.getAllCategories());
+    }
+
+    private void onDelete(){
+        controller.deleteCategory();
+        updateList(controller.getAllCategories());
+    }
+
+    private void updateList(List<Category> categoryList) {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (Category category : categoryList) {
+            listModel.addElement(category.getCategoryName());
+        }
+        this.categoryList.setModel(listModel);
+    }
+
+    private void onSearch(){
+        updateList(controller.searchCategory(searchField.getText()));
     }
 
     private void onCancel() {
