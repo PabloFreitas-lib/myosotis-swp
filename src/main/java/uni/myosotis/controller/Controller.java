@@ -219,9 +219,11 @@ public class Controller {
         }
     }
 
-    /**
-     * Displays the dialog to delete an Indexcard.
-     */
+
+
+        /**
+         * Displays the dialog to delete an Indexcard.
+         */
     public void deleteIndexcard() {
         mainMenu.displayDeleteIndexcard();
     }
@@ -236,14 +238,14 @@ public class Controller {
     /**
      * Displays the dialog to delete an Indexcard.
      */
-    public void updateIndexcardBox() {
+    public void editIndexcardBox() {
         mainMenu.displayEditIndexcardBox();
     }
 
     /**
      * Displays the dialog to delete an Indexcard.
      */
-    public void updateIndexcardBox(String indexcardBoxName, List<Category> indexcardBoxList) {
+    public void editIndexcardBox(String indexcardBoxName, List<Category> indexcardBoxList) {
         indexcardBoxLogic.updateIndexcardBox(indexcardBoxName, indexcardBoxList);
     }
 

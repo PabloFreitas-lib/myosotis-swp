@@ -124,7 +124,7 @@ public class IndexcardBoxTab extends JDialog {
      * If not it opens a dialog to edit a indexcard
      */
     private void onEdit() {
-            controller.updateIndexcardBox();
+            controller.editIndexcardBox();
             updateList(controller.getAllIndexcardBoxes());
     }
     /**
