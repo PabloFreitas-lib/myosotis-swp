@@ -4,8 +4,11 @@ import uni.myosotis.objects.*;
 import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class CategoryLogic {
+
+    private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(CategoryLogic.class.getName());
 
     /**
      * The repository for the Category's.
@@ -15,6 +18,8 @@ public class CategoryLogic {
     final IndexcardLogic indexcardLogic;
 
     final IndexcardBoxLogic indexcardBoxLogic;
+
+
 
     /**
      * Creates a new CategoryLogic.
@@ -36,15 +41,21 @@ public class CategoryLogic {
      * @param indexcardList The Indexcards in this Category.
      */
     public void createCategory(String categoryName, List<String> indexcardList) {
-        for (String s : indexcardList) indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
-
-        if (CategoryIsPresent(categoryName)) {
-            addIndexcardsToCategory(categoryName,indexcardList);
-        } else {
-            Category category = new Category(categoryName, indexcardList);
-            categoryRepository.saveCategory(category);
+        try {
+            for (String s : indexcardList) {
+                indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
+            }
+            if (CategoryIsPresent(categoryName)) {
+                addIndexcardsToCategory(categoryName,indexcardList);
+            } else {
+                Category category = new Category(categoryName, indexcardList);
+                categoryRepository.saveCategory(category);
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
         }
     }
+
 
     /**
      * Creates a new Category and saves it in the database.
@@ -55,15 +66,22 @@ public class CategoryLogic {
      * @param parent The parent Category.
      */
     public void createCategory(String categoryName, List<String> indexcardList,Category parent) {
-        for (String s : indexcardList) indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
-
-        if (CategoryIsPresent(categoryName)) {
-            addIndexcardsToCategory(categoryName,indexcardList);
-        } else {
-            Category category = new Category(categoryName, indexcardList,parent);
-            categoryRepository.saveCategory(category);
+        try {
+            for (String s : indexcardList) {
+                indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
+            }
+            if (CategoryIsPresent(categoryName)) {
+                addIndexcardsToCategory(categoryName,indexcardList);
+            } else {
+                Category category = new Category(categoryName, indexcardList,parent);
+                categoryRepository.saveCategory(category);
+                log.log(Level.INFO,"Successfully created new category: {}", categoryName);
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
         }
     }
+
 
     /**
      * Adds Indexcard to a Category.
@@ -245,12 +263,26 @@ public class CategoryLogic {
     /**
      * Get all categores from by a category name list.
      */
+
     public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
         List<Category> categoryList = new ArrayList<>();
-        for (int i = 0; i < categoryNameList.size(); i++)
-            categoryList.add(getCategoryByName(categoryNameList.get(i)).get());
+        for (int i = 0; i < categoryNameList.size(); i++) {
+            String categoryName = categoryNameList.get(i);
+            try {
+                Optional<Category> category = getCategoryByName(categoryName);
+                if (category.isPresent()) {
+                    categoryList.add(category.get());
+                } else {
+                    log.log(Level.WARNING, "Category not found: {0}", categoryName);
+                }
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "Error while retrieving category: {0}", categoryName);
+                log.log(Level.SEVERE, "Error", e);
+            }
+        }
         return categoryList;
     }
+
 
     /**
      * search for a category by name.

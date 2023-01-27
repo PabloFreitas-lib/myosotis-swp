@@ -69,7 +69,7 @@ public class EditIndexcardBox extends JDialog {
                 for (int i = 0; i < categoriesNamesList.getSelectedValuesList().size(); i++){
                     selectedCategoryList.add(controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(i)).get());
                 }
-                controller.updateIndexcardBox(selectedIndexcardBox.get().getName(), selectedCategoryList);
+                controller.editIndexcardBox(selectedIndexcardBox.get().getName(), selectedCategoryList);
             dispose();
         }
     }

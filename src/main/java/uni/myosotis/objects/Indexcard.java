@@ -195,4 +195,5 @@ public class Indexcard implements Serializable {
     public List<String> getCategoryList(){
         return categoryList;
     }
+
 }

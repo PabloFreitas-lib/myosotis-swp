@@ -7,9 +7,13 @@ import uni.myosotis.objects.IndexcardBox;
 import java.util.List;
 import java.util.Optional;
 
+
+
 public class IndexcardRepository {
 
     private final PersistenceManager pm = new PersistenceManager();
+
+
 
     /**
      * @author Len Thiemann
@@ -96,12 +100,15 @@ public class IndexcardRepository {
             final List<Indexcard> indexcards = em.createQuery("SELECT i FROM Indexcard i WHERE i.name = :name").setParameter("name", name).getResultList();
             if (indexcards.size() == 1) {
                 return Optional.of(indexcards.get(0));
-            }
-            else {
+            } else {
                 return Optional.empty();
             }
+        } catch (Exception e) {
+            System.err.println("Error occurred while fetching indexcard by name: " + name);
+            throw e;
         }
     }
+
 
     /**
      * This method is used to find an object of type "Indexcard" in the persistent
