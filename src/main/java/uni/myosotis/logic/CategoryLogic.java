@@ -41,15 +41,21 @@ public class CategoryLogic {
      * @param indexcardList The Indexcards in this Category.
      */
     public void createCategory(String categoryName, List<String> indexcardList) {
-        for (String s : indexcardList) indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
-
-        if (CategoryIsPresent(categoryName)) {
-            addIndexcardsToCategory(categoryName,indexcardList);
-        } else {
-            Category category = new Category(categoryName, indexcardList);
-            categoryRepository.saveCategory(category);
+        try {
+            for (String s : indexcardList) {
+                indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
+            }
+            if (CategoryIsPresent(categoryName)) {
+                addIndexcardsToCategory(categoryName,indexcardList);
+            } else {
+                Category category = new Category(categoryName, indexcardList);
+                categoryRepository.saveCategory(category);
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
         }
     }
+
 
     /**
      * Creates a new Category and saves it in the database.
@@ -60,15 +66,22 @@ public class CategoryLogic {
      * @param parent The parent Category.
      */
     public void createCategory(String categoryName, List<String> indexcardList,Category parent) {
-        for (String s : indexcardList) indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
-
-        if (CategoryIsPresent(categoryName)) {
-            addIndexcardsToCategory(categoryName,indexcardList);
-        } else {
-            Category category = new Category(categoryName, indexcardList,parent);
-            categoryRepository.saveCategory(category);
+        try {
+            for (String s : indexcardList) {
+                indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
+            }
+            if (CategoryIsPresent(categoryName)) {
+                addIndexcardsToCategory(categoryName,indexcardList);
+            } else {
+                Category category = new Category(categoryName, indexcardList,parent);
+                categoryRepository.saveCategory(category);
+                log.log(Level.INFO,"Successfully created new category: {}", categoryName);
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
         }
     }
+
 
     /**
      * Adds Indexcard to a Category.

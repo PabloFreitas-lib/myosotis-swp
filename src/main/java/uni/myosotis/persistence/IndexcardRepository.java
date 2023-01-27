@@ -6,10 +6,12 @@ import uni.myosotis.objects.IndexcardBox;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.logging.Level;
 
 
 public class IndexcardRepository {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IndexcardRepository.class.getName());
 
     private final PersistenceManager pm = new PersistenceManager();
 
@@ -31,8 +33,10 @@ public class IndexcardRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error saving index card: {0}", indexcard.getName());
             return -1;
         }
+        logger.log(Level.INFO, "Successfully saved index card: {0}", indexcard.getName());
         return 0;
     }
 
@@ -54,8 +58,10 @@ public class IndexcardRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error updating index card: {0}", indexcard.getName());
             return -1;
         }
+        logger.log(Level.INFO, "Successfully updated index card: {0}", indexcard.getName());
         return 0;
     }
 
@@ -73,8 +79,10 @@ public class IndexcardRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error deleting index card with id: {0}", id);
             return -1;
         }
+        logger.log(Level.INFO, "Successfully deleted index card with id: {0}", id);
         return 0;
     }
 
@@ -87,6 +95,10 @@ public class IndexcardRepository {
     public List<Indexcard> getAllIndexcards(){
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT i FROM Indexcard i").getResultList();
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while fetching all index cards");
+            throw e;
         }
     }
 
@@ -106,7 +118,7 @@ public class IndexcardRepository {
                 return Optional.empty();
             }
         } catch (Exception e) {
-            System.err.println("Error occurred while fetching indexcard by name: " + name);
+           logger.log(Level.SEVERE,"Error occurred while fetching indexcard by name: " + name);
             throw e;
         }
     }
@@ -124,16 +136,24 @@ public class IndexcardRepository {
             final List<IndexcardBox> indexcardBoxList = em.createQuery("SELECT i FROM IndexcardBox i WHERE i.name = :name").setParameter("name", name).getResultList();
             if (indexcardBoxList.size() == 1) {
                 return Optional.of(indexcardBoxList.get(0));
-            }
-            else {
+            } else {
+                logger.log(Level.SEVERE,"No indexcard box found with name {0}", name);
                 return Optional.empty();
             }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE,"Error occurred while searching indexcard box with name {0}", name);
+            logger.log(Level.SEVERE, e.getMessage());
+            throw e;
         }
     }
 
     public Optional<Indexcard> getIndexcardById(Long id) {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.find(Indexcard.class, id));
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while fetching index card with id: {0}", id);
+            throw e;
         }
     }
 
@@ -143,13 +163,21 @@ public class IndexcardRepository {
      *
      * @return List of all objects of type "Category", could be empty.
      */
-    public List<Indexcard> getAllIndexcardByCategories(String categorieName){
+    public List<Indexcard> getAllIndexcardByCategories(String categoryName){
         try (final EntityManager em = pm.getEntityManager()) {
-            return em.createQuery("SELECT i FROM Indexcard i JOIN Category c WHERE name = :name", Indexcard.class).setParameter("name", categorieName).getResultList();
+            return em.createQuery("SELECT i FROM Indexcard i JOIN Category c WHERE name = :name", Indexcard.class).setParameter("name", categoryName).getResultList();
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while fetching all index cards");
+            throw e;
         }
     }
 
-
+    /**
+     * This method is used to search the index card by name.
+     * @param text
+     * @return
+     */
     public List<Indexcard> searchIndexcard(String text) {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT i FROM Indexcard i WHERE LOWER(i.name) LIKE :text", Indexcard.class)
@@ -167,7 +195,9 @@ public class IndexcardRepository {
                     .setParameter("indexcardNameList", indexcardNameList)
                     .getResultList();
         }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while fetching all index cards");
+            throw e;
+        }
     }
-
-
 }
