@@ -31,7 +31,7 @@ public class DisplayIndexcard  extends JDialog{
         this.learnsystem = learnsystem;
         this.controller = controller;
         this.indexcardBox = indexcardBox;
-        this.indexcard = indexcardBox.getIndexcardList().stream().findFirst().get();
+        this.indexcard = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList()).stream().findFirst().get();
         this.learnProgressBar.setMinimum(0);
         this.learnProgressBar.setMaximum(indexcardBox.getIndexcardList().size());
         procentageValue.setText("0%");
@@ -78,7 +78,7 @@ public class DisplayIndexcard  extends JDialog{
      * If there is no next indexcard, it closes the window.
      */
     private void onNext() {
-        List<Indexcard> indexcards = indexcardBox.getIndexcardList();
+        List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
         int index = indexcards.indexOf(indexcard);
         if (index < indexcards.size() - 1) {
             indexcard = indexcards.get(index + 1);
@@ -93,7 +93,7 @@ public class DisplayIndexcard  extends JDialog{
     }
 
     private void onBack() {
-        List<Indexcard> indexcards = indexcardBox.getIndexcardList();
+        List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
         int index = indexcards.indexOf(indexcard);
         if (index > 0) {
             indexcard = indexcards.get(index - 1);

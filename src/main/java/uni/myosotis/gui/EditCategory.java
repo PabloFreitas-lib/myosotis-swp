@@ -43,7 +43,7 @@ public class EditCategory extends JDialog {
 
             if(selectedCategory.get() != null){
                 selectedCategory.get().getIndexcardList();
-                List<Indexcard> indexcardsNamesFromSelectedCategory = selectedCategory.get().getIndexcardList();
+                List<Indexcard> indexcardsNamesFromSelectedCategory = controller.getIndexcardsByIndexcardNameList(selectedCategory.get().getIndexcardList());
                 List<String> allIndexcardsNamesList = controller.getAllIndexcardNames();
                 indexcardsNamesList = new JList<>(allIndexcardsNamesList.toArray(new String[0]));
                 ArrayList<Integer> indices = new ArrayList<>();

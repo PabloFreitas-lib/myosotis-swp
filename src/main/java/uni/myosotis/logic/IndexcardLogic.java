@@ -1,10 +1,12 @@
 package uni.myosotis.logic;
 
+import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.CategoryRepository;
 import uni.myosotis.persistence.IndexcardRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +90,18 @@ public class IndexcardLogic {
      * @param id The id of the Indexcard.
      */
     public void deleteIndexcard(Long id) {
+        Indexcard indexcard2delete = getIndexcardById(id);
         if (indexcardRepository.getIndexcardById(id).isPresent()) {
+            List<Category> categoryContains = categoryRepository.getAllCategories();
+            for (Category categoryContain : categoryContains) {
+                List<String> temp = categoryContain.getIndexcardList();
+                if (temp.contains(indexcard2delete.getName())) {
+                    for (int j = 0; j < temp.size(); j++) {
+                        temp.removeIf(s -> s.equals(indexcard2delete.getName()));
+                        categoryRepository.updateCategory(categoryContain, categoryContain.getCategoryName(), temp);
+                    }
+                }
+            }
             if (indexcardRepository.deleteIndexcard(id) < 0) {
                 throw new IllegalStateException("Die Karteikarte konnte nicht gelöscht werden.");
             }
@@ -156,10 +169,7 @@ public class IndexcardLogic {
      * @return All Indexcards.
      */
     public List<Indexcard> getIndexcardsByCategory(String categoryName) {
-        //List<Indexcard> all = indexcardRepository.findAllIndexcards();
-        //all.removeIf(indexcard -> !indexcard.getCategoryList().getCategoryName().contains(categoryName));
         return indexcardRepository.getAllIndexcardByCategories(categoryName);
-        //return all;
     }
     /**
      * Edits an existing Indexcard and saves it in the database.
@@ -214,5 +224,18 @@ public class IndexcardLogic {
 
     public List<Indexcard> searchIndexcard(String text) {
         return indexcardRepository.searchIndexcard(text);
+    }
+
+    /**
+     * Create a function which converts a list of indexcard names to a list of indexcards.
+     * @param indexcardNames The list of indexcard names.
+     *                       The list of indexcards.
+     */
+    public List<Indexcard> getIndexcardsByIndexcardNameList(List<String> indexcardNames) {
+        List<Indexcard> indexcards = new ArrayList<>();
+        for (String indexcardName : indexcardNames) {
+            indexcards.add(indexcardRepository.getIndexcardByName(indexcardName).get());
+        }
+        return indexcards;
     }
 }

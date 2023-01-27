@@ -150,4 +150,17 @@ public class IndexcardRepository {
                     .getResultList();
         }
     }
+
+    /**
+     * Get all indexcards from a indexcard name list
+     */
+    public List<Indexcard> getIndexcardsFromNameList(List<String> indexcardNameList) {
+        try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM Indexcard i WHERE i.name IN :indexcardNameList", Indexcard.class)
+                    .setParameter("indexcardNameList", indexcardNameList)
+                    .getResultList();
+        }
+    }
+
+
 }

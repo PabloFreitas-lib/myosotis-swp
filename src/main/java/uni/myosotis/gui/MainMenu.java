@@ -326,22 +326,20 @@ public class MainMenu extends JFrame {
      */
 
     public void createExampleIndexcards(){
-        controller.createIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet.", List.of(new String[]{"#IT"}));
-        controller.createIndexcard("ITK2", "Was ist ein Programm?", "Ein Programm ist eine Anweisung für einen Computer.", List.of(new String[]{"#IT"}));
-        controller.createIndexcard("ITK3", "Was ist ein Programmierer?", "Ein Programmierer ist eine Person, die Programme schreibt.", List.of(new String[]{"#IT", "#Biologie"}));
-        controller.createCategory("IT", List.of(new String[]{"ITK1","ITK2","ITK3"}));
-        controller.createIndexcardBox("ITBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"IT"})));
-        controller.createIndexcard("BiologieK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
-        controller.createIndexcard("BiologieK2", "Was ist ein Lebewesen?", "Ein Lebewesen ist ein Organismus.", List.of(new String[]{"#Biologie"}));
-        controller.createIndexcard("BiologieK3", "Was ist ein Tier?", "Ein Tier ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
-        controller.createCategory("Biologie", List.of(new String[]{"BiologieK1","BiologieK2","BiologieK3"}));
-        controller.createIndexcardBox("BiologieBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
-        controller.createIndexcard("PhysikK1", "Was ist ein Atom?", "Ein Atom ist ein kleinstes Teilchen, das aus einem Kern und Elektronen besteht.", List.of(new String[]{"#Physik"}));
-        controller.createIndexcard("PhysikK2", "Was ist ein Kern?", "Ein Kern ist ein Teilchen, das aus Protonen und Neutronen besteht.", List.of(new String[]{"#Physik"}));
-        controller.createIndexcard("PhysikK3", "Was ist ein Elektron?", "Ein Elektron ist ein Teilchen, das aus einem negativen Ladungsträger besteht.", List.of(new String[]{"#Physik"}));
-        controller.createCategory("Physik", List.of(new String[]{"PhysikK1","PhysikK2","PhysikK3"}));
-        controller.createIndexcardBox("PhysikBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Physik"})));
-        controller.createIndexcardBox("WissenschaftBox",controller.getAllCategories());
+        controller.createIndexcard("Testkarteikarte1", "Testfrage", "Testantwort", List.of(new String[]{"#TestkeywordGRUPPE1","#TestkeywordGRUPPE2"}));
+        controller.createIndexcard("Testkarteikarte6", "Testfrage6", "Testantwort6", List.of(new String[]{"#TestkeywordGRUPPE4"}));
+        controller.createIndexcard("Testkarteikarte2", "Testfrage2", "Testantwort2", List.of(new String[]{"#TestkeywordGRUPPE1"}));
+        controller.createIndexcard("Testkarteikarte5", "Testfrage5", "Testantwort5", List.of(new String[]{"#TestkeywordGRUPPE2"}));
+        controller.createIndexcard("Testkarteikarte3", "Testfrage3", "Testantwort3", List.of(new String[]{"#TestkeywordGRUPPE1"}));
+        controller.createIndexcard("Testkarteikarte4", "Testfrage4", "Testantwort4", List.of(new String[]{"#TestkeywordGRUPPE1"}));
+        controller.createCategory("CategoryTestA", List.of(new String[]{"Testkarteikarte1","Testkarteikarte2","Testkarteikarte4","Testkarteikarte6"}));
+        controller.createIndexcard("Testkarteikarte7", "Testfrage7", "Testantwort7", List.of(new String[]{"#TestkeywordGRUPPE5"}));
+        controller.createIndexcard("Testkarteikarte8", "Testfrage8", "Testantwort8", List.of(new String[]{"#TestkeywordGRUPPE6"}));
+        controller.createCategory("CategoryTestB", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}));
+        //controller.createCategory("CategoryTestC", List.of(new String[]{"Testkarteikarte3","Testkarteikarte5","Testkarteikarte7"}),controller.getCategoryByName("CategoryTestB").get());
+        //controller.createCategory("CategoryTest2Delete", List.of(new String[]{"Testkarteikarte1","Testkarteikarte3","Testkarteikarte4","Testkarteikarte6"}));
+        //controller.deleteCategory("CategoryTest2Delete");
+        controller.createIndexcardBox("Box",controller.getAllCategories());
     }
 
 }

@@ -1,13 +1,9 @@
 package uni.myosotis.logic;
 
-import uni.myosotis.objects.Category;
-import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.*;
 import uni.myosotis.persistence.CategoryRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class CategoryLogic {
 
@@ -18,26 +14,16 @@ public class CategoryLogic {
 
     final IndexcardLogic indexcardLogic;
 
+    final IndexcardBoxLogic indexcardBoxLogic;
+
     /**
      * Creates a new CategoryLogic.
      */
     public CategoryLogic () {
 
+        this.indexcardBoxLogic = new IndexcardBoxLogic();
         this.categoryRepository = new CategoryRepository();
         this.indexcardLogic = new IndexcardLogic();
-    }
-
-    /**
-     * Search for a category in a CategoryGraph DFS
-     * FIXME
-     */
-    private Category DFS(Category node, String name, Set<Category> visited) {
-        if (node.getCategoryName().equals(name)) {
-            return node;
-        }
-        visited.add(node);
-
-        return null;
     }
 
 
@@ -49,9 +35,8 @@ public class CategoryLogic {
      * @param categoryName The categoryName of the Category.
      * @param indexcardList The Indexcards in this Category.
      */
-    public void createCategory(String categoryName, List<Indexcard> indexcardList) {
-        for(int i = 0; i < indexcardList.size(); i++)
-            indexcardLogic.updateCategoryFromIndexcard(indexcardList.get(i).getName(),categoryName);
+    public void createCategory(String categoryName, List<String> indexcardList) {
+        for (String s : indexcardList) indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
 
         if (CategoryIsPresent(categoryName)) {
             addIndexcardsToCategory(categoryName,indexcardList);
@@ -69,9 +54,8 @@ public class CategoryLogic {
      * @param indexcardList The Indexcards in this Category.
      * @param parent The parent Category.
      */
-    public void createCategory(String categoryName, List<Indexcard> indexcardList,Category parent) {
-        for(int i = 0; i < indexcardList.size(); i++)
-            indexcardLogic.updateCategoryFromIndexcard(indexcardList.get(i).getName(),categoryName);
+    public void createCategory(String categoryName, List<String> indexcardList,Category parent) {
+        for (String s : indexcardList) indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
 
         if (CategoryIsPresent(categoryName)) {
             addIndexcardsToCategory(categoryName,indexcardList);
@@ -86,7 +70,7 @@ public class CategoryLogic {
      * @param name The name of the Category.
      * @param indexcards The Indexcards which should be added.
      */
-    public void addIndexcardsToCategory(String name, List<Indexcard> indexcards) {
+    public void addIndexcardsToCategory(String name, List<String> indexcards) {
         Optional<Category> category = categoryRepository.getCategoryByName(name);
         if (category.isPresent()) {
             Category category2Save = category.get();
@@ -123,7 +107,7 @@ public class CategoryLogic {
      * @param name The name of the Category.
      * @param indexcards The updated Indexcards.
      */
-    public void editCategoryIndexcards(String name, List<Indexcard> indexcards) {
+    public void editCategoryIndexcards(String name, List<String> indexcards) {
         Optional<Category> Category = getCategoryByName(name);
         if (Category.isPresent()) {
             Category.get().setIndexcardList(indexcards);
@@ -143,9 +127,20 @@ public class CategoryLogic {
 
         if (CategoryIsPresent(categoryName)) {
             Category category2delete = getCategoryByName(categoryName).get();
-            List<Indexcard> indexCardsNameList = category2delete.getIndexcardList();
-            for(int i = 0; i < indexCardsNameList.size(); i++)
-                indexcardLogic.removeCategoryFromIndexcard(indexCardsNameList.get(i).getName(),categoryName);
+            //Fix for Bug:
+            List<IndexcardBox> boxContains = indexcardBoxLogic.getAllIndexcardBoxes();
+            for (IndexcardBox boxContain : boxContains) {
+                if (Arrays.asList(boxContain.getCategoryNameList()).contains(categoryName)) {
+                    List<Category> temp = boxContain.getCategoryList();
+                    for (int j = 0; j < temp.size(); j++) {
+                        temp.removeIf(s -> s.getName().equals(categoryName));
+                        indexcardBoxLogic.updateIndexcardBox(boxContain.getName(), temp);
+                    }
+                }
+            }
+            //End of Fix!
+            List<String> indexCardsNameList = category2delete.getIndexcardList();
+            for (String s : indexCardsNameList) indexcardLogic.removeCategoryFromIndexcard(s, categoryName);
             if (categoryRepository.deleteCategory(categoryName) < 0) {
                 throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
             }
@@ -171,17 +166,13 @@ public class CategoryLogic {
         return categoryRepository.getCategoryByName(category);
     }
 
-    public List<Category> getCategoriesByCategoryNameList(List<String> categoryNames){
-        return categoryRepository.getCategoriesByCategoryNameList(categoryNames);
-    }
-
     /**
      * Deletes specific Indexcards from a category.
      *
      * @param category The Category
      * @param indexcards The indexcards
      */
-    public void deleteIndexcardFromCategory(Category category, List<Indexcard> indexcards) {
+    public void deleteIndexcardFromCategory(Category category, List<String> indexcards) {
         categoryRepository.updateCategory(category, category.getCategoryName(), indexcards);
     }
 
@@ -190,25 +181,25 @@ public class CategoryLogic {
      * If there is no Category with the given name, it will throw a IllegalStateException.
      *
      * @param name The Name of the Category.
-     * @param indexCardsList  The Question of the Category.
+     * @param indexCardsNameList  The Question of the Category.
      */
-    public void updateCategory(String name, List<Indexcard> indexCardsList, Category parent) {
+    public void updateCategory(String name, List<String> indexCardsNameList, Category parent) {
         if (categoryRepository.getCategoryByName(name).isPresent()) {
             Category category2Edit = categoryRepository.getCategoryByName(name).get();
             List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
                     map(Indexcard::getName).toList();
             // Updates all values of the old category2Edit.
             category2Edit.setName(name);
-            category2Edit.setIndexcardList(indexCardsList);
+            category2Edit.setIndexcardList(indexCardsNameList);
             // Update the indexCards categories
             for(int i = 0; i < allIndexcardsList.size(); i++)
                 indexcardLogic.removeCategoryFromIndexcard(allIndexcardsList.get(i),name);
             // Update the indexCards categories
-            for(int i = 0; i < indexCardsList.size(); i++)
-                indexcardLogic.updateCategoryFromIndexcard(indexCardsList.get(i).getName(),name);
+            for(int i = 0; i < indexCardsNameList.size(); i++)
+                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
 
             // Update in database failed.
-            if (categoryRepository.updateCategory(category2Edit,name, indexCardsList,parent) < 0) {
+            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList,parent) < 0) {
                 throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
             }
         }
@@ -223,25 +214,25 @@ public class CategoryLogic {
      * If there is no Category with the given name, it will throw a IllegalStateException.
      *
      * @param name The Name of the Category.
-     * @param indexCardsList  The Question of the Category.
+     * @param indexCardsNameList  The Question of the Category.
      */
-    public void updateCategory(String name, List<Indexcard> indexCardsList) {
+    public void updateCategory(String name, List<String> indexCardsNameList) {
         if (categoryRepository.getCategoryByName(name).isPresent()) {
             Category category2Edit = categoryRepository.getCategoryByName(name).get();
             List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
                     map(Indexcard::getName).toList();
             // Updates all values of the old category2Edit.
             category2Edit.setName(name);
-            category2Edit.setIndexcardList(indexCardsList);
+            category2Edit.setIndexcardList(indexCardsNameList);
             // Update the indexCards categories
             for(int i = 0; i < allIndexcardsList.size(); i++)
                 indexcardLogic.removeCategoryFromIndexcard(allIndexcardsList.get(i),name);
             // Update the indexCards categories
-            for(int i = 0; i < indexCardsList.size(); i++)
-                indexcardLogic.updateCategoryFromIndexcard(indexCardsList.get(i).getName(),name);
+            for(int i = 0; i < indexCardsNameList.size(); i++)
+                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
 
             // Update in database failed.
-            if (categoryRepository.updateCategory(category2Edit,name, indexCardsList) < 0) {
+            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
                 throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
             }
         }
@@ -251,8 +242,21 @@ public class CategoryLogic {
         }
     }
 
-    public List<Category> searchCategory(String text) {
-        return categoryRepository.searchCategory(text);
+    /**
+     * Get all categores from by a category name list.
+     */
+    public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
+        List<Category> categoryList = new ArrayList<>();
+        for (int i = 0; i < categoryNameList.size(); i++)
+            categoryList.add(getCategoryByName(categoryNameList.get(i)).get());
+        return categoryList;
     }
 
+    /**
+     * search for a category by name.
+     *  @param name The name of the category.
+     */
+    public List<Category> searchCategory(String name) {
+        return categoryRepository.searchCategory(name);
+    }
 }

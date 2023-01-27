@@ -53,10 +53,10 @@ public class IndexcardBox implements Serializable{
      * By checking if the indexcard is already in the list, duplicates are avoided
      * @return List of indexcards
      */
-    public List<Indexcard> getIndexcardList() {
-        List<Indexcard> indexcardList = new ArrayList<>();
+    public List<String> getIndexcardList() {
+        List<String> indexcardList = new ArrayList<>();
         for (Category category : categoryList) {
-            for (Indexcard indexcard : category.getIndexcardList()) {
+            for (String indexcard : category.getIndexcardList()) {
                 if (!indexcardList.contains(indexcard)) {
                     indexcardList.add(indexcard);
                 }

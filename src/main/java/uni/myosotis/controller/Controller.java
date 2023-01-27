@@ -304,6 +304,15 @@ public class Controller {
      *
      * @return A list of all Indexcards.
      */
+    public List<String> getAllIndexcardNames(List<Indexcard> indexcards) {
+        return indexcards.stream().map(Indexcard::getName).toList();
+    }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
     public String[] getAllIndexcardBoxNames() {
         return getAllIndexcardBoxes().stream().map(IndexcardBox::getName).toList().toArray(new String[0]);
     }
@@ -387,7 +396,7 @@ public class Controller {
             for (String s : indexcardListNames) {
                 indexcardList.add(getIndexcardByName(s).get());
             }
-            categoryLogic.createCategory(categoryName,indexcardList);
+            categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList));
             JOptionPane.showMessageDialog(mainMenu,
                     String.format("Die Kategorie (%s) wurde erfolgreich erstellt.",categoryName), "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -413,7 +422,7 @@ public class Controller {
             for (String s : indexcardListNames) {
                 indexcardList.add(getIndexcardByName(s).get());
             }
-            categoryLogic.createCategory(categoryName,indexcardList,parent);
+            categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList),parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -434,7 +443,7 @@ public class Controller {
      */
     public void createCategory(String categoryName, List<Indexcard> indexcardList, boolean silentMode){
         try {
-            categoryLogic.createCategory(categoryName,indexcardList);
+            categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList));
             if (!silentMode) {
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
@@ -609,7 +618,7 @@ public class Controller {
      */
     public void filterIndexCardPanelByCategories(String name) {
         if (getCategoryByName(name).isPresent()) {
-            List<Indexcard> indexcardList = getCategoryByName(name).get().getIndexcardList();
+            List<Indexcard> indexcardList = getIndexcardsByIndexcardNameList(getCategoryByName(name).get().getIndexcardList());
             DefaultListModel<String> listModel = new DefaultListModel<>();
             for (Indexcard indexCard : indexcardList) {
                 listModel.addElement(indexCard.getName());
@@ -648,7 +657,7 @@ public class Controller {
             for (String s : indexCardListNames) {
                 indexCardList.add(getIndexcardByName(s).get());
             }
-            categoryLogic.updateCategory(name, indexCardList,parent);
+            categoryLogic.updateCategory(name, indexCardListNames,parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -674,7 +683,7 @@ public class Controller {
             for (String s : indexCardListNames) {
                 indexCardList.add(getIndexcardByName(s).get());
             }
-            categoryLogic.updateCategory(name, indexCardList);
+            categoryLogic.updateCategory(name, indexCardListNames);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -708,7 +717,21 @@ public class Controller {
         return indexcardBoxLogic.searchIndexcardBox(text);
     }
 
+    /**
+     * search for a category in the category repository
+     * @param text
+     * @return
+     */
     public List<Category> searchCategory(String text) {
         return categoryLogic.searchCategory(text);
+    }
+
+    /**
+     * Create a function which converts a list of indexcard names to a list of indexcards.
+     * @param indexcardNames The list of indexcard names.
+     *                       The list of indexcards.
+     */
+    public List<Indexcard> getIndexcardsByIndexcardNameList(List<String> indexcardNames) {
+        return indexcardLogic.getIndexcardsByIndexcardNameList(indexcardNames);
     }
 }
