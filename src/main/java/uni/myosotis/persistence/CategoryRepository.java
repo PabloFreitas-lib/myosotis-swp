@@ -2,16 +2,15 @@ package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Category;
-import uni.myosotis.objects.IndexcardBox;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 
 
 public class CategoryRepository {
+
+    private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(CategoryRepository.class.getName());
 
     private final PersistenceManager pm = new PersistenceManager();
 
@@ -29,10 +28,12 @@ public class CategoryRepository {
             em.getTransaction().begin();
             em.persist(category);
             em.getTransaction().commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            log.log(Level.SEVERE,"Error saving category: {}", category.getName());
+            log.log(Level.SEVERE,"Error: {}", e.getMessage());
             return -1;
         }
+        log.log(Level.INFO,"Successfully saved category: {}", category.getName());
         return 0;
     }
 
@@ -56,10 +57,12 @@ public class CategoryRepository {
             oldCategory.setParent(parent);
             em.merge(oldCategory);
             em.getTransaction().commit();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
+            log.log(Level.SEVERE, "Error: {0}", e.getMessage());
             return -1;
         }
+        log.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
         return 0;
     }
 
@@ -81,9 +84,12 @@ public class CategoryRepository {
             em.merge(oldCategory);
             em.getTransaction().commit();
         }
-        catch (Exception e) {
-            return -1;
-        }
+         catch (Exception e) {
+        log.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
+        log.log(Level.SEVERE, "Error: {0}", e.getMessage());
+        return -1;
+    }
+        log.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
         return 0;
     }
 
@@ -97,9 +103,13 @@ public class CategoryRepository {
     public Optional<Category> getCategoryByName(final String name) {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class).setParameter("name", name).getSingleResult());
-        }
-         catch (NoResultException e) {
+        } catch (NoResultException e) {
+            log.log(Level.WARNING,"No category found with name {}", name);
             return Optional.empty();
+        } catch (Exception e) {
+            log.log(Level.SEVERE,"Error occurred while searching for category by name {}", name);
+            log.log(Level.SEVERE,"Error: {}", e.getMessage());
+            throw e;
         }
     }
 
@@ -118,6 +128,9 @@ public class CategoryRepository {
     public List<Category> getAllCategories(){
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT k FROM Category k", Category.class).getResultList();
+        } catch (Exception e) {
+            log.log(Level.SEVERE,"Error occurred while retrieving all categories", e);
+            throw e;
         }
     }
 
@@ -133,15 +146,21 @@ public class CategoryRepository {
         final EntityManager em = pm.getEntityManager();
         try {
             em.getTransaction().begin();
-            Category category = getCategoryByName(name).get();
-            category = em.find(Category.class, category.getId());
-            em.remove(category);
+            final Optional<Category> categoryOpt = getCategoryByName(name);
+            if (!categoryOpt.isPresent()) {
+                log.log(Level.WARNING,"No category found with name {}", name);
+                return -1;
+            }
+            final Category category = categoryOpt.get();
+            em.remove(em.find(Category.class, category.getId()));
             em.getTransaction().commit();
+            return 1;
         } catch (Exception e) {
             em.getTransaction().rollback();
+            log.log(Level.SEVERE,"Error occurred while deleting category with name {}", name);
+            log.log(Level.SEVERE,"Error: {}", e.getMessage());
             throw e;
         }
-        return 0;
     }
 
 
@@ -150,6 +169,10 @@ public class CategoryRepository {
             return em.createQuery("SELECT i FROM Category i WHERE LOWER(i.name) LIKE :text", Category.class)
                     .setParameter("text", "%" + text.toLowerCase() + "%")
                     .getResultList();
+        } catch (Exception e) {
+            log.log(Level.SEVERE,"Error occurred while searching category with text {}", text);
+            log.log(Level.SEVERE,"Error: {}", e.getMessage());
+            throw e;
         }
     }
 
