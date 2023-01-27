@@ -18,7 +18,7 @@ public class IndexcardLogic {
     final IndexcardRepository indexcardRepository;
 
     /**
-     * The repository for the Categorys.
+     * The repository for the Category's.
      */
     final CategoryRepository categoryRepository;
 
@@ -234,7 +234,9 @@ public class IndexcardLogic {
     public List<Indexcard> getIndexcardsByIndexcardNameList(List<String> indexcardNames) {
         List<Indexcard> indexcards = new ArrayList<>();
         for (String indexcardName : indexcardNames) {
-            indexcards.add(indexcardRepository.getIndexcardByName(indexcardName).get());
+            if (indexcardRepository.getIndexcardByName(indexcardName).isPresent()) {
+                indexcards.add(indexcardRepository.getIndexcardByName(indexcardName).get());
+            }
         }
         return indexcards;
     }
