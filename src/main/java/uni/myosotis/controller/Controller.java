@@ -37,6 +37,11 @@ public class Controller {
     private final LearnsystemLogic learnsystemLogic;
 
     /**
+     * The LinkLogic of the application.
+     */
+    private final LinkLogic linkLogic;
+
+    /**
      * The main-menu of the application.
      */
     private MainMenu mainMenu;
@@ -46,12 +51,17 @@ public class Controller {
      *
      * @param indexcardLogic The logic for the Indexcards.
      * @param keywordLogic The logic for the Keywords.
+     * @param categoryLogic The logic for the Category`s.
+     * @param linkLogic The logic for the Links.
+     * @param indexcardBoxLogic The logic for the IndexcardBoxes.
+     * @param learnsystemLogic The logic for the LearnSystems.
      */
-    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final IndexcardBoxLogic indexcardBoxLogic, final LearnsystemLogic learnsystemLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final LinkLogic linkLogic, final IndexcardBoxLogic indexcardBoxLogic, final LearnsystemLogic learnsystemLogic) {
 
         this.indexcardLogic = indexcardLogic;
         this.keywordLogic = keywordLogic;
         this.categoryLogic = categoryLogic;
+        this.linkLogic = linkLogic;
         this.indexcardBoxLogic = indexcardBoxLogic;
         this.learnsystemLogic = learnsystemLogic;
 
@@ -396,7 +406,9 @@ public class Controller {
         try {
             List<Indexcard> indexcardList = new ArrayList<>();
             for (String s : indexcardListNames) {
-                indexcardList.add(getIndexcardByName(s).get());
+                if (getIndexcardByName(s).isPresent()) {
+                    indexcardList.add(getIndexcardByName(s).get());
+                }
             }
             categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList));
             JOptionPane.showMessageDialog(mainMenu,
@@ -422,7 +434,9 @@ public class Controller {
         try {
             List<Indexcard> indexcardList = new ArrayList<>();
             for (String s : indexcardListNames) {
-                indexcardList.add(getIndexcardByName(s).get());
+                if (getIndexcardByName(s).isPresent()) {
+                    indexcardList.add(getIndexcardByName(s).get());
+                }
             }
             categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList),parent);
             JOptionPane.showMessageDialog(mainMenu,
@@ -657,7 +671,9 @@ public class Controller {
         try {
             List<Indexcard> indexCardList = new ArrayList<>();
             for (String s : indexCardListNames) {
-                indexCardList.add(getIndexcardByName(s).get());
+                if (getIndexcardByName(s).isPresent()) {
+                    indexCardList.add(getIndexcardByName(s).get());
+                }
             }
             categoryLogic.updateCategory(name, indexCardListNames,parent);
             JOptionPane.showMessageDialog(mainMenu,
@@ -683,7 +699,9 @@ public class Controller {
         try {
             List<Indexcard> indexCardList = new ArrayList<>();
             for (String s : indexCardListNames) {
-                indexCardList.add(getIndexcardByName(s).get());
+                if (getIndexcardByName(s).isPresent()) {
+                    indexCardList.add(getIndexcardByName(s).get());
+                }
             }
             categoryLogic.updateCategory(name, indexCardListNames);
             JOptionPane.showMessageDialog(mainMenu,
@@ -720,9 +738,10 @@ public class Controller {
     }
 
     /**
-     * search for a category in the category repository
-     * @param text
-     * @return
+     * Search for Category`s with text in the category repository.
+     *
+     * @param text The Text.
+     * @return A list of Category`s that contains the text.
      */
     public List<Category> searchCategory(String text) {
         return categoryLogic.searchCategory(text);

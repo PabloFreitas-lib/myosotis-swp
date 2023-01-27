@@ -41,8 +41,6 @@ public class IndexcardRepository {
     }
 
     /**
-     * @author Johannes Neugebauer
-     *
      * This method is used to update an object of type "Indexcard" to the persistent
      * persistence storage. If the Card does not exist at this point it will be created
      * and added to the database. Otherwise, the content of the given card will be updated

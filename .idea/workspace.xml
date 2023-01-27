@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.lock.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.lock.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/myosotis.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/myosotis.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/controller/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CategoryTab.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CategoryTab.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CategoryTab.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/gui/CategoryTab.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/CategoryLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/logic/CategoryLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/CategoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/uni/myosotis/persistence/CategoryRepository.java" afterDir="false" />
-    </list>
+    <list default="true" id="5ba8e4c0-25d2-4dae-92b5-df64d569b12a" name="Changes" comment="" />
     <list id="9789734f-b7a8-4a01-a2be-f62c6f17c9b1" name="Changes by Johannes" comment="" />
     <list id="a133c578-17a7-4578-936b-bb70e2dd75ff" name="Changes by pablofreitas" comment="" />
     <option name="SHOW_DIALOG" value="false" />
