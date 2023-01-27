@@ -1,10 +1,12 @@
 package uni.myosotis.logic;
 
+import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 import uni.myosotis.persistence.CategoryRepository;
 import uni.myosotis.persistence.IndexcardRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +90,18 @@ public class IndexcardLogic {
      * @param id The id of the Indexcard.
      */
     public void deleteIndexcard(Long id) {
+        Indexcard indexcard2delete = getIndexcardById(id);
         if (indexcardRepository.getIndexcardById(id).isPresent()) {
+            List<Category> categoryContains = categoryRepository.getAllCategories();
+            for(int i = 0; i < categoryContains.size(); i++){
+                List<String> temp = categoryContains.get(i).getIndexcardList();
+                if(temp.contains(indexcard2delete.getName())) {
+                    for(int j = 0; j < temp.size(); j++) {
+                        temp.removeIf(s -> s.equals(indexcard2delete.getName()));
+                        categoryRepository.updateCategory(categoryContains.get(i), categoryContains.get(i).getCategoryName(), temp);
+                    }
+                }
+            }
             if (indexcardRepository.deleteIndexcard(id) < 0) {
                 throw new IllegalStateException("Die Karteikarte konnte nicht gelöscht werden.");
             }

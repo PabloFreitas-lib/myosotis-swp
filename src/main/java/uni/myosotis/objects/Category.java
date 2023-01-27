@@ -2,6 +2,7 @@ package uni.myosotis.objects;
 
 import jakarta.persistence.*;
 
+import uni.myosotis.objects.IndexcardBox;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,6 @@ public class Category implements Serializable{
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Category> children;
-
     // Constructors
 
     public Category() {

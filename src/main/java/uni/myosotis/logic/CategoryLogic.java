@@ -1,16 +1,10 @@
 package uni.myosotis.logic;
 
-import uni.myosotis.objects.Category;
-import uni.myosotis.objects.CategoryGraph;
-import uni.myosotis.objects.Indexcard;
-import uni.myosotis.objects.Keyword;
+import uni.myosotis.objects.*;
 import uni.myosotis.persistence.CategoryRepository;
 
 import javax.swing.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public class CategoryLogic {
 
@@ -21,11 +15,14 @@ public class CategoryLogic {
 
     final IndexcardLogic indexcardLogic;
 
+    final IndexcardBoxLogic indexcardBoxLogic;
+
     /**
      * Creates a new CategoryLogic.
      */
     public CategoryLogic () {
 
+        this.indexcardBoxLogic = new IndexcardBoxLogic();
         this.categoryRepository = new CategoryRepository();
         this.indexcardLogic = new IndexcardLogic();
     }
@@ -159,6 +156,18 @@ public class CategoryLogic {
 
         if (CategoryIsPresent(categoryName)) {
             Category category2delete = getCategoryByName(categoryName).get();
+            //Fix for Bug:
+            List<IndexcardBox> boxContains = indexcardBoxLogic.getAllIndexcardBoxes();
+            for(int i = 0; i < boxContains.size(); i++){
+                if(Arrays.asList(boxContains.get(i).getCategoryNameList()).contains(categoryName)) {
+                    List<Category> temp = boxContains.get(i).getCategoryList();
+                    for(int j = 0; j < temp.size(); j++) {
+                        temp.removeIf(s -> s.getName().equals(categoryName));
+                        indexcardBoxLogic.updateIndexcardBox(boxContains.get(i).getName(), temp);
+                    }
+                }
+            }
+            //End of Fix!
             List<String> indexCardsNameList = category2delete.getIndexcardList();
             for(int i = 0; i < indexCardsNameList.size(); i++)
                 indexcardLogic.removeCategoryFromIndexcard(indexCardsNameList.get(i),categoryName);
