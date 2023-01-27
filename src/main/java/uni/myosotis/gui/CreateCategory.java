@@ -20,13 +20,11 @@ public class CreateCategory extends JDialog{
     private JPanel contentPane;
     private JScrollPane indexCardsScrollPane;
     private JScrollPane parentCategoryScrollPane;
-    private JScrollPane childCategoryScrollPane;
 
     private JList<String> indexcardsNamesList;
 
     private JList<String> categoryParentNamesList;
 
-    private JList<String> categoryChildNamesList;
 
 
     /**
@@ -55,15 +53,6 @@ public class CreateCategory extends JDialog{
         categoryParentNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         // Parents options
         parentCategoryScrollPane.setViewportView(categoryParentNamesList);
-
-        // Child options
-
-        categoryChildNamesList = new JList<>(categoriesNames);
-        categoryChildNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        childCategoryScrollPane.setViewportView(categoryChildNamesList);
-
-
-
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +88,6 @@ public class CreateCategory extends JDialog{
         final String name = categoryTextField.getText();
         final List<String> indexcardsSelectedItems = indexcardsNamesList.getSelectedValuesList();
         final List<String> categoryParentSelectedItems = categoryParentNamesList.getSelectedValuesList();
-        final List<String> categoryChildSelectedItems = categoryChildNamesList.getSelectedValuesList();
         if (!name.isBlank() && !indexcardsSelectedItems.isEmpty()){
             controller.createCategory(name, indexcardsSelectedItems);
             controller.setIndexCardPanel();

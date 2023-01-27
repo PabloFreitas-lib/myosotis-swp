@@ -1,9 +1,6 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import jakarta.persistence.criteria.CriteriaBuilder;
-
-import uni.myosotis.objects.IndexcardBox;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +20,13 @@ public class Category implements Serializable{
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    //@OneToMany(mappedBy = "categoryList", fetch = FetchType.EAGER)
     private List<String> indexcardListNames;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Category> children;
 
      /**
      * Constructor for the Category.
      */
     public Category() {
-        children = new ArrayList<>();
     }
 
     public Category(String name, List<String> indexcardListNames) {
@@ -45,7 +38,6 @@ public class Category implements Serializable{
     public Category(String name, List<String> indexcardListNames, Category parent) {
         this(name, indexcardListNames);
         this.parent = parent;
-        parent.addChild(this);
     }
 
 
@@ -57,40 +49,41 @@ public class Category implements Serializable{
         return name;
     }
 
-    /*
+    /**
      * Getter for Indexcard from Category.
      * @return The Indexcard of the Category.
      */
     public List<String> getIndexcardList() {
         return this.indexcardListNames;
     }
-    /*
+    /**
      * Adds an Indexcard to the Category.
      * @param indexcard The Indexcard which should be added.
      */
     public void addIndexcard(String indexcard){
         indexcardListNames.add(indexcard);
     }
-    /*
+    /**
      * Sets the Indexcards of the Category.
-     * @param indexcards The Indexcardslist which should be set.
+     * @param indexcardList The Indexcardslist which should be set.
      */
     public void setIndexcardList(List<String> indexcardList) {
         this.indexcardListNames = indexcardList;
     }
 
 
-    public void setChildren(List<Category> children) {
-        this.children = children;
-    }
-
-    // getters
-    // Getter for the id
+    /**
+     * Getter for the id of the Category.
+     * @return The id of the Category.
+     */
     public Long getId() {
         return id;
     }
 
-    // Getter for the name
+    /**
+     * Getter for the name of the Category.
+     * @return The name of the Category.
+     */
     public String getName() {
         return name;
     }
@@ -117,40 +110,6 @@ public class Category implements Serializable{
      */
     public void setParent(Category parent) {
         this.parent = parent;
-    }
-
-    /**
-     * Method to add a child category.
-     * @param child The child category.
-     */
-    public void addChild(Category child) {
-        children.add(child);
-        child.setParent(this);
-    }
-
-    /**
-     * Method to remove a child category.
-     * @param child The child category.
-     */
-    public void removeChild(Category child) {
-        children.remove(child);
-        child.setParent(null);
-    }
-
-    /**
-     * Getter for the children of the Category.
-     * @return The children of the Category.
-     */
-    public List<Category> getChildren() {
-        return children;
-    }
-
-    /**
-     * Method to check if the Category has children.
-     * @return True if the Category has children, false otherwise.
-     */
-    public boolean hasChildren() {
-        return !children.isEmpty();
     }
 
 }

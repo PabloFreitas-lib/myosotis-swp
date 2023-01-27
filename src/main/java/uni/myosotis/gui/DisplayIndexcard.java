@@ -79,7 +79,7 @@ public class DisplayIndexcard  extends JDialog{
      */
     private void onNext() {
         List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
-        int index = indexcards.indexOf(indexcard);
+        int index = indexcardBox.getIndexcardList().indexOf(indexcard.getName());
         if (index < indexcards.size() - 1) {
             indexcard = indexcards.get(index + 1);
             questionLabel.setText(indexcard.getQuestion());
@@ -94,7 +94,7 @@ public class DisplayIndexcard  extends JDialog{
 
     private void onBack() {
         List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
-        int index = indexcards.indexOf(indexcard);
+        int index = indexcardBox.getIndexcardList().indexOf(indexcard.getName());
         if (index > 0) {
             indexcard = indexcards.get(index - 1);
             questionLabel.setText(indexcard.getQuestion());
