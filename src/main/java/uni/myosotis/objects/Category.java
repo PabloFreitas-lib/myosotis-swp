@@ -139,7 +139,7 @@ public class Category implements Serializable{
                     throw new IllegalArgumentException("Parent cannot be the same class as the current category.");
                 }
             } else {
-                throw new IllegalArgumentException("Parent cannot be null.");
+                this.parent = null;
             }
         } catch (IllegalArgumentException e) {
             // Log the error message
