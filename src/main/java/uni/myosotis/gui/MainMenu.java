@@ -235,7 +235,6 @@ public class MainMenu extends JFrame {
         final EditIndexcard editIndexcard = new EditIndexcard(controller);
         editIndexcard.pack();
         editIndexcard.setMinimumSize(editIndexcard.getSize());
-        editIndexcard.setSize(400, 300);
         editIndexcard.setLocationRelativeTo(this);
         editIndexcard.setIndexcard(indexcard);
         editIndexcard.setVisible(true);
@@ -328,7 +327,7 @@ public class MainMenu extends JFrame {
         // Test createIndexcard
         controller.createIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet.", List.of(new String[]{"#IT"}), new ArrayList<>());
         // Test editIndexcard
-        controller.editIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet. ps:Version2", List.of(new String[]{"#IT", "#Biologie"}),controller.getIndexcardByName("ITK1").get().getId());
+        controller.editIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet. ps:Version2", List.of(new String[]{"#IT", "#Biologie"}), new ArrayList<>(), controller.getIndexcardByName("ITK1").get().getId());
         // Test deleteIndexcard
         controller.deleteIndexcard(controller.getIndexcardByName("ITK1").get().getId());
 

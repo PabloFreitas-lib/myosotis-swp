@@ -203,16 +203,17 @@ public class Controller {
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
      * @param keywords Keywords for the Indexcard.
+     * @param links The Links of the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void editIndexcard(String name, String question, String answer, List<String> keywords, Long id) {
+    public void editIndexcard(String name, String question, String answer, List<String> keywords, List<String> links, Long id) {
         try {
-            final List<Keyword> keywordObjects = new ArrayList<>();
 
             // Old Keywords from this Indexcard
             final List<Keyword> oldKeywords = indexcardLogic.getIndexcardById(id).getKeywords();
 
             // Create new added Keywords
+            final List<Keyword> keywordObjects = new ArrayList<>();
             for (String keyword : keywords) {
                 if (keywordLogic.getKeywordByName(keyword).isEmpty()) {
                     keywordObjects.add(keywordLogic.createKeyword(keyword));
@@ -220,10 +221,30 @@ public class Controller {
                     keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
                 }
             }
-            indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, id);
+
+            // Old Links from this Indexcard
+            final List<Link> oldLinks = indexcardLogic.getIndexcardById(id).getLinks();
+
+            // Create new added Links
+            final List<Link> newLinks = new ArrayList<>();
+            for (String link : links) {
+                if (!oldLinks.stream().map(Link::getTerm).toList().contains(link.split(" ")[0])) {
+                    if (getIndexcardByName(link.split(" ")[2]).isPresent()) {
+                        String term = link.split(" ")[0];
+                        Indexcard indexcard = getIndexcardByName(link.split(" ")[2]).get();
+                        newLinks.add(linkLogic.createLink(term, indexcard));
+                    }
+                } else {
+                    newLinks.add(oldLinks.stream().filter(l -> l.getTerm().equals(link.split(" ")[0])).toList().get(0));
+                }
+            }
+
+            // Update the Indexcard
+            indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, newLinks, id);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);
+
             // Remove Keywords that are not used anymore
             for (Keyword keyword : oldKeywords) {
                 if (indexcardLogic.getIndexcardsByKeyword(keyword.getName()).isEmpty()) {
@@ -231,8 +252,14 @@ public class Controller {
                 }
             }
 
-        }
-        catch (final IllegalStateException e) {
+            // Remove removed Links
+            for (Link link : oldLinks) {
+                if (!newLinks.contains(link)) {
+                    System.out.println(link);
+                    linkLogic.deleteLink(link);
+                }
+            }
+        } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
                     "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
                     JOptionPane.ERROR_MESSAGE);
@@ -282,6 +309,16 @@ public class Controller {
             id = indexcard.getId();
             List<Keyword> keywords = indexcard.getKeywords();
 
+            // Delete Links that are linked with this Indexcard
+            for (Link link : linkLogic.getLinksByIndexcard(indexcard)) {
+                // Remove the Link from Indexcards that contain that Link.
+                for (Indexcard card : getAllIndexcards()) {
+                    List<Link> removedLink = card.getLinks().stream().filter(l -> !l.getTerm().equals(link.getTerm())).toList();
+                    indexcardLogic.updateIndexcard(card.getName(), card.getQuestion(), card.getAnswer(), card.getKeywords(), removedLink, card.getId());
+                }
+                linkLogic.deleteLink(link);
+            }
+
             // Delete the Indexcard
             indexcardLogic.deleteIndexcard(id);
 
@@ -291,6 +328,11 @@ public class Controller {
                 if (indexcardLogic.getIndexcardsByKeyword(keyword.getName()).isEmpty()) {
                     keywordLogic.deleteKeyword(keyword.getName());
                 }
+            }
+
+            // Delete Links from this Indexcard
+            for (Link link : indexcard.getLinks()) {
+                linkLogic.deleteLink(link);
             }
 
             JOptionPane.showMessageDialog(mainMenu,

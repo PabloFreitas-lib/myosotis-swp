@@ -209,4 +209,8 @@ public class Indexcard implements Serializable {
     public List<Link> getLinks() {
         return links;
     }
+
+    public void setLinks(List<Link> links) {
+        this.links = links;
+    }
 }

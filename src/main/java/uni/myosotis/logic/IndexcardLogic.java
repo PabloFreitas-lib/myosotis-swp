@@ -61,9 +61,10 @@ public class IndexcardLogic {
      * @param question  The Question of the Indexcard.
      * @param answer The Answer of the Indexcard.
      * @param keywords The keywords of the Indexcard.
+     * @param links The Links of the Indexcard.
      * @param id The id of the Indexcard.
      */
-    public void updateIndexcard(String name, String question, String answer, List<Keyword> keywords, Long id) {
+    public void updateIndexcard(String name, String question, String answer, List<Keyword> keywords, List<Link> links, Long id) {
         if (indexcardRepository.getIndexcardById(id).isPresent()) {
             Indexcard indexcard = indexcardRepository.getIndexcardById(id).get();
 
@@ -72,6 +73,7 @@ public class IndexcardLogic {
             indexcard.setQuestion(question);
             indexcard.setAnswer(answer);
             indexcard.setKeywords(keywords);
+            indexcard.setLinks(links);
 
             // Update in database failed.
             if (indexcardRepository.updateIndexcard(indexcard) < 0) {

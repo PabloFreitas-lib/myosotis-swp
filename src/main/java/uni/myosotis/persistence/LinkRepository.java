@@ -39,9 +39,10 @@ public class LinkRepository {
     public void delete(final Link link) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            em.remove(link);
+            em.remove(em.find(Link.class, link.getId()));
             em.getTransaction().commit();
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new IllegalStateException("Failed deleting the Link from the persistence storage: " + e.getMessage());
         }
     }

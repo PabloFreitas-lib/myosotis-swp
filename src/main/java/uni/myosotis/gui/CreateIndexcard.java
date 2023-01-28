@@ -99,7 +99,7 @@ public class CreateIndexcard extends JDialog {
         List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
         keywords.remove(0);
 
-        // Links separieren
+        // Separate Links
         List<String> links = new ArrayList<>();
         // Save added Links
         for (int i = 0; i < linkList.getModel().getSize(); i++) {

@@ -17,6 +17,11 @@ public class EditIndexcard extends JDialog {
     private JComboBox comboBoxName;
     private JTextField textFieldName;
     private JTextField textFieldKeywords;
+    private JTextField termField;
+    private JButton addLinkButton;
+    private JButton removeLinkButton;
+    private JList linkList;
+    private JList indexcardList;
     private String oldName;
 
     /**
@@ -39,7 +44,12 @@ public class EditIndexcard extends JDialog {
         }
         //ComboBox with all indexcard names
         comboBoxName.setModel(new DefaultComboBoxModel<>(indexcardsNames));
-        
+
+        // List of existing Indexcards
+        DefaultListModel listModelForIndexcards = new DefaultListModel();
+        listModelForIndexcards.addAll(controller.getAllIndexcardNames());
+        indexcardList.setModel(listModelForIndexcards);
+
         //ActionListener for the ComboBox
         comboBoxName.addActionListener(e -> {
             Optional<Indexcard> indexcard = controller.getIndexcardByName((String) comboBoxName.getSelectedItem());
@@ -52,6 +62,18 @@ public class EditIndexcard extends JDialog {
                     keywords.append("#").append(keyword.getName()).append(" ");
                 }
                 textFieldKeywords.setText(keywords.toString());
+
+                // List of all Links of the Indexcard.
+                DefaultListModel listModel = new DefaultListModel();
+                listModel.addAll(indexcard.get().getLinks().stream().map(link -> link.getTerm() + " => " + link.getIndexcard().getName()).toList());
+                linkList.setModel(listModel);
+
+                // List of existing Indexcards without the selected.
+                DefaultListModel listModelOfIndexcards = new DefaultListModel();
+                List<String> list = controller.getAllIndexcardNames().stream().filter(name -> !name.equals(comboBoxName.getSelectedItem())).toList();
+                listModelOfIndexcards.addAll(list);
+                indexcardList.setModel(listModelOfIndexcards);
+
                 oldName = indexcard.get().getName();
             }
         });
@@ -65,6 +87,18 @@ public class EditIndexcard extends JDialog {
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
+            }
+        });
+
+        addLinkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onAddLink();
+            }
+        });
+
+        removeLinkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onRemoveLink();
             }
         });
 
@@ -91,6 +125,7 @@ public class EditIndexcard extends JDialog {
 
         Indexcard oldIndexcard;
         //Old Parameters
+        System.out.println(oldName);
         if (controller.getIndexcardByName(oldName).isPresent()) {
             oldIndexcard = controller.getIndexcardByName(oldName).get();
         }
@@ -113,8 +148,15 @@ public class EditIndexcard extends JDialog {
         List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
         keywords.remove(0);
 
+        // Separate Links
+        List<String> links = new ArrayList<>();
+        // Save added Links
+        for (int i = 0; i < linkList.getModel().getSize(); i++) {
+            links.add((String) linkList.getModel().getElementAt(i));
+        }
+
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
-            controller.editIndexcard(name, question, answer, keywords, oldIndexcardId);
+            controller.editIndexcard(name, question, answer, keywords, links, oldIndexcardId);
             dispose();
         } else {
             JOptionPane.showMessageDialog(this,
@@ -133,6 +175,43 @@ public class EditIndexcard extends JDialog {
     public void setIndexcard(Indexcard indexcard){
         comboBoxName.setSelectedItem(indexcard.getName());
     }
+
+    /**
+     * Add a new Link.
+     */
+    private void onAddLink() {
+        if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
+            DefaultListModel listModel = new DefaultListModel();
+            // Save previous added Links
+            for (int i = 0; i < linkList.getModel().getSize(); i++) {
+                listModel.addElement(linkList.getModel().getElementAt(i));
+            }
+            // Add new Link
+            listModel.addElement(termField.getText() + " => " + indexcardList.getSelectedValue());
+            linkList.setModel(listModel);
+            // Clear selection
+            termField.setText("");
+            indexcardList.clearSelection();
+        }
+    }
+
+    /**
+     * Removes a Link.
+     */
+    private void onRemoveLink() {
+        if (linkList.getSelectedValue() != null) {
+            DefaultListModel listModel = new DefaultListModel();
+            // Save previous added Links without the deleted Link
+            for (int i = 0; i < linkList.getModel().getSize(); i++) {
+                int finalI = i;
+                if (Arrays.stream(linkList.getSelectedIndices()).noneMatch(e -> e == finalI)) {
+                    listModel.addElement(linkList.getModel().getElementAt(i));
+                }
+            }
+            linkList.setModel(listModel);
+        }
+    }
+
     /**
      * When the Cancel-Button is pressed, the Dialog is closed.
      */

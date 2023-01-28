@@ -65,4 +65,13 @@ public class Link implements Serializable {
     public Indexcard getIndexcard() {
         return indexcard;
     }
+
+    /**
+     * Returns the id of the Link.
+     *
+     * @return The id of the Link.
+     */
+    public Long getId() {
+        return id;
+    }
 }
