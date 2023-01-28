@@ -1,9 +1,16 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
+import lombok.extern.java.Log;
+import uni.myosotis.persistence.CategoryRepository;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Entity
 @Table(name = "category")
@@ -20,9 +27,13 @@ public class Category implements Serializable{
     @JoinColumn(name = "parent_id")
     private Category parent;
 
+    // child categories
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Category> children = new ArrayList<>();
+
     private List<String> indexcardListNames;
 
-
+    private static final Logger logger = Logger.getLogger(Category.class.getName());
      /**
      * Constructor for the Category.
      */
@@ -38,6 +49,8 @@ public class Category implements Serializable{
     public Category(String name, List<String> indexcardListNames, Category parent) {
         this(name, indexcardListNames);
         this.parent = parent;
+        // add the child to the parent
+        parent.addChild(this);
     }
 
 
@@ -50,11 +63,16 @@ public class Category implements Serializable{
     }
 
     /**
-     * Getter for Indexcard from Category.
+     * Getter for Indexcard names from Category checking the children cateories also.
      * @return The Indexcard of the Category.
+     *
      */
     public List<String> getIndexcardList() {
-        return this.indexcardListNames;
+        Set<String> indexcardList = new HashSet<>(this.indexcardListNames);
+        for (Category child : this.children) {
+            indexcardList.addAll(child.getIndexcardList());
+        }
+        return new ArrayList<>(indexcardList);
     }
     /**
      * Adds an Indexcard to the Category.
@@ -109,7 +127,40 @@ public class Category implements Serializable{
      * @param parent The parent of the Category.
      */
     public void setParent(Category parent) {
-        this.parent = parent;
+        try {
+            if (parent != null) {
+                if (this.getName() != parent.getName()) {
+                    this.parent = parent;
+                    // Add the current category to the parent's children
+                    // if children is not already in the list
+                    if (!parent.getChildren().contains(this))
+                        parent.getChildren().add(this);
+                } else {
+                    throw new IllegalArgumentException("Parent cannot be the same class as the current category.");
+                }
+            } else {
+                throw new IllegalArgumentException("Parent cannot be null.");
+            }
+        } catch (IllegalArgumentException e) {
+            // Log the error message
+            logger.log(Level.SEVERE, "Error setting parent: " + e.getMessage());
+        } catch (Exception e) {
+            // Log the error message
+            logger.log(Level.SEVERE,"Error setting parent: " + e.getMessage());
+        }
     }
 
+
+    public List<Category> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Category> children) {
+        this.children = children;
+    }
+
+    public void addChild(Category child) {
+        children.add(child);
+        child.setParent(this);
+    }
 }

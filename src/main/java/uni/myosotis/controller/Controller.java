@@ -675,6 +675,15 @@ public class Controller {
                     indexCardList.add(getIndexcardByName(s).get());
                 }
             }
+            // verify if the category is a child of itself
+            if (parent != null) {
+                if (parent.getCategoryName().equals(name)) {
+                    JOptionPane.showMessageDialog(mainMenu,
+                            "Eine Kategorie kann nicht selbst eine Unter-Kategorie sein.", "Kategorie nicht bearbeitet",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
             categoryLogic.updateCategory(name, indexCardListNames,parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
@@ -726,8 +735,15 @@ public class Controller {
      * @param indexcardBox The IndexcardBox that should be learned.
      */
     public void learn(IndexcardBox indexcardBox) {
-        mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"), indexcardBox);
+        if (!indexcardBox.getCategoryList().isEmpty()) {
+            mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"), indexcardBox);
+        } else {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "The indexcard box does not contain any categories.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
+
 
     public void updateLearnsystem(LearnSystem learnsystem) {
         learnsystemLogic.updateLearnsystem(learnsystem);

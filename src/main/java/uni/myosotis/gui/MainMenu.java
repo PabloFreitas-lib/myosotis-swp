@@ -335,6 +335,9 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("ITK2", "Was ist ein Programm?", "Ein Programm ist eine Anweisung für einen Computer.", List.of(new String[]{"#IT"}));
         controller.createIndexcard("ITK3", "Was ist ein Programmierer?", "Ein Programmierer ist eine Person, die Programme schreibt.", List.of(new String[]{"#IT", "#Biologie"}));
 
+        controller.createIndexcard("BOTK1", "Was ist ein Baum?", "Ein Baum ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
+        controller.createIndexcard("BOTK2", "Was ist ein Blume?", "Eine Blume ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
+
         controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
         controller.createIndexcard("BIOK2", "Was ist ein Zelle?", "Eine Zelle ist der kleinste Teil eines Organismus.", List.of(new String[]{"#Biologie"}));
         // Test createCategory
@@ -354,6 +357,9 @@ public class MainMenu extends JFrame {
         controller.deleteIndexcardBox("ITBox");
 
         controller.createIndexcardBox("BiologieBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
+
+        // Parent Category test
+        controller.createCategory("Botanic", List.of(new String[]{"BOTK1","BOTK2"}), controller.getCategoryByName("Biologie").get());
 
     }
 
