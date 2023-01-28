@@ -3,14 +3,18 @@ package uni.myosotis.persistence;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import uni.myosotis.objects.Category;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
-
+/**
+ * This class is used to access the persistence storage for the object type "Category".
+ */
 public class CategoryRepository {
 
-    private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(CategoryRepository.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CategoryRepository.class.getName());
 
     private final PersistenceManager pm = new PersistenceManager();
 
@@ -29,11 +33,11 @@ public class CategoryRepository {
             em.persist(category);
             em.getTransaction().commit();
         } catch (Exception e) {
-            log.log(Level.SEVERE,"Error saving category: {0}", category.getName());
-            log.log(Level.SEVERE,"Error: {0}", e.getMessage());
+            logger.log(Level.SEVERE,"Error saving category: {0}", category.getName());
+            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
             return -1;
         }
-        log.log(Level.INFO,"Successfully saved category: {0}", category.getName());
+        //logger.log(Level.INFO,"Successfully saved category: {0}", category.getName());
         return 0;
     }
 
@@ -58,11 +62,11 @@ public class CategoryRepository {
             em.merge(oldCategory);
             em.getTransaction().commit();
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
-            log.log(Level.SEVERE, "Error: {0}", e.getMessage());
+            logger.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
+            logger.log(Level.SEVERE, "Error: {0}", e.getMessage());
             return -1;
         }
-        log.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
+        //logger.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
         return 0;
     }
 
@@ -85,11 +89,11 @@ public class CategoryRepository {
             em.getTransaction().commit();
         }
          catch (Exception e) {
-        log.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
-        log.log(Level.SEVERE, "Error: {0}", e.getMessage());
+        logger.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
+        logger.log(Level.SEVERE, "Error: {0}", e.getMessage());
         return -1;
     }
-        log.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
+        //logger.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
         return 0;
     }
 
@@ -104,18 +108,33 @@ public class CategoryRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.createQuery("SELECT c FROM Category c WHERE c.name = :name", Category.class).setParameter("name", name).getSingleResult());
         } catch (NoResultException e) {
-            log.log(Level.WARNING,"No category found with name {0}", name);
+            logger.log(Level.WARNING,"No category found with name {0}", name);
             return Optional.empty();
         } catch (Exception e) {
-            log.log(Level.SEVERE,"Error occurred while searching for category by name {0}", name);
-            log.log(Level.SEVERE,"Error: {0}", e.getMessage());
+            logger.log(Level.SEVERE,"Error occurred while searching for category by name {0}", name);
+            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
             throw e;
         }
     }
 
+    /**
+     * This method is used to find an object of type "Category" in the persistent by Category Names.
+     * @param categoryNames
+     * @return
+     */
+
     public List<Category> getCategoriesByCategoryNameList(final List<String> categoryNames) {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT c FROM Category c WHERE c.name IN :categoryNames", Category.class).setParameter("categoryNames", categoryNames).getResultList();
+        }
+        catch (NoResultException e) {
+            logger.log(Level.WARNING,"No category found with name {0}", categoryNames);
+            return new ArrayList<>();
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE,"Error occurred while searching for category by name {0}", categoryNames);
+            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
+            throw e;
         }
     }
 
@@ -129,7 +148,7 @@ public class CategoryRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT k FROM Category k", Category.class).getResultList();
         } catch (Exception e) {
-            log.log(Level.SEVERE,"Error occurred while retrieving all categories", e);
+            logger.log(Level.SEVERE,"Error occurred while retrieving all categories", e);
             throw e;
         }
     }
@@ -139,7 +158,7 @@ public class CategoryRepository {
      * This method is used to delete an object of type "Category" in the persistent
      * persistence storage.
      *
-     * @param name      The name of the Categorys.
+     * @param name      The name of the Categories.
      * @return          Status, -1 means an error has been occurred on delete.
      */
     public int deleteCategory(final String name) {
@@ -148,7 +167,7 @@ public class CategoryRepository {
             em.getTransaction().begin();
             final Optional<Category> categoryOpt = getCategoryByName(name);
             if (!categoryOpt.isPresent()) {
-                log.log(Level.WARNING,"No category found with name {0}", name);
+                logger.log(Level.WARNING,"No category found with name {0}", name);
                 return -1;
             }
             final Category category = categoryOpt.get();
@@ -157,12 +176,20 @@ public class CategoryRepository {
             return 1;
         } catch (Exception e) {
             em.getTransaction().rollback();
-            log.log(Level.SEVERE,"Error occurred while deleting category with name {0}", name);
-            log.log(Level.SEVERE,"Error: {0}", e.getMessage());
+            logger.log(Level.SEVERE,"Error occurred while deleting category with name {0}", name);
+            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
             throw e;
         }
     }
 
+
+    /**
+     * This method is used to search for an object of type "Category" in the persistent
+     * persistence storage.
+     *
+     * @param text      The text that should be searched for.
+     * @return          List of all objects of type "Category" that contain the text, could be empty.
+     */
 
     public List<Category> searchCategory(String text) {
         try (final EntityManager em = pm.getEntityManager()) {
@@ -170,8 +197,8 @@ public class CategoryRepository {
                     .setParameter("text", "%" + text.toLowerCase() + "%")
                     .getResultList();
         } catch (Exception e) {
-            log.log(Level.SEVERE,"Error occurred while searching category with text {0}", text);
-            log.log(Level.SEVERE,"Error: {0}", e.getMessage());
+            logger.log(Level.SEVERE,"Error occurred while searching category with text {0}", text);
+            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
             throw e;
         }
     }

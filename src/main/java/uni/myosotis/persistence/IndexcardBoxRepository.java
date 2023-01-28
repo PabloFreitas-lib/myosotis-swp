@@ -1,13 +1,20 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
-import uni.myosotis.objects.Indexcard;
+import jakarta.persistence.PersistenceException;
 import uni.myosotis.objects.IndexcardBox;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 
+/**
+ * This class is used to access the persistence storage for the object type "IndexcardBox".
+ */
 public class IndexcardBoxRepository {
+
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IndexcardBoxRepository.class.getName());
+
     private final PersistenceManager pm = new PersistenceManager();
 
     /**
@@ -26,8 +33,10 @@ public class IndexcardBoxRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error saving index card: {0}", indexcardBox.getName());
             return -1;
         }
+        //logger.log(Level.INFO, "Successfully saved index card: {0}", indexcardBox.getName());
         return 0;
     }
 
@@ -49,8 +58,10 @@ public class IndexcardBoxRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error updating index card: {0}", indexcardBox.getName());
             return -1;
         }
+        //logger.log(Level.INFO, "Successfully updated index card: {0}", indexcardBox.getName());
         return 0;
     }
 
@@ -68,8 +79,10 @@ public class IndexcardBoxRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error deleting index card: {0}", name);
             return -1;
         }
+        //logger.log(Level.INFO, "Successfully deleted index card: {0}", name);
         return 0;
     }
 
@@ -82,15 +95,15 @@ public class IndexcardBoxRepository {
      */
     public Optional<IndexcardBox> getIndexcardBoxByName(final String name) {
         try (final EntityManager em = pm.getEntityManager()) {
-            final List<IndexcardBox> indexcardBoxes = em.createQuery("SELECT i FROM IndexcardBox i WHERE i.name = :name").setParameter("name", name).getResultList();
-            if (indexcardBoxes.size() == 1) {
-                return Optional.of(indexcardBoxes.get(0));
-            }
-            else {
-                return Optional.empty();
-            }
+            return Optional.ofNullable(em.find(IndexcardBox.class, name));
+        } catch (PersistenceException e) {
+            logger.log(Level.SEVERE,"Error retrieving indexcard box by name: {}",name);
+            logger.log(Level.SEVERE,e.getMessage());
+            return Optional.empty();
         }
     }
+
+
 
 
     /**
@@ -103,6 +116,10 @@ public class IndexcardBoxRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT i FROM IndexcardBox i").getResultList();
         }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Error retrieving all index cards");
+            return null;
+        }
     }
 
     /**
@@ -113,8 +130,12 @@ public class IndexcardBoxRepository {
      * @return
      */
     public List<IndexcardBox> searchIndexcardBox(String text) {
-           try (final EntityManager em = pm.getEntityManager()) {
-                return em.createQuery("SELECT i FROM IndexcardBox i WHERE UPPER(i.name) LIKE UPPER(:text)").setParameter("text", "%" + text + "%").getResultList();
-           }
+       try (final EntityManager em = pm.getEntityManager()) {
+            return em.createQuery("SELECT i FROM IndexcardBox i WHERE UPPER(i.name) LIKE UPPER(:text)").setParameter("text", "%" + text + "%").getResultList();
+       }
+       catch (Exception e) {
+           logger.log(Level.SEVERE, "Error retrieving all index cards");
+           return null;
+       }
     }
 }

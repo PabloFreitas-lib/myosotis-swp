@@ -9,6 +9,9 @@ import java.util.Optional;
 import java.util.logging.Level;
 
 
+/**
+ * This class is used to access the persistence storage for the object type "Indexcard".
+ */
 public class IndexcardRepository {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(IndexcardRepository.class.getName());
@@ -36,7 +39,7 @@ public class IndexcardRepository {
             logger.log(Level.SEVERE, "Error saving index card: {0}", indexcard.getName());
             return -1;
         }
-        logger.log(Level.INFO, "Successfully saved index card: {0}", indexcard.getName());
+        //logger.log(Level.INFO, "Successfully saved index card: {0}", indexcard.getName());
         return 0;
     }
 
@@ -59,7 +62,7 @@ public class IndexcardRepository {
             logger.log(Level.SEVERE, "Error updating index card: {0}", indexcard.getName());
             return -1;
         }
-        logger.log(Level.INFO, "Successfully updated index card: {0}", indexcard.getName());
+        //logger.log(Level.INFO, "Successfully updated index card: {0}", indexcard.getName());
         return 0;
     }
 
@@ -80,7 +83,7 @@ public class IndexcardRepository {
             logger.log(Level.SEVERE, "Error deleting index card with id: {0}", id);
             return -1;
         }
-        logger.log(Level.INFO, "Successfully deleted index card with id: {0}", id);
+        //logger.log(Level.INFO, "Successfully deleted index card with id: {0}", id);
         return 0;
     }
 

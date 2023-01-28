@@ -6,9 +6,14 @@ import uni.myosotis.objects.LearnSystem;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
+/**
+ * This class is used to access the persistence storage for the object type "LearnSystem".
+ */
 public class LearnsystemRepository {
 
+    private final Logger logger = Logger.getLogger(LearnsystemRepository.class.getName());
     private final PersistenceManager pm = new PersistenceManager();
 
     /**
@@ -43,6 +48,10 @@ public class LearnsystemRepository {
             em.merge(learnsystem);
             em.getTransaction().commit();
         }
+        catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error updating LearnSystem: {0}", learnsystem.getId());
+        }
+
     }
 
     /**
@@ -56,6 +65,9 @@ public class LearnsystemRepository {
             em.remove(learnsystem);
             em.getTransaction().commit();
         }
+        catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error deleting LearnSystem: {0}", learnsystem.getId());
+        }
     }
 
     /**
@@ -67,6 +79,10 @@ public class LearnsystemRepository {
     public Optional<LearnSystem> getLearnsystemById(long id) {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.of(em.find(LearnSystem.class, id));
+        }
+        catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error getting LearnSystem: {0}", id);
+            return Optional.empty();
         }
     }
 

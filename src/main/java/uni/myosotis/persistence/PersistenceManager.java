@@ -4,6 +4,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 
+/**
+ * This class is used to get the Entity-Manager for the persistence.
+ */
 public class PersistenceManager {
 
     /** References the "persistence-unit" name from META-INF/persistence.xml */

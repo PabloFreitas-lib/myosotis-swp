@@ -1,15 +1,20 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
+/**
+ * This class is used to access the persistence storage for the object type "Keyword".
+ */
 public class KeywordRepository {
 
+    private final Logger logger = Logger.getLogger(KeywordRepository.class.getName());
     private final PersistenceManager pm = new PersistenceManager();
 
     /**
@@ -27,8 +32,10 @@ public class KeywordRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(Level.SEVERE, "Error saving keyword: {0}", keyword.getName());
             return -1;
         }
+        //logger.log(java.util.logging.Level.INFO, "Successfully saved keyword: {0}", keyword.getName());
         return 0;
     }
 
@@ -46,8 +53,10 @@ public class KeywordRepository {
             em.getTransaction().commit();
         }
         catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error deleting keyword: {0}", name);
             return -1;
         }
+        //logger.log(java.util.logging.Level.INFO, "Successfully deleted keyword: {0}", name);
         return 0;
     }
 
@@ -62,6 +71,10 @@ public class KeywordRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return Optional.ofNullable(em.find(Keyword.class, word));
         }
+        catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error getting keyword: {0}", word);
+            return Optional.empty();
+        }
     }
 
     /**
@@ -74,87 +87,9 @@ public class KeywordRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT k FROM Keyword k", Keyword.class).getResultList();
         }
-    }
-
-    // END OF CLASS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /**
-     * This method is used to update an object of type "Keyword" to the persistent
-     * persistence storage. If the keyword does not exist at this point it will be created
-     * and added to the database. Otherwise, the content of the given keyword will be updated
-     * instead.
-     *
-     * @param oldKeyword  The keyword that should be updated in the persistence.
-     * @param word        The new name that should be saved to the persistence.
-     * @param indexcards  The new indexcards that should be saved to the persistence.
-     */
-    /*
-    public int updateKeyword(final Keyword oldKeyword, final String word, final List<Indexcard> indexcards) {
-        try (final EntityManager em = pm.getEntityManager()) {
-            em.getTransaction().begin();
-            oldKeyword.setWord(word);
-            oldKeyword.setIndexcards(indexcards);
-            em.merge(oldKeyword);
-            em.getTransaction().commit();
-        }
         catch (Exception e) {
-            return -1;
+            logger.log(java.util.logging.Level.SEVERE, "Error getting all keywords");
+            return List.of();
         }
-        return 0;
-    }*/
-
-    /*
-    public List<Indexcard> getIndexcardsFromKeyword(Keyword getkeyword) {
-        try (final EntityManager em = pm.getEntityManager()) {
-            em.getTransaction().begin();
-            Keyword keyword = em.find(Keyword.class, getkeyword.getName());
-            List<Indexcard> indexcards = keyword.getIndexcards();
-            em.getTransaction().commit();
-            return indexcards;
-        }
-    }*/
+    }
 }
