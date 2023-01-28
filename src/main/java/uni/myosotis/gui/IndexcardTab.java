@@ -9,14 +9,12 @@ import java.util.List;
 public class IndexcardTab extends JDialog{
     private final Controller controller;
     private JPanel contentPane;
-    private JLabel KarteikartenLabel;
     private JButton searchButton;
-    private JList indexcardBoxList;
-    private JTextField searchByNameTextField;
+    private JList indexcardList;
+    private JTextField searchField;
     private JButton deleteButton;
     private JButton editButton;
     private JButton createButton;
-    private JPanel middlePanel;
 
     public IndexcardTab(Controller controller) {
         this.controller = controller;
@@ -54,20 +52,15 @@ public class IndexcardTab extends JDialog{
     }
 
     /**
-     * Updates the list of indexcards
-     */
-
-    /**
      * This method updates the list of indexcards and displays the Names in the list.
      * @param indexcardList the list of indexcards which should be displayed
      */
-
     private void updateList(List<Indexcard> indexcardList) {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (Indexcard indexcard : indexcardList) {
             listModel.addElement(indexcard.getName());
         }
-        this.indexcardBoxList.setModel(listModel);
+        this.indexcardList.setModel(listModel);
     }
 
     /**
@@ -76,8 +69,8 @@ public class IndexcardTab extends JDialog{
      * If not it opens a dialog to delete a indexcard
      */
     private void onDelete() {
-        if (indexcardBoxList.getSelectedValue() != null) {
-            for (Object indexcardName : indexcardBoxList.getSelectedValuesList()) {
+        if (indexcardList.getSelectedValue() != null) {
+            for (Object indexcardName : indexcardList.getSelectedValuesList()) {
                 controller.deleteIndexcard(controller.getIndexcardByName(indexcardName.toString()).get().getId());
             }
         }
@@ -94,8 +87,8 @@ public class IndexcardTab extends JDialog{
      * If not it opens a dialog to edit a indexcard
      */
     private void onEdit() {
-        if (indexcardBoxList.getSelectedValue() != null) {
-            controller.editIndexcard(controller.getIndexcardByName(indexcardBoxList.getSelectedValue().toString()).get());
+        if (indexcardList.getSelectedValue() != null) {
+            controller.editIndexcard(controller.getIndexcardByName(indexcardList.getSelectedValue().toString()).get());
         }
         else {
             controller.editIndexcard();
@@ -115,7 +108,7 @@ public class IndexcardTab extends JDialog{
      * If not it displays all indexcards
      */
     private void onSearch(){
-        updateList(controller.searchIndexcard(searchByNameTextField.getText()));
+        updateList(controller.searchIndexcard(searchField.getText()));
     }
     /**
      * returns the contentPane
