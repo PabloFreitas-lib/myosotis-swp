@@ -26,12 +26,14 @@ public class LinkLogic {
     /**
      * Creates a new Link and saves it in the LinkRepository.
      *
-     * @param term The term the Indexcard is linked to.
+     * @param term      The term the Indexcard is linked to.
      * @param indexcard The Indexcard the term is linked with.
+     * @return The created Link.
      */
-    public void createLink(final String term, final Indexcard indexcard) {
+    public Link createLink(final String term, final Indexcard indexcard) {
         Link link = new Link(term, indexcard);
         linkRepository.save(link);
+        return link;
     }
 
     /**

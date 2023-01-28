@@ -1,14 +1,16 @@
 package uni.myosotis.objects;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
 
 /**
  * Linking between an Indexcard and a term.
  *
  */
-public class Link {
+
+@Entity
+public class Link implements Serializable {
 
     /**
      * The id of the Link.

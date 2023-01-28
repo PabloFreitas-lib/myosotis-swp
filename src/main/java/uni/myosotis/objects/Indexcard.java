@@ -18,8 +18,11 @@ public class Indexcard implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Keyword> keywords;
 
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Link> links;
+
     //@ManyToOne
-    private List<String> categoryList = new ArrayList<String>();
+    private List<String> categoryList = new ArrayList<>();
 
     /**
      * Id of the index card, needs to be unique within the persistence.
@@ -51,15 +54,17 @@ public class Indexcard implements Serializable {
      * @param question The question of the Indexcard.
      * @param answer   The answer of the Indexcard.
      * @param keywords The keywords of the Indexcard.
-     * @categoryList The categories of the Indexcard.
+     * @param categoryList The categories of the Indexcard.
+     * @param links The links of the Indexcard.
      */
-    public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords, List<String> categoryList) {
+    public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords, List<String> categoryList, final List<Link> links) {
 
         this.name = name;
         this.question = question;
         this.answer = answer;
         this.keywords = keywords;
         this.categoryList = categoryList;
+        this.links = links;
 
     }
     /** Creates a new Indexcard with the given name, question, answer and keywords.
@@ -196,4 +201,12 @@ public class Indexcard implements Serializable {
         return categoryList;
     }
 
+    /**
+     * Returns the links of the Indexcard.
+     *
+     * @retunr A list of all Links of the Indexcard.
+     */
+    public List<Link> getLinks() {
+        return links;
+    }
 }

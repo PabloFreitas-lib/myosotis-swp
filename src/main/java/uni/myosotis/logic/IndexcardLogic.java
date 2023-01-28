@@ -3,6 +3,7 @@ package uni.myosotis.logic;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
+import uni.myosotis.objects.Link;
 import uni.myosotis.persistence.CategoryRepository;
 import uni.myosotis.persistence.IndexcardRepository;
 
@@ -40,12 +41,13 @@ public class IndexcardLogic {
      * @param question  The Question of the Indexcard.
      * @param answer The Answer of the Indexcard.
      * @param keywords Keywords which could be added to the Indexcard.
+     * @param links Links which should be added to the Indexcard.
      */
-    public void createIndexcard(String name, String question, String answer, List<Keyword> keywords) {
+    public void createIndexcard(String name, String question, String answer, List<Keyword> keywords, List<Link> links) {
         if (indexcardRepository.getIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords)) < 0) {
+            if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords, new ArrayList<>(), links)) < 0) {
                 throw new IllegalStateException("Karteikarte konnte nicht erstellt werden, Fehler beim Speichern in der Datenbank");
             }
         }

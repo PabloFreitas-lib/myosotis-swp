@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenu extends JFrame {
@@ -188,7 +189,6 @@ public class MainMenu extends JFrame {
         final CreateIndexcard createIndexcard = new CreateIndexcard(controller);
         createIndexcard.pack();
         createIndexcard.setMinimumSize(createIndexcard.getSize());
-        createIndexcard.setSize(400, 300);
         createIndexcard.setLocationRelativeTo(this);
         createIndexcard.setVisible(true);
     }
@@ -326,20 +326,25 @@ public class MainMenu extends JFrame {
      */
     public void createExampleIndexcards(){
         // Test createIndexcard
-        controller.createIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet.", List.of(new String[]{"#IT"}));
+        controller.createIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet.", List.of(new String[]{"#IT"}), new ArrayList<>());
         // Test editIndexcard
         controller.editIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet. ps:Version2", List.of(new String[]{"#IT", "#Biologie"}),controller.getIndexcardByName("ITK1").get().getId());
         // Test deleteIndexcard
         controller.deleteIndexcard(controller.getIndexcardByName("ITK1").get().getId());
 
-        controller.createIndexcard("ITK2", "Was ist ein Programm?", "Ein Programm ist eine Anweisung für einen Computer.", List.of(new String[]{"#IT"}));
-        controller.createIndexcard("ITK3", "Was ist ein Programmierer?", "Ein Programmierer ist eine Person, die Programme schreibt.", List.of(new String[]{"#IT", "#Biologie"}));
+        controller.createIndexcard("ITK2", "Was ist ein Programm?", "Ein Programm ist eine Anweisung für einen Computer.", List.of(new String[]{"#IT"}), new ArrayList<>());
+        controller.createIndexcard("ITK3", "Was ist ein Programmierer?", "Ein Programmierer ist eine Person, die Programme schreibt.", List.of(new String[]{"#IT", "#Biologie"}), new ArrayList<>());
 
+<<<<<<< Updated upstream
         controller.createIndexcard("BOTK1", "Was ist ein Baum?", "Ein Baum ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
         controller.createIndexcard("BOTK2", "Was ist ein Blume?", "Eine Blume ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
 
         controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}));
         controller.createIndexcard("BIOK2", "Was ist ein Zelle?", "Eine Zelle ist der kleinste Teil eines Organismus.", List.of(new String[]{"#Biologie"}));
+=======
+        controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
+        controller.createIndexcard("BIOK2", "Was ist ein Zelle?", "Eine Zelle ist der kleinste Teil eines Organismus.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
+>>>>>>> Stashed changes
         // Test createCategory
         controller.createCategory("IT", List.of(new String[]{"ITK2","ITK3"}));
         // Test editCategory without editing parent

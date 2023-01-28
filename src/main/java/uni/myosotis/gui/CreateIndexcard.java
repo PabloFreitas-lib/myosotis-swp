@@ -22,6 +22,11 @@ public class CreateIndexcard extends JDialog {
     private JTextArea textAreaQuestion;
     private JTextArea textAreaAnswer;
     private JTextField textFieldKeywords;
+    private JList linkList;
+    private JTextField termField;
+    private JList indexcardList;
+    private JButton addLinkButton;
+    private JButton removeLinkButton;
 
     /**
      * Create a new Dialog to create an Indexcard.
@@ -35,6 +40,10 @@ public class CreateIndexcard extends JDialog {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonOK);
 
+        DefaultListModel listModel = new DefaultListModel();
+        listModel.addAll(controller.getAllIndexcardNames());
+        indexcardList.setModel(listModel);
+
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
@@ -44,6 +53,18 @@ public class CreateIndexcard extends JDialog {
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
+            }
+        });
+
+        addLinkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onAddLink();
+            }
+        });
+
+        removeLinkButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onRemoveLink();
             }
         });
 
@@ -78,14 +99,57 @@ public class CreateIndexcard extends JDialog {
         List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
         keywords.remove(0);
 
+        // Links separieren
+        List<String> links = new ArrayList<>();
+        // Save added Links
+        for (int i = 0; i < linkList.getModel().getSize(); i++) {
+            links.add((String) linkList.getModel().getElementAt(i));
+        }
+
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
-            controller.createIndexcard(name, question, answer, keywords);
+            controller.createIndexcard(name, question, answer, keywords, links);
             controller.setIndexCardPanel();
             controller.setKeywordComboBox();
             controller.setCategoryComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Add a new Link.
+     */
+    private void onAddLink() {
+        if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
+            DefaultListModel listModel = new DefaultListModel();
+            // Save previous added Links
+            for (int i = 0; i < linkList.getModel().getSize(); i++) {
+                listModel.addElement(linkList.getModel().getElementAt(i));
+            }
+            // Add new Link
+            listModel.addElement(termField.getText() + " => " + indexcardList.getSelectedValue());
+            linkList.setModel(listModel);
+            // Clear selection
+            termField.setText("");
+            indexcardList.clearSelection();
+        }
+    }
+
+    /**
+     * Removes a Link.
+     */
+    private void onRemoveLink() {
+        if (linkList.getSelectedValue() != null) {
+            DefaultListModel listModel = new DefaultListModel();
+            // Save previous added Links without the deleted Link
+            for (int i = 0; i < linkList.getModel().getSize(); i++) {
+                int finalI = i;
+                if (Arrays.stream(linkList.getSelectedIndices()).noneMatch(e -> e == finalI)) {
+                    listModel.addElement(linkList.getModel().getElementAt(i));
+                }
+            }
+            linkList.setModel(listModel);
         }
     }
 

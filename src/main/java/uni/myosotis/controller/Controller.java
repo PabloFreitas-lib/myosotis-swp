@@ -118,11 +118,12 @@ public class Controller {
      * @param question The question of the Indexcard.
      * @param answer The answer of the Indexcard.
      * @param keywords A List of keywords linked to the Indexcard.
+     * @param links A list of Links added to the Indexcard.
      */
-    public void createIndexcard(String name, String question, String answer, List<String> keywords) {
+    public void createIndexcard(String name, String question, String answer, List<String> keywords, List<String> links) {
         try {
+            // Create Keywords
             final List<Keyword> keywordObjects = new ArrayList<>();
-
             for (String keyword : keywords) {
                 if (keywordLogic.getKeywordByName(keyword).isEmpty()) {
                     keywordObjects.add(keywordLogic.createKeyword(keyword));
@@ -130,8 +131,17 @@ public class Controller {
                     keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
                 }
             }
+            // Create Links
+            final List<Link> linkObjects = new ArrayList<>();
+            for (String link : links) {
+                if (getIndexcardByName(link.split(" ")[2]).isPresent()) {
+                    String term = link.split(" ")[0];
+                    Indexcard indexcard = getIndexcardByName(link.split(" ")[2]).get();
+                    linkObjects.add(linkLogic.createLink(term, indexcard));
+                }
+            }
 
-            indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
+            indexcardLogic.createIndexcard(name, question, answer, keywordObjects, linkObjects);
             JOptionPane.showMessageDialog(mainMenu,
                     String.format("Die Karteikarte (%s) wurde erfolgreich erstellt.",name), "Karteikarte erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -162,7 +172,7 @@ public class Controller {
                 }
             }
 
-            indexcardLogic.createIndexcard(name, question, answer, keywordObjects);
+            indexcardLogic.createIndexcard(name, question, answer, keywordObjects, new ArrayList<>());
             if(!silentMode) {
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
