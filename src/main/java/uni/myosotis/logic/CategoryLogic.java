@@ -75,7 +75,7 @@ public class CategoryLogic {
             } else {
                 Category category = new Category(categoryName, indexcardList,parent);
                 categoryRepository.saveCategory(category);
-                log.log(Level.INFO,"Successfully created new category: {}", categoryName);
+                //log.log(Level.INFO,"Successfully created new category: {0}", categoryName);
             }
         } catch (Exception e) {
             log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
