@@ -125,7 +125,6 @@ public class EditIndexcard extends JDialog {
 
         Indexcard oldIndexcard;
         //Old Parameters
-        System.out.println(oldName);
         if (controller.getIndexcardByName(oldName).isPresent()) {
             oldIndexcard = controller.getIndexcardByName(oldName).get();
         }

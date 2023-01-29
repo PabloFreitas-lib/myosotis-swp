@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 /**
  * Linking between an Indexcard and a term.
- *
  */
 
 @Entity

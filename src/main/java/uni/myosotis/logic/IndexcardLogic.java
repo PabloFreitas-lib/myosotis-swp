@@ -1,6 +1,5 @@
 package uni.myosotis.logic;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;

@@ -329,7 +329,7 @@ public class Controller {
             for (Link link : linkLogic.getLinksByIndexcard(indexcard)) {
                 // Remove the Link from Indexcards that contain that Link.
                 for (Indexcard card : getIndexcardsByLink(link)) {
-                    List<Link> removedLink = card.getLinks().stream().filter(l -> l.getTerm() != link.getTerm()).toList();
+                    List<Link> removedLink = card.getLinks().stream().filter(l -> !l.getIndexcard().getName().equals(link.getIndexcard().getName())).toList();
                     indexcardLogic.updateIndexcard(card.getName(), card.getQuestion(), card.getAnswer(), card.getKeywords(), removedLink, card.getId());
                 }
                 linkLogic.deleteLink(link);
