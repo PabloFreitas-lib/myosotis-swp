@@ -1,5 +1,6 @@
 package uni.myosotis.logic;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
@@ -168,13 +169,25 @@ public class IndexcardLogic {
     }
 
     /**
-     * Returns all Indexcards.
+     * Returns all Indexcards with the given Category.
      *
-     * @return All Indexcards.
+     * @return All Indexcards with that Category.
      */
     public List<Indexcard> getIndexcardsByCategory(String categoryName) {
         return indexcardRepository.getAllIndexcardByCategories(categoryName);
     }
+
+    /**
+     * Returns all Indexcards that contains the given Link.
+     *
+     * @param link The Link.
+     * @return A list of all Indexcards that contain that Link, could be empty.
+     */
+    public List<Indexcard> getIndexcardsByLink(Link link) {
+        List<Indexcard> indexcardsWithLink = getAllIndexcards();
+        return indexcardsWithLink.stream().filter(indexcard -> indexcard.getLinks().stream().map(Link::getId).toList().contains(link.getId())).toList();
+    }
+
     /**
      * Edits an existing Indexcard and saves it in the database.
      * If there is no indexcard with the given indexCardName, it will throw a IllegalStateException.
@@ -244,4 +257,6 @@ public class IndexcardLogic {
         }
         return indexcards;
     }
+
+
 }

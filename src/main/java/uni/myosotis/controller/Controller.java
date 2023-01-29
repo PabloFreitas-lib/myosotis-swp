@@ -122,6 +122,7 @@ public class Controller {
      */
     public void createIndexcard(String name, String question, String answer, List<String> keywords, List<String> links) {
         try {
+
             // Create Keywords
             final List<Keyword> keywordObjects = new ArrayList<>();
             for (String keyword : keywords) {
@@ -131,12 +132,20 @@ public class Controller {
                     keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
                 }
             }
+
             // Create Links
             final List<Link> linkObjects = new ArrayList<>();
             for (String link : links) {
-                if (getIndexcardByName(link.split(" ")[2]).isPresent()) {
-                    String term = link.split(" ")[0];
-                    Indexcard indexcard = getIndexcardByName(link.split(" ")[2]).get();
+                String[] splittedLink = link.split(" ");
+                // Build the term
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < link.split(" ").length - 2; i++) {
+                    builder.append(link.split(" ")[i]);
+                }
+                String term = builder.toString();
+                String indexcardName = splittedLink[splittedLink.length - 1];
+                if (getIndexcardByName(indexcardName).isPresent()) {
+                    Indexcard indexcard = getIndexcardByName(indexcardName).get();
                     linkObjects.add(linkLogic.createLink(term, indexcard));
                 }
             }
@@ -151,6 +160,7 @@ public class Controller {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
+
     /**
      * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
      * Displays an error, if already an Indexcard with the same name exists.
@@ -228,14 +238,23 @@ public class Controller {
             // Create new added Links
             final List<Link> newLinks = new ArrayList<>();
             for (String link : links) {
-                if (!oldLinks.stream().map(Link::getTerm).toList().contains(link.split(" ")[0])) {
-                    if (getIndexcardByName(link.split(" ")[2]).isPresent()) {
-                        String term = link.split(" ")[0];
-                        Indexcard indexcard = getIndexcardByName(link.split(" ")[2]).get();
+                String[] splittedLink = link.split(" ");
+                // Build the term
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < link.split(" ").length - 2; i++) {
+                    builder.append(link.split(" ")[i]);
+                }
+                String term = builder.toString();
+                String indexcardName = splittedLink[splittedLink.length - 1];
+                if (!oldLinks.stream().map(Link::getTerm).toList().contains(term)) {
+                    // Create new Link, if it not exists yet
+                    if (getIndexcardByName(indexcardName).isPresent()) {
+                        Indexcard indexcard = getIndexcardByName(indexcardName).get();
                         newLinks.add(linkLogic.createLink(term, indexcard));
                     }
                 } else {
-                    newLinks.add(oldLinks.stream().filter(l -> l.getTerm().equals(link.split(" ")[0])).toList().get(0));
+                    // Keep old Link, if it exists yet
+                    newLinks.add(oldLinks.stream().filter(l -> l.getTerm().equals(term)).toList().get(0));
                 }
             }
 
@@ -255,7 +274,6 @@ public class Controller {
             // Remove removed Links
             for (Link link : oldLinks) {
                 if (!newLinks.contains(link)) {
-                    System.out.println(link);
                     linkLogic.deleteLink(link);
                 }
             }
@@ -266,11 +284,9 @@ public class Controller {
         }
     }
 
-
-
-        /**
-         * Displays the dialog to delete an Indexcard.
-         */
+    /**
+     * Displays the dialog to delete an Indexcard.
+     */
     public void deleteIndexcard() {
         mainMenu.displayDeleteIndexcard();
     }
@@ -312,8 +328,8 @@ public class Controller {
             // Delete Links that are linked with this Indexcard
             for (Link link : linkLogic.getLinksByIndexcard(indexcard)) {
                 // Remove the Link from Indexcards that contain that Link.
-                for (Indexcard card : getAllIndexcards()) {
-                    List<Link> removedLink = card.getLinks().stream().filter(l -> !l.getTerm().equals(link.getTerm())).toList();
+                for (Indexcard card : getIndexcardsByLink(link)) {
+                    List<Link> removedLink = card.getLinks().stream().filter(l -> l.getTerm() != link.getTerm()).toList();
                     indexcardLogic.updateIndexcard(card.getName(), card.getQuestion(), card.getAnswer(), card.getKeywords(), removedLink, card.getId());
                 }
                 linkLogic.deleteLink(link);
@@ -398,6 +414,15 @@ public class Controller {
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
         return indexcardLogic.getIndexcardByName(indexcard);
+    }
+
+    /** Delegates the exercise to find an Indexcard with the given Link.
+     *
+     * @param link The Link.
+     * @return A List of all Indexcards that contain that Link.
+     */
+    public List<Indexcard> getIndexcardsByLink(Link link) {
+        return indexcardLogic.getIndexcardsByLink(link);
     }
 
     /**
