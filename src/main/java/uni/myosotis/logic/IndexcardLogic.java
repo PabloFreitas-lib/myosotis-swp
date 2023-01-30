@@ -177,17 +177,6 @@ public class IndexcardLogic {
     }
 
     /**
-     * Returns all Indexcards that contains the given Link.
-     *
-     * @param link The Link.
-     * @return A list of all Indexcards that contain that Link, could be empty.
-     */
-    public List<Indexcard> getIndexcardsByLink(Link link) {
-        List<Indexcard> indexcardsWithLink = getAllIndexcards();
-        return indexcardsWithLink.stream().filter(indexcard -> indexcard.getLinks().stream().map(Link::getId).toList().contains(link.getId())).toList();
-    }
-
-    /**
      * Edits an existing Indexcard and saves it in the database.
      * If there is no indexcard with the given indexCardName, it will throw a IllegalStateException.
      *

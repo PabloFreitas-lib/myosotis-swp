@@ -147,9 +147,8 @@ public class EditIndexcard extends JDialog {
         List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
         keywords.remove(0);
 
-        // Separate Links
-        List<String> links = new ArrayList<>();
         // Save added Links
+        List<String> links = new ArrayList<>();
         for (int i = 0; i < linkList.getModel().getSize(); i++) {
             links.add((String) linkList.getModel().getElementAt(i));
         }
@@ -179,7 +178,9 @@ public class EditIndexcard extends JDialog {
      * Add a new Link.
      */
     private void onAddLink() {
-        if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
+        if (termField.getText().contains(" => ")) {
+            JOptionPane.showMessageDialog(this, "Kein gültiger Begriff.", "Kein gültiger Begriff", JOptionPane.INFORMATION_MESSAGE);
+        } else if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
             DefaultListModel listModel = new DefaultListModel();
             // Save previous added Links
             for (int i = 0; i < linkList.getModel().getSize(); i++) {

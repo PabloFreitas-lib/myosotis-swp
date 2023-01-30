@@ -76,38 +76,13 @@ public class Controller {
         mainMenu.setVisible(true);
     }
 
+    /* INDEXCARDS */
+
     /**
      * Displays the dialog to create a new Indexcard.
      */
     public void createIndexcard() {
         mainMenu.displayCreateIndexcard();
-    }
-
-    /**
-     * Displays the dialog to create a new Indexcard.
-     */
-    public void createIndexcardBox() {
-        mainMenu.displayCreateIndexcardBox();
-    }
-
-    /**
-     * Delegates the exercise to create a new Indexcardbox to the IndexcardBoxLogic.
-     * Displays an error, if already an IndexcardBox with the same name exists.
-     *
-     * @param name The name of the Indexcard.
-     */
-    public void createIndexcardBox(String name, List<Category> categoryList) {
-        try {
-            //logic
-            indexcardBoxLogic.createIndexcardBox(name,categoryList);
-            JOptionPane.showMessageDialog(mainMenu,
-                    String.format("Die Karteikästen (%s) wurde erfolgreich erstellt.",name), "Karteikästen erstellt",
-                    JOptionPane.INFORMATION_MESSAGE);
-        } catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikaste mit diesem Namen.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     /**
@@ -136,14 +111,9 @@ public class Controller {
             // Create Links
             final List<Link> linkObjects = new ArrayList<>();
             for (String link : links) {
-                String[] splittedLink = link.split(" ");
-                // Build the term
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < link.split(" ").length - 2; i++) {
-                    builder.append(link.split(" ")[i]);
-                }
-                String term = builder.toString();
-                String indexcardName = splittedLink[splittedLink.length - 1];
+                String[] splittedLink = link.split(" => ");
+                String term = splittedLink[0];
+                String indexcardName = splittedLink[1];
                 if (getIndexcardByName(indexcardName).isPresent()) {
                     Indexcard indexcard = getIndexcardByName(indexcardName).get();
                     linkObjects.add(linkLogic.createLink(term, indexcard));
@@ -162,45 +132,17 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to create a new Indexcard to the IndexcardLogic.
-     * Displays an error, if already an Indexcard with the same name exists.
-     *
-     * @param name The name of the Indexcard.
-     * @param question The question of the Indexcard.
-     * @param answer The answer of the Indexcard.
-     * @param keywords A List of keywords linked to the Indexcard.
-     */
-    public void createIndexcard(String name, String question, String answer, List<String> keywords, boolean silentMode) {
-        try {
-            final List<Keyword> keywordObjects = new ArrayList<>();
-
-            for (String keyword : keywords) {
-                if (keywordLogic.getKeywordByName(keyword).isEmpty()) {
-                    keywordObjects.add(keywordLogic.createKeyword(keyword));
-                } else {
-                    keywordObjects.add(keywordLogic.getKeywordByName(keyword).get());
-                }
-            }
-
-            indexcardLogic.createIndexcard(name, question, answer, keywordObjects, new ArrayList<>());
-            if(!silentMode) {
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Karteikarte wurde erfolgreich erstellt.", "Karteikarte erstellt",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        } catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    /**
      * Displays the dialog to edit an Indexcard.
      */
     public void editIndexcard() {
         mainMenu.displayEditIndexcard();
     }
 
+    /**
+     * Displays the dialog to edit a selected Indexcard.
+     *
+     * @param indexcard The selected Indexcard.
+     */
     public void editIndexcard(Indexcard indexcard) {
         mainMenu.displayEditIndexcard(indexcard);
     }
@@ -238,16 +180,11 @@ public class Controller {
             // Create new added Links
             final List<Link> newLinks = new ArrayList<>();
             for (String link : links) {
-                String[] splittedLink = link.split(" ");
-                // Build the term
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < link.split(" ").length - 2; i++) {
-                    builder.append(link.split(" ")[i]);
-                }
-                String term = builder.toString();
-                String indexcardName = splittedLink[splittedLink.length - 1];
+                String[] splittedLink = link.split(" => ");
+                String term = splittedLink[0];
+                String indexcardName = splittedLink[1];
+                // Create new Link, if it not exists yet
                 if (!oldLinks.stream().map(Link::getTerm).toList().contains(term)) {
-                    // Create new Link, if it not exists yet
                     if (getIndexcardByName(indexcardName).isPresent()) {
                         Indexcard indexcard = getIndexcardByName(indexcardName).get();
                         newLinks.add(linkLogic.createLink(term, indexcard));
@@ -292,27 +229,6 @@ public class Controller {
     }
 
     /**
-     * Displays the dialog to delete an Indexcard.
-     */
-    public void deleteIndexcardBox() {
-        mainMenu.displayDeleteIndexcardBox();
-    }
-
-    /**
-     * Displays the dialog to delete an Indexcard.
-     */
-    public void editIndexcardBox() {
-        mainMenu.displayEditIndexcardBox();
-    }
-
-    /**
-     * Displays the dialog to delete an Indexcard.
-     */
-    public void editIndexcardBox(String indexcardBoxName, List<Category> indexcardBoxList) {
-        indexcardBoxLogic.updateIndexcardBox(indexcardBoxName, indexcardBoxList);
-    }
-
-    /**
      * Delegates the exercise to delete an Indexcard to the IndexcardLogic.
      * Delegates the exercise to delete the Indexcard from the Keyword to the KeywordLogic.
      * Displays an error, if there is no Indexcard with the given name.
@@ -325,13 +241,14 @@ public class Controller {
             id = indexcard.getId();
             List<Keyword> keywords = indexcard.getKeywords();
 
+            // Remove Links to this Indexcard from Indexcards.
+            for (Indexcard card : getAllIndexcards()) {
+                List<Link> removedLinks = card.getLinks().stream().filter(l -> !l.getIndexcard().getName().equals(indexcard.getName())).toList();
+                indexcardLogic.updateIndexcard(card.getName(), card.getQuestion(), card.getAnswer(), card.getKeywords(), removedLinks, card.getId());
+            }
+
             // Delete Links that are linked with this Indexcard
             for (Link link : linkLogic.getLinksByIndexcard(indexcard)) {
-                // Remove the Link from Indexcards that contain that Link.
-                for (Indexcard card : getIndexcardsByLink(link)) {
-                    List<Link> removedLink = card.getLinks().stream().filter(l -> !l.getIndexcard().getName().equals(link.getIndexcard().getName())).toList();
-                    indexcardLogic.updateIndexcard(card.getName(), card.getQuestion(), card.getAnswer(), card.getKeywords(), removedLink, card.getId());
-                }
                 linkLogic.deleteLink(link);
             }
 
@@ -371,39 +288,32 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Returns a list of the names of all Indexcards.
      *
-     * @return A list of all Indexcards.
+     * @return A list of the names of all Indexcards.
      */
     public List<String> getAllIndexcardNames() {
         return getAllIndexcards().stream().map(Indexcard::getName).toList();
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Returns a list of the names of the given Indexcards to the IndexcardLogic.
      *
-     * @return A list of all Indexcards.
+     * @param indexcards The Indexcards, from them the names should be returned.
+     * @return A list of the names of the given Indexcards.
      */
     public List<String> getAllIndexcardNames(List<Indexcard> indexcards) {
         return indexcards.stream().map(Indexcard::getName).toList();
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Delegates the exercise to get a list of Indexcards by a list of names.
      *
-     * @return A list of all Indexcards.
+     * @param indexcardNames The list of indexcard names.
+     * @return A list of the Indexcards with these names.
      */
-    public String[] getAllIndexcardBoxNames() {
-        return getAllIndexcardBoxes().stream().map(IndexcardBox::getName).toList().toArray(new String[0]);
-    }
-
-    /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
-     *
-     * @return A list of all Indexcards.
-     */
-    public List<IndexcardBox> getAllIndexcardBoxes() {
-        return indexcardBoxLogic.getAllIndexcardBoxes();
+    public List<Indexcard> getIndexcardsByIndexcardNameList(List<String> indexcardNames) {
+        return indexcardLogic.getIndexcardsByIndexcardNameList(indexcardNames);
     }
 
     /**
@@ -414,25 +324,6 @@ public class Controller {
      */
     public Optional<Indexcard> getIndexcardByName(String indexcard) {
         return indexcardLogic.getIndexcardByName(indexcard);
-    }
-
-    /** Delegates the exercise to find an Indexcard with the given Link.
-     *
-     * @param link The Link.
-     * @return A List of all Indexcards that contain that Link.
-     */
-    public List<Indexcard> getIndexcardsByLink(Link link) {
-        return indexcardLogic.getIndexcardsByLink(link);
-    }
-
-    /**
-     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
-     *
-     * @param indexcardBoxName The name of the Indexcard.
-     * @return The Indexcard if it exists.
-     */
-    public Optional<IndexcardBox> getIndexcardBoxByName(String indexcardBoxName) {
-        return Optional.ofNullable(indexcardBoxLogic.getIndexcardBoxByName(indexcardBoxName));
     }
 
     /**
@@ -446,24 +337,148 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Delegates the exercise to search for a text in all Indexcards.
      *
-     * @return A list of all Indexcards.
+     * @param text The text.
+     * @return A list of Indexcards that contain the text.
+     */
+    public List<Indexcard> searchIndexcard(String text) {
+        return indexcardLogic.searchIndexcard(text);
+    }
+
+    /* INDEXCARDBOXES */
+
+    /**
+     * Displays the dialog to create a new IndexcardBox.
+     */
+    public void createIndexcardBox() {
+        mainMenu.displayCreateIndexcardBox();
+    }
+
+    /**
+     * Delegates the exercise to create a new Indexcardbox to the IndexcardBoxLogic.
+     * Displays an error, if already an IndexcardBox with the same name exists.
+     *
+     * @param name The name of the IndexcardBox.
+     * @param categoryList The Categorys that should be added to this IndexcardBox.
+     */
+    public void createIndexcardBox(String name, List<Category> categoryList) {
+        try {
+            //logic
+            indexcardBoxLogic.createIndexcardBox(name,categoryList);
+            JOptionPane.showMessageDialog(mainMenu,
+                    String.format("Die Karteikästen (%s) wurde erfolgreich erstellt.",name), "Karteikästen erstellt",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert bereits eine Karteikaste mit diesem Namen.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Displays the dialog to edit an IndexcardBox.
+     */
+    public void editIndexcardBox() {
+        mainMenu.displayEditIndexcardBox();
+    }
+
+    /**
+     * Delegates the exercise to update an existing IndexcardBox.
+     *
+     * @param indexcardBoxName The name of the IndexcardBox that should be updated.
+     * @param categoryList The new Categorys of the IndexcardBox.
+     */
+    public void editIndexcardBox(String indexcardBoxName, List<Category> categoryList) {
+        indexcardBoxLogic.updateIndexcardBox(indexcardBoxName, categoryList);
+    }
+
+    /**
+     * Displays the dialog to delete an IndexcardBox.
+     */
+    public void deleteIndexcardBox() {
+        mainMenu.displayDeleteIndexcardBox();
+    }
+
+    /**
+     * Delegates the exercise to delete an existing IndexcardBox to the IndexcardBoxLogic.
+     * Displays an error, if no IndexcardBox with the same name exists.
+     *
+     * @param name The name of the IndexcardBox.
+     */
+    public void deleteIndexcardBox(String name){
+        try {
+            indexcardBoxLogic.deleteIndexcardBox(name);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Karteikasten wurde erfolgreich gelöscht.", "Karteikasten gelöscht",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Karteikasten mit diesem Namen!.", "Name bereits vergeben",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Delegates the exercise to return a list of all IndexcardBoxes.
+     *
+     * @return A list of all IndexcardBoxes.
+     */
+    public List<IndexcardBox> getAllIndexcardBoxes() {
+        return indexcardBoxLogic.getAllIndexcardBoxes();
+    }
+
+    /**
+     * Returns the names of all IndexcardBoxes.
+     *
+     * @return A list of the names of all IndexcardBoxes.
+     */
+    public List<String> getAllIndexcardBoxNames() {
+        return getAllIndexcardBoxes().stream().map(IndexcardBox::getName).toList();
+    }
+
+    /**
+     * Delegates the exercise to find an IndexcardBox with the given name to the IndexcardBoxLogic.
+     *
+     * @param indexcardBoxName The name of the Indexcard.
+     * @return The IndexcardBox if it exists.
+     */
+    public Optional<IndexcardBox> getIndexcardBoxByName(String indexcardBoxName) {
+        return Optional.ofNullable(indexcardBoxLogic.getIndexcardBoxByName(indexcardBoxName));
+    }
+
+    /**
+     * Delegates the exercise to search in the IndexcardBoxes for a text.
+     *
+     * @param text The text.
+     * @return A list of all IndexcardBoxes that contain the text.
+     */
+    public List<IndexcardBox> searchIndexcardBox(String text) {
+        return indexcardBoxLogic.searchIndexcardBox(text);
+    }
+
+    /* KEYWORDS */
+
+    /**
+     * Delegates the exercise to find all Keywords to the KeywordLogic.
+     *
+     * @return A list of all Keywords.
      */
     public List<Keyword> getAllKeywords() {
         return keywordLogic.getAllKeywords();
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Returns a list of the names of all Keywords.
      *
-     * @return A list of all Indexcards.
+     * @return A list of the names of all Keywords.
      */
-    public String[] getAllKeywordNames() {
-        return getAllKeywords().stream().map(Keyword::getName).toList().toArray(new String[0]);
+    public List<String> getAllKeywordNames() {
+        return getAllKeywords().stream().map(Keyword::getName).toList();
     }
 
-
+    /* CATEGORYS */
 
     /**
      * Displays the Dialog to create a new Category.
@@ -487,7 +502,7 @@ public class Controller {
                     indexcardList.add(getIndexcardByName(s).get());
                 }
             }
-            categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList));
+            categoryLogic.createCategory(categoryName, getAllIndexcardNames(indexcardList));
             JOptionPane.showMessageDialog(mainMenu,
                     String.format("Die Kategorie (%s) wurde erfolgreich erstellt.",categoryName), "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -515,7 +530,7 @@ public class Controller {
                     indexcardList.add(getIndexcardByName(s).get());
                 }
             }
-            categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList),parent);
+            categoryLogic.createCategory(categoryName, getAllIndexcardNames(indexcardList),parent);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
@@ -536,7 +551,7 @@ public class Controller {
      */
     public void createCategory(String categoryName, List<Indexcard> indexcardList, boolean silentMode){
         try {
-            categoryLogic.createCategory(categoryName,getAllIndexcardNames(indexcardList));
+            categoryLogic.createCategory(categoryName, getAllIndexcardNames(indexcardList));
             if (!silentMode) {
                 JOptionPane.showMessageDialog(mainMenu,
                         "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
@@ -555,6 +570,71 @@ public class Controller {
      */
     public  void editCategory(){
         mainMenu.displayEditCategory();
+    }
+
+    /**
+     * Delegates the exercise to edit a Category to the CategoryLogic.
+     * Displays an error, if there is no Category with the given name.
+     *
+     * @param name The name of the Category.
+     * @param indexCardListNames The Indexcards of the Category.
+     */
+    public void editCategory(String name, List<String> indexCardListNames, Category parent) {
+        try {
+            List<Indexcard> indexCardList = new ArrayList<>();
+            for (String s : indexCardListNames) {
+                if (getIndexcardByName(s).isPresent()) {
+                    indexCardList.add(getIndexcardByName(s).get());
+                }
+            }
+            // verify if the category is a child of itself
+            if (parent != null) {
+                if (parent.getCategoryName().equals(name)) {
+                    JOptionPane.showMessageDialog(mainMenu,
+                            "Eine Kategorie kann nicht selbst eine Unter-Kategorie sein.", "Kategorie nicht bearbeitet",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            categoryLogic.updateCategory(name, indexCardListNames,parent);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Delegates the exercise to edit a Category to the CategoryLogic.
+     * Displays an error, if there is no Category with the given name.
+     *
+     * @param name The name of the Category.
+     * @param indexCardListNames The Indexcards of the Category.
+     */
+    public void editCategory(String name, List<String> indexCardListNames) {
+        try {
+            List<Indexcard> indexCardList = new ArrayList<>();
+            for (String s : indexCardListNames) {
+                if (getIndexcardByName(s).isPresent()) {
+                    indexCardList.add(getIndexcardByName(s).get());
+                }
+            }
+            categoryLogic.updateCategory(name, indexCardListNames);
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        }
+        catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     /**
@@ -590,26 +670,6 @@ public class Controller {
      *
      * @param name The name of the Category.
      */
-    public void deleteIndexcardBox(String name){
-        try {
-            indexcardBoxLogic.deleteIndexcardBox(name);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikasten wurde erfolgreich gelöscht.", "Karteikasten gelöscht",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Karteikasten mit diesem Namen!.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Delegates the exercise to delete an existing Category to the CategoryLogic.
-     * Displays an error, if no Category with the same name exists.
-     *
-     * @param name The name of the Category.
-     */
     public void deleteCategory(String name, boolean silentMode){
         try {
             categoryLogic.deleteCategory(name);
@@ -627,37 +687,35 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Delegates the exercise to find all Category`s to the CategoryLogic.
      *
-     * @return A list of all Indexcards.
+     * @return A list of all Categorys.
      */
     public List<Category> getAllCategories() {
         return categoryLogic.getAllCategories();
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Returns a list of the names of all Category`s.
      *
-     * @return A list of all Indexcards.
+     * @return A list of the names of all Category`s.
      */
-    public String [] getAllCategoryNames() {
+    public String [] getCategoryNames() {
         return getAllCategories().stream().map(Category::getCategoryName).toList().toArray(new String[0]);
     }
 
     /**
-     * Delegates the exercise to find all CategoryNames from a CategoryList to the CategoryLogic.
+     * Returns a list of all CategoryNames from a CategoryList.
      *
-     * @return A list of all Indexcards.
+     * @param categoryList The Category`s from them the names get returned.
+     * @return A list of the Category-names from the list of Category`s.
      */
-    public String [] getAllCategoryNames(List<Category> categoryList) {
-        return categoryList.stream().map(Category::getCategoryName).toList().toArray(new String[0]);
+    public List<String> getCategoryNames(List<Category> categoryList) {
+        return categoryList.stream().map(Category::getCategoryName).toList();
     }
 
-
-
-
     /**
-     * Delegates the exercise to find a Category with the given name.
+     * Delegates the exercise to find a Category with the given name to the CategoryLogic.
      *
      * @param category The name of the Category.
      * @return The Category if it exists.
@@ -668,11 +726,64 @@ public class Controller {
 
     /**
      * Delegates the exercise to find all Categories from a CategoryNameList.
+     *
+     * @param categoryNameList The names of the Category`s.
+     * @return A list of the Category`s with these names.
      */
     public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
         return categoryLogic.getCategoriesByCategoryNameList(categoryNameList);
     }
 
+    /**
+     * Delegates the exercise to search for Category`s with text in the category repository.
+     *
+     * @param text The Text.
+     * @return A list of Category`s that contains the text.
+     */
+    public List<Category> searchCategory(String text) {
+        return categoryLogic.searchCategory(text);
+    }
+
+    /* LEARNSYSTEMS */
+
+    /**
+     * Delegates the exercise to learn an IndexcardBox to the LearnsystemLogic.
+     *
+     * @param indexcardBox The IndexcardBox that should be learned.
+     */
+    public void learn(IndexcardBox indexcardBox) {
+        if (!indexcardBox.getCategoryList().isEmpty()) {
+            mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"), indexcardBox);
+        } else {
+            JOptionPane.showMessageDialog(mainMenu,
+                    "The indexcard box does not contain any categories.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Delegates the exercise to update an existing Learnsystem.
+     * @param learnsystem The Learnsystem that should be edited
+     */
+    public void updateLearnsystem(LearnSystem learnsystem) {
+        learnsystemLogic.updateLearnsystem(learnsystem);
+    }
+
+    /* OTHER */
+
+    /**
+     * Sets the KeywordComboBox in the Main-Menu.
+     */
+    public void setKeywordComboBox(){
+        mainMenu.setKeywordComboBox();
+    }
+
+    /**
+     * Sets the CategoryComboBox in the Main-Menu.
+     */
+    public void setCategoryComboBox(){
+        mainMenu.setCategoryComboBox();
+    }
 
     /**
      * Display all Indexcards from the IndexCard repository into the IndexCardPanel.
@@ -719,133 +830,5 @@ public class Controller {
             JList<String> cardList = new JList<>(listModel);
             mainMenu.getIndexcardsPane().setViewportView(cardList);
         }
-    }
-
-    /**
-     * Sets the KeywordComboBox in the Main-Menu.
-     */
-    public void setKeywordComboBox(){
-        mainMenu.setKeywordComboBox();
-    }
-
-    /**
-     * Sets the CategoryComboBox in the Main-Menu.
-     */
-    public void setCategoryComboBox(){
-        mainMenu.setCategoryComboBox();
-    }
-
-    // END OF CLASS
-
-    /**
-     * Delegates the exercise to edit a Category to the CategoryLogic.
-     * Displays an error, if there is no Category with the given name.
-     *
-     * @param name The name of the Category.
-     * @param indexCardListNames The question of the Category.
-     */
-    public void editCategory(String name, List<String> indexCardListNames, Category parent) {
-        try {
-            List<Indexcard> indexCardList = new ArrayList<>();
-            for (String s : indexCardListNames) {
-                if (getIndexcardByName(s).isPresent()) {
-                    indexCardList.add(getIndexcardByName(s).get());
-                }
-            }
-            // verify if the category is a child of itself
-            if (parent != null) {
-                if (parent.getCategoryName().equals(name)) {
-                    JOptionPane.showMessageDialog(mainMenu,
-                            "Eine Kategorie kann nicht selbst eine Unter-Kategorie sein.", "Kategorie nicht bearbeitet",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            categoryLogic.updateCategory(name, indexCardListNames,parent);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Delegates the exercise to edit a Category to the CategoryLogic.
-     * Displays an error, if there is no Category with the given name.
-     *
-     * @param name The name of the Category.
-     * @param indexCardListNames The question of the Category.
-     */
-    public void editCategory(String name, List<String> indexCardListNames) {
-        try {
-            List<Indexcard> indexCardList = new ArrayList<>();
-            for (String s : indexCardListNames) {
-                if (getIndexcardByName(s).isPresent()) {
-                    indexCardList.add(getIndexcardByName(s).get());
-                }
-            }
-            categoryLogic.updateCategory(name, indexCardListNames);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public List<Indexcard> searchIndexcard(String text) {
-        return indexcardLogic.searchIndexcard(text);
-    }
-
-    /**
-     * Delegates the exercise to learn an IndexcardBox to the LearnsystemLogic.
-     *
-     * @param indexcardBox The IndexcardBox that should be learned.
-     */
-    public void learn(IndexcardBox indexcardBox) {
-        if (!indexcardBox.getCategoryList().isEmpty()) {
-            mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"), indexcardBox);
-        } else {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "The indexcard box does not contain any categories.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-
-    public void updateLearnsystem(LearnSystem learnsystem) {
-        learnsystemLogic.updateLearnsystem(learnsystem);
-    }
-
-    public List<IndexcardBox> searchIndexcardBox(String text) {
-        return indexcardBoxLogic.searchIndexcardBox(text);
-    }
-
-    /**
-     * Search for Category`s with text in the category repository.
-     *
-     * @param text The Text.
-     * @return A list of Category`s that contains the text.
-     */
-    public List<Category> searchCategory(String text) {
-        return categoryLogic.searchCategory(text);
-    }
-
-    /**
-     * Create a function which converts a list of indexcard names to a list of indexcards.
-     * @param indexcardNames The list of indexcard names.
-     *                       The list of indexcards.
-     */
-    public List<Indexcard> getIndexcardsByIndexcardNameList(List<String> indexcardNames) {
-        return indexcardLogic.getIndexcardsByIndexcardNameList(indexcardNames);
     }
 }

@@ -139,7 +139,7 @@ public class Glossar extends JDialog {
     }
 
     public void setGlossar() {
-        String[] columnNames = {"Begriffen", "Fragen","Antworten", "Schlagwörter", "Kategorien"};
+        String[] columnNames = {"Begriffe", "Fragen","Antworten", "Schlagwörter", "Kategorien"};
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
 
         for (Indexcard indexCard : controller.getAllIndexcards()) {
@@ -238,13 +238,13 @@ public class Glossar extends JDialog {
      * The first Item is "Wählen Sie eine Kategorie aus" which if selected is "null".
      */
     public void setCategoryComboBox(){
-        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getAllCategoryNames());
+        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getCategoryNames());
         comboModel.setSelectedItem(selectedCategory);
         categoryComboBox.setModel(comboModel);
     }
 
     public void setKeywordComboBox(){
-        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getAllKeywordNames());
+        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getAllKeywordNames().toArray(new String[0]));
         comboModel.setSelectedItem(selectedKeyword);
         keywordComboBox.setModel(comboModel);
     }

@@ -170,7 +170,7 @@ public class MainMenu extends JFrame {
      */
     public void setCategoryComboBox(){
         //list of all indexcards
-        categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllCategoryNames()));
+        categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getCategoryNames()));
 
     }
 
@@ -216,6 +216,7 @@ public class MainMenu extends JFrame {
         editIndexcardBox.setLocationRelativeTo(this);
         editIndexcardBox.setVisible(true);
     }
+
     /**
      * Displays the Dialog to edit an existing Indexcard.
      */
@@ -227,6 +228,7 @@ public class MainMenu extends JFrame {
         editIndexcard.setLocationRelativeTo(this);
         editIndexcard.setVisible(true);
     }
+
     /**
      * Displays the Dialog to create a new Category.
      * @param indexcard The Indexcard which is preset to be edited

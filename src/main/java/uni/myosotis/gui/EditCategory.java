@@ -35,7 +35,7 @@ public class EditCategory extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         setContentPane(contentPane);
         //ComboBox with all Category names
-        categoryBoxName.setModel(new DefaultComboBoxModel<>(controller.getAllCategoryNames()));
+        categoryBoxName.setModel(new DefaultComboBoxModel<>(controller.getCategoryNames()));
         //ActionListener for the ComboBox
         categoryBoxName.addActionListener(e -> {
             selectedCategoryName = (String) categoryBoxName.getSelectedItem();
@@ -58,7 +58,7 @@ public class EditCategory extends JDialog {
 
                 // Category Parents
                 // FIXME
-                String[] categoriesNames = controller.getAllCategoryNames();
+                String[] categoriesNames = controller.getCategoryNames();
                 categoriesNamesList = new JList<>(categoriesNames);
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 if (selectedCategory.get().getParent() != null) {
@@ -73,7 +73,7 @@ public class EditCategory extends JDialog {
                 indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 indexCardsScrollPane.setViewportView(indexcardsNamesList);
 
-                String[] categoriesNames = controller.getAllCategoryNames();
+                String[] categoriesNames = controller.getCategoryNames();
                 categoriesNamesList = new JList<>(categoriesNames);
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 categoryParentScrollPane.setViewportView(categoriesNamesList);

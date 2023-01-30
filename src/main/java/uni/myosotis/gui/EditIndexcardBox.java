@@ -31,7 +31,7 @@ public class EditIndexcardBox extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         setContentPane(contentPane);
 
-        indexcardboxNameComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllIndexcardBoxNames()));
+        indexcardboxNameComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllIndexcardBoxNames().toArray(new String[0])));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -50,11 +50,11 @@ public class EditIndexcardBox extends JDialog {
             selectedIndexcardBox = controller.getIndexcardBoxByName((String) indexcardboxNameComboBox.getSelectedItem());
             if(selectedIndexcardBox.isPresent()){
                 List<String> selectedIndexcardBoxCategory = List.of(selectedIndexcardBox.get().getCategoryNameList());
-                categoriesNamesList = new JList<>(controller.getAllCategoryNames());
+                categoriesNamesList = new JList<>(controller.getCategoryNames());
                 ArrayList<Integer> indices = new ArrayList<>();
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 for(int i = 0; i < selectedIndexcardBoxCategory.size(); i++) {
-                    indices.add(List.of(controller.getAllCategoryNames()).indexOf(selectedIndexcardBoxCategory.get(i)));
+                    indices.add(List.of(controller.getCategoryNames()).indexOf(selectedIndexcardBoxCategory.get(i)));
                 }
                 int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
                 categoriesNamesList.setSelectedIndices(indicesArray);
