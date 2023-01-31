@@ -54,12 +54,6 @@ public class CategoryTab extends JFrame{
     }
 
     private void onCreate() {
-        if (categoryList.getSelectedValue() != null) {
-            controller.editCategory(controller.getCategoryByName(categoryList.getSelectedValue()).get());
-        }
-        else {
-            controller.createCategory();
-        }
         controller.createCategory();
         updateList(controller.getAllCategories());
     }

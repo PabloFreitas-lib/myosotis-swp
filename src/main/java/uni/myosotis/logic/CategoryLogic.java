@@ -7,10 +7,6 @@ import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.*;
 import java.util.logging.Level;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 public class CategoryLogic {
 
     private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(CategoryLogic.class.getName());

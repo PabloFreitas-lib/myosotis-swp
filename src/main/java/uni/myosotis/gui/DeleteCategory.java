@@ -14,7 +14,7 @@ public class DeleteCategory extends JDialog{
     private final Controller controller;
 
     private JPanel contentPane;
-    private JComboBox categoryNamesComboBox;
+    private JComboBox<String> categoryNamesComboBox;
     private JButton buttonDelete;
 
     /**

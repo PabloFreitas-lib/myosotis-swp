@@ -1,8 +1,10 @@
 package uni.myosotis.objects;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Embeddable
@@ -10,9 +12,6 @@ public class Keyword implements Serializable {
 
     @Id
     String name;
-
-    @ManyToMany
-    private List<Indexcard> indexcards;
 
     public Keyword() {
         // default constructor
@@ -36,81 +35,5 @@ public class Keyword implements Serializable {
         return name;
     }
 
-<<<<<<< HEAD
     // END OF CLASS
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*@OneToMany(mappedBy = "keyword", fetch = FetchType.EAGER)
-    private List<Indexcard> indexcards;*/
-
-    /*public Keyword(final String word, List<Indexcard> indexcards){
-        this.word = word;
-        this.indexcards = indexcards;
-    }*/
-
-    /**
-    * Setter for the word of the Keyword.
-    * @param newWord The word of the Keyword.
-    */
-    /*
-    public void setWord(String newWord) {
-        word = newWord;
-    }*/
-
-    /**
-    * Getter for Indexcard from Keyword.
-    * @return The Indexcard of the Keyword.
-    */
-    /*
-    public List<Indexcard> getAllIndexcards() {
-        return indexcards;
-    }*/
-
-    /**
-    * Adds an Indexcard to the Keyword.
-    * @param indexcard The Indexcard which should be added.
-    */
-    /*
-    public void addIndexcard(Indexcard indexcard){
-        indexcards.add(indexcard);
-    }*/
-
-    /**
-    * Sets the Indexcards of the Keyword.
-    * @param indexcards The Indexcardslist which should be set.
-     */
-    /*
-    public void setIndexcards(List<Indexcard> indexcards) {
-        this.indexcards = indexcards;
-    }*/
-
-=======
->>>>>>> ef196a58fa1321fcfc9d6b921261f4ebca0137eb
 }

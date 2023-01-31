@@ -43,13 +43,14 @@ public class CreateCategory extends JDialog {
         updateParentList();
         updateIndexcardList();
 
+        // TODO
         // Update possible parents with the selected parents.
-        parentList.addListSelectionListener(new ListSelectionListener() {
+        /*parentList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 updateParentList();
             }
-        });
+        });*/
 
         // call onCreate() when the createButton is clicked.
         createButton.addActionListener(new ActionListener() {
@@ -138,10 +139,10 @@ public class CreateCategory extends JDialog {
         categoryNamesToFilter.addAll(allParentNames);
         categoryNamesToFilter.addAll(allChildrenNames);
         // Filter parents and children of the selected parent-categories
-        DefaultListModel newParentList = new DefaultListModel();
+        DefaultListModel<String> newParentList = new DefaultListModel<>();
         newParentList.addAll(controller.getAllCategories().stream()
-                .filter(category -> !categoryNamesToFilter.contains(category.getCategoryName()))
-                .map(Category::getCategoryName).toList());
+                .map(Category::getCategoryName)
+                .filter(categoryName -> !categoryNamesToFilter.contains(categoryName)).toList());
         parentList.setModel(newParentList);
     }
 
@@ -149,7 +150,7 @@ public class CreateCategory extends JDialog {
      * Updates the list of Indexcards.
      */
     private void updateIndexcardList() {
-        DefaultListModel defaultListModel = new DefaultListModel<>();
+        DefaultListModel<String> defaultListModel = new DefaultListModel<>();
         defaultListModel.addAll(controller.getAllIndexcardNames());
         indexcardList.setModel(defaultListModel);
     }
@@ -165,18 +166,19 @@ public class CreateCategory extends JDialog {
             JOptionPane.showMessageDialog(this, "Eine andere Kategorie hat bereits diesen Namen.", "Name bereits vergeben", JOptionPane.INFORMATION_MESSAGE);
         } else {
             List<Category> selectedParents = new ArrayList<>();
-            for (Object o : parentList.getSelectedValuesList()) {
-                if (controller.getCategoryByName((String) o).isPresent()) {
-                    selectedParents.add(controller.getCategoryByName((String) o).get());
+            for (String s : parentList.getSelectedValuesList()) {
+                if (controller.getCategoryByName(s).isPresent()) {
+                    selectedParents.add(controller.getCategoryByName(s).get());
                 }
             }
             List<Indexcard> selectedIndexcards = new ArrayList<>();
-            for (Object o : indexcardList.getSelectedValuesList()) {
-                if (controller.getIndexcardByName((String) o).isPresent()) {
-                    selectedIndexcards.add(controller.getIndexcardByName((String) o).get());
+            for (String s : indexcardList.getSelectedValuesList()) {
+                if (controller.getIndexcardByName(s).isPresent()) {
+                    selectedIndexcards.add(controller.getIndexcardByName(s).get());
                 }
             }
             controller.createCategory(name, selectedParents, selectedIndexcards);
+            dispose();
         }
     }
 

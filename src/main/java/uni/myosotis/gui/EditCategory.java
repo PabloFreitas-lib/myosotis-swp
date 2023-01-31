@@ -57,13 +57,14 @@ public class EditCategory extends JDialog {
             updateParentList();
         });
 
+        // TODO
         // Update possible parents with the selected parents and children of the edited Category.
-        parentList.addListSelectionListener(new ListSelectionListener() {
+        /*parentList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 updateParentList();
             }
-        });
+        });*/
 
         editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

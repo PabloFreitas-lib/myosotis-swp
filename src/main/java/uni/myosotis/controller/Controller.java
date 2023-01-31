@@ -750,8 +750,4 @@ public class Controller {
             mainMenu.getIndexcardsPane().setViewportView(cardList);
         }
     }
-
-    public List<String> getIndexcardList(Category category){
-        return categoryLogic.getIndexcardList(category);
-    }
 }
