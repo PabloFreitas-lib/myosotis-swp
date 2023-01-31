@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.myosotis.myosotis.controller.KarteikartenController">
+   <top>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <MenuBar>
+               <menus>
+                  <Menu mnemonicParsing="false" text="File">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Open" />
+                        <MenuItem mnemonicParsing="false" text="Export" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Edit">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Delete" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Help">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="New">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Karteikarten" />
+                        <MenuItem mnemonicParsing="false" text="Karteikaesten" />
+                     </items>
+                  </Menu>
+               </menus>
+            </MenuBar>
+         </children>
+      </VBox>
+   </top>
+   <left>
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="bKarteiKarten" mnemonicParsing="false" onMouseClicked="#setbKarteikarten" text="Karteikarten">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="bKarteikasten" mnemonicParsing="false" onMouseClicked="#setbKarteikasten" text="Karteikästen" />
+            <Button mnemonicParsing="false" onMouseClicked="#setbGlossar" text="Glossar" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <ListView fx:id="listView" layoutX="103.0" layoutY="58.0" prefHeight="306.0" prefWidth="236.0" />
+            <Label layoutX="174.0" layoutY="26.0" text="Karteikarten List:" />
+         </children>
+      </AnchorPane>
+   </center>
+   <right>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="itemName" />
+            <Button fx:id="Add" mnemonicParsing="false" onMouseClicked="#setAdd" text="Add" />
+            <Button fx:id="Edit" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#setEdit" text="Edit" />
+            <Button fx:id="Remove" layoutX="10.0" layoutY="35.0" mnemonicParsing="false" onMouseClicked="#setRemove" text="Remove" />
+            <Button fx:id="Back" mnemonicParsing="false" onMouseClicked="#setbBack" text="Back" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
