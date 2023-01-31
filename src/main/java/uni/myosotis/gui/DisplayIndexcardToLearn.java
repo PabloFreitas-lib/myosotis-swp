@@ -5,6 +5,7 @@ import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.objects.LearnSystem;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 
@@ -39,7 +40,6 @@ public class DisplayIndexcardToLearn extends JDialog{
         setMinimumSize(getSize());
         setSize(800, 600);
 
-        questionLabel.setText(indexcard.getQuestion());
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
@@ -60,6 +60,11 @@ public class DisplayIndexcardToLearn extends JDialog{
                 onAnswered(indexcard);
             }
         });
+
+        Font font = new Font("Arial", Font.PLAIN, 20);
+        answerLabel.setFont(font);
+        questionLabel.setFont(font);
+        questionLabel.setText(indexcard.getQuestion());
     }
     /**
      * This method is called when the user clicks the "Answered" button.

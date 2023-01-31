@@ -66,17 +66,6 @@ public class IndexcardBox implements Serializable{
         }
         return indexcardList;
     }
-    /**
-     * Returns a list of all indexcards in the box
-     * @return List of indexcards
-     */
-    /*public HashSet<Indexcard> getIndexcardList() {
-        HashSet<Indexcard> indexcardList = new HashSet<>();
-        for (Category category : categoryList) {
-            indexcardList.addAll(category.getIndexcardList());
-        }
-        return indexcardList;
-    }*/
 
     /**
      * Returns a list of all categories names in the box

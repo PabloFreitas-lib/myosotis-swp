@@ -36,6 +36,7 @@ public class Keyword implements Serializable {
         return name;
     }
 
+<<<<<<< HEAD
     // END OF CLASS
 
 
@@ -110,4 +111,6 @@ public class Keyword implements Serializable {
         this.indexcards = indexcards;
     }*/
 
+=======
+>>>>>>> ef196a58fa1321fcfc9d6b921261f4ebca0137eb
 }

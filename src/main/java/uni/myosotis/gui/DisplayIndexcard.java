@@ -4,6 +4,7 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class DisplayIndexcard extends JFrame {
@@ -23,7 +24,9 @@ public class DisplayIndexcard extends JFrame {
         this.indexcard = indexcard;
         setTitle(indexcard.getName());
         setContentPane(contentPane);
-
+        Font font = new Font("Arial", Font.PLAIN, 20);
+        answerLabel.setFont(font);
+        questionLabel.setFont(font);
         this.questionLabel.setText(indexcard.getQuestion());
         this.answerLabel.setText(indexcard.getAnswer());
 

@@ -61,10 +61,20 @@ public class LearnSystem {
         return id;
     }
 
+    /**
+     * Returns the IndexcardBox.
+     *
+     * @return The IndexcardBox.
+     */
     public IndexcardBox getIndexcardBox() {
         return indexcardBox;
     }
 
+    /**
+     * Sets the IndexcardBox.
+     *
+     * @param indexcardBox The IndexcardBox.
+     */
     public void setIndexcardBox(IndexcardBox indexcardBox) {
         this.indexcardBox = indexcardBox;
     }
