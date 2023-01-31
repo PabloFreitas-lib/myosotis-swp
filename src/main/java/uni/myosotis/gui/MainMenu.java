@@ -183,6 +183,20 @@ public class MainMenu extends JFrame {
     }
 
     /**
+     * Displays an Indexcard.
+     *
+     * @param indexcard The Indexcard that should be displayed.
+     */
+    public void displayIndexcard(Indexcard indexcard) {
+        DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, indexcard);
+        displayIndexcard.pack();
+        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
+        displayIndexcard.setSize(300, 400);
+        displayIndexcard.setLocationRelativeTo(this);
+        displayIndexcard.setVisible(true);
+    }
+
+    /**
      * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateIndexcard() {
@@ -303,11 +317,11 @@ public class MainMenu extends JFrame {
      * Displays the Menu for learning.
      */
     public void displayLearning(LearnSystem learnsystem, IndexcardBox indexCardBox){
-        final DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, learnsystem, indexCardBox);
-        displayIndexcard.pack();
-        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
-        displayIndexcard.setLocationRelativeTo(this);
-        displayIndexcard.setVisible(true);
+        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnsystem, indexCardBox);
+        displayIndexcardToLearn.pack();
+        displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
+        displayIndexcardToLearn.setLocationRelativeTo(this);
+        displayIndexcardToLearn.setVisible(true);
     }
 
     public JScrollPane getIndexcardsPane(){
@@ -365,5 +379,4 @@ public class MainMenu extends JFrame {
         controller.createCategory("Botanic", List.of(new String[]{"BOTK1","BOTK2"}), controller.getCategoryByName("Biologie").get());
 
     }
-
 }

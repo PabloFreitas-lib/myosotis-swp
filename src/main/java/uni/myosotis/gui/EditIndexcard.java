@@ -124,46 +124,50 @@ public class EditIndexcard extends JDialog {
     private void onOK() {
 
         Indexcard oldIndexcard;
-        //Old Parameters
-        if (controller.getIndexcardByName(oldName).isPresent()) {
-            oldIndexcard = controller.getIndexcardByName(oldName).get();
-        }
-        else {
-            throw new IllegalStateException("Karteikarte zum Bearbeiten existiert nicht!");
-        }
-
-        final Long oldIndexcardId = oldIndexcard.getId();
-
-        // New Parameters
-        final String name = textFieldName.getText();
-        final String question = textAreaQuestion.getText();
-        final String answer = textAreaAnswer.getText();
-
-        // Separate Keywords
-        String[] keywordStrings = textFieldKeywords.getText()
-                .replaceAll(" ", "")
-                .split("#");
-
-        List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
-        keywords.remove(0);
-
-        // Save added Links
-        List<String> links = new ArrayList<>();
-        for (int i = 0; i < linkList.getModel().getSize(); i++) {
-            links.add((String) linkList.getModel().getElementAt(i));
-        }
-
-        if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
-            controller.editIndexcard(name, question, answer, keywords, links, oldIndexcardId);
-            dispose();
+        if (controller.getAllIndexcardNames().stream().filter(name -> !name.equals(comboBoxName.getSelectedItem())).toList().contains(textFieldName.getText())) {
+            JOptionPane.showMessageDialog(this, "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht verändert.",
-                    JOptionPane.ERROR_MESSAGE);
-        }
 
-        controller.setKeywordComboBox();
-        controller.setIndexCardPanel();
+            //Old Parameters
+            if (controller.getIndexcardByName(oldName).isPresent()) {
+                oldIndexcard = controller.getIndexcardByName(oldName).get();
+            } else {
+                throw new IllegalStateException("Karteikarte zum Bearbeiten existiert nicht!");
+            }
+
+            final Long oldIndexcardId = oldIndexcard.getId();
+
+            // New Parameters
+            final String name = textFieldName.getText();
+            final String question = textAreaQuestion.getText();
+            final String answer = textAreaAnswer.getText();
+
+            // Separate Keywords
+            String[] keywordStrings = textFieldKeywords.getText()
+                    .replaceAll(" ", "")
+                    .split("#");
+
+            List<String> keywords = new ArrayList<>(Arrays.asList(keywordStrings));
+            keywords.remove(0);
+
+            // Save added Links
+            List<String> links = new ArrayList<>();
+            for (int i = 0; i < linkList.getModel().getSize(); i++) {
+                links.add((String) linkList.getModel().getElementAt(i));
+            }
+
+            if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
+                controller.editIndexcard(name, question, answer, keywords, links, oldIndexcardId);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht verändert.",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+            controller.setKeywordComboBox();
+            controller.setIndexCardPanel();
+        }
     }
 
     /**

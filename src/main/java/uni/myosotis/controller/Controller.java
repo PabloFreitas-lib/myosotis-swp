@@ -79,6 +79,15 @@ public class Controller {
     /* INDEXCARDS */
 
     /**
+     * Displays an Indexcard.
+     *
+     * @param indexcard The Indexcard that should be displayed.
+     */
+    public void displayIndexcard(Indexcard indexcard) {
+        mainMenu.displayIndexcard(indexcard);
+    }
+
+    /**
      * Displays the dialog to create a new Indexcard.
      */
     public void createIndexcard() {

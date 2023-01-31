@@ -49,6 +49,17 @@ public class IndexcardTab extends JDialog{
                 onDelete();
             }
         });
+        // Display an Indexcard, if it gets double-clicked.
+        indexcardList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    if (controller.getIndexcardByName((String) indexcardList.getSelectedValue()).isPresent()) {
+                        controller.displayIndexcard(controller.getIndexcardByName((String) indexcardList.getSelectedValue()).get());
+                    }
+                }
+            }
+        });
     }
 
     /**
