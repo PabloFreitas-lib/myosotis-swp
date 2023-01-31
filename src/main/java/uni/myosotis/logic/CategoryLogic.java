@@ -5,7 +5,10 @@ import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.*;
 import java.util.logging.Level;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 public class CategoryLogic {
 
     private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(CategoryLogic.class.getName());
@@ -89,11 +92,10 @@ public class CategoryLogic {
      * @param indexcards The Indexcards which should be added.
      */
     public void addIndexcardsToCategory(String name, List<String> indexcards) {
-        Optional<Category> category = categoryRepository.getCategoryByName(name);
-        if (category.isPresent()) {
-            Category category2Save = category.get();
-            category2Save.setIndexcardList(indexcards);
-            categoryRepository.saveCategory(category2Save);
+        Category category = categoryRepository.getCategoryByName(name);
+        if (category != null) {
+            category.setIndexcardList(indexcards);
+            categoryRepository.saveCategory(category);
         }
     }
     /**
@@ -101,7 +103,7 @@ public class CategoryLogic {
      * @param name The name of the Category.
      */
     public Boolean CategoryIsPresent(String name) {
-        return categoryRepository.getCategoryByName(name).isPresent();
+        return categoryRepository.getCategoryByName(name) != null;
     }
 
     /**
@@ -156,6 +158,13 @@ public class CategoryLogic {
                     }
                 }
             }
+            //Fix for Parent
+            List<Category> children = getChildren(category2delete);
+            if(!children.isEmpty()){
+                for(Category child : children){
+                    updateCategory(child.getName(), child.getIndexcardList(), null);
+                }
+            }
             //End of Fix!
             List<String> indexCardsNameList = category2delete.getIndexcardList();
             for (String s : indexCardsNameList) indexcardLogic.removeCategoryFromIndexcard(s, categoryName);
@@ -181,7 +190,7 @@ public class CategoryLogic {
      * @return The category if it exists.
      */
     public Optional<Category> getCategoryByName(String category) {
-        return categoryRepository.getCategoryByName(category);
+        return Optional.ofNullable(categoryRepository.getCategoryByName(category));
     }
 
     /**
@@ -202,8 +211,8 @@ public class CategoryLogic {
      * @param indexCardsNameList  The Question of the Category.
      */
     public void updateCategory(String name, List<String> indexCardsNameList, Category parent) {
-        if (categoryRepository.getCategoryByName(name).isPresent()) {
-            Category category2Edit = categoryRepository.getCategoryByName(name).get();
+        if (categoryRepository.getCategoryByName(name) != null) {
+            Category category2Edit = categoryRepository.getCategoryByName(name);
             List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
                     map(Indexcard::getName).toList();
             // Updates all values of the old category2Edit.
@@ -235,8 +244,8 @@ public class CategoryLogic {
      * @param indexCardsNameList  The Question of the Category.
      */
     public void updateCategory(String name, List<String> indexCardsNameList) {
-        if (categoryRepository.getCategoryByName(name).isPresent()) {
-            Category category2Edit = categoryRepository.getCategoryByName(name).get();
+        if (categoryRepository.getCategoryByName(name) != null) {
+            Category category2Edit = categoryRepository.getCategoryByName(name);
             List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
                     map(Indexcard::getName).toList();
             // Updates all values of the old category2Edit.
@@ -290,5 +299,26 @@ public class CategoryLogic {
      */
     public List<Category> searchCategory(String name) {
         return categoryRepository.searchCategory(name);
+    }
+
+    public List<Category> getChildren(Category category){
+        return categoryRepository.getChildren(category);
+    }
+
+    /**
+     * This method returns a list of all indexcards in a category including the indexcards in the subcategories.
+     * @param category
+     * @return
+     */
+    public List<String> getIndexcardList(Category category){
+        List <String> indexList= category.getIndexcardList();
+        List <Category> children = getChildren(category);
+        for(Category child : children){
+            List<String> temp = Stream.concat(indexList.stream(), child.getIndexcardList().stream())
+                    .distinct()
+                    .toList();
+            indexList = temp;
+        }
+        return indexList;
     }
 }

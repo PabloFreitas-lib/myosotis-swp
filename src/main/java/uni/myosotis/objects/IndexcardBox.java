@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -64,17 +63,6 @@ public class IndexcardBox implements Serializable{
         }
         return indexcardList;
     }
-    /**
-     * Returns a list of all indexcards in the box
-     * @return List of indexcards
-     */
-    /*public HashSet<Indexcard> getIndexcardList() {
-        HashSet<Indexcard> indexcardList = new HashSet<>();
-        for (Category category : categoryList) {
-            indexcardList.addAll(category.getIndexcardList());
-        }
-        return indexcardList;
-    }*/
 
     /**
      * Returns a list of all categories names in the box

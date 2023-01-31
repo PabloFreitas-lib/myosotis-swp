@@ -341,14 +341,14 @@ public class MainMenu extends JFrame {
      */
     public void createExampleIndexcards(){
         // Test createIndexcard
-        controller.createIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet.", List.of(new String[]{"#IT"}), new ArrayList<>());
+        //controller.createIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet.", List.of(new String[]{"#IT"}), new ArrayList<>());
         // Test editIndexcard
-        controller.editIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet. ps:Version2", List.of(new String[]{"#IT", "#Biologie"}), new ArrayList<>(), controller.getIndexcardByName("ITK1").get().getId());
+        //controller.editIndexcard("ITK1", "Was ist ein Computer?", "Ein Computer ist ein Gerät, das Daten verarbeitet. ps:Version2", List.of(new String[]{"#IT", "#Biologie"}), new ArrayList<>(), controller.getIndexcardByName("ITK1").get().getId());
         // Test deleteIndexcard
-        controller.deleteIndexcard(controller.getIndexcardByName("ITK1").get().getId());
+        //controller.deleteIndexcard(controller.getIndexcardByName("ITK1").get().getId());
 
-        controller.createIndexcard("ITK2", "Was ist ein Programm?", "Ein Programm ist eine Anweisung für einen Computer.", List.of(new String[]{"#IT"}), new ArrayList<>());
-        controller.createIndexcard("ITK3", "Was ist ein Programmierer?", "Ein Programmierer ist eine Person, die Programme schreibt.", List.of(new String[]{"#IT", "#Biologie"}), new ArrayList<>());
+        //controller.createIndexcard("ITK2", "Was ist ein Programm?", "Ein Programm ist eine Anweisung für einen Computer.", List.of(new String[]{"#IT"}), new ArrayList<>());
+        //controller.createIndexcard("ITK3", "Was ist ein Programmierer?", "Ein Programmierer ist eine Person, die Programme schreibt.", List.of(new String[]{"#IT", "#Biologie"}), new ArrayList<>());
 
         controller.createIndexcard("BOTK1", "Was ist ein Baum?", "Ein Baum ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         controller.createIndexcard("BOTK2", "Was ist ein Blume?", "Eine Blume ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
@@ -358,25 +358,28 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         controller.createIndexcard("BIOK2", "Was ist ein Zelle?", "Eine Zelle ist der kleinste Teil eines Organismus.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         // Test createCategory
-        controller.createCategory("IT", List.of(new String[]{"ITK2","ITK3"}));
+        //controller.createCategory("IT", List.of(new String[]{"ITK2","ITK3"}));
         // Test editCategory without editing parent
-        controller.editCategory("IT", List.of(new String[]{"ITK2"}), controller.getCategoryByName("IT").get().getParent());
+        //controller.editCategory("IT", List.of(new String[]{"ITK2"}), controller.getCategoryByName("IT").get().getParent());
         // Test deleteCategory
-        controller.deleteCategory("IT");
+        //controller.deleteCategory("IT");
 
-        controller.createCategory("Biologie", List.of(new String[]{"BIOK1","BIOK2"}));
+        //controller.createCategory("Biologie", List.of(new String[]{"BIOK1","BIOK2"}));
 
         // Test createIndexcardBox
-        controller.createIndexcardBox("ITBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
+        //controller.createIndexcardBox("ITBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
         // Test editIndexcardBox
-        controller.editIndexcardBox("ITBox", controller.getCategoriesByCategoryNameList(List.of(new String[]{"IT","Biologie"})));
+        //controller.editIndexcardBox("ITBox", controller.getCategoriesByCategoryNameList(List.of(new String[]{"IT","Biologie"})));
         // Test deleteIndexcardBox
-        controller.deleteIndexcardBox("ITBox");
+        //controller.deleteIndexcardBox("ITBox");
 
-        controller.createIndexcardBox("BiologieBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
+        //controller.createIndexcardBox("BiologieBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
 
         // Parent Category test
+        //controller.createCategory("Botanic", List.of(new String[]{"BOTK1","BOTK2"}), controller.getCategoryByName("Biologie").get());
+        controller.createCategory("Biologie", List.of(new String[]{"BIOK1","BIOK2"}));
         controller.createCategory("Botanic", List.of(new String[]{"BOTK1","BOTK2"}), controller.getCategoryByName("Biologie").get());
-
+        controller.deleteCategory("Biologie");
+        controller.deleteCategory("Botanic");
     }
 }

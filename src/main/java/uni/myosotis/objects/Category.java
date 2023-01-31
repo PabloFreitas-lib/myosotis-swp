@@ -27,10 +27,6 @@ public class Category implements Serializable{
     @JoinColumn(name = "parent_id")
     private Category parent;
 
-    // child categories
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Category> children = new ArrayList<>();
-
     private List<String> indexcardListNames;
 
     private static final Logger logger = Logger.getLogger(Category.class.getName());
@@ -39,18 +35,24 @@ public class Category implements Serializable{
      */
     public Category() {
     }
-
+    /**
+     * Constructor for the Category.
+     * @param name The name of the Category.
+     * @param indexcardListNames The name of the Category.
+     */
     public Category(String name, List<String> indexcardListNames) {
         this();
         this.name = name;
         this.indexcardListNames = indexcardListNames;
     }
-
+    /**
+     * Constructor for the Category.
+     * @param indexcardListNames The name of the Category.
+     * @param parent The parent of the Category.
+     */
     public Category(String name, List<String> indexcardListNames, Category parent) {
         this(name, indexcardListNames);
         this.parent = parent;
-        // add the child to the parent
-        parent.addChild(this);
     }
 
 
@@ -68,11 +70,7 @@ public class Category implements Serializable{
      *
      */
     public List<String> getIndexcardList() {
-        Set<String> indexcardList = new HashSet<>(this.indexcardListNames);
-        for (Category child : this.children) {
-            indexcardList.addAll(child.getIndexcardList());
-        }
-        return new ArrayList<>(indexcardList);
+        return indexcardListNames;
     }
     /**
      * Adds an Indexcard to the Category.
@@ -131,10 +129,6 @@ public class Category implements Serializable{
             if (parent != null) {
                 if (this.getName() != parent.getName()) {
                     this.parent = parent;
-                    // Add the current category to the parent's children
-                    // if children is not already in the list
-                    if (!parent.getChildren().contains(this))
-                        parent.getChildren().add(this);
                 } else {
                     throw new IllegalArgumentException("Parent cannot be the same class as the current category.");
                 }
@@ -148,19 +142,5 @@ public class Category implements Serializable{
             // Log the error message
             logger.log(Level.SEVERE,"Error setting parent: " + e.getMessage());
         }
-    }
-
-
-    public List<Category> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Category> children) {
-        this.children = children;
-    }
-
-    public void addChild(Category child) {
-        children.add(child);
-        child.setParent(this);
     }
 }

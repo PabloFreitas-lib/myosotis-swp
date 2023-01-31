@@ -245,6 +245,4 @@ public class IndexcardLogic {
         }
         return indexcards;
     }
-
-
 }

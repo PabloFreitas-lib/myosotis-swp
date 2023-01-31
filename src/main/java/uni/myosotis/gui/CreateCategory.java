@@ -88,19 +88,20 @@ public class CreateCategory extends JDialog{
         final String name = categoryTextField.getText();
         final List<String> indexcardsSelectedItems = indexcardsNamesList.getSelectedValuesList();
         final List<String> categoryParentSelectedItems = categoryParentNamesList.getSelectedValuesList();
-        if (!name.isBlank() && !indexcardsSelectedItems.isEmpty()){
-            controller.createCategory(name, indexcardsSelectedItems);
-            controller.setIndexCardPanel();
-            controller.setKeywordComboBox();
-            controller.setCategoryComboBox();
-            dispose();
-        }else if (!name.isBlank() && !indexcardsSelectedItems.isEmpty() && !categoryParentSelectedItems.isEmpty()){
-            // TODO just for testing
+        if (!name.isBlank() && !indexcardsSelectedItems.isEmpty() && !categoryParentSelectedItems.isEmpty()){
             Category parent = controller.getCategoryByName(categoryParentSelectedItems.get(0)).get();
             controller.createCategory(name, indexcardsSelectedItems,parent);
             controller.setIndexCardPanel();
             controller.setKeywordComboBox();
             controller.setCategoryComboBox();
+            dispose();
+        }else if (!name.isBlank() && !indexcardsSelectedItems.isEmpty()){
+            // TODO just for testing
+            controller.createCategory(name, indexcardsSelectedItems);
+            controller.setIndexCardPanel();
+            controller.setKeywordComboBox();
+            controller.setCategoryComboBox();
+            dispose();
         }
         else {
             JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Kategorie nicht erstellt.", JOptionPane.ERROR_MESSAGE);

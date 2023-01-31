@@ -23,7 +23,6 @@ public class LeitnerLearnSystem extends LearnSystem {
         super(indexcardBox);
         box1 = new ArrayList<>();
         for (Category category : indexcardBox.getCategoryList()) {
-            //box1.addAll(category.getIndexcardList());
         }
         box2 = new ArrayList<>();
         box3 = new ArrayList<>();
