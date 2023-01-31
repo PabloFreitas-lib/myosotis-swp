@@ -5,88 +5,73 @@ import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditCategory extends JDialog {
-    private JComboBox categoryBoxName;
-    private JButton buttonOK;
-    private JButton buttonCancel;
-    private JScrollPane indexCardsScrollPane;
-    private JPanel contentPane;
-    private JScrollPane categoryParentScrollPane;
+
     private final Controller controller;
-
-    private String selectedCategoryName;
-    private Optional<Category> selectedCategory;
-
-    private JList<String> indexcardsNamesList;
-
-    private JList<String> categoriesNamesList;
+    private JPanel contentPane;
+    private JComboBox<String> comboBoxName;
+    private JTextField nameTextField;
+    private JButton editButton;
+    private JButton cancelButton;
+    private JTree categoryTree;
+    private JList<String> parentList;
+    private JList<String> indexcardList;
 
     /**
      * Creates a new EditCategory-Dialog.
+     *
      * @param controller The Controller of the application.
      */
     public EditCategory(Controller controller) {
         this.controller = controller;
         setModal(true);
         setTitle("Kategorie bearbeiten");
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(editButton);
         setContentPane(contentPane);
-        //ComboBox with all Category names
-        categoryBoxName.setModel(new DefaultComboBoxModel<>(controller.getCategoryNames()));
-        //ActionListener for the ComboBox
-        categoryBoxName.addActionListener(e -> {
-            selectedCategoryName = (String) categoryBoxName.getSelectedItem();
-            selectedCategory = controller.getCategoryByName(selectedCategoryName);
 
-            if(selectedCategory.get() != null){
-                selectedCategory.get().getIndexcardList();
-                List<Indexcard> indexcardsNamesFromSelectedCategory = controller.getIndexcardsByIndexcardNameList(selectedCategory.get().getIndexcardList());
-                List<String> allIndexcardsNamesList = controller.getAllIndexcardNames();
-                indexcardsNamesList = new JList<>(allIndexcardsNamesList.toArray(new String[0]));
-                ArrayList<Integer> indices = new ArrayList<>();
-                indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        // List of all Categories
+        List<Category> categories = controller.getAllCategories();
+        // Array of all Category-names
+        String[] categoryNames = new String[categories.size()];
+        for (int i = 0; i < categories.size(); i++) {
+            categoryNames[i] = categories.get(i).getCategoryName();
+        }
+        //ComboBox with all Category-names
+        comboBoxName.setModel(new DefaultComboBoxModel<>(categoryNames));
 
-                for(int i = 0; i < indexcardsNamesFromSelectedCategory.size(); i++) {
-                    indices.add(allIndexcardsNamesList.indexOf(indexcardsNamesFromSelectedCategory.get(i).getName()));
-                }
-                int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
-                indexcardsNamesList.setSelectedIndices(indicesArray);
-                indexCardsScrollPane.setViewportView(indexcardsNamesList);
+        updateCategoryTree();
+        updateParentList();
+        updateIndexcardList();
 
-                // Category Parents
-                // FIXME
-                String[] categoriesNames = controller.getCategoryNames();
-                categoriesNamesList = new JList<>(categoriesNames);
-                categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                if (selectedCategory.get().getParent() != null) {
-                    categoriesNamesList.setSelectedIndices(new int[]{Arrays.stream(categoriesNames).toList().indexOf(selectedCategory.get().getParent().getName())});
-                }
-                categoryParentScrollPane.setViewportView(categoriesNamesList);
+        // Update infos, if another Category is selected.
+        comboBoxName.addActionListener(e -> {
+            nameTextField.setText((String) comboBoxName.getSelectedItem());
+            updateParentList();
+        });
 
-            }
-            else {
-                String[] indexcardsNames = controller.getAllIndexcardNames().toArray(new String[0]);
-                indexcardsNamesList = new JList<>(indexcardsNames);
-                indexcardsNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                indexCardsScrollPane.setViewportView(indexcardsNamesList);
-
-                String[] categoriesNames = controller.getCategoryNames();
-                categoriesNamesList = new JList<>(categoriesNames);
-                categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                categoryParentScrollPane.setViewportView(categoriesNamesList);
+        // Update possible parents with the selected parents and children of the edited Category.
+        parentList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                updateParentList();
             }
         });
 
-        buttonOK.addActionListener(new ActionListener() {
+        editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                onEdit();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -108,21 +93,128 @@ public class EditCategory extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Updates the tree of the current poly-hierarchy of the Category`s.
+     */
+    private void updateCategoryTree() {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Kategorien");
+        for (Category category : controller.getAllCategories()) {
+            if (controller.getParentCategories(category).isEmpty()) {
+                DefaultMutableTreeNode node = new DefaultMutableTreeNode(category.getCategoryName());
+                addNodes(node);
+                root.add(node);
+            }
+        }
+        DefaultTreeModel defaultTreeModel = new DefaultTreeModel(root);
+        categoryTree.setModel(defaultTreeModel);
+    }
 
     /**
-     * When the OK-Button is pressed, the Category is edited.
+     * Adds the nodes to the categoryTree.
      */
-    private void onOK() {
-        //Old Parameters
-        if(selectedCategory.isPresent()) {
-            Category parent = null;
-            if (!categoriesNamesList.getSelectedValuesList().isEmpty())
-                parent = controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(0)).get();
-                controller.editCategory(selectedCategoryName, indexcardsNamesList.getSelectedValuesList(),parent);
+    private void addNodes(DefaultMutableTreeNode node) {
+        if (controller.getCategoryByName(String.valueOf(node.getUserObject())).isPresent()) {
+            Category category = controller.getCategoryByName(String.valueOf(node.getUserObject())).get();
+            for (Category child : category.getChildren()) {
+                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child.getCategoryName());
+                addNodes(childNode);
+                node.add(childNode);
+            }
+        }
+    }
+
+    /**
+     * Updates the lists of possible parents of the Category.
+     */
+    private void updateParentList() {
+        // All parents of the selected parent-category`s
+        List<Category> selectedParents = new ArrayList<>();
+        for (String s : parentList.getSelectedValuesList()) {
+            if (controller.getCategoryByName(s).isPresent()) {
+                selectedParents.add(controller.getCategoryByName(s).get());
+            }
+        }
+        List<String> allParentNames = new ArrayList<>();
+        for (Category parent : selectedParents) {
+            allParentNames.addAll(controller.getAllParentCategories(parent).stream().map(Category::getCategoryName).toList());
+        }
+        // All children of the selected parent-categories
+        List<String> allChildrenNames = new ArrayList<>();
+        for (Category parent : selectedParents) {
+            allChildrenNames.addAll(parent.getAllChildren().stream().map(Category::getCategoryName).toList());
+        }
+        // All children of the edited Category
+        List<String> allOwnChildrenNames = new ArrayList<>();
+        if (controller.getCategoryByName((String) comboBoxName.getSelectedItem()).isPresent()) {
+            Category categoryToEdit = controller.getCategoryByName((String) comboBoxName.getSelectedItem()).get();
+            allOwnChildrenNames.addAll(categoryToEdit.getAllChildren().stream().map(Category::getCategoryName).toList());
+        }
+        // All Category-names that should be filtered
+        List<String> categoryNamesToFilter = new ArrayList<>();
+        categoryNamesToFilter.addAll(allParentNames);
+        categoryNamesToFilter.addAll(allChildrenNames);
+        categoryNamesToFilter.addAll(allOwnChildrenNames);
+        categoryNamesToFilter.add((String) comboBoxName.getSelectedItem());
+        // Filter parents and children of the selected parent-categories, together with own children
+        DefaultListModel<String> newParentList = new DefaultListModel<>();
+        newParentList.addAll(controller.getAllCategories().stream()
+                .map(Category::getCategoryName)
+                .filter(categoryName -> !categoryNamesToFilter.contains(categoryName)).toList());
+        parentList.setModel(newParentList);
+    }
+
+    /**
+     * Updates the list of Indexcards.
+     */
+    private void updateIndexcardList() {
+        DefaultListModel<String> defaultListModel = new DefaultListModel<>();
+        defaultListModel.addAll(controller.getAllIndexcardNames());
+        indexcardList.setModel(defaultListModel);
+    }
+
+    /**
+     * Sets a Category to edit by setting the ComboBox to the Category-name.
+     *
+     * @param category The Category.
+     */
+    public void setCategory(Category category){
+        comboBoxName.setSelectedItem(category.getCategoryName());
+    }
+
+    /**
+     * When the Edit-Button is pressed, the Category is edited.
+     */
+    private void onEdit() {
+        String newName = nameTextField.getText();
+        if (controller.getAllIndexcardNames().stream().filter(n -> !n.equals(comboBoxName.getSelectedItem())).toList().contains(newName)) {
+            JOptionPane.showMessageDialog(this, "Eine andere Kategorie hat bereits diesen Namen.", "Name bereits vergeben", JOptionPane.INFORMATION_MESSAGE);
+        } else if (newName.isBlank()) {
+            JOptionPane.showMessageDialog(this, "Die Kategorie muss einen Namen haben.", "Name fehlt", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            Category oldCategory;
+            if (controller.getCategoryByName((String) comboBoxName.getSelectedItem()).isPresent()) {
+                oldCategory = controller.getCategoryByName((String) comboBoxName.getSelectedItem()).get();
+            } else {
+                throw new IllegalStateException("Kategorie zum Bearbeiten existiert nicht!");
+            }
+            final Long oldId = oldCategory.getId();
+            List<Category> selectedParents = new ArrayList<>();
+            for (String s : parentList.getSelectedValuesList()) {
+                if (controller.getCategoryByName(s).isPresent()) {
+                    selectedParents.add(controller.getCategoryByName(s).get());
+                }
+            }
+            List<Indexcard> selectedIndexcards = new ArrayList<>();
+            for (String s : indexcardList.getSelectedValuesList()) {
+                if (controller.getIndexcardByName(s).isPresent()) {
+                    selectedIndexcards.add(controller.getIndexcardByName(s).get());
+                }
+            }
+            controller.editCategory(newName, selectedParents, selectedIndexcards, oldId);
             dispose();
         }
-
     }
+
     /**
      * When the Cancel-Button is pressed, the Dialog is closed.
      */

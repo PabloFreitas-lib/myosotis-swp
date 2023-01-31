@@ -47,7 +47,7 @@ public class IndexcardLogic {
         if (indexcardRepository.getIndexcardByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
         } else {
-            if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords, new ArrayList<>(), links)) < 0) {
+            if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords, links)) < 0) {
                 throw new IllegalStateException("Karteikarte konnte nicht erstellt werden, Fehler beim Speichern in der Datenbank");
             }
         }
@@ -98,11 +98,12 @@ public class IndexcardLogic {
         if (indexcardRepository.getIndexcardById(id).isPresent()) {
             List<Category> categoryContains = categoryRepository.getAllCategories();
             for (Category categoryContain : categoryContains) {
-                List<String> temp = categoryContain.getIndexcardList();
+                List<String> temp = categoryContain.getIndexcards().stream().map(Indexcard::getName).toList();
                 if (temp.contains(indexcard2delete.getName())) {
                     for (int j = 0; j < temp.size(); j++) {
                         temp.removeIf(s -> s.equals(indexcard2delete.getName()));
-                        categoryRepository.updateCategory(categoryContain, categoryContain.getCategoryName(), temp);
+                        categoryContain.setIndexcards(getIndexcardsByIndexcardNameList(temp));
+                        categoryRepository.updateCategory(categoryContain);
                     }
                 }
             }
@@ -165,66 +166,6 @@ public class IndexcardLogic {
                 .contains(keyword));
 
         return indexcards;
-    }
-
-    /**
-     * Returns all Indexcards with the given Category.
-     *
-     * @return All Indexcards with that Category.
-     */
-    public List<Indexcard> getIndexcardsByCategory(String categoryName) {
-        return indexcardRepository.getAllIndexcardByCategories(categoryName);
-    }
-
-    /**
-     * Edits an existing Indexcard and saves it in the database.
-     * If there is no indexcard with the given indexCardName, it will throw a IllegalStateException.
-     *
-     * @param indexCardName The Name of the Indexcard.
-     */
-    public void updateCategoryFromIndexcard(String indexCardName, String categoryName) {
-        if (indexcardRepository.getIndexcardByName(indexCardName).isPresent()) {
-            Indexcard indexcard = indexcardRepository.getIndexcardByName(indexCardName).get();
-
-            // Updates all values of the old indexcard.
-            indexcard.setName(indexCardName);
-            indexcard.addCategoryList(categoryName);
-
-            // Update in database failed.
-            if (indexcardRepository.updateIndexcard(indexcard) < 0) {
-                throw new IllegalStateException("Die Karteikarte konnte nicht aktualisiert werden.");
-            }
-
-        }
-        // Invalid id, indexcard does not exist.
-        else {
-            throw new IllegalStateException("Die zu bearbeitende Karteikarte existiert nicht." + indexCardName);
-        }
-    }
-
-    /**
-     * Edits an existing Indexcard and saves it in the database.
-     * If there is no indexcard with the given indexCardName, it will throw a IllegalStateException.
-     *
-     * @param indexCardName The Name of the Indexcard.
-     */
-    public void removeCategoryFromIndexcard(String indexCardName, String categoryName) {
-        if (indexcardRepository.getIndexcardByName(indexCardName).isPresent()) {
-            Indexcard indexcard = indexcardRepository.getIndexcardByName(indexCardName).get();
-
-            // Updates all values of the old indexcard.
-            indexcard.setName(indexCardName);
-            indexcard.removeCategoryList(categoryName);
-
-            // Update in database failed.
-            if (indexcardRepository.updateIndexcard(indexcard) < 0) {
-                throw new IllegalStateException("Die Karteikarte konnte nicht aktualisiert werden.");
-            }
-        }
-        // Invalid id, indexcard does not exist.
-        else {
-            throw new IllegalStateException("Die zu bearbeitende Karteikarte existiert nicht." + indexCardName);
-        }
     }
 
     public List<Indexcard> searchIndexcard(String text) {

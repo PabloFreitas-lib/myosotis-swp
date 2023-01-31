@@ -1,6 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
@@ -101,11 +102,11 @@ public class Glossar extends JDialog {
                         indexCard.getQuestion().toLowerCase().contains(text.toLowerCase()) ||
                         indexCard.getAnswer().toLowerCase().contains(text.toLowerCase()) ||
                         indexCard.getKeywordNames().toString().toLowerCase().contains(text.toLowerCase()) ||
-                        indexCard.getCategoryList().toString().toLowerCase().contains(text.toLowerCase()))
+                        controller.getCategoriesByIndexcard(indexCard).toString().toLowerCase().contains(text.toLowerCase()))
                 .collect(Collectors.toList());
 
         for (Indexcard indexCard : filteredIndexCards) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
         }
         indexCardTable.setModel(sort(glossarModel, true));
         // add data JTable
@@ -143,7 +144,7 @@ public class Glossar extends JDialog {
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
 
         for (Indexcard indexCard : controller.getAllIndexcards()) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList()});
         }
 
         indexCardTable.setModel(sort(glossarModel, true));
@@ -187,7 +188,7 @@ public class Glossar extends JDialog {
                 .collect(Collectors.toList());
 
         for (Indexcard indexCard : filteredIndexCards) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
         }
 
         indexCardTable.setModel(sort(glossarModel, true));
@@ -200,11 +201,11 @@ public class Glossar extends JDialog {
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
 
         List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
-                .filter(indexCard -> indexCard.getCategoryList().contains(categoryToFilter))
+                .filter(indexCard -> controller.getCategoriesByIndexcard(indexCard).contains(categoryToFilter))
                 .collect(Collectors.toList());
 
         for (Indexcard indexCard : filteredIndexCards) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
         }
 
         indexCardTable.setModel(sort(glossarModel, true));
@@ -222,11 +223,11 @@ public class Glossar extends JDialog {
         DefaultTableModel glossaryModel = new DefaultTableModel(columnNames, 0);
 
         List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
-                .filter(indexCard -> indexCard.getCategoryList().contains(categoryToFilter) && indexCard.getKeywordNames().contains(keywordToFilter))
+                .filter(indexCard -> controller.getCategoriesByIndexcard(indexCard).contains(categoryToFilter) && indexCard.getKeywordNames().contains(keywordToFilter))
                 .collect(Collectors.toList());
 
         for (Indexcard indexCard : filteredIndexCards) {
-            glossaryModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), indexCard.getCategoryList()});
+            glossaryModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
         }
 
         indexCardTable.setModel(sort(glossaryModel, true));

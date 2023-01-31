@@ -1,166 +1,165 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import lombok.extern.java.Log;
-import uni.myosotis.persistence.CategoryRepository;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 @Entity
-@Table(name = "category")
-public class Category implements Serializable{
+public class Category implements Serializable {
 
+    /**
+     * The id of the Category.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    /**
+     * The name of the Category.
+     */
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Category parent;
+    /**
+     * The children of the Category.
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Category> children;
 
-    // child categories
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Category> children = new ArrayList<>();
+    /**
+     * The Indexcards in the Category.
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Indexcard> indexcards;
 
-    private List<String> indexcardListNames;
-
-    private static final Logger logger = Logger.getLogger(Category.class.getName());
-     /**
+    /**
      * Constructor for the Category.
      */
     public Category() {
-    }
 
-    public Category(String name, List<String> indexcardListNames) {
-        this();
-        this.name = name;
-        this.indexcardListNames = indexcardListNames;
     }
-
-    public Category(String name, List<String> indexcardListNames, Category parent) {
-        this(name, indexcardListNames);
-        this.parent = parent;
-        // add the child to the parent
-        parent.addChild(this);
-    }
-
 
     /**
-     * Getter for the word of the Category.
-     * @return The word of the Category.
+     * Creates a new Category.
+     *
+     * @param name The name of the Category.
+     * @param children The children of the Category.
+     * @param indexcards The Indexcards in the Category.
+     */
+    public Category(String name, List<Category> children, List<Indexcard> indexcards) {
+        this.name = name;
+        this.children = children;
+        this.indexcards = indexcards;
+    }
+
+    /**
+     * Returns the name of the Category.
+     *
+     * @return The name of the Category.
      */
     public String getCategoryName(){
         return name;
     }
 
     /**
-     * Getter for Indexcard names from Category checking the children cateories also.
-     * @return The Indexcard of the Category.
+     * Sets the name of the Category.
      *
+     * @param name The new name of the Category.
      */
-    public List<String> getIndexcardList() {
-        Set<String> indexcardList = new HashSet<>(this.indexcardListNames);
-        for (Category child : this.children) {
-            indexcardList.addAll(child.getIndexcardList());
-        }
-        return new ArrayList<>(indexcardList);
-    }
-    /**
-     * Adds an Indexcard to the Category.
-     * @param indexcard The Indexcard which should be added.
-     */
-    public void addIndexcard(String indexcard){
-        indexcardListNames.add(indexcard);
-    }
-    /**
-     * Sets the Indexcards of the Category.
-     * @param indexcardList The Indexcardslist which should be set.
-     */
-    public void setIndexcardList(List<String> indexcardList) {
-        this.indexcardListNames = indexcardList;
-    }
-
+     public void setCategoryName(String name) {
+         this.name = name;
+     }
 
     /**
-     * Getter for the id of the Category.
-     * @return The id of the Category.
+     * Returns the children of the Category.
+     *
+     * @return A list of the children of the Category.
      */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * Getter for the name of the Category.
-     * @return The name of the Category.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Getter for the parent of the Category.
-     * @return The parent of the Category.
-     */
-    public Category getParent() {
-        return parent;
-    }
-
-    /**
-     * Setter for the name of the Category.
-     * @param name The name of the Category.
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * Setter for the parent of the Category.
-     * @param parent The parent of the Category.
-     */
-    public void setParent(Category parent) {
-        try {
-            if (parent != null) {
-                if (this.getName() != parent.getName()) {
-                    this.parent = parent;
-                    // Add the current category to the parent's children
-                    // if children is not already in the list
-                    if (!parent.getChildren().contains(this))
-                        parent.getChildren().add(this);
-                } else {
-                    throw new IllegalArgumentException("Parent cannot be the same class as the current category.");
-                }
-            } else {
-                this.parent = null;
-            }
-        } catch (IllegalArgumentException e) {
-            // Log the error message
-            logger.log(Level.SEVERE, "Error setting parent: " + e.getMessage());
-        } catch (Exception e) {
-            // Log the error message
-            logger.log(Level.SEVERE,"Error setting parent: " + e.getMessage());
-        }
-    }
-
-
     public List<Category> getChildren() {
         return children;
     }
 
+    /**
+     * Returns the children of the Category. Includes the children of the children of the Category.
+     *
+     * @return A list of all children of the Category, including the children of the children.
+     */
+    public List<Category> getAllChildren() {
+        Set<Category> childrenList = new HashSet<>(this.children);
+        for (Category child : this.children) {
+            childrenList.addAll(child.getAllChildren());
+        }
+        return new ArrayList<>(childrenList);
+    }
+
+    /**
+     * Adds a new child to the Category.
+     *
+     * @param child The Category that should be added to the Category as a child.
+     */
+    public void addChild(Category child) {
+        children.add(child);
+    }
+
+    /**
+     * Sets the children of the Category.
+     *
+     * @param children The new children of the Category.
+     */
     public void setChildren(List<Category> children) {
         this.children = children;
     }
 
-    public void addChild(Category child) {
-        children.add(child);
-        child.setParent(this);
+    /**
+     * Returns a list of the Indexcards in the Category.
+     *
+     * @return The Indexcards of the Category
+     */
+    public List<Indexcard> getIndexcards() {
+        return indexcards;
+    }
+
+    /**
+     * Returns a list of the Indexcards in the Category. Includes the Indexcards in the children of the Category.
+     *
+     * @return The Indexcard of the Category, including the Indexcards of the children of the Category.
+     */
+    public List<Indexcard> getAllIndexcards() {
+        Set<Indexcard> indexcardList = new HashSet<>(this.indexcards);
+        for (Category child : this.children) {
+            indexcardList.addAll(child.getAllIndexcards());
+        }
+        return new ArrayList<>(indexcardList);
+    }
+
+    /**
+     * Adds an Indexcard to the Category.
+     *
+     * @param indexcard The Indexcard which should be added.
+     */
+    public void addIndexcard(Indexcard indexcard){
+        indexcards.add(indexcard);
+    }
+
+    /**
+     * Sets the Indexcards of the Category.
+     *
+     * @param indexcards The new Indexcards in the Category.
+     */
+    public void setIndexcards(List<Indexcard> indexcards) {
+        this.indexcards = indexcards;
+    }
+
+    /**
+     * Returns the id of the Category.
+     *
+     * @return The id of the Category.
+     */
+    public Long getId() {
+        return id;
     }
 }

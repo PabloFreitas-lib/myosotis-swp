@@ -88,7 +88,7 @@ public class Keyword implements Serializable {
     * @return The Indexcard of the Keyword.
     */
     /*
-    public List<Indexcard> getIndexcards() {
+    public List<Indexcard> getAllIndexcards() {
         return indexcards;
     }*/
 

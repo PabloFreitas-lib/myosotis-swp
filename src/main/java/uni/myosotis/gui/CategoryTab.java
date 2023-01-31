@@ -2,7 +2,6 @@ package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Category;
-import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +17,7 @@ public class CategoryTab extends JFrame{
     private JButton createCategoryButton;
     private JButton editCategoryButton;
     private JButton deleteCategoryButton;
-    private JList categoryList;
+    private JList<String> categoryList;
     private JTextField searchField;
     private JButton searchButton;
 
@@ -54,18 +53,36 @@ public class CategoryTab extends JFrame{
         });
     }
 
-    private void onCreate(){
+    private void onCreate() {
+        if (categoryList.getSelectedValue() != null) {
+            controller.editCategory(controller.getCategoryByName(categoryList.getSelectedValue()).get());
+        }
+        else {
+            controller.createCategory();
+        }
         controller.createCategory();
         updateList(controller.getAllCategories());
     }
 
     private void onEdit(){
-        controller.editCategory();
+        if (categoryList.getSelectedValue() != null) {
+            controller.editCategory(controller.getCategoryByName(categoryList.getSelectedValue()).get());
+        }
+        else {
+            controller.createCategory();
+        }
         updateList(controller.getAllCategories());
     }
 
     private void onDelete(){
-        controller.deleteCategory();
+        if (categoryList.getSelectedValue() != null) {
+            for (Object categoryname : categoryList.getSelectedValuesList()) {
+                controller.deleteCategory(controller.getCategoryByName(categoryname.toString()).get());
+            }
+        }
+        else {
+            controller.deleteIndexcard();
+        }
         updateList(controller.getAllCategories());
     }
 

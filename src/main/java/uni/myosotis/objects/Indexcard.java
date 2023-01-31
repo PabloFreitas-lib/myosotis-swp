@@ -3,7 +3,6 @@ package uni.myosotis.objects;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,9 +19,6 @@ public class Indexcard implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Link> links;
-
-    //@ManyToOne
-    private List<String> categoryList = new ArrayList<>();
 
     /**
      * Id of the index card, needs to be unique within the persistence.
@@ -54,16 +50,14 @@ public class Indexcard implements Serializable {
      * @param question The question of the Indexcard.
      * @param answer   The answer of the Indexcard.
      * @param keywords The keywords of the Indexcard.
-     * @param categoryList The categories of the Indexcard.
      * @param links The links of the Indexcard.
      */
-    public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords, List<String> categoryList, final List<Link> links) {
+    public Indexcard(final String name, final String question, final String answer, final List<Keyword> keywords, final List<Link> links) {
 
         this.name = name;
         this.question = question;
         this.answer = answer;
         this.keywords = keywords;
-        this.categoryList = categoryList;
         this.links = links;
 
     }
@@ -163,42 +157,6 @@ public class Indexcard implements Serializable {
      */
     public void setKeywords(final List<Keyword> keywords) {
         this.keywords = keywords;
-    }
-
-    /**
-     * Sets the categories of the Indexcard to the given name.
-     *
-     * @param categoryList The Keywords.
-     */
-    public void setCategoryList(final List<String> categoryList) {
-        this.categoryList = categoryList;
-    }
-
-    /**
-     * Add a category of the Indexcard to the given name.
-     *
-     * @param categoryName The Keywords.
-     */
-    public void addCategoryList(final String categoryName) {
-        if (!categoryList.contains(categoryName))
-            this.categoryList.add(categoryName);
-    }
-
-    /**
-     * Add a category of the Indexcard to the given name.
-     *
-     * @param categoryName The Keywords.
-     */
-    public void removeCategoryList(final String categoryName) {
-        if (categoryList.contains(categoryName))
-            categoryList.remove(categoryName);
-    }
-
-    /**
-     * Get a category of the Indexcard to the given name.
-     */
-    public List<String> getCategoryList(){
-        return categoryList;
     }
 
     /**

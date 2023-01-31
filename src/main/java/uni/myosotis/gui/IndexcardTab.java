@@ -90,8 +90,8 @@ public class IndexcardTab extends JDialog{
             controller.deleteIndexcard();
         }
         updateList(controller.getAllIndexcards());
-
     }
+
     /**
      * Checks if the user has selected an indexcard if so
      * it opens the dialog edit function for the selected indexcard

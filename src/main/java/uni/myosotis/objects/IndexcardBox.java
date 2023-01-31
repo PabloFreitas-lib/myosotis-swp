@@ -1,10 +1,12 @@
 package uni.myosotis.objects;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -56,7 +58,7 @@ public class IndexcardBox implements Serializable{
     public List<String> getIndexcardList() {
         List<String> indexcardList = new ArrayList<>();
         for (Category category : categoryList) {
-            for (String indexcard : category.getIndexcardList()) {
+            for (String indexcard : category.getIndexcards().stream().map(Indexcard::getName).toList()) {
                 if (!indexcardList.contains(indexcard)) {
                     indexcardList.add(indexcard);
                 }
@@ -81,7 +83,7 @@ public class IndexcardBox implements Serializable{
      * @return List of categories names
      */
     public String[] getCategoryNameList() {
-        return categoryList.stream().map(Category::getName).toList().toArray(new String[0]);
+        return categoryList.stream().map(Category::getCategoryName).toList().toArray(new String[0]);
     }
     
     /*

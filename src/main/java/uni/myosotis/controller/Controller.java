@@ -336,13 +336,13 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards in this category to the IndexcardLogic.
+     * Delegates the exercise to find all Indexcards in this category to the CategoryLogic.
      *
      * @param category The Category.
      * @return A list of all Indexcards in this category.
      */
-    public List<Indexcard> getIndexcardsByCategory(String category) {
-        return indexcardLogic.getIndexcardsByCategory(category);
+    public List<Indexcard> getIndexcardsByCategory(Category category) {
+        return categoryLogic.getIndexcardsByCategory(category);
     }
 
     /**
@@ -498,79 +498,19 @@ public class Controller {
 
     /**
      * Delegates the exercise to create a new Category to the CategoryLogic.
-     * Displays an error, if already a Category with the same categoryName exists.
      *
-     * @param categoryName The categoryName of the Category.
-     * @param indexcardListNames The Indexcards that should be in this Category.
+     * @param name The name of the Category.
+     * @param parents The parents of the Category.
+     * @param indexcards The Indexcards that should be in this Category.
      */
-    public void createCategory(String categoryName, List<String> indexcardListNames){
+    public void createCategory(String name, List<Category> parents, List<Indexcard> indexcards) {
         try {
-            List<Indexcard> indexcardList = new ArrayList<>();
-            for (String s : indexcardListNames) {
-                if (getIndexcardByName(s).isPresent()) {
-                    indexcardList.add(getIndexcardByName(s).get());
-                }
-            }
-            categoryLogic.createCategory(categoryName, getAllIndexcardNames(indexcardList));
+            categoryLogic.createCategory(name, indexcards, parents);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format("Die Kategorie (%s) wurde erfolgreich erstellt.",categoryName), "Kategorie erstellt",
+                    String.format("Die Kategorie (%s) wurde erfolgreich erstellt.", name), "Kategorie erstellt",
                     JOptionPane.INFORMATION_MESSAGE);
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen." + e, "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Delegates the exercise to create a new Category to the CategoryLogic.
-     * Displays an error, if already a Category with the same categoryName exists.
-     *
-     * @param categoryName The categoryName of the Category.
-     * @param indexcardListNames The Indexcards that should be in this Category.
-     * @param parent The parent category.
-     */
-    public void createCategory(String categoryName, List<String> indexcardListNames,Category parent){
-        try {
-            List<Indexcard> indexcardList = new ArrayList<>();
-            for (String s : indexcardListNames) {
-                if (getIndexcardByName(s).isPresent()) {
-                    indexcardList.add(getIndexcardByName(s).get());
-                }
-            }
-            categoryLogic.createCategory(categoryName, getAllIndexcardNames(indexcardList),parent);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
-                    JOptionPane.INFORMATION_MESSAGE);
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen." + e, "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Delegates the exercise to create a new Category to the CategoryLogic.
-     * Displays an error, if already a Category with the same categoryName exists.
-     *
-     * @param categoryName The categoryName of the Category.
-     * @param indexcardList The Indexcards that should be in this Category.
-     */
-    public void createCategory(String categoryName, List<Indexcard> indexcardList, boolean silentMode){
-        try {
-            categoryLogic.createCategory(categoryName, getAllIndexcardNames(indexcardList));
-            if (!silentMode) {
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Kategorie wurde erfolgreich erstellt.", "Kategorie erstellt",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Kategorie mit diesem Namen. " + e, "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
+        } catch (final IllegalStateException e) {
+            JOptionPane.showMessageDialog(mainMenu, e.getMessage());
         }
     }
 
@@ -582,67 +522,32 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to edit a Category to the CategoryLogic.
-     * Displays an error, if there is no Category with the given name.
+     * Displays the dialog to edit a selected Category.
      *
-     * @param name The name of the Category.
-     * @param indexCardListNames The Indexcards of the Category.
+     * @param category The selected Category.
      */
-    public void editCategory(String name, List<String> indexCardListNames, Category parent) {
-        try {
-            List<Indexcard> indexCardList = new ArrayList<>();
-            for (String s : indexCardListNames) {
-                if (getIndexcardByName(s).isPresent()) {
-                    indexCardList.add(getIndexcardByName(s).get());
-                }
-            }
-            // verify if the category is a child of itself
-            if (parent != null) {
-                if (parent.getCategoryName().equals(name)) {
-                    JOptionPane.showMessageDialog(mainMenu,
-                            "Eine Kategorie kann nicht selbst eine Unter-Kategorie sein.", "Kategorie nicht bearbeitet",
-                            JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            }
-            categoryLogic.updateCategory(name, indexCardListNames,parent);
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
-                    JOptionPane.INFORMATION_MESSAGE);
-
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+    public void editCategory(Category category) {
+        mainMenu.displayEditCategory(category);
     }
 
     /**
      * Delegates the exercise to edit a Category to the CategoryLogic.
      * Displays an error, if there is no Category with the given name.
      *
-     * @param name The name of the Category.
-     * @param indexCardListNames The Indexcards of the Category.
+     * @param newName The new name of the Category.
+     * @param newParents The new parents of the Category.
+     * @param newIndexcards The new Indexcards of the Category.
+     * @param id The id of the Category
      */
-    public void editCategory(String name, List<String> indexCardListNames) {
+    public void editCategory(String newName, List<Category> newParents, List<Indexcard> newIndexcards, Long id) {
         try {
-            List<Indexcard> indexCardList = new ArrayList<>();
-            for (String s : indexCardListNames) {
-                if (getIndexcardByName(s).isPresent()) {
-                    indexCardList.add(getIndexcardByName(s).get());
-                }
-            }
-            categoryLogic.updateCategory(name, indexCardListNames);
+            categoryLogic.updateCategory(newName, newParents, newIndexcards, id);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich bearbeitet.", "Kategorie bearbeitet",
+                    String.format("Die Kategorie (%s) wurde erfolgreich bearbeitet.", newName), "Kategorie bearbeitet",
                     JOptionPane.INFORMATION_MESSAGE);
-
         }
         catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Kategorie mit diesem Namen.", "Kategorie nicht vorhanden",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainMenu, e.getMessage());
         }
     }
 
@@ -655,44 +560,39 @@ public class Controller {
 
     /**
      * Delegates the exercise to delete an existing Category to the CategoryLogic.
-     * Displays an error, if no Category with the same name exists.
-     *
-     * @param name The name of the Category.
+     * *
+     * @param category The Category that should be deleted.
      */
-    public void deleteCategory(String name){
+    public void deleteCategory(Category category){
         try {
-            categoryLogic.deleteCategory(name);
+            categoryLogic.deleteCategory(category);
             JOptionPane.showMessageDialog(mainMenu,
                     "Die Kategorie wurde erfolgreich gelöscht.", "Kategorie gelöscht",
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Kategorie mit diesem Namen!.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(mainMenu, e.getMessage());
         }
     }
 
     /**
-     * Delegates the exercise to delete an existing Category to the CategoryLogic.
-     * Displays an error, if no Category with the same name exists.
+     * Delegates the exercise to return a list of all parents of a Category.
      *
-     * @param name The name of the Category.
+     * @param category The Category from them the parents should be returned.
+     * @return A list of all parents of the Category.
      */
-    public void deleteCategory(String name, boolean silentMode){
-        try {
-            categoryLogic.deleteCategory(name);
-            if (!silentMode) {
-                JOptionPane.showMessageDialog(mainMenu,
-                        "Die Kategorie wurde erfolgreich gelöscht.", "Kategorie gelöscht",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-        }
-        catch (final IllegalStateException e) {
-            JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Kategorie mit diesem Namen!.", "Name bereits vergeben",
-                    JOptionPane.ERROR_MESSAGE);
-        }
+    public List<Category> getParentCategories(Category category) {
+        return categoryLogic.getParentCategories(category);
+    }
+
+    /**
+     * Delegates the exercise to return a list of all parents of a Category. Includes the parents of the parent-categories.
+     *
+     * @param category The Category from them the parents should be returned.
+     * @return A list of all parents of the Category, including the parents of the parents
+     */
+    public List<Category> getAllParentCategories(Category category) {
+        return categoryLogic.getAllParentCategories(category);
     }
 
     /**
@@ -741,6 +641,16 @@ public class Controller {
      */
     public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
         return categoryLogic.getCategoriesByCategoryNameList(categoryNameList);
+    }
+
+    /**
+     * Delegates the exercise to get all Categories that contain a specific Indexcard to the CategoryLogic.
+     *
+     * @param indexCard The Indexcard
+     * @return A list of all Categories that contain that Indexcard.
+     */
+    public List<Category> getCategoriesByIndexcard(Indexcard indexCard) {
+        return categoryLogic.getCategoriesByIndexcard(indexCard);
     }
 
     /**
@@ -831,7 +741,7 @@ public class Controller {
      */
     public void filterIndexCardPanelByCategories(String name) {
         if (getCategoryByName(name).isPresent()) {
-            List<Indexcard> indexcardList = getIndexcardsByIndexcardNameList(getCategoryByName(name).get().getIndexcardList());
+            List<Indexcard> indexcardList = getCategoryByName(name).get().getIndexcards();
             DefaultListModel<String> listModel = new DefaultListModel<>();
             for (Indexcard indexCard : indexcardList) {
                 listModel.addElement(indexCard.getName());

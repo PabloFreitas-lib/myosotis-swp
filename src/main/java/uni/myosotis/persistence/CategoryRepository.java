@@ -8,39 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class is used to access the persistence storage for the object type "Category".
  */
 public class CategoryRepository {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(CategoryRepository.class.getName());
+    private final Logger logger = Logger.getLogger(CategoryRepository.class.getName());
 
     private final PersistenceManager pm = new PersistenceManager();
 
-
     /**
-     * This method is used to save an object of type "category" to the persistent
+     * This method is used to save an object of type "category" to the
      * persistence storage.
      *
      * @param category     The category that should be saved to the persistence.
-     * @return            Status, -1 means an error has been occurred on save.
+     * @return             Status, -1 means an error has been occurred on save.
      */
 
-    public int saveCategory(final Category category) {
+    public void saveCategory(final Category category) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
             em.persist(category);
             em.getTransaction().commit();
         } catch (Exception e) {
-            logger.log(Level.SEVERE,"Error saving category: {0}", category.getName());
-            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
-            return -1;
+            throw new IllegalStateException("Error while saving a Category to the databse: " + e.getMessage());
         }
-        //logger.log(Level.INFO,"Successfully saved category: {0}", category.getName());
-        return 0;
     }
-
 
     /**
      * This method is used to update an object of type "Category" to the persistent
@@ -48,53 +43,34 @@ public class CategoryRepository {
      * and added to the database. Otherwise, the content of the given Category will be updated
      * instead.
      *
-     * @param oldCategory  The Category that should be updated in the persistence.
-     * @param word        The new name that should be saved to the persistence.
-     * @param indexcards  The new indexcards that should be saved to the persistence.
-     * @param parent The parent from the Category.
+     * @param category The category that should be updated.
      */
-    public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards, Category parent) {
+    public void updateCategory(final Category category) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            oldCategory.setName(word);
-            oldCategory.setIndexcardList(indexcards);
-            oldCategory.setParent(parent);
-            em.merge(oldCategory);
+            em.merge(category);
             em.getTransaction().commit();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
-            logger.log(Level.SEVERE, "Error: {0}", e.getMessage());
-            return -1;
+            throw new IllegalStateException("Error while updating Category in the database: " + e.getMessage());
         }
-        //logger.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
-        return 0;
     }
 
     /**
-     * This method is used to update an object of type "Category" to the persistent
-     * persistence storage. If the Category does not exist at this point it will be created
-     * and added to the database. Otherwise, the content of the given Category will be updated
-     * instead.
+     * This method is used to delete an object of type "Category" in the
+     * persistence storage.
      *
-     * @param oldCategory  The Category that should be updated in the persistence.
-     * @param word        The new name that should be saved to the persistence.
-     * @param indexcards  The new indexcards that should be saved to the persistence.
+     * @param category The Category that should be deleted.
      */
-    public int updateCategory(final Category oldCategory, final String word, final List<String> indexcards) {
+    public void deleteCategory(final Category category) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
-            oldCategory.setName(word);
-            oldCategory.setIndexcardList(indexcards);
-            em.merge(oldCategory);
+            em.remove(em.find(Category.class, category.getId()));
             em.getTransaction().commit();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE,"Error occurred while deleting category with name {0}", category.getCategoryName());
+            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
+            throw new IllegalStateException("Error while deleting Category from the database: " + e.getMessage());
         }
-         catch (Exception e) {
-        logger.log(Level.SEVERE, "Error updating category: {0}", oldCategory.getName());
-        logger.log(Level.SEVERE, "Error: {0}", e.getMessage());
-        return -1;
-    }
-        //logger.log(Level.INFO, "Successfully updated category: {0}", oldCategory.getName());
-        return 0;
     }
 
     /**
@@ -118,21 +94,20 @@ public class CategoryRepository {
     }
 
     /**
-     * This method is used to find an object of type "Category" in the persistent by Category Names.
-     * @param categoryNames
-     * @return
+     * This method is used to find an object of type "Category" in the
+     * persistence storage by id.
+     *
+     * @param id      The id of the Category.
+     * @return        The object of type "Category" or null if it does not exist.
      */
-
-    public List<Category> getCategoriesByCategoryNameList(final List<String> categoryNames) {
+    public Optional<Category> getCategoryById(final Long id) {
         try (final EntityManager em = pm.getEntityManager()) {
-            return em.createQuery("SELECT c FROM Category c WHERE c.name IN :categoryNames", Category.class).setParameter("categoryNames", categoryNames).getResultList();
-        }
-        catch (NoResultException e) {
-            logger.log(Level.WARNING,"No category found with name {0}", categoryNames);
-            return new ArrayList<>();
-        }
-        catch (Exception e) {
-            logger.log(Level.SEVERE,"Error occurred while searching for category by name {0}", categoryNames);
+            return Optional.ofNullable(em.createQuery("SELECT c FROM Category c WHERE c.id = :id", Category.class).setParameter("id", id).getSingleResult());
+        } catch (NoResultException e) {
+            logger.log(Level.WARNING,"No category found with id {0}", id);
+            return Optional.empty();
+        } catch (Exception e) {
+            logger.log(Level.SEVERE,"Error occurred while searching for category by id {0}", id);
             logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
             throw e;
         }
@@ -152,36 +127,6 @@ public class CategoryRepository {
             throw e;
         }
     }
-
-
-    /**
-     * This method is used to delete an object of type "Category" in the persistent
-     * persistence storage.
-     *
-     * @param name      The name of the Categories.
-     * @return          Status, -1 means an error has been occurred on delete.
-     */
-    public int deleteCategory(final String name) {
-        final EntityManager em = pm.getEntityManager();
-        try {
-            em.getTransaction().begin();
-            final Optional<Category> categoryOpt = getCategoryByName(name);
-            if (!categoryOpt.isPresent()) {
-                logger.log(Level.WARNING,"No category found with name {0}", name);
-                return -1;
-            }
-            final Category category = categoryOpt.get();
-            em.remove(em.find(Category.class, category.getId()));
-            em.getTransaction().commit();
-            return 1;
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            logger.log(Level.SEVERE,"Error occurred while deleting category with name {0}", name);
-            logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
-            throw e;
-        }
-    }
-
 
     /**
      * This method is used to search for an object of type "Category" in the persistent

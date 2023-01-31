@@ -244,7 +244,8 @@ public class MainMenu extends JFrame {
     }
 
     /**
-     * Displays the Dialog to create a new Category.
+     * Displays the Dialog to edit a specific Indexcard.
+     *
      * @param indexcard The Indexcard which is preset to be edited
      */
     public void displayEditIndexcard(Indexcard indexcard) {
@@ -283,9 +284,8 @@ public class MainMenu extends JFrame {
      */
     public void displayCreateCategory() {
         final CreateCategory createCategory = new CreateCategory(controller);
-        createCategory.pack();
+        createCategory.setSize(400, 600);
         createCategory.setMinimumSize(createCategory.getSize());
-        createCategory.setSize(400, 300);
         createCategory.setLocationRelativeTo(this);
         createCategory.setVisible(true);
     }
@@ -295,10 +295,23 @@ public class MainMenu extends JFrame {
      */
     public void displayEditCategory() {
         final EditCategory editCategory = new EditCategory(controller);
-        editCategory.pack();
+        editCategory.setSize(400, 600);
         editCategory.setMinimumSize(editCategory.getSize());
-        editCategory.setSize(400, 300);
         editCategory.setLocationRelativeTo(this);
+        editCategory.setVisible(true);
+    }
+
+    /**
+     * Displays the Dialog to edit a specific Category.
+     *
+     * @param category The Category which is preset to be edited
+     */
+    public void displayEditCategory(Category category) {
+        final EditCategory editCategory = new EditCategory(controller);
+        editCategory.setSize(400, 600);
+        editCategory.setMinimumSize(editCategory.getSize());
+        editCategory.setLocationRelativeTo(this);
+        editCategory.setCategory(category);
         editCategory.setVisible(true);
     }
 
@@ -358,13 +371,13 @@ public class MainMenu extends JFrame {
         controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         controller.createIndexcard("BIOK2", "Was ist ein Zelle?", "Eine Zelle ist der kleinste Teil eines Organismus.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         // Test createCategory
-        controller.createCategory("IT", List.of(new String[]{"ITK2","ITK3"}));
+        controller.createCategory("IT", new ArrayList<>(), controller.getAllIndexcards());
         // Test editCategory without editing parent
-        controller.editCategory("IT", List.of(new String[]{"ITK2"}), controller.getCategoryByName("IT").get().getParent());
+        controller.editCategory(controller.getCategoryByName("IT").get().getCategoryName(), controller.getCategoryByName("IT").get().getChildren(), controller.getCategoryByName("IT").get().getIndexcards(), controller.getCategoryByName("IT").get().getId());
         // Test deleteCategory
-        controller.deleteCategory("IT");
+        controller.deleteCategory(controller.getCategoryByName("IT").get());
 
-        controller.createCategory("Biologie", List.of(new String[]{"BIOK1","BIOK2"}));
+        controller.createCategory("Biologie", new ArrayList<>(), controller.getAllIndexcards());
 
         // Test createIndexcardBox
         controller.createIndexcardBox("ITBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
@@ -376,7 +389,7 @@ public class MainMenu extends JFrame {
         controller.createIndexcardBox("BiologieBox",controller.getCategoriesByCategoryNameList(List.of(new String[]{"Biologie"})));
 
         // Parent Category test
-        controller.createCategory("Botanic", List.of(new String[]{"BOTK1","BOTK2"}), controller.getCategoryByName("Biologie").get());
+        controller.createCategory("Botanic", List.of(controller.getCategoryByName("Biologie").get()), new ArrayList<>());
 
     }
 }

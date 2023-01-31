@@ -106,7 +106,7 @@ public class KeywordLogic {
 
 
     /*public void updateKeywordName(Keyword keyword, String name) {
-        KeywordRepository.updateKeyword(keyword, name, keyword.getIndexcards());
+        KeywordRepository.updateKeyword(keyword, name, keyword.getAllIndexcards());
     }*/
 
 
@@ -195,7 +195,7 @@ public class KeywordLogic {
         Optional<Keyword> keyword = getKeywordByName(name);
         if (keyword.isPresent()) {
             keyword.get().setWord(newWord);
-            KeywordRepository.updateKeyword(keyword.get(), newWord, keyword.get().getIndexcards());
+            KeywordRepository.updateKeyword(keyword.get(), newWord, keyword.get().getAllIndexcards());
         } else {
             throw new IllegalStateException("Es existiert keine Karteikarte mit diesem Namen.");
         }

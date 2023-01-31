@@ -1,6 +1,8 @@
 package uni.myosotis.logic;
 
-import uni.myosotis.objects.*;
+import uni.myosotis.objects.Category;
+import uni.myosotis.objects.Indexcard;
+import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.*;
@@ -31,138 +33,122 @@ public class CategoryLogic {
         this.indexcardLogic = new IndexcardLogic();
     }
 
-
-
     /**
      * Creates a new Category and saves it in the database.
-     * If already a Category with the same categoryName exists, it will throw a IllegalStateException.
-     *
-     * @param categoryName The categoryName of the Category.
-     * @param indexcardList The Indexcards in this Category.
+     * *
+     * @param name The name of the Category.
+     * @param indexcards The Indexcards that should be in the Category.
+     * @param parents The parents of the Category.
      */
-    public void createCategory(String categoryName, List<String> indexcardList) {
+    public void createCategory(String name, List<Indexcard> indexcards, List<Category> parents) {
         try {
-            for (String s : indexcardList) {
-                indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
+            // Create new Category and save it to the database
+            Category newCategory = new Category(name, new ArrayList<>(), indexcards);
+            categoryRepository.saveCategory(newCategory);
+            // Add the new Category as a child to the selected parent-category`s
+            for (Category parent : parents) {
+                parent.addChild(newCategory);
+                categoryRepository.updateCategory(parent);
             }
-            if (CategoryIsPresent(categoryName)) {
-                addIndexcardsToCategory(categoryName,indexcardList);
-            } else {
-                Category category = new Category(categoryName, indexcardList);
-                categoryRepository.saveCategory(category);
-            }
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
+        } catch (final Exception e) {
+            throw new IllegalStateException(e.getMessage());
         }
     }
 
-
     /**
-     * Creates a new Category and saves it in the database.
-     * If already a Category with the same categoryName exists, it will throw a IllegalStateException.
+     * Edits an existing Category and saves it in the database.
+     * If there is no Category with the given name, it will throw a IllegalStateException.
      *
-     * @param categoryName The categoryName of the Category.
-     * @param indexcardList The Indexcards in this Category.
-     * @param parent The parent Category.
+     * @param newName The new name of the Category that should be edited.
+     * @param newParents The new parents of the Category.
+     * @param newIndexcards The new Indexcards of the Category.
+     * @param id The id of the Category.
      */
-    public void createCategory(String categoryName, List<String> indexcardList,Category parent) {
+    public void updateCategory(String newName, List<Category> newParents, List<Indexcard> newIndexcards, Long id) {
         try {
-            for (String s : indexcardList) {
-                indexcardLogic.updateCategoryFromIndexcard(s, categoryName);
+            if (categoryRepository.getCategoryById(id).isPresent()) {
+                Category category = categoryRepository.getCategoryById(id).get();
+                List<Category> oldParents = getParentCategories(category);
+                List<Category> notParents = oldParents.stream()
+                        .filter(parent -> !newParents.stream().map(Category::getCategoryName).toList().contains(parent.getCategoryName()))
+                        .toList();
+                // Remove this Category as a child from Categories, that are not parents anymore.
+                for (Category parent : notParents) {
+                    parent.setChildren(parent.getChildren().stream().filter(child -> !child.getCategoryName().equals(category.getCategoryName())).toList());
+                    categoryRepository.updateCategory(parent);
+                }
+                // Update this Category
+                category.setCategoryName(newName);
+                category.setIndexcards(newIndexcards);
+                categoryRepository.updateCategory(category);
+                // Add this Category as a child to new added parents
+                List<Category> newAddedParents = newParents.stream().filter(newParent -> !oldParents.stream().map(Category::getCategoryName).toList().contains(newParent.getCategoryName())).toList();
+                for (Category newParent : newAddedParents) {
+                    newParent.addChild(category);
+                    categoryRepository.updateCategory(newParent);
+                }
             }
-            if (CategoryIsPresent(categoryName)) {
-                addIndexcardsToCategory(categoryName,indexcardList);
-            } else {
-                Category category = new Category(categoryName, indexcardList,parent);
-                categoryRepository.saveCategory(category);
-                //log.log(Level.INFO,"Successfully created new category: {0}", categoryName);
-            }
-        } catch (Exception e) {
-            log.log(Level.SEVERE, "Error occurred while creating category: " + categoryName, e);
-        }
-    }
-
-
-    /**
-     * Adds Indexcard to a Category.
-     * @param name The name of the Category.
-     * @param indexcards The Indexcards which should be added.
-     */
-    public void addIndexcardsToCategory(String name, List<String> indexcards) {
-        Optional<Category> category = categoryRepository.getCategoryByName(name);
-        if (category.isPresent()) {
-            Category category2Save = category.get();
-            category2Save.setIndexcardList(indexcards);
-            categoryRepository.saveCategory(category2Save);
-        }
-    }
-    /**
-     * Returns if the Category already exists.
-     * @param name The name of the Category.
-     */
-    public Boolean CategoryIsPresent(String name) {
-        return categoryRepository.getCategoryByName(name).isPresent();
-    }
-
-    /**
-     * Edits the name of a Category.
-     * @param name The current name of the Category
-     * @param newName The new name of the Category
-     */
-    public void editCategoryName(String name, String newName) {
-        Optional<Category> category = getCategoryByName(name);
-        if (category.isPresent()) {
-            category.get().setName(newName);
-            categoryRepository.updateCategory(category.get(), newName, category.get().getIndexcardList());
-        } else {
-            throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
-        }
-    }
-
-    /**
-     * Edits the Indexcards of a Category.
-     *
-     * @param name The name of the Category.
-     * @param indexcards The updated Indexcards.
-     */
-    public void editCategoryIndexcards(String name, List<String> indexcards) {
-        Optional<Category> Category = getCategoryByName(name);
-        if (Category.isPresent()) {
-            Category.get().setIndexcardList(indexcards);
-            categoryRepository.updateCategory(Category.get(), Category.get().getCategoryName(), indexcards);
-        } else {
-            throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
+        } catch (final Exception e){
+            throw new IllegalStateException(e.getMessage());
         }
     }
 
     /**
      * Deletes an existing Category from the database.
-     * If there is no Category with the given categoryName, it will throw a IllegalStateException.
      *
-     * @param categoryName The categoryName of the Category.
+     * @param category The Category that should be deleted.
      */
-    public void deleteCategory(String categoryName) {
-
-        if (CategoryIsPresent(categoryName)) {
-            Category category2delete = getCategoryByName(categoryName).get();
-            //Fix for Bug:
+    public void deleteCategory(Category category) {
+        try {
+            // Delete this Category from IndexcardBoxes that contain it
+            String categoryName = category.getCategoryName();
             List<IndexcardBox> boxContains = indexcardBoxLogic.getAllIndexcardBoxes();
             for (IndexcardBox boxContain : boxContains) {
                 if (Arrays.asList(boxContain.getCategoryNameList()).contains(categoryName)) {
                     List<Category> temp = boxContain.getCategoryList();
                     for (int j = 0; j < temp.size(); j++) {
-                        temp.removeIf(s -> s.getName().equals(categoryName));
+                        temp.removeIf(s -> s.getCategoryName().equals(categoryName));
                         indexcardBoxLogic.updateIndexcardBox(boxContain.getName(), temp);
                     }
                 }
             }
-            //End of Fix!
-            List<String> indexCardsNameList = category2delete.getIndexcardList();
-            for (String s : indexCardsNameList) indexcardLogic.removeCategoryFromIndexcard(s, categoryName);
-            if (categoryRepository.deleteCategory(categoryName) < 0) {
-                throw new IllegalStateException("Es existiert keine Kategorie mit diesem Namen.");
+            // Remove this Category as a child from the parents-categories.
+            for (Category parent : getParentCategories(category)) {
+                List<Category> newChildren = parent.getChildren();
+                newChildren.removeIf(children -> children.getCategoryName().equals(category.getCategoryName()));
+                parent.setChildren(newChildren);
+                categoryRepository.updateCategory(parent);
             }
+            // Delete the Category.
+            categoryRepository.deleteCategory(category);
+        } catch (final Exception e) {
+            throw new IllegalStateException(e.getMessage());
         }
+    }
+
+    /**
+     * Returns a list of all parents of a Category.
+     *
+     * @param category The Category from them the parents should be returned.
+     * @return A list of all parents of the Category.
+     */
+    public List<Category> getParentCategories(Category category) {
+        return categoryRepository.getAllCategories().stream().filter(c -> c.getChildren().stream().map(Category::getCategoryName).toList().contains(category.getCategoryName())).toList();
+    }
+
+    /**
+     * Returns a list of all parents of a Category. Includes the parents of the parent-categories.
+     *
+     * @param category The Category from them the parents should be returned.
+     * @return A list of all parents of the Category, including the parents of the parent-categories.
+     */
+    public List<Category> getAllParentCategories(Category category) {
+        List<Category> parents = getParentCategories(category);
+        Set<Category> parentList = new HashSet<>(parents);
+        for (Category parent : parents) {
+            parentList.addAll(getAllParentCategories(parent));
+        }
+        return new ArrayList<>(parentList);
     }
 
     /**
@@ -185,89 +171,11 @@ public class CategoryLogic {
     }
 
     /**
-     * Deletes specific Indexcards from a category.
-     *
-     * @param category The Category
-     * @param indexcards The indexcards
+     * Get all Categories by a category name list.
      */
-    public void deleteIndexcardFromCategory(Category category, List<String> indexcards) {
-        categoryRepository.updateCategory(category, category.getCategoryName(), indexcards);
-    }
-
-    /**
-     * Edits an existing Category and saves it in the database.
-     * If there is no Category with the given name, it will throw a IllegalStateException.
-     *
-     * @param name The Name of the Category.
-     * @param indexCardsNameList  The Question of the Category.
-     */
-    public void updateCategory(String name, List<String> indexCardsNameList, Category parent) {
-        if (categoryRepository.getCategoryByName(name).isPresent()) {
-            Category category2Edit = categoryRepository.getCategoryByName(name).get();
-            List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
-                    map(Indexcard::getName).toList();
-            // Updates all values of the old category2Edit.
-            category2Edit.setName(name);
-            category2Edit.setIndexcardList(indexCardsNameList);
-            // Update the indexCards categories
-            for(int i = 0; i < allIndexcardsList.size(); i++)
-                indexcardLogic.removeCategoryFromIndexcard(allIndexcardsList.get(i),name);
-            // Update the indexCards categories
-            for(int i = 0; i < indexCardsNameList.size(); i++)
-                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
-
-            // Update in database failed.
-            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList,parent) < 0) {
-                throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
-            }
-        }
-        // Invalid id, Category does not exist.
-        else {
-            throw new IllegalStateException("Die zu bearbeitende Kategorie existiert nicht.");
-        }
-    }
-
-    /**
-     * Edits an existing Category and saves it in the database.
-     * If there is no Category with the given name, it will throw a IllegalStateException.
-     *
-     * @param name The Name of the Category.
-     * @param indexCardsNameList  The Question of the Category.
-     */
-    public void updateCategory(String name, List<String> indexCardsNameList) {
-        if (categoryRepository.getCategoryByName(name).isPresent()) {
-            Category category2Edit = categoryRepository.getCategoryByName(name).get();
-            List<String> allIndexcardsList = indexcardLogic.getAllIndexcards().stream().
-                    map(Indexcard::getName).toList();
-            // Updates all values of the old category2Edit.
-            category2Edit.setName(name);
-            category2Edit.setIndexcardList(indexCardsNameList);
-            // Update the indexCards categories
-            for(int i = 0; i < allIndexcardsList.size(); i++)
-                indexcardLogic.removeCategoryFromIndexcard(allIndexcardsList.get(i),name);
-            // Update the indexCards categories
-            for(int i = 0; i < indexCardsNameList.size(); i++)
-                indexcardLogic.updateCategoryFromIndexcard(indexCardsNameList.get(i),name);
-
-            // Update in database failed.
-            if (categoryRepository.updateCategory(category2Edit,name, indexCardsNameList) < 0) {
-                throw new IllegalStateException("Die Kategorie konnte nicht aktualisiert werden.");
-            }
-        }
-        // Invalid id, Category does not exist.
-        else {
-            throw new IllegalStateException("Die zu bearbeitende Kategorie existiert nicht.");
-        }
-    }
-
-    /**
-     * Get all categores from by a category name list.
-     */
-
     public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
         List<Category> categoryList = new ArrayList<>();
-        for (int i = 0; i < categoryNameList.size(); i++) {
-            String categoryName = categoryNameList.get(i);
+        for (String categoryName : categoryNameList) {
             try {
                 Optional<Category> category = getCategoryByName(categoryName);
                 if (category.isPresent()) {
@@ -283,12 +191,33 @@ public class CategoryLogic {
         return categoryList;
     }
 
+    /**
+     * Returns all Categories that contain a specific Indexcard to the CategoryLogic.
+     *
+     * @param indexCard The Indexcard
+     * @return A list of all Categories that contain that Indexcard.
+     */
+    public List<Category> getCategoriesByIndexcard(Indexcard indexCard) {
+        return getAllCategories().stream().filter(category -> category.getIndexcards().stream().map(Indexcard::getName).toList().contains(indexCard.getName())).toList();
+    }
 
     /**
-     * search for a category by name.
-     *  @param name The name of the category.
+     * Find all Indexcards in this category to the CategoryLogic.
+     *
+     * @param category The Category.
+     * @return A list of all Indexcards in this category.
      */
-    public List<Category> searchCategory(String name) {
-        return categoryRepository.searchCategory(name);
+    public List<Indexcard> getIndexcardsByCategory(Category category) {
+        return category.getIndexcards();
+    }
+
+    /**
+     * Searches for Category`s with text in the category repository.
+     *
+     * @param text The Text.
+     * @return A list of Category`s that contains the text.
+     */
+    public List<Category> searchCategory(String text) {
+        return categoryRepository.searchCategory(text);
     }
 }
