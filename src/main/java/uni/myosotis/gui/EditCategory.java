@@ -53,6 +53,7 @@ public class EditCategory extends JDialog {
         comboBoxName.addActionListener(e -> {
             nameTextField.setText((String) comboBoxName.getSelectedItem());
             updateParentList();
+            updateIndexcardList();
         });
 
         editButton.addActionListener(e -> onEdit());
@@ -112,11 +113,20 @@ public class EditCategory extends JDialog {
             allOwnChildrenNames.addAll(categoryToEdit.getAllChildren().stream().map(Category::getCategoryName).toList());
         }
         // Filter own children
-        DefaultListModel<String> newParentList = new DefaultListModel<>();
-        newParentList.addAll(controller.getAllCategories().stream()
+        DefaultListModel<String> defaultListModel = new DefaultListModel<>();
+        defaultListModel.addAll(controller.getAllCategories().stream()
                 .map(Category::getCategoryName)
-                .filter(categoryName -> !allOwnChildrenNames.contains(categoryName)).toList());
-        parentList.setModel(newParentList);
+                .filter(categoryName -> !allOwnChildrenNames.contains(categoryName) && !categoryName.equals(comboBoxName.getSelectedItem())).toList());
+        parentList.setModel(defaultListModel);
+        // Select parents of the Category before editing
+        if (controller.getCategoryByName((String) comboBoxName.getSelectedItem()).isPresent()) {
+            List<String> parentNames = controller.getParentCategories(controller.getCategoryByName((String) comboBoxName.getSelectedItem()).get()).stream().map(Category::getCategoryName).toList();
+            int[] selectedParents = new int[parentNames.size()];
+            for (int i = 0; i < selectedParents.length; i++) {
+                selectedParents[i] = defaultListModel.indexOf(parentNames.get(i));
+            }
+            parentList.setSelectedIndices(selectedParents);
+        }
     }
 
     /**
@@ -126,6 +136,15 @@ public class EditCategory extends JDialog {
         DefaultListModel<String> defaultListModel = new DefaultListModel<>();
         defaultListModel.addAll(controller.getAllIndexcardNames());
         indexcardList.setModel(defaultListModel);
+        // Select Indexcards, that are in the Category before editing
+        if (comboBoxName.getSelectedItem() != null && controller.getCategoryByName((String) comboBoxName.getSelectedItem()).isPresent()) {
+            List<String> indexcardNames = controller.getCategoryByName((String) comboBoxName.getSelectedItem()).get().getIndexcards().stream().map(Indexcard::getName).toList();
+            int[] selectedIndexcards = new int[indexcardNames.size()];
+            for (int i = 0; i < selectedIndexcards.length; i++) {
+                selectedIndexcards[i] = defaultListModel.indexOf(indexcardNames.get(i));
+            }
+            indexcardList.setSelectedIndices(selectedIndexcards);
+        }
     }
 
     /**
