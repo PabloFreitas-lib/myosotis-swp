@@ -5,8 +5,6 @@ import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.*;
@@ -43,30 +41,11 @@ public class CreateCategory extends JDialog {
         updateParentList();
         updateIndexcardList();
 
-        // TODO
-        // Update possible parents with the selected parents.
-        /*parentList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                updateParentList();
-            }
-        });*/
-
         // call onCreate() when the createButton is clicked.
-        createButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onCreate();
-            }
-        });
+        createButton.addActionListener(e -> onCreate());
 
         // call onCancel() when the cancelButton is clicked.
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -77,11 +56,7 @@ public class CreateCategory extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     /**
@@ -118,31 +93,9 @@ public class CreateCategory extends JDialog {
      * Updates the lists of possible parents of the Category.
      */
     private void updateParentList() {
-        // All parents of the selected parent-categories
-        List<Category> selectedParents = new ArrayList<>();
-        for (String s : parentList.getSelectedValuesList()) {
-            if (controller.getCategoryByName(s).isPresent()) {
-                selectedParents.add(controller.getCategoryByName(s).get());
-            }
-        }
-        List<String> allParentNames = new ArrayList<>();
-        for (Category parent : selectedParents) {
-            allParentNames.addAll(controller.getAllParentCategories(parent).stream().map(Category::getCategoryName).toList());
-        }
-        // All children of the selected parent-categories
-        List<String> allChildrenNames = new ArrayList<>();
-        for (Category parent : selectedParents) {
-            allChildrenNames.addAll(parent.getAllChildren().stream().map(Category::getCategoryName).toList());
-        }
-        // All Category-names that should be filtered
-        List<String> categoryNamesToFilter = new ArrayList<>();
-        categoryNamesToFilter.addAll(allParentNames);
-        categoryNamesToFilter.addAll(allChildrenNames);
-        // Filter parents and children of the selected parent-categories
+        // List of possible Parents
         DefaultListModel<String> newParentList = new DefaultListModel<>();
-        newParentList.addAll(controller.getAllCategories().stream()
-                .map(Category::getCategoryName)
-                .filter(categoryName -> !categoryNamesToFilter.contains(categoryName)).toList());
+        newParentList.addAll(controller.getAllCategories().stream().map(Category::getCategoryName).toList());
         parentList.setModel(newParentList);
     }
 

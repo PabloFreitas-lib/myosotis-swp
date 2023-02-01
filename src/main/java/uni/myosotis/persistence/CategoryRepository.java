@@ -21,8 +21,7 @@ public class CategoryRepository {
      * This method is used to save an object of type "category" to the
      * persistence storage.
      *
-     * @param category     The category that should be saved to the persistence.
-     * @return             Status, -1 means an error has been occurred on save.
+     * @param category The category that should be saved to the persistence.
      */
 
     public void saveCategory(final Category category) {
@@ -31,7 +30,7 @@ public class CategoryRepository {
             em.persist(category);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new IllegalStateException("Error while saving a Category to the databse: " + e.getMessage());
+            throw new IllegalStateException("Error while saving a Category to the database: " + e.getMessage());
         }
     }
 

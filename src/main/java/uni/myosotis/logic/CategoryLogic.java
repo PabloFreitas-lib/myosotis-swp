@@ -44,7 +44,7 @@ public class CategoryLogic {
             // Create new Category and save it to the database
             Category newCategory = new Category(name, new ArrayList<>(), indexcards);
             categoryRepository.saveCategory(newCategory);
-            // Add the new Category as a child to the selected parent-category`s
+            // Add the new Category as a child to the selected parent-categories
             for (Category parent : parents) {
                 parent.addChild(newCategory);
                 categoryRepository.updateCategory(parent);

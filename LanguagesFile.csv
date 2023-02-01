@@ -1,0 +1,62 @@
+﻿Object;Deutsch;English
+glossarTitle;Glossar;Glossar
+categoryTitle;Kategorien;Categories
+indexcardTitle;Karteikarten;Indexcards
+keywordTitle;Schlagwörter;Keywords
+indexcardBoxTitle;Karteikästen;IndexcardBox
+settingsTitle;Einstellungen;Settings
+search;Suchen;Search
+category;Kategorie;Category
+create;Erstellen;Create
+edit;Bearbeiten;Edit
+delete;Entfernen;Delete
+createIndexcardTitle;Karteikarte erstellen;Create Indexcard
+confirm;Bestätigen;Confirm
+cancel;Abbrechen;Cancel
+question;Frage;Question
+answered;Beantwortet;answered
+answer;Antwort;Answer
+keyword;Schlagwort;Keyword
+name;Name;Name
+createIndexcardBoxTitle;Karteikasten erstellen;Create Indexcardbox
+link;Verlinkungen;Links
+term;Begriff;Term
+indexcard;Karteikarte;Indexcard
+addLink;Verlinkung hinzufügen;Add Link
+removeLink;Verlinkung entfernen;Remove Links
+editIndexcardBoxTitle;Karteikästen bearbeiten;Edit Indexcardbox
+notAllFieldsFilledError;Es müssen alle Felder ausgefüllt sein.;All fields need to be filled.
+indexcardNotCreated;Karteikarte nicht erstellt.;Indexcard not created
+noValidTerm;Kein gültiger Begriff.;No valid Term
+indexcardboxNotCreated;Karteikasten nicht erstellt.;Indexcardbox was not created.
+indexcardAlreadyExistError;Es existiert bereits eine Karteikarte mit diesem Namen.;There is already another Indexcard with this name.
+nameAlreadyAssignedError;Name bereits vergeben;Name is already assigned
+indexcardToEditNonExistingError;Karteikarte zum Bearbeiten existiert nicht!;Indexcard which should be edited is non existing.
+indexcardNotEditedError;Karteikarte nicht verändert.;Indexcard not edited.
+whichIndexcard;Welche Indexkarte soll gelöscht werden?;Which Indexcard should be deleted?
+noIndexcardSelectedError;Keine Karteikarte ausgewählt.;No Indexcard selected
+deletionNotPossibleError;Löschen nicht möglich;Deletion not possible
+deleteIndexcardTitle;Karteikarte löschen;Delete Indexcard
+deleteIndexcardBoxTitle;Karteikasten löschen;Delete Indexcardbox
+whichIndexcardBox;Welche Karteikästen soll gelöscht werden?;Which Indexcardboxes should be deleted?
+noIndexcardBoxSelectedError;Keine Karteikasten ausgewählt.;No Indexcardbox selected
+createCategoryTitle;Kategorie erstellen;Create Category
+parent;Übergeordnete Kategorie;Parent Category
+indexcardList;Karteikartenliste;List of Indexcards
+categoryNotCreatedError;Kategorie nicht erstellt.;Category not created.
+editCategoryTitle;Kategorie bearbeiten;Edit Category
+deleteCategoryTitle;Kategorie löschen;Delete Category
+whichCategory;Welche Kategorie soll gelöscht werden?;Which Category should be deleted?
+noCategorySelectedError;Keine Kategorie ausgewählt.;No Category selected
+back;Zurück;Back
+next;Nächster;Next
+indexcardCreatedMessage;Die Karteikarte (%s) wurde erfolgreich erstellt.;The Indexcard  (%s) successfully created.
+indexcardCreated;Karteikarte erstellt;Indexcard created
+indexcardEditedMessage;Die Karteikarte wurde erfolgreich bearbeitet.;The Indexcard successfully edited.
+indexcardEdited;Karteikarte bearbeitet;Indexcard edited
+noIndexcardWithNameError;Es existiert keine Karteikarte mit diesem Namen.;There is no Indexcard with the given name.
+noIndexcardError;Karteikarte nicht vorhanden.;Indexcard does not exists
+indexcardDeletedMessage;Die Karteikarte wurde erfolgreich gelöscht.;The Indexcard got successfully deleted.
+indexcardDeleted;Karteikarte gelöscht;Indexcard deleted
+indexcardDeletedError;Die Karteikarte konnte nicht gelöscht werden.;The Indexcard could not be deleted.
+indexcardNotDeleted;Karteikarte nicht gelöscht;Indexcard not deleted

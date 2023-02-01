@@ -29,8 +29,7 @@ public class Language {
      */
     public static Map<String, String> reader(String language) throws IOException {
         Map<String, String> map = new HashMap<>();
-        ClassLoader classLoader = Language.class.getClassLoader();
-        File file = new File(classLoader.getResource("LanguagesFile.csv").getFile());
+        File file = new File("LanguagesFile.csv");
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
         String[] value = br.readLine().split(";");

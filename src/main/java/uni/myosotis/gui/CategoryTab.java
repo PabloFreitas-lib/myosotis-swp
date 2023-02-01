@@ -63,7 +63,7 @@ public class CategoryTab extends JFrame{
             controller.editCategory(controller.getCategoryByName(categoryList.getSelectedValue()).get());
         }
         else {
-            controller.createCategory();
+            controller.editCategory();
         }
         updateList(controller.getAllCategories());
     }
