@@ -123,6 +123,15 @@ public class IndexcardLogic {
     public List<Indexcard> getAllIndexcards() {
         return indexcardRepository.getAllIndexcards();
     }
+
+    /**
+     * Returns all Indexcards.
+     *
+     * @return          A list of all indexcards.
+     */
+    public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
+        return indexcardRepository.getAllIndexcards(indexcardNames);
+    }
     
     /**
      * Returns the Indexcard with the given id.

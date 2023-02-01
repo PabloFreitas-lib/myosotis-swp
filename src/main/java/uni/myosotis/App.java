@@ -11,9 +11,9 @@ public class App {
         final IndexcardLogic indexcardLogic = new IndexcardLogic();
         final CategoryLogic categoryLogic = new CategoryLogic();
         final IndexcardBoxLogic indexcardBoxLogic = new IndexcardBoxLogic();
-        final LearnsystemLogic learnsystemLogic = new LearnsystemLogic();
+        final LeitnerLearnSystemLogic leitnerLearnSystemLogic = new LeitnerLearnSystemLogic();
         final LinkLogic linkLogic = new LinkLogic();
-        final Controller controller = new Controller(indexcardLogic, keywordLogic, categoryLogic, linkLogic, indexcardBoxLogic, learnsystemLogic);
+        final Controller controller = new Controller(indexcardLogic, keywordLogic, categoryLogic, linkLogic, indexcardBoxLogic, leitnerLearnSystemLogic);
         controller.startApplication();
     }
 }

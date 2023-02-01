@@ -1,5 +1,6 @@
 package uni.myosotis.persistence;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
@@ -100,6 +101,26 @@ public class IndexcardRepository {
         catch (Exception e) {
             logger.log(Level.SEVERE, "Error occurred while fetching all index cards");
             throw e;
+        }
+    }
+
+    /**
+     * This method is used to get all objects of type "Indexcard" in the persistent
+     * persistence storage.
+     *
+     * @return List of all objects of type "Indexcard", could be empty.
+     */
+    public List<Indexcard> getAllIndexcards(List<String> names){
+        final EntityManager em = pm.getEntityManager();
+        try {
+            return em.createQuery("SELECT i FROM Indexcard i WHERE i.name IN :names").setParameter("names", names).getResultList();
+        }
+        catch (Exception e) {
+            logger.log(Level.SEVERE, "Error occurred while fetching all index cards");
+            throw e;
+        }
+        finally {
+            em.close();
         }
     }
 

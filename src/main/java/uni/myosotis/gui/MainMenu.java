@@ -330,12 +330,20 @@ public class MainMenu extends JFrame {
     /**
      * Displays the Menu for learning.
      */
-    public void displayLearning(LearnSystem learnsystem, IndexcardBox indexCardBox){
-        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnsystem, indexCardBox, language);
+    public void displayLearning(LeitnerLearnSystem learnSystem, IndexcardBox indexCardBox){
+        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnSystem, indexCardBox, language);
         displayIndexcardToLearn.pack();
         displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
         displayIndexcardToLearn.setLocationRelativeTo(this);
         displayIndexcardToLearn.setVisible(true);
+    }
+
+    void displayLeitnerLearning(LeitnerLearnSystem leitnerLearnSystem, IndexcardBox indexCardBox){
+        final DisplayIndexcardToLearn displayLeitnerIndexcardToLearn = new DisplayIndexcardToLearn(controller, leitnerLearnSystem, indexCardBox, language);
+        displayLeitnerIndexcardToLearn.pack();
+        displayLeitnerIndexcardToLearn.setMinimumSize(displayLeitnerIndexcardToLearn.getSize());
+        displayLeitnerIndexcardToLearn.setLocationRelativeTo(this);
+        displayLeitnerIndexcardToLearn.setVisible(true);
     }
 
     public JScrollPane getIndexcardsPane(){

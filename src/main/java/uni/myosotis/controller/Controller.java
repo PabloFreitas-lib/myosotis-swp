@@ -35,7 +35,7 @@ public class Controller {
     /**
      * The LearnsystemLogic of the application.
      */
-    private final LearnsystemLogic learnsystemLogic;
+    private final LeitnerLearnSystemLogic leitnerLearnSystemLogic;
 
     /**
      * The LinkLogic of the application.
@@ -57,16 +57,16 @@ public class Controller {
      * @param categoryLogic The logic for the Category`s.
      * @param linkLogic The logic for the Links.
      * @param indexcardBoxLogic The logic for the IndexcardBoxes.
-     * @param learnsystemLogic The logic for the LearnSystems.
+     * @param leitnerLearnSystemLogic The logic for the LearnSystems.
      */
-    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final LinkLogic linkLogic, final IndexcardBoxLogic indexcardBoxLogic, final LearnsystemLogic learnsystemLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final LinkLogic linkLogic, final IndexcardBoxLogic indexcardBoxLogic, final LeitnerLearnSystemLogic leitnerLearnSystemLogic) {
 
         this.indexcardLogic = indexcardLogic;
         this.keywordLogic = keywordLogic;
         this.categoryLogic = categoryLogic;
         this.linkLogic = linkLogic;
         this.indexcardBoxLogic = indexcardBoxLogic;
-        this.learnsystemLogic = learnsystemLogic;
+        this.leitnerLearnSystemLogic = leitnerLearnSystemLogic;
 
     }
 
@@ -298,6 +298,15 @@ public class Controller {
      */
     public List<Indexcard> getAllIndexcards() {
         return indexcardLogic.getAllIndexcards();
+    }
+
+    /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
+        return indexcardLogic.getAllIndexcards(indexcardNames);
     }
 
     /**
@@ -674,10 +683,11 @@ public class Controller {
      *
      * @param indexcardBox The IndexcardBox that should be learned.
      */
-    public void learn(IndexcardBox indexcardBox) {
+    public void learnLeitnerSystem(IndexcardBox indexcardBox) {
         if (!indexcardBox.getCategoryList().isEmpty()) {
-            mainMenu.displayLearning(learnsystemLogic.learn(indexcardBox, "Leitner"), indexcardBox);
-        } else {
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getIndexcardList()), indexcardBox);
+        }
+        else {
             JOptionPane.showMessageDialog(mainMenu,
                     "The indexcard box does not contain any categories.", "Error",
                     JOptionPane.ERROR_MESSAGE);
@@ -688,8 +698,8 @@ public class Controller {
      * Delegates the exercise to update an existing Learnsystem.
      * @param learnsystem The Learnsystem that should be edited
      */
-    public void updateLearnsystem(LearnSystem learnsystem) {
-        learnsystemLogic.updateLearnsystem(learnsystem);
+    public void updateLearnsystem(LeitnerLearnSystem learnsystem) {
+        leitnerLearnSystemLogic.updateLearnsystem(learnsystem);
     }
 
     /* OTHER */
