@@ -685,7 +685,7 @@ public class Controller {
      */
     public void learnLeitnerSystem(IndexcardBox indexcardBox) {
         if (!indexcardBox.getCategoryList().isEmpty()) {
-            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getIndexcardList()), indexcardBox);
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getName(), indexcardBox.getIndexcardList()), indexcardBox);
         }
         else {
             JOptionPane.showMessageDialog(mainMenu,

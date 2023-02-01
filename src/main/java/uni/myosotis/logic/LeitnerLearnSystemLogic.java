@@ -30,8 +30,19 @@ public class LeitnerLearnSystemLogic {
     }
 
 
-    public LeitnerLearnSystem learnLeitnerSystem(List<String> indexcardList) {
-        LeitnerLearnSystem learnSystem = new LeitnerLearnSystem(indexcardList);
-        return  learnSystem;
+    public LeitnerLearnSystem learnLeitnerSystem(final String name , List<String> indexcardList) {
+        LeitnerLearnSystem learnSystem = leitnerLearnSystemRepository.getLeitnerLearnSystemByName("LeitnerLearnSystem"+name);
+        if (learnSystem!=null) {
+            return learnSystem;
+        } else {
+            saveLeitnerLearnSystem(name, indexcardList);
+            if (leitnerLearnSystemRepository.getLeitnerLearnSystemByName("LeitnerLearnSystem"+name) == null)
+                throw new RuntimeException("LeitnerLearnSystem could not be saved.)");
+            return leitnerLearnSystemRepository.getLeitnerLearnSystemByName("LeitnerLearnSystem"+name);
+        }
+    }
+
+    public void saveLeitnerLearnSystem(String name, List<String> indexcardList) {
+        leitnerLearnSystemRepository.saveLeitnerLearnSystem(name, indexcardList);
     }
 }

@@ -1,6 +1,7 @@
 package uni.myosotis.persistence;
 
 import jakarta.persistence.EntityManager;
+import uni.myosotis.objects.Box;
 import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.objects.LeitnerLearnSystem;
 
@@ -17,21 +18,24 @@ public class LeitnerLearnSystemRepository {
     private final PersistenceManager pm = new PersistenceManager();
 
     /**
-     * This method is used to save a new leitnerLearnSystem for an IndexcardBox.
+     * This method is used to save a new leitnerLearnSystem and save the Boxes inside the LearnSystem.
      *
-     * @param leitnerLearnSystem The leitnerLearnSystem.
+     * @param name        The name of the leitnerLearnSystem.
+     * @param indexcardList The list of indexcards that should be learned.
      */
-    public void saveLeitnerLearnSystem(LeitnerLearnSystem leitnerLearnSystem) {
+    public void saveLeitnerLearnSystem(String name, List<String> indexcardList) {
+        LeitnerLearnSystem leitnerLearnSystem = new LeitnerLearnSystem(name, indexcardList);
         final EntityManager em = pm.getEntityManager();
         try {
             em.getTransaction().begin();
             em.persist(leitnerLearnSystem);
+            for (Box box : leitnerLearnSystem.getBoxes()) {
+                em.persist(box);
+            }
             em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            // handle the exception
-        } finally {
-            em.close();
+        }
+        catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error saving leitnerLearnSystem: {0}", leitnerLearnSystem.getId());
         }
     }
 
@@ -51,7 +55,6 @@ public class LeitnerLearnSystemRepository {
         catch (Exception e) {
             logger.log(java.util.logging.Level.SEVERE, "Error updating leitnerLearnSystem: {0}", leitnerLearnSystem.getId());
         }
-
     }
 
     /**
@@ -100,6 +103,16 @@ public class LeitnerLearnSystemRepository {
             } else {
                 return Optional.of(LeitnerLearnSystemList.get(0));
             }
+        }
+    }
+
+    public LeitnerLearnSystem getLeitnerLearnSystemByName(String name) {
+        final EntityManager em = pm.getEntityManager();
+        try {
+            return (LeitnerLearnSystem) em.createQuery("SELECT l FROM LeitnerLearnSystem l WHERE l.name = :name").setParameter("name", name).getSingleResult();
+        } catch (Exception e) {
+            logger.log(java.util.logging.Level.SEVERE, "Error getting LeitnerLearnSystem: {0}", name);
+            return null;
         }
     }
 }

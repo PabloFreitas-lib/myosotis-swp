@@ -15,13 +15,14 @@ public class LeitnerLearnSystem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
-    private final String name = "LeitnerLearnSystem";
+    private String name = "LeitnerLearnSystem";
     @OneToMany
     private List<Box> boxes;
 
     private List<String> indexcardList;
     private int progress;
+
+    private final int numberOfBoxes = 5;
 
     public LeitnerLearnSystem() {
     }
@@ -31,49 +32,24 @@ public class LeitnerLearnSystem {
      * All indexcards are places in the first box.
      * @param indexcardList The list of indexcards that should be learned.
      */
-    public LeitnerLearnSystem(List<String> indexcardList) {
+    public LeitnerLearnSystem(String name, List<String> indexcardList) {
+        this.name = this.name + name;
         this.indexcardList = indexcardList;
         this.progress = 0;
         this.boxes = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numberOfBoxes; i++) {
             this.boxes.add(new Box());
         }
         // add all indexcards to the first box
         this.boxes.get(0).setIndexcardNames(indexcardList);
-        logger.log(Level.INFO, "LeitnerLearnSystem created");
+        logger.log(Level.INFO, "LeitnerLearnSystem created: ", getName());
     }
 
 
     public Long getId() {
         return id;
     }
-    @Entity
-    public class Box {
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private long id;
-        public long getId() {
-            return id;
-        }
 
-        List<String> indexcardNames = new ArrayList<>();
-
-        public List<String> getIndexcardNames() {
-            return indexcardNames;
-        }
-
-        public void setIndexcardNames(List<String> indexcardNames) {
-            this.indexcardNames = indexcardNames;
-        }
-
-        public void addIndexcard(String indexcardName) {
-            this.indexcardNames.add(indexcardName);
-        }
-
-        public void removeIndexcard(String indexcardName) {
-            this.indexcardNames.remove(indexcardName);
-        }
-    }
 
     /**
      * This method is called when the user answers a question correctly.
@@ -107,19 +83,31 @@ public class LeitnerLearnSystem {
 
     /**
      * this method return the indexcard that should be learned next.
-     * If the progress is 0, the first box is returned
-     * If the progress is 1, the first and the second box are returned
-     * If the progress is 2, the first, the second and the third box are returned
-     * If the progress is 3, the first, the second, the third and the fourth box are returned
-     * If the progress is 4, the first, the second, the third, the fourth and the fifth box are returned
-     * If the progress is 5 All the Indexcards were learned.
      * @return The indexcards that should be learned next.
      */
     public List<String> getNextIndexcards() {
         List<String> indexcards = new ArrayList<>();
-        for (int i = 0; i <= this.progress; i++) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
             indexcards.addAll(this.boxes.get(i).getIndexcardNames());
         }
         return indexcards;
+    }
+
+    public void increaseProgress() {
+        if (indexcardList.size() > this.progress)
+            this.progress++;
+    }
+
+    public void decreaseProgress() {
+        if (this.progress > 0)
+            this.progress--;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
+
+    public List<Box> getBoxes() {
+        return boxes;
     }
 }

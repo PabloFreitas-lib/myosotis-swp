@@ -16,7 +16,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private final Language language;
     private Indexcard indexcard;
 
-    private int index = 0;
+    //private int progress = 0;
 
     private List<Indexcard> indexCardList2Learn;
 
@@ -34,24 +34,26 @@ public class DisplayIndexcardToLearn extends JDialog{
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
-     * @param controller
-     * @param learnSystem
-     * @param indexcardBox
-     * @param language
+     * @param controller The controller that is used to get the indexcards.
+     * @param learnSystem The learnSystem that is used to get the indexcards.
+     * @param indexcardBox The indexcardBox that is used to get the indexcards.
+     * @param language The language that is used to set the language.
      */
     public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language) {
         this.learnSystem = learnSystem;
         this.controller = controller;
-        //this.indexcardBox = indexcardBox;
         this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcards());
-        this.indexcard = this.indexCardList2Learn.get(index);
+        this.indexcard = this.indexCardList2Learn.get(learnSystem.getProgress());
         this.learnProgressBar.setMinimum(0);
         this.learnProgressBar.setMaximum(indexcardBox.getIndexcardList().size());
+        this.learnProgressBar.setValue(learnSystem.getProgress());
+        procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
+
         this.questionLabel.setText(indexcard.getQuestion());
         this.answerLabel.setText("");
         this.language = language;
         hiddenButtons();
-        procentageValue.setText("0%");
+        procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
         setContentPane(contentPane);
         setTitle(language.getName("indexcard"));
         pack();
@@ -61,7 +63,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         backButton.setText(language.getName("back"));
         nextButton.setText(language.getName("next"));
         answeredButton.setText(language.getName("answered"));
-
+        controller.updateLearnsystem(learnSystem);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
@@ -119,32 +121,36 @@ public class DisplayIndexcardToLearn extends JDialog{
         //List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
         //int index = indexcardBox.getIndexcardList().indexOf(indexcard.getName());
 
-        if (index < this.indexCardList2Learn.size() - 1) {
-            indexcard = indexCardList2Learn.get(index++);
+        if (learnSystem.getProgress() < this.indexCardList2Learn.size() - 1) {
+            learnSystem.increaseProgress();
+            indexcard = indexCardList2Learn.get(learnSystem.getProgress());
             questionLabel.setText(indexcard.getQuestion());
             answerLabel.setText("");
-            this.learnProgressBar.setValue(indexCardList2Learn.indexOf(indexcard)+1);
-            procentageValue.setText(String.valueOf((indexCardList2Learn.indexOf(indexcard)+1)*100/indexCardList2Learn.size())+"%");
+            this.learnProgressBar.setValue(learnSystem.getProgress());
+            procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
         }
         else {
             dispose();
         }
+        controller.updateLearnsystem(learnSystem);
     }
 
     private void onBack() {
         hiddenButtons();
-        //List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
-        //int index = indexcardBox.getIndexcardList().indexOf(indexcard.getName());
-        if (index > 0) {
-            indexcard = indexCardList2Learn.get(index--);
+        if (learnSystem.getProgress() > 0) {
+            learnSystem.decreaseProgress();
+            indexcard = indexCardList2Learn.get(learnSystem.getProgress());
             questionLabel.setText(indexcard.getQuestion());
             answerLabel.setText("");
-            this.learnProgressBar.setValue(indexCardList2Learn.indexOf(indexcard)+1);
-            procentageValue.setText(String.valueOf((indexCardList2Learn.indexOf(indexcard)+1)*100/indexCardList2Learn.size())+"%");
+            this.learnProgressBar.setValue(learnSystem.getProgress());
+            procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
         }
+
+        controller.updateLearnsystem(learnSystem);
     }
 
     private void onCancel() {
+        controller.updateLearnsystem(learnSystem);
         dispose();
     }
 
@@ -160,9 +166,11 @@ public class DisplayIndexcardToLearn extends JDialog{
 
     private void onCorrect(Indexcard indexcard){
         learnSystem.correctAnswer(indexcard);
+        controller.updateLearnsystem(learnSystem);
     }
     private void onWrong(Indexcard indexcard){
         learnSystem.wrongAnswer(indexcard);
+        controller.updateLearnsystem(learnSystem);
     }
 
     /**
