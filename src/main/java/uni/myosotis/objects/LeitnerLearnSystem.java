@@ -1,7 +1,6 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import uni.myosotis.persistence.IndexcardBoxRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +57,7 @@ public class LeitnerLearnSystem {
      */
     public void correctAnswer(Indexcard indexcard) {
         logger.log(Level.INFO, "correctAnswer for indexcard: " + indexcard.getName());
+        moveIndexcardToNextBox(indexcard.getName());
         logger.log(Level.INFO, "indexcard is moved to the next box");
     }
 
@@ -68,6 +68,7 @@ public class LeitnerLearnSystem {
      */
     public void wrongAnswer(Indexcard indexcard) {
         logger.log(Level.INFO, "wrongAnswer for indexcard: " + indexcard.getName());
+        moveIndexcardToPreviousBox(indexcard.getName());
         logger.log(Level.INFO, "indexcard is moved to the previously box");
     }
 
@@ -85,7 +86,7 @@ public class LeitnerLearnSystem {
      * this method return the indexcard that should be learned next.
      * @return The indexcards that should be learned next.
      */
-    public List<String> getNextIndexcards() {
+    public List<String> getNextIndexcardNames() {
         List<String> indexcards = new ArrayList<>();
         for (int i = 0; i < this.numberOfBoxes; i++) {
             indexcards.addAll(this.boxes.get(i).getIndexcardNames());
@@ -107,7 +108,68 @@ public class LeitnerLearnSystem {
         return progress;
     }
 
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     public List<Box> getBoxes() {
         return boxes;
     }
+
+    /**
+     * This method is called to move an indexcard to the next box.
+     * @param indexcardName The name of the indexcard that should be moved.
+     */
+    public void moveIndexcardToNextBox(String indexcardName) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
+            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
+                if (i < this.numberOfBoxes - 1) {
+                    this.boxes.get(i).removeIndexcard(indexcardName);
+                    this.boxes.get(i + 1).addIndexcard(indexcardName);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * This method is called to move an indexcard to the previous box.
+     * @param indexcardName The name of the indexcard that should be moved.
+     */
+    public void moveIndexcardToPreviousBox(String indexcardName) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
+            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
+                if (i > 0) {
+                    this.boxes.get(i).removeIndexcard(indexcardName);
+                    this.boxes.get(i - 1).addIndexcard(indexcardName);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * This methode return which box the indexcard name is in.
+     */
+    public int getIndexcardBox(String indexcardName) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
+            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }
