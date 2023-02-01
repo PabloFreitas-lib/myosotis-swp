@@ -86,7 +86,9 @@
             <children>
               <component id="facc3" class="javax.swing.JList" binding="parentList">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <selectionMode value="2"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

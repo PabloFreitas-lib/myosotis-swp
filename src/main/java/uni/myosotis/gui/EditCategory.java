@@ -5,8 +5,6 @@ import uni.myosotis.objects.Category;
 import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.event.*;
@@ -57,26 +55,9 @@ public class EditCategory extends JDialog {
             updateParentList();
         });
 
-        // TODO
-        // Update possible parents with the selected parents and children of the edited Category.
-        /*parentList.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                updateParentList();
-            }
-        });*/
+        editButton.addActionListener(e -> onEdit());
 
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onEdit();
-            }
-        });
-
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -87,11 +68,7 @@ public class EditCategory extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     /**
@@ -128,39 +105,17 @@ public class EditCategory extends JDialog {
      * Updates the lists of possible parents of the Category.
      */
     private void updateParentList() {
-        // All parents of the selected parent-category`s
-        List<Category> selectedParents = new ArrayList<>();
-        for (String s : parentList.getSelectedValuesList()) {
-            if (controller.getCategoryByName(s).isPresent()) {
-                selectedParents.add(controller.getCategoryByName(s).get());
-            }
-        }
-        List<String> allParentNames = new ArrayList<>();
-        for (Category parent : selectedParents) {
-            allParentNames.addAll(controller.getAllParentCategories(parent).stream().map(Category::getCategoryName).toList());
-        }
-        // All children of the selected parent-categories
-        List<String> allChildrenNames = new ArrayList<>();
-        for (Category parent : selectedParents) {
-            allChildrenNames.addAll(parent.getAllChildren().stream().map(Category::getCategoryName).toList());
-        }
         // All children of the edited Category
         List<String> allOwnChildrenNames = new ArrayList<>();
         if (controller.getCategoryByName((String) comboBoxName.getSelectedItem()).isPresent()) {
             Category categoryToEdit = controller.getCategoryByName((String) comboBoxName.getSelectedItem()).get();
             allOwnChildrenNames.addAll(categoryToEdit.getAllChildren().stream().map(Category::getCategoryName).toList());
         }
-        // All Category-names that should be filtered
-        List<String> categoryNamesToFilter = new ArrayList<>();
-        categoryNamesToFilter.addAll(allParentNames);
-        categoryNamesToFilter.addAll(allChildrenNames);
-        categoryNamesToFilter.addAll(allOwnChildrenNames);
-        categoryNamesToFilter.add((String) comboBoxName.getSelectedItem());
-        // Filter parents and children of the selected parent-categories, together with own children
+        // Filter own children
         DefaultListModel<String> newParentList = new DefaultListModel<>();
         newParentList.addAll(controller.getAllCategories().stream()
                 .map(Category::getCategoryName)
-                .filter(categoryName -> !categoryNamesToFilter.contains(categoryName)).toList());
+                .filter(categoryName -> !allOwnChildrenNames.contains(categoryName)).toList());
         parentList.setModel(newParentList);
     }
 
