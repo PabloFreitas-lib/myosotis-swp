@@ -12,6 +12,7 @@ import java.util.List;
 
 public class MainMenu extends JFrame {
     private JTabbedPane tabbedPane;
+    private Language language;
 
     private JPanel statistikPane;
     private JPanel categoriePane;
@@ -43,8 +44,9 @@ public class MainMenu extends JFrame {
      *
      * @param controller The controller.
      */
-    public MainMenu(final Controller controller) {
+    public MainMenu(final Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         //Tabs
         tabbedPane = new JTabbedPane();
         setContentPane(tabbedPane);
@@ -92,12 +94,11 @@ public class MainMenu extends JFrame {
 
         settingsPanel = new JPanel();
 
-        tabbedPane.addTab("Glossar", glossarPane);
-        tabbedPane.addTab("Kategorien", categoriePane);
-        tabbedPane.addTab("Karteikarten", indexcardPane);
-        tabbedPane.addTab("Karteikästen",indexCardBoxPane);
-        tabbedPane.addTab("Einstellungen", settingsPanel);
-        //tabbedPane.addTab("Filter", filterPane);
+        tabbedPane.addTab(language.getName("glossarTitle"), glossarPane);
+        tabbedPane.addTab(language.getName("categoryTitle"), categoriePane);
+        tabbedPane.addTab(language.getName("indexcardTitle"), indexcardPane);
+        tabbedPane.addTab(language.getName("indexcardBoxTitle"),indexCardBoxPane);
+        tabbedPane.addTab(language.getName("settingsTitle"), settingsPanel);
 
         tabbedPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
@@ -188,7 +189,7 @@ public class MainMenu extends JFrame {
      * @param indexcard The Indexcard that should be displayed.
      */
     public void displayIndexcard(Indexcard indexcard) {
-        DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, indexcard);
+        DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, indexcard, language);
         displayIndexcard.pack();
         displayIndexcard.setMinimumSize(displayIndexcard.getSize());
         displayIndexcard.setSize(300, 400);
@@ -200,7 +201,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateIndexcard() {
-        final CreateIndexcard createIndexcard = new CreateIndexcard(controller);
+        final CreateIndexcard createIndexcard = new CreateIndexcard(controller, language);
         createIndexcard.pack();
         createIndexcard.setMinimumSize(createIndexcard.getSize());
         createIndexcard.setLocationRelativeTo(this);
@@ -211,7 +212,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateIndexcardBox() {
-        final CreateIndexcardBox createIndexcardBox = new CreateIndexcardBox(controller);
+        final CreateIndexcardBox createIndexcardBox = new CreateIndexcardBox(controller, language);
         createIndexcardBox.pack();
         createIndexcardBox.setMinimumSize(createIndexcardBox.getSize());
         createIndexcardBox.setSize(400, 300);
@@ -223,7 +224,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to edit a new Indexcard.
      */
     public void displayEditIndexcardBox() {
-        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller);
+        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller, language);
         editIndexcardBox.pack();
         editIndexcardBox.setMinimumSize(editIndexcardBox.getSize());
         editIndexcardBox.setSize(400, 300);
@@ -235,7 +236,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to edit an existing Indexcard.
      */
     public void displayEditIndexcard() {
-        final EditIndexcard editIndexcard = new EditIndexcard(controller);
+        final EditIndexcard editIndexcard = new EditIndexcard(controller, language);
         editIndexcard.pack();
         editIndexcard.setMinimumSize(editIndexcard.getSize());
         editIndexcard.setSize(400, 300);
@@ -249,7 +250,7 @@ public class MainMenu extends JFrame {
      * @param indexcard The Indexcard which is preset to be edited
      */
     public void displayEditIndexcard(Indexcard indexcard) {
-        final EditIndexcard editIndexcard = new EditIndexcard(controller);
+        final EditIndexcard editIndexcard = new EditIndexcard(controller, language);
         editIndexcard.pack();
         editIndexcard.setMinimumSize(editIndexcard.getSize());
         editIndexcard.setLocationRelativeTo(this);
@@ -261,7 +262,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteIndexcard() {
-        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller);
+        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller, language);
         deleteIndexcard.pack();
         deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
         deleteIndexcard.setLocationRelativeTo(this);
@@ -272,7 +273,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteIndexcardBox() {
-        final DeleteIndexcardBox deleteIndexcardBox = new DeleteIndexcardBox(controller);
+        final DeleteIndexcardBox deleteIndexcardBox = new DeleteIndexcardBox(controller, language);
         deleteIndexcardBox.pack();
         deleteIndexcardBox.setMinimumSize(deleteIndexcardBox.getSize());
         deleteIndexcardBox.setLocationRelativeTo(this);
@@ -330,7 +331,7 @@ public class MainMenu extends JFrame {
      * Displays the Menu for learning.
      */
     public void displayLearning(LearnSystem learnsystem, IndexcardBox indexCardBox){
-        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnsystem, indexCardBox);
+        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnsystem, indexCardBox, language);
         displayIndexcardToLearn.pack();
         displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
         displayIndexcardToLearn.setLocationRelativeTo(this);
