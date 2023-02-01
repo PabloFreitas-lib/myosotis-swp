@@ -11,21 +11,26 @@ public class DeleteIndexcard extends JDialog {
      * The controller.
      */
     private final Controller controller;
+    private final Language language;
     private JPanel contentPane;
     private JComboBox comboBoxName;
-    private JButton buttonDelete;
+    private JButton deleteButton;
+    private JLabel whichIndexcardLabel;
 
     /**
      * Create a new Dialog to delete an Indexcard
      *
      * @param controller The controller.
      */
-    public DeleteIndexcard(Controller controller) {
+    public DeleteIndexcard(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
         setModal(true);
-        setTitle("Karteikarte löschen");
-        getRootPane().setDefaultButton(buttonDelete);
+        setTitle(language.getName("deleteIndexcardTitle"));
+        getRootPane().setDefaultButton(deleteButton);
+        // Set the language
+        whichIndexcardLabel.setText(language.getName("whichIndexcard"));
 
         // Array of all Indexcardnames
         String[] indexcardsNames = controller.getAllIndexcards().stream().
@@ -33,7 +38,7 @@ public class DeleteIndexcard extends JDialog {
 
         comboBoxName.setModel(new DefaultComboBoxModel<>(indexcardsNames));
 
-        buttonDelete.addActionListener(new ActionListener() {
+        deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onDelete();
             }
@@ -66,7 +71,7 @@ public class DeleteIndexcard extends JDialog {
             controller.setKeywordComboBox();
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Keine Karteikarte ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,language.getName("noIndexcardSelectedError") ,language.getName("deletionNotPossibleError") , JOptionPane.ERROR_MESSAGE);
         }
     }
 

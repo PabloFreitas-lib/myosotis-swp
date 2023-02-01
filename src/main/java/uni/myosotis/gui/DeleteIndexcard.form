@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="89827" class="javax.swing.JLabel">
+          <component id="89827" class="javax.swing.JLabel" binding="whichIndexcardLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -30,7 +30,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="24589" class="javax.swing.JButton" binding="buttonDelete">
+          <component id="24589" class="javax.swing.JButton" binding="deleteButton">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

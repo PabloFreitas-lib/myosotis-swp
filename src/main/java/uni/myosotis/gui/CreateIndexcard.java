@@ -14,6 +14,7 @@ public class CreateIndexcard extends JDialog {
      * The controller.
      */
     private final Controller controller;
+    private final Language language;
 
     private JPanel contentPane;
     private JButton buttonOK;
@@ -27,22 +28,42 @@ public class CreateIndexcard extends JDialog {
     private JList indexcardList;
     private JButton addLinkButton;
     private JButton removeLinkButton;
+    private JLabel questionLabel;
+    private JLabel answerLabel;
+    private JLabel keywordLabel;
+    private JLabel linkLabel;
+    private JLabel termLabel;
+    private JLabel indexcardLabel;
+    private JLabel nameLabel;
 
     /**
      * Create a new Dialog to create an Indexcard.
      *
      * @param controller The controller.
      */
-    public CreateIndexcard(Controller controller) {
+    public CreateIndexcard(Controller controller, Language language) {
         this.controller = controller;
-        setTitle("Karteikarte erstellen");
+        this.language = language;
+        setTitle(language.getName("createIndexcardTitle"));
         setModal(true);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonOK);
 
         DefaultListModel listModel = new DefaultListModel();
         listModel.addAll(controller.getAllIndexcardNames());
+        // For Language
         indexcardList.setModel(listModel);
+        buttonOK.setText(language.getName("confirm"));
+        buttonCancel.setText(language.getName("cancel"));
+        nameLabel.setText(language.getName("name"));
+        questionLabel.setText(language.getName("question"));
+        answerLabel.setText(language.getName("answer"));
+        keywordLabel.setText(language.getName("keyword"));
+        linkLabel.setText(language.getName("link"));
+        termLabel.setText(language.getName("term"));
+        indexcardLabel.setText(language.getName("indexcard"));
+        addLinkButton.setText(language.getName("addLink"));
+        removeLinkButton.setText(language.getName("removeLink"));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -113,7 +134,7 @@ public class CreateIndexcard extends JDialog {
             controller.setCategoryComboBox();
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("notAllFieldsFilledError"), language.getName("indexcardNotCreated"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -122,7 +143,7 @@ public class CreateIndexcard extends JDialog {
      */
     private void onAddLink() {
         if (termField.getText().contains(" => ")) {
-            JOptionPane.showMessageDialog(this, "Kein gültiger Begriff.", "Kein gültiger Begriff.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("noValidTerm"), language.getName("noValidTerm"), JOptionPane.INFORMATION_MESSAGE);
         } else if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
             DefaultListModel listModel = new DefaultListModel();
             // Save previous added Links

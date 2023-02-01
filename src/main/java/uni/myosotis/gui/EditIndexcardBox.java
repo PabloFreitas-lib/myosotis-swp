@@ -14,32 +14,40 @@ import java.util.Optional;
 public class EditIndexcardBox extends JDialog {
 
     private Controller controller;
-    private JLabel indexcardLabel;
+    private Language language;
+    private JLabel nameLabel;
     private JScrollPane categoryScrollPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton confirmButton;
+    private JButton cancelButton;
     private JPanel contentPane;
     private JComboBox indexcardboxNameComboBox;
+    private JLabel categoryLabel;
 
     private JList<String> categoriesNamesList;
     private  Optional<IndexcardBox> selectedIndexcardBox;
 
-    public EditIndexcardBox(Controller controller){
+    public EditIndexcardBox(Controller controller,Language language){
         this.controller = controller;
+        this.language = language;
         setModal(true);
-        setTitle("Karteikästen bearbeiten");
-        getRootPane().setDefaultButton(buttonOK);
+        setTitle(language.getName("editIndexcardBoxTitle"));
+        getRootPane().setDefaultButton(confirmButton);
         setContentPane(contentPane);
 
         indexcardboxNameComboBox.setModel(new DefaultComboBoxModel<>(controller.getAllIndexcardBoxNames().toArray(new String[0])));
+        // Set the language
+        categoryLabel.setText(language.getName("category"));
+        nameLabel.setText(language.getName("name"));
+        confirmButton.setText(language.getName("confirm"));
+        cancelButton.setText(language.getName("cancel"));
 
-        buttonOK.addActionListener(new ActionListener() {
+        confirmButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }

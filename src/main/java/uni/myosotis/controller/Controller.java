@@ -1,5 +1,6 @@
 package uni.myosotis.controller;
 
+import uni.myosotis.gui.Language;
 import uni.myosotis.gui.MainMenu;
 import uni.myosotis.logic.*;
 import uni.myosotis.objects.*;
@@ -46,6 +47,8 @@ public class Controller {
      */
     private MainMenu mainMenu;
 
+    private Language language;
+
     /**
      * Creates a new Controller with the given logic.
      *
@@ -71,7 +74,8 @@ public class Controller {
      * Starts the application and displays the MainMenu.
      */
     public void startApplication() {
-        mainMenu = new MainMenu(this);
+        language = new Language("English");
+        mainMenu = new MainMenu(this, language);
         setIndexCardPanel();
         mainMenu.setVisible(true);
     }
@@ -131,11 +135,11 @@ public class Controller {
 
             indexcardLogic.createIndexcard(name, question, answer, keywordObjects, linkObjects);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format("Die Karteikarte (%s) wurde erfolgreich erstellt.",name), "Karteikarte erstellt",
+                    String.format(language.getName("indexcardCreatedMessage"),name), language.getName("indexcardCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben",
+                    language.getName("indexcardAlreadyExistError"), language.getName("nameAlreadyAssignedError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -207,7 +211,7 @@ public class Controller {
             // Update the Indexcard
             indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, newLinks, id);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich bearbeitet.", "Karteikarte bearbeitet",
+                    language.getName("indexcardCreatedMessage"), language.getName("indexcardCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Remove Keywords that are not used anymore
@@ -225,7 +229,7 @@ public class Controller {
             }
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Karteikarte mit diesem Namen.", "Karteikarte nicht vorhanden",
+                    language.getName("noIndexcardWithNameError"), language.getName("noIndexcardError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -278,11 +282,11 @@ public class Controller {
             }
 
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte wurde erfolgreich gelöscht.", "Karteikarte gelöscht",
+                    language.getName("indexcardDeletedMessage"), language.getName("indexcardDeleted"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikarte konnte nicht gelöscht werden.", "Karteikarte nicht gelöscht",
+                    language.getName("indexcardDeltedError"), language.getName("indexcardDeletedError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }

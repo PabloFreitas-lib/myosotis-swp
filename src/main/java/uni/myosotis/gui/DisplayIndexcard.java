@@ -19,7 +19,7 @@ public class DisplayIndexcard extends JFrame {
     /**
      * Creates a new Window to display an Indexcard
      */
-    public DisplayIndexcard(Controller controller, Indexcard indexcard) {
+    public DisplayIndexcard(Controller controller, Indexcard indexcard, Language language) {
         this.controller = controller;
         this.indexcard = indexcard;
         setTitle(indexcard.getName());
@@ -29,6 +29,8 @@ public class DisplayIndexcard extends JFrame {
         questionLabel.setFont(font);
         this.questionLabel.setText(indexcard.getQuestion());
         this.answerLabel.setText(indexcard.getAnswer());
+        // Set Language
+
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);

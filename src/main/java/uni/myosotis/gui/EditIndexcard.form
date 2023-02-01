@@ -24,7 +24,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="e7465" class="javax.swing.JButton" binding="buttonOK">
+              <component id="e7465" class="javax.swing.JButton" binding="confirmButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -32,7 +32,7 @@
                   <text value="OK"/>
                 </properties>
               </component>
-              <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
+              <component id="5723f" class="javax.swing.JButton" binding="cancelButton">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -52,7 +52,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="e855e" class="javax.swing.JLabel">
+          <component id="e855e" class="javax.swing.JLabel" binding="indexcardLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -60,7 +60,7 @@
               <text value="Karteikarte"/>
             </properties>
           </component>
-          <component id="7c9a5" class="javax.swing.JLabel">
+          <component id="7c9a5" class="javax.swing.JLabel" binding="questionLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -68,7 +68,7 @@
               <text value="Frage"/>
             </properties>
           </component>
-          <component id="a820e" class="javax.swing.JLabel">
+          <component id="a820e" class="javax.swing.JLabel" binding="answerLabel">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -118,7 +118,7 @@
               </component>
             </children>
           </scrollpane>
-          <component id="67e6" class="javax.swing.JLabel">
+          <component id="67e6" class="javax.swing.JLabel" binding="keywordLabel">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -136,7 +136,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="c0cd7" class="javax.swing.JLabel">
+          <component id="c0cd7" class="javax.swing.JLabel" binding="nameLabel">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -162,7 +162,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="d5373" class="javax.swing.JLabel">
+          <component id="d5373" class="javax.swing.JLabel" binding="linkLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -172,7 +172,7 @@
               <text value="Verlinkungen"/>
             </properties>
           </component>
-          <component id="3bbd8" class="javax.swing.JLabel">
+          <component id="3bbd8" class="javax.swing.JLabel" binding="termLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="181" height="16"/>
@@ -191,7 +191,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="6e6b8" class="javax.swing.JLabel">
+          <component id="6e6b8" class="javax.swing.JLabel" binding="indexcardLabel2">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

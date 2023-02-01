@@ -13,6 +13,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private final Controller controller;
     private final LearnSystem learnsystem;
     private final IndexcardBox indexcardBox;
+    private final Language language;
     private Indexcard indexcard;
 
     private JPanel contentPane;
@@ -26,19 +27,24 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JLabel procentageValue;
 
 
-    public DisplayIndexcardToLearn(Controller controller, LearnSystem learnsystem, IndexcardBox indexcardBox) {
+    public DisplayIndexcardToLearn(Controller controller, LearnSystem learnsystem, IndexcardBox indexcardBox, Language language) {
         this.learnsystem = learnsystem;
         this.controller = controller;
         this.indexcardBox = indexcardBox;
         this.indexcard = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList()).stream().findFirst().get();
         this.learnProgressBar.setMinimum(0);
         this.learnProgressBar.setMaximum(indexcardBox.getIndexcardList().size());
+        this.language = language;
         procentageValue.setText("0%");
         setContentPane(contentPane);
-        setTitle("Karteikarte");
+        setTitle(language.getName("indexcard"));
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
+        // Set Language
+        backButton.setText(language.getName("back"));
+        nextButton.setText(language.getName("next"));
+        answeredButton.setText(language.getName("answered"));
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -64,7 +70,6 @@ public class DisplayIndexcardToLearn extends JDialog{
         Font font = new Font("Arial", Font.PLAIN, 20);
         answerLabel.setFont(font);
         questionLabel.setFont(font);
-        questionLabel.setText(indexcard.getQuestion());
     }
     /**
      * This method is called when the user clicks the "Answered" button.

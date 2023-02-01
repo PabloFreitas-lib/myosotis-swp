@@ -24,7 +24,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="1cab8" class="javax.swing.JLabel" binding="indexcardLabel">
+              <component id="1cab8" class="javax.swing.JLabel" binding="nameLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="3" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -42,7 +42,7 @@
                   <text value=""/>
                 </properties>
               </component>
-              <component id="11a6d" class="javax.swing.JLabel">
+              <component id="11a6d" class="javax.swing.JLabel" binding="categoryLabel">
                 <constraints>
                   <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -83,7 +83,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="9a651" class="javax.swing.JButton" binding="buttonOK">
+              <component id="9a651" class="javax.swing.JButton" binding="confirmButton">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>
@@ -91,7 +91,7 @@
                   <text value="OK"/>
                 </properties>
               </component>
-              <component id="62491" class="javax.swing.JButton" binding="buttonCancel">
+              <component id="62491" class="javax.swing.JButton" binding="cancelButton">
                 <constraints>
                   <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

@@ -10,9 +10,9 @@ import uni.myosotis.objects.Keyword;
 public class EditIndexcard extends JDialog {
 
     private final Controller controller;
-
+    private final Language language;
     private JPanel contentPane;
-    private JButton buttonOK, buttonCancel;
+    private JButton confirmButton, cancelButton;
     private JTextArea textAreaQuestion, textAreaAnswer;
     private JComboBox comboBoxName;
     private JTextField textFieldName;
@@ -22,6 +22,14 @@ public class EditIndexcard extends JDialog {
     private JButton removeLinkButton;
     private JList linkList;
     private JList indexcardList;
+    private JLabel indexcardLabel;
+    private JLabel nameLabel;
+    private JLabel questionLabel;
+    private JLabel answerLabel;
+    private JLabel keywordLabel;
+    private JLabel linkLabel;
+    private JLabel termLabel;
+    private JLabel indexcardLabel2;
     private String oldName;
 
     /**
@@ -29,12 +37,27 @@ public class EditIndexcard extends JDialog {
      *
      * @param controller The Controller of the application.
      */
-    public EditIndexcard(Controller controller) {
+    public EditIndexcard(Controller controller, Language language){
         this.controller = controller;
+        this.language = language;
         setModal(true);
         setTitle("Karteikarte bearbeiten");
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(confirmButton);
         setContentPane(contentPane);
+        // Set Language
+        indexcardLabel.setText(language.getName("indexcard"));
+        nameLabel.setText(language.getName("name"));
+        questionLabel.setText(language.getName("question"));
+        answerLabel.setText(language.getName("answer"));
+        keywordLabel.setText(language.getName("keyword"));
+        linkLabel.setText(language.getName("link"));
+        termLabel.setText(language.getName("term"));
+        indexcardLabel2.setText(language.getName("indexcard"));
+        confirmButton.setText(language.getName("confirm"));
+        cancelButton.setText(language.getName("cancel"));
+        addLinkButton.setText(language.getName("addLink"));
+        removeLinkButton.setText(language.getName("removeLink"));
+
         //list of all indexcards
         List<Indexcard> indexcards = controller.getAllIndexcards();
         //Array of all indexcard names
@@ -78,13 +101,13 @@ public class EditIndexcard extends JDialog {
             }
         });
 
-        buttonOK.addActionListener(new ActionListener() {
+        confirmButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -125,14 +148,14 @@ public class EditIndexcard extends JDialog {
 
         Indexcard oldIndexcard;
         if (controller.getAllIndexcardNames().stream().filter(name -> !name.equals(comboBoxName.getSelectedItem())).toList().contains(textFieldName.getText())) {
-            JOptionPane.showMessageDialog(this, "Es existiert bereits eine Karteikarte mit diesem Namen.", "Name bereits vergeben", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("indexcardAlreadyExistError"), language.getName("nameAlreadyAssignedError"), JOptionPane.INFORMATION_MESSAGE);
         } else {
 
             //Old Parameters
             if (controller.getIndexcardByName(oldName).isPresent()) {
                 oldIndexcard = controller.getIndexcardByName(oldName).get();
             } else {
-                throw new IllegalStateException("Karteikarte zum Bearbeiten existiert nicht!");
+                throw new IllegalStateException(language.getName("indexcardToEditNonExistingError"));
             }
 
             final Long oldIndexcardId = oldIndexcard.getId();
@@ -161,7 +184,7 @@ public class EditIndexcard extends JDialog {
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this,
-                        "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht verändert.",
+                        language.getName("notAllFieldsFilledError"), language.getName("indexcardNotEditedError"),
                         JOptionPane.ERROR_MESSAGE);
             }
 
@@ -183,7 +206,7 @@ public class EditIndexcard extends JDialog {
      */
     private void onAddLink() {
         if (termField.getText().contains(" => ")) {
-            JOptionPane.showMessageDialog(this, "Kein gültiger Begriff.", "Kein gültiger Begriff", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("noValidTerm"), language.getName("noValidTerm"), JOptionPane.INFORMATION_MESSAGE);
         } else if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
             DefaultListModel listModel = new DefaultListModel();
             // Save previous added Links

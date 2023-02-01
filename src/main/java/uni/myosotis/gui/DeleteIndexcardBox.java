@@ -1,7 +1,6 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
 
 import javax.swing.*;
@@ -12,11 +11,13 @@ public class DeleteIndexcardBox extends JDialog{
      * The controller.
      */
     private final Controller controller;
+    private final Language language;
 
-    private JButton buttonDelete;
+    private JButton deleteButton;
 
     private JPanel contentPane;
     private JComboBox comboBoxName;
+    private JLabel whichIndexcardBox;
 
 
     /**
@@ -24,19 +25,23 @@ public class DeleteIndexcardBox extends JDialog{
      *
      * @param controller The controller.
      */
-    public DeleteIndexcardBox(Controller controller) {
+    public DeleteIndexcardBox(Controller controller, Language language){
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
         setModal(true);
-        setTitle("Karteikästen löschen");
-        getRootPane().setDefaultButton(buttonDelete);
+        setTitle(language.getName("deleteIndexcardBoxTitle"));
+        getRootPane().setDefaultButton(deleteButton);
+        // Set Language
+        deleteButton.setText(language.getName("delete"));
+        whichIndexcardBox.setText(language.getName("whichIndexcardBox"));
 
         String[] indexcardBoxesNames = controller.getAllIndexcardBoxes().stream().
                 map(IndexcardBox::getName).toList().toArray(new String[0]);
 
         comboBoxName.setModel(new DefaultComboBoxModel<>(indexcardBoxesNames));
 
-        buttonDelete.addActionListener(new ActionListener() {
+        deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onDelete();
             }
@@ -69,7 +74,7 @@ public class DeleteIndexcardBox extends JDialog{
             //controller.setKeywordComboBox();
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Keine Karteikasten ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("noIndexcardBoxSelectedError"), language.getName("deletionNotPossibleError"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

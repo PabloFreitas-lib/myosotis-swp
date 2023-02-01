@@ -14,13 +14,14 @@ public class CreateIndexcardBox extends JDialog {
      * The controller.
      */
     private final Controller controller;
-    
-    private JLabel indexcardLabel;
+    private final Language language;
+    private JLabel nameLabel;
     private JTextField indexcardBoxName;
     private JScrollPane categoryScrollPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton confirmButton;
+    private JButton cancelButton;
     private JPanel contentPane;
+    private JLabel categoryLabel;
 
 
     private JList<String> indexcardsNamesList;
@@ -35,21 +36,26 @@ public class CreateIndexcardBox extends JDialog {
      *
      * @param controller The controller.
      */
-    public CreateIndexcardBox(Controller controller) {
+    public CreateIndexcardBox(Controller controller, Language language) {
         this.controller = controller;
-        setTitle("Karteikasten erstellen");
+        this.language = language;
+        setTitle(language.getName("createIndexcardBoxTitle"));
         setModal(true);
         setContentPane(contentPane);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(confirmButton);
         setCategoryScrollPane();
+        nameLabel.setText(language.getName("name"));
+        categoryLabel.setText(language.getName("category"));
+        confirmButton.setText(language.getName("confirm"));
+        cancelButton.setText(language.getName("cancel"));
 
-        buttonOK.addActionListener(new ActionListener() {
+        confirmButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -97,7 +103,7 @@ public class CreateIndexcardBox extends JDialog {
             controller.setCategoryComboBox();
             dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Es müssen alle Felder ausgefüllt sein.", "Karteikarte nicht erstellt.", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("notAllFieldsFilledError"), language.getName("indexcardboxNotCreated"), JOptionPane.ERROR_MESSAGE);
         }
     }
 
