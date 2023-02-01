@@ -35,7 +35,6 @@ public class MainMenu extends JFrame {
     private JButton filternCategory;
     private JButton filternEntfernenButton;
     private JPanel indexCardBoxPane;
-    private final Language language;
 
     private final transient Controller controller;
 
@@ -44,9 +43,8 @@ public class MainMenu extends JFrame {
      *
      * @param controller The controller.
      */
-    public MainMenu(final Controller controller, final Language language) {
+    public MainMenu(final Controller controller) {
         this.controller = controller;
-        this.language = language;
         //Tabs
         tabbedPane = new JTabbedPane();
         setContentPane(tabbedPane);
@@ -80,7 +78,6 @@ public class MainMenu extends JFrame {
         });
 
         //Add all the Tabs
-
         Glossar glossar = new Glossar(controller);
         glossarPane = glossar.getGlossarPane();
 
@@ -90,16 +87,16 @@ public class MainMenu extends JFrame {
         IndexcardBoxTab indexcardBoxTab = new IndexcardBoxTab(controller);
         indexCardBoxPane = indexcardBoxTab.getIndexcardPane();
 
-        CategoryTab categoryTab = new CategoryTab(controller, language);
+        CategoryTab categoryTab = new CategoryTab(controller);
         categoriePane = categoryTab.getCategoryPane();
 
         settingsPanel = new JPanel();
 
-        tabbedPane.addTab(language.getName("glossarTitle"), glossarPane);
-        tabbedPane.addTab(language.getName("categoryTitle"), categoriePane);
-        tabbedPane.addTab(language.getName("indexcardTitle"), indexcardPane);
-        tabbedPane.addTab(language.getName("indexcardBoxTitle"),indexCardBoxPane);
-        tabbedPane.addTab(language.getName("settingsTitle"), settingsPanel);
+        tabbedPane.addTab("Glossar", glossarPane);
+        tabbedPane.addTab("Kategorien", categoriePane);
+        tabbedPane.addTab("Karteikarten", indexcardPane);
+        tabbedPane.addTab("Karteikästen",indexCardBoxPane);
+        tabbedPane.addTab("Einstellungen", settingsPanel);
         //tabbedPane.addTab("Filter", filterPane);
 
         tabbedPane.addChangeListener(new ChangeListener() {
@@ -174,6 +171,7 @@ public class MainMenu extends JFrame {
     public void setCategoryComboBox(){
         //list of all indexcards
         categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getCategoryNames()));
+
     }
 
     /**
@@ -190,7 +188,7 @@ public class MainMenu extends JFrame {
      * @param indexcard The Indexcard that should be displayed.
      */
     public void displayIndexcard(Indexcard indexcard) {
-        DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, indexcard, language);
+        DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, indexcard);
         displayIndexcard.pack();
         displayIndexcard.setMinimumSize(displayIndexcard.getSize());
         displayIndexcard.setSize(300, 400);
@@ -202,7 +200,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateIndexcard() {
-        final CreateIndexcard createIndexcard = new CreateIndexcard(controller,language);
+        final CreateIndexcard createIndexcard = new CreateIndexcard(controller);
         createIndexcard.pack();
         createIndexcard.setMinimumSize(createIndexcard.getSize());
         createIndexcard.setLocationRelativeTo(this);
@@ -213,7 +211,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateIndexcardBox() {
-        final CreateIndexcardBox createIndexcardBox = new CreateIndexcardBox(controller,language);
+        final CreateIndexcardBox createIndexcardBox = new CreateIndexcardBox(controller);
         createIndexcardBox.pack();
         createIndexcardBox.setMinimumSize(createIndexcardBox.getSize());
         createIndexcardBox.setSize(400, 300);
@@ -225,7 +223,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to edit a new Indexcard.
      */
     public void displayEditIndexcardBox() {
-        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller,language);
+        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller);
         editIndexcardBox.pack();
         editIndexcardBox.setMinimumSize(editIndexcardBox.getSize());
         editIndexcardBox.setSize(400, 300);
@@ -237,7 +235,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to edit an existing Indexcard.
      */
     public void displayEditIndexcard() {
-        final EditIndexcard editIndexcard = new EditIndexcard(controller,language);
+        final EditIndexcard editIndexcard = new EditIndexcard(controller);
         editIndexcard.pack();
         editIndexcard.setMinimumSize(editIndexcard.getSize());
         editIndexcard.setSize(400, 300);
@@ -251,7 +249,7 @@ public class MainMenu extends JFrame {
      * @param indexcard The Indexcard which is preset to be edited
      */
     public void displayEditIndexcard(Indexcard indexcard) {
-        final EditIndexcard editIndexcard = new EditIndexcard(controller, language);
+        final EditIndexcard editIndexcard = new EditIndexcard(controller);
         editIndexcard.pack();
         editIndexcard.setMinimumSize(editIndexcard.getSize());
         editIndexcard.setLocationRelativeTo(this);
@@ -263,7 +261,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteIndexcard() {
-        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller,language);
+        final DeleteIndexcard deleteIndexcard = new DeleteIndexcard(controller);
         deleteIndexcard.pack();
         deleteIndexcard.setMinimumSize(deleteIndexcard.getSize());
         deleteIndexcard.setLocationRelativeTo(this);
@@ -274,7 +272,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteIndexcardBox() {
-        final DeleteIndexcardBox deleteIndexcardBox = new DeleteIndexcardBox(controller,language);
+        final DeleteIndexcardBox deleteIndexcardBox = new DeleteIndexcardBox(controller);
         deleteIndexcardBox.pack();
         deleteIndexcardBox.setMinimumSize(deleteIndexcardBox.getSize());
         deleteIndexcardBox.setLocationRelativeTo(this);
@@ -321,7 +319,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteCategory() {
-        final DeleteCategory deleteCategory = new DeleteCategory(controller,language);
+        final DeleteCategory deleteCategory = new DeleteCategory(controller);
         deleteCategory.pack();
         deleteCategory.setMinimumSize(deleteCategory.getSize());
         deleteCategory.setLocationRelativeTo(this);
@@ -332,7 +330,7 @@ public class MainMenu extends JFrame {
      * Displays the Menu for learning.
      */
     public void displayLearning(LearnSystem learnsystem, IndexcardBox indexCardBox){
-        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnsystem, indexCardBox, language);
+        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnsystem, indexCardBox);
         displayIndexcardToLearn.pack();
         displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
         displayIndexcardToLearn.setLocationRelativeTo(this);
@@ -342,9 +340,7 @@ public class MainMenu extends JFrame {
     public JScrollPane getIndexcardsPane(){
         return this.IndexcardsPane;
     }
-    public Language getLanguage(){
-        return this.language;
-    }
+
     public JComboBox getKeywordComboBox(){
         return this.KeywordComboBox;
     }
@@ -369,6 +365,7 @@ public class MainMenu extends JFrame {
 
         controller.createIndexcard("BOTK1", "Was ist ein Baum?", "Ein Baum ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         controller.createIndexcard("BOTK2", "Was ist ein Blume?", "Eine Blume ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
+
         controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         controller.createIndexcard("BIOK2", "Was ist ein Zelle?", "Eine Zelle ist der kleinste Teil eines Organismus.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
         controller.createIndexcard("BIOK1", "Was ist ein Organismus?", "Ein Organismus ist ein Lebewesen.", List.of(new String[]{"#Biologie"}), new ArrayList<>());
