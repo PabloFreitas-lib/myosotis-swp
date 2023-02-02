@@ -21,9 +21,9 @@ public class LeitnerLearnSystemLogic {
 
 
     /**
-     * Delegates the exercise to update a learnsystem to the learnsystemRepository.
+     * Delegates the exercise to update a Learnsystem to the LearnsystemRepository.
      *
-     * @param learnsystem The learnsystem that should be updated.
+     * @param learnsystem The Learnsystem that should be updated.
      */
     public void updateLearnsystem(LeitnerLearnSystem learnsystem) {
         leitnerLearnSystemRepository.updateLearnSystem(learnsystem);

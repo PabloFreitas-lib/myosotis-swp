@@ -14,14 +14,14 @@ public class EditIndexcard extends JDialog {
     private JPanel contentPane;
     private JButton confirmButton, cancelButton;
     private JTextArea textAreaQuestion, textAreaAnswer;
-    private JComboBox comboBoxName;
+    private JComboBox<String> comboBoxName;
     private JTextField textFieldName;
     private JTextField textFieldKeywords;
     private JTextField termField;
     private JButton addLinkButton;
     private JButton removeLinkButton;
-    private JList linkList;
-    private JList indexcardList;
+    private JList<String> linkList;
+    private JList<String> indexcardList;
     private JLabel indexcardLabel;
     private JLabel nameLabel;
     private JLabel questionLabel;
@@ -69,7 +69,7 @@ public class EditIndexcard extends JDialog {
         comboBoxName.setModel(new DefaultComboBoxModel<>(indexcardsNames));
 
         // List of existing Indexcards
-        DefaultListModel listModelForIndexcards = new DefaultListModel();
+        DefaultListModel<String> listModelForIndexcards = new DefaultListModel<>();
         listModelForIndexcards.addAll(controller.getAllIndexcardNames());
         indexcardList.setModel(listModelForIndexcards);
 
@@ -87,12 +87,12 @@ public class EditIndexcard extends JDialog {
                 textFieldKeywords.setText(keywords.toString());
 
                 // List of all Links of the Indexcard.
-                DefaultListModel listModel = new DefaultListModel();
+                DefaultListModel<String> listModel = new DefaultListModel<>();
                 listModel.addAll(indexcard.get().getLinks().stream().map(link -> link.getTerm() + " => " + link.getIndexcard().getName()).toList());
                 linkList.setModel(listModel);
 
                 // List of existing Indexcards without the selected.
-                DefaultListModel listModelOfIndexcards = new DefaultListModel();
+                DefaultListModel<String> listModelOfIndexcards = new DefaultListModel<>();
                 List<String> list = controller.getAllIndexcardNames().stream().filter(name -> !name.equals(comboBoxName.getSelectedItem())).toList();
                 listModelOfIndexcards.addAll(list);
                 indexcardList.setModel(listModelOfIndexcards);
@@ -101,29 +101,13 @@ public class EditIndexcard extends JDialog {
             }
         });
 
-        confirmButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        confirmButton.addActionListener(e -> onOK());
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
-        addLinkButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onAddLink();
-            }
-        });
+        addLinkButton.addActionListener(e -> onAddLink());
 
-        removeLinkButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onRemoveLink();
-            }
-        });
+        removeLinkButton.addActionListener(e -> onRemoveLink());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -134,11 +118,7 @@ public class EditIndexcard extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     /**
@@ -176,7 +156,7 @@ public class EditIndexcard extends JDialog {
             // Save added Links
             List<String> links = new ArrayList<>();
             for (int i = 0; i < linkList.getModel().getSize(); i++) {
-                links.add((String) linkList.getModel().getElementAt(i));
+                links.add(linkList.getModel().getElementAt(i));
             }
 
             if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
@@ -187,15 +167,13 @@ public class EditIndexcard extends JDialog {
                         language.getName("notAllFieldsFilledError"), language.getName("indexcardNotEditedError"),
                         JOptionPane.ERROR_MESSAGE);
             }
-
-            controller.setKeywordComboBox();
-            controller.setIndexCardPanel();
         }
     }
 
     /**
-     * Sets a indexcard to edit by setting the ComboBox to the indexcard name.
-     * @param indexcard
+     * Sets an indexcard to edit by setting the ComboBox to the indexcard name.
+     *
+     * @param indexcard The Indexcard that should be edited.
      */
     public void setIndexcard(Indexcard indexcard){
         comboBoxName.setSelectedItem(indexcard.getName());
@@ -208,7 +186,7 @@ public class EditIndexcard extends JDialog {
         if (termField.getText().contains(" => ")) {
             JOptionPane.showMessageDialog(this, language.getName("noValidTerm"), language.getName("noValidTerm"), JOptionPane.INFORMATION_MESSAGE);
         } else if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
-            DefaultListModel listModel = new DefaultListModel();
+            DefaultListModel<String> listModel = new DefaultListModel<>();
             // Save previous added Links
             for (int i = 0; i < linkList.getModel().getSize(); i++) {
                 listModel.addElement(linkList.getModel().getElementAt(i));
@@ -227,8 +205,8 @@ public class EditIndexcard extends JDialog {
      */
     private void onRemoveLink() {
         if (linkList.getSelectedValue() != null) {
-            DefaultListModel listModel = new DefaultListModel();
-            // Save previous added Links without the deleted Link
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+            // Save previous added Links without the deleted Links
             for (int i = 0; i < linkList.getModel().getSize(); i++) {
                 int finalI = i;
                 if (Arrays.stream(linkList.getSelectedIndices()).noneMatch(e -> e == finalI)) {

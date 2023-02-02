@@ -51,8 +51,9 @@ public class IndexcardBox implements Serializable{
     }
 
     /**
-     * Returns a list of all indexcards in the box, without duplicates
-     * By checking if the indexcard is already in the list, duplicates are avoided
+     * Returns a list of all indexcards in the box, without duplicates.
+     * By checking if the indexcard is already in the list, duplicates are avoided.
+     *
      * @return List of indexcards
      */
     public List<String> getIndexcardList() {
@@ -68,8 +69,9 @@ public class IndexcardBox implements Serializable{
     }
 
     /**
-     * Returns a list of all categories names in the box
-     * @return List of categories names
+     * Returns a list of all categories names in the box.
+     *
+     * @return Array of categories names.
      */
     public String[] getCategoryNameList() {
         return categoryList.stream().map(Category::getCategoryName).toList().toArray(new String[0]);

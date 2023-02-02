@@ -28,7 +28,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JButton answeredButton;
     private JLabel nameLabel;
     private JProgressBar learnProgressBar;
-    private JLabel procentageValue;
+    private JLabel percentageValue;
     private JButton wrongButton;
     private JButton correctButton;
 
@@ -42,18 +42,18 @@ public class DisplayIndexcardToLearn extends JDialog{
     public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language) {
         this.learnSystem = learnSystem;
         this.controller = controller;
-        this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcards());
+        this.indexCardList2Learn = controller.getIndexcardsByIndexcardNameList(learnSystem.getNextIndexcards());
         this.indexcard = this.indexCardList2Learn.get(learnSystem.getProgress());
         this.learnProgressBar.setMinimum(0);
         this.learnProgressBar.setMaximum(indexcardBox.getIndexcardList().size());
         this.learnProgressBar.setValue(learnSystem.getProgress());
-        procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
+        percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
 
         this.questionLabel.setText(indexcard.getQuestion());
         this.answerLabel.setText("");
         this.language = language;
         hiddenButtons();
-        procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
+        percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
         setContentPane(contentPane);
         setTitle(language.getName("indexcard"));
         pack();
@@ -69,33 +69,13 @@ public class DisplayIndexcardToLearn extends JDialog{
                 onCancel();
             }
         });
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onBack();
-            }
-        });
-        nextButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onNext();
-            }
-        });
-        answeredButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onAnswered(indexcard);
-            }
-        });
+        backButton.addActionListener(e -> onBack());
+        nextButton.addActionListener(e -> onNext());
+        answeredButton.addActionListener(e -> onAnswered(indexcard));
 
-        correctButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCorrect(indexcard);
-            }
-        });
+        correctButton.addActionListener(e -> onCorrect(indexcard));
 
-        wrongButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onWrong(indexcard);
-            }
-        });
+        wrongButton.addActionListener(e -> onWrong(indexcard));
 
         Font font = new Font("Arial", Font.PLAIN, 20);
         answerLabel.setFont(font);
@@ -127,7 +107,7 @@ public class DisplayIndexcardToLearn extends JDialog{
             questionLabel.setText(indexcard.getQuestion());
             answerLabel.setText("");
             this.learnProgressBar.setValue(learnSystem.getProgress());
-            procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
+            percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
         }
         else {
             dispose();
@@ -143,7 +123,7 @@ public class DisplayIndexcardToLearn extends JDialog{
             questionLabel.setText(indexcard.getQuestion());
             answerLabel.setText("");
             this.learnProgressBar.setValue(learnSystem.getProgress());
-            procentageValue.setText(String.valueOf((learnSystem.getProgress())*100/indexCardList2Learn.size())+"%");
+            percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
         }
 
         controller.updateLearnsystem(learnSystem);
@@ -177,6 +157,6 @@ public class DisplayIndexcardToLearn extends JDialog{
      * This methode will get all the index card from the LearsSystem which are in the in a box.
      */
     private List<Indexcard> getIndexcardFromBox(LeitnerLearnSystem learnSystem, int boxNumber){
-        return controller.getAllIndexcards(learnSystem.getIndexcardFromBox(boxNumber));
+        return controller.getIndexcardsByIndexcardNameList(learnSystem.getIndexcardFromBox(boxNumber));
     }
 }

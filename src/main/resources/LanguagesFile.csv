@@ -30,7 +30,7 @@ notAllFieldsFilledError;Es müssen alle Felder ausgefüllt sein.;All fields need
 indexcardNotCreated;Karteikarte nicht erstellt.;Indexcard not created
 noValidTerm;Kein gültiger Begriff.;No valid Term
 indexcardboxNotCreated;Karteikasten nicht erstellt.;Indexcardbox was not created.
-indexcardAlreadyExistError;Es existiert bereits eine Karteikarte mit diesem Namen.;There is already another Indexcard with this name.
+indexcardAlreadyExistError;Es existiert bereits eine Karteikarte mit diesem Namen (%s) .;There is already another Indexcard with this name (%s) .
 nameAlreadyAssignedError;Name bereits vergeben;Name is already assigned
 indexcardToEditNonExistingError;Karteikarte zum Bearbeiten existiert nicht!;Indexcard which should be edited is non existing.
 indexcardNotEditedError;Karteikarte nicht verändert.;Indexcard not edited.
@@ -48,34 +48,34 @@ categoryNotCreatedError;Kategorie nicht erstellt.;Category not created.
 editCategoryTitle;Kategorie bearbeiten;Edit Category
 deleteCategoryTitle;Kategorie löschen;Delete Category
 whichCategory;Welche Kategorie soll gelöscht werden?;Which Category should be deleted?
-noCategorySelectedError;Keine Kategorie ausgewählt.;No Category selected
+noCategorySelectedError;Keine Kategorie ausgewählt.;No Category selected.
 back;Zurück;Back
 next;Nächster;Next
-indexcardCreatedMessage;Die Karteikarte (%s) wurde erfolgreich erstellt.;The Indexcard  (%s) successfully created.
+indexcardCreatedMessage;Die Karteikarte (%s) wurde erfolgreich erstellt.;The Indexcard (%s) got successfully created.
 indexcardCreated;Karteikarte erstellt;Indexcard created
-indexcardEditedMessage;Die Karteikarte wurde erfolgreich bearbeitet.;The Indexcard successfully edited.
+indexcardEditedMessage;Die Karteikarte (%s) wurde erfolgreich bearbeitet.;The Indexcard (%s) got successfully edited.
 indexcardEdited;Karteikarte bearbeitet;Indexcard edited
 noIndexcardWithNameError;Es existiert keine Karteikarte mit diesem Namen.;There is no Indexcard with the given name.
 noIndexcardError;Karteikarte nicht vorhanden.;Indexcard does not exists
-indexcardDeletedMessage;Die Karteikarte wurde erfolgreich gelöscht.;The Indexcard got successfully deleted.
+indexcardDeletedMessage;Die Karteikarte (%s) wurde erfolgreich gelöscht.;The Indexcard (%s) got successfully deleted.
 indexcardDeleted;Karteikarte gelöscht;Indexcard deleted
 indexcardDeletedError;Die Karteikarte konnte nicht gelöscht werden.;The Indexcard could not be deleted.
 indexcardNotDeleted;Karteikarte nicht gelöscht;Indexcard not deleted
-indexcardBoxCreatedMessage;Die Karteikästen (%s) wurde erfolgreich erstellt.;The Indexcardbox (%s) successfully created
-indexcardBoxCreated;Karteikästen erstellt;Indexcardbox successfully created
+indexcardBoxCreatedMessage;Der Karteikasten (%s) wurde erfolgreich erstellt.;The Indexcardbox (%s) got successfully created.
+indexcardBoxCreated;Karteikasten erstellt;Indexcardbox successfully created
 indexcardBoxAlreadyExistError;Es existiert bereits ein Karteikasten mit diesem Namen.;There is already a Indexcardbox with this name.
-indexcardBoxDeletedMessage;Der Karteikasten wurde erfolgreich gelöscht.;The Indexcardbox got successfully deleted
+indexcardBoxDeletedMessage;Der Karteikasten (%s) wurde erfolgreich gelöscht.;The Indexcardbox (%s) got successfully deleted.
 indexcardBoxDeleted;Karteikasten gelöscht;Indexcardbox deleted
-indexcardBoxEditedMessage;Der Karteikasten wurde erfolgreich bearbeitet.;The Indexcardbox successfully edited.
+indexcardBoxEditedMessage;Der Karteikasten wurde erfolgreich bearbeitet.;The Indexcardbox got successfully edited.
 indexcardBoxEdited;Karteikasten bearbeitet;Indexcardbox edited
 noIndexcardBoxWithNameError;Es existiert kein Karteikasten mit diesem Namen.;There is no Indexcardbox with the given name.
 noIndexcardBoxError;Karteikasten nicht vorhanden.;Indexcardbox does not exists
-categoryCreatedMessage;Die Kategorie (%s) wurde erfolgreich erstellt.;The Category (%s) successfully created
+categoryCreatedMessage;Die Kategorie (%s) wurde erfolgreich erstellt.;The Category (%s) got successfully created.
 categoryCreated;Kategorie erstellt;Category successfully created
 categoryAlreadyExistError;Es existiert bereits eine Kategorie mit diesem Namen.;There is already a Category with this name.
-categoryDeletedMessage;Die Kategorie wurde erfolgreich gelöscht.;The Category got successfully deleted
+categoryDeletedMessage;Die Kategorie (%s) wurde erfolgreich gelöscht.;The Category (%s) got successfully deleted.
 categoryDeleted;Kategorie gelöscht;Category deleted
-categoryEditedMessage;Der Kategorie (%s) wurde erfolgreich bearbeitet.;The Category (%s) successfully edited.
+categoryEditedMessage;Der Kategorie (%s) wurde erfolgreich bearbeitet.;The Category (%s) got successfully edited.
 categoryEdited;Kategorie bearbeitet;Category edited
 noCategoryWithNameError;Es existiert keine Kategorie mit diesem Namen.;There is no Category with the given name.
 noCategoryBoxError;Kategorie nicht vorhanden.;Category does not exists
@@ -95,8 +95,8 @@ learn;Lernen;Learn
 learnSystem;Lernsystem;Learn system
 noIndexcardBoxExistsError;Es existiert kein Karteikasten.;There is no Indexcardbox.
 noIndexcardBoxExists;Kein Karteikasten vorhanden;No Indexcardbox exists
-selectOneIndexcardBoxMessage;Wählen Sie ein Karteikasten aus;Select one Indexcardbox
-selectOneIndexcardBox;Keinen oder zu viele Karteikästen ausgewählt.;No or too many Indexcardboxes selected
-selectLearnSystemMessage;Wählen Sie ein Lernsystem aus;Select a learn system
+selectOneIndexcardBoxMessage;Wählen Sie einen Karteikasten aus;Select one Indexcardbox.
+selectOneIndexcardBox;Keinen oder zu viele Karteikästen ausgewählt.;No or too many Indexcardboxes selected.
+selectLearnSystemMessage;Wählen Sie ein Lernsystem aus;Select a learn system.
 selectLearnSystem;Lernsystem nicht verfügbar;Learn system not available
 language;Sprache;Language

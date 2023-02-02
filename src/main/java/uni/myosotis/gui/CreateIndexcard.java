@@ -23,9 +23,9 @@ public class CreateIndexcard extends JDialog {
     private JTextArea textAreaQuestion;
     private JTextArea textAreaAnswer;
     private JTextField textFieldKeywords;
-    private JList linkList;
+    private JList<String> linkList;
     private JTextField termField;
-    private JList indexcardList;
+    private JList<String> indexcardList;
     private JButton addLinkButton;
     private JButton removeLinkButton;
     private JLabel questionLabel;
@@ -49,7 +49,7 @@ public class CreateIndexcard extends JDialog {
         setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonOK);
 
-        DefaultListModel listModel = new DefaultListModel();
+        DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addAll(controller.getAllIndexcardNames());
         // For Language
         indexcardList.setModel(listModel);
@@ -65,29 +65,13 @@ public class CreateIndexcard extends JDialog {
         addLinkButton.setText(language.getName("addLink"));
         removeLinkButton.setText(language.getName("removeLink"));
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
 
-        buttonCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        buttonCancel.addActionListener(e -> onCancel());
 
-        addLinkButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onAddLink();
-            }
-        });
+        addLinkButton.addActionListener(e -> onAddLink());
 
-        removeLinkButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onRemoveLink();
-            }
-        });
+        removeLinkButton.addActionListener(e -> onRemoveLink());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -98,11 +82,7 @@ public class CreateIndexcard extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     /**
@@ -124,14 +104,11 @@ public class CreateIndexcard extends JDialog {
         List<String> links = new ArrayList<>();
         // Save added Links
         for (int i = 0; i < linkList.getModel().getSize(); i++) {
-            links.add((String) linkList.getModel().getElementAt(i));
+            links.add(linkList.getModel().getElementAt(i));
         }
 
         if (!name.isBlank() && !question.isBlank() && !answer.isBlank()) {
             controller.createIndexcard(name, question, answer, keywords, links);
-            controller.setIndexCardPanel();
-            controller.setKeywordComboBox();
-            controller.setCategoryComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, language.getName("notAllFieldsFilledError"), language.getName("indexcardNotCreated"), JOptionPane.ERROR_MESSAGE);
@@ -145,7 +122,7 @@ public class CreateIndexcard extends JDialog {
         if (termField.getText().contains(" => ")) {
             JOptionPane.showMessageDialog(this, language.getName("noValidTerm"), language.getName("noValidTerm"), JOptionPane.INFORMATION_MESSAGE);
         } else if (!termField.getText().isBlank() && indexcardList.getSelectedValue() != null) {
-            DefaultListModel listModel = new DefaultListModel();
+            DefaultListModel<String> listModel = new DefaultListModel<>();
             // Save previous added Links
             for (int i = 0; i < linkList.getModel().getSize(); i++) {
                 listModel.addElement(linkList.getModel().getElementAt(i));
@@ -164,7 +141,7 @@ public class CreateIndexcard extends JDialog {
      */
     private void onRemoveLink() {
         if (linkList.getSelectedValue() != null) {
-            DefaultListModel listModel = new DefaultListModel();
+            DefaultListModel<String> listModel = new DefaultListModel<>();
             // Save previous added Links without the deleted Link
             for (int i = 0; i < linkList.getModel().getSize(); i++) {
                 int finalI = i;

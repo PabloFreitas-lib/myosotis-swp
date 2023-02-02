@@ -126,8 +126,9 @@ public class IndexcardBoxRepository {
      * This method gets all IndexcardBoxes that contains a part of
      * the given text in their name, by using a LIKE query and
      * UPPER function to make it case insensitiv.
-     * @param text
-     * @return
+     *
+     * @param text The text.
+     * @return A list of the IndexcardBoxes that contains a part of the given text in their name.
      */
     public List<IndexcardBox> searchIndexcardBox(String text) {
        try (final EntityManager em = pm.getEntityManager()) {

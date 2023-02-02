@@ -49,17 +49,9 @@ public class CreateIndexcardBox extends JDialog {
         confirmButton.setText(language.getName("confirm"));
         cancelButton.setText(language.getName("cancel"));
 
-        confirmButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        confirmButton.addActionListener(e -> onOK());
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -70,11 +62,7 @@ public class CreateIndexcardBox extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     public void setCategoryScrollPane(){
@@ -93,14 +81,13 @@ public class CreateIndexcardBox extends JDialog {
         final String name = indexcardBoxName.getText();
         final List<String> selectedCategoriesNames = categoryNamesList.getSelectedValuesList();
         final List<Category> selectedCategories = new ArrayList<>();
-        for (int i = 0; i < selectedCategoriesNames.size(); i ++){
-            selectedCategories.add(controller.getCategoryByName(selectedCategoriesNames.get(i)).get());
+        for (String selectedCategoriesName : selectedCategoriesNames) {
+            if (controller.getCategoryByName(selectedCategoriesName).isPresent()) {
+                selectedCategories.add(controller.getCategoryByName(selectedCategoriesName).get());
+            }
         }
         if (!name.isBlank() && !selectedCategoriesNames.isEmpty()) {
             controller.createIndexcardBox(name, selectedCategories);
-            controller.setIndexCardPanel();
-            controller.setKeywordComboBox();
-            controller.setCategoryComboBox();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, language.getName("notAllFieldsFilledError"), language.getName("indexcardboxNotCreated"), JOptionPane.ERROR_MESSAGE);

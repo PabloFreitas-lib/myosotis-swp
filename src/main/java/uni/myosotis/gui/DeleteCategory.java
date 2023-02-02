@@ -40,11 +40,7 @@ public class DeleteCategory extends JDialog{
 
         categoryNamesComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
 
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onDelete();
-            }
-        });
+        deleteButton.addActionListener(e -> onDelete());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -55,11 +51,7 @@ public class DeleteCategory extends JDialog{
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     /**
@@ -70,7 +62,6 @@ public class DeleteCategory extends JDialog{
         if (categoryToDelete != null) {
             if (controller.getCategoryByName(categoryToDelete).isPresent()) {
                 controller.deleteCategory(controller.getCategoryByName(categoryToDelete).get());
-                controller.setCategoryComboBox();
                 dispose();
             }
         } else {

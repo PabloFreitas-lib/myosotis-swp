@@ -4,8 +4,6 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Category;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -44,22 +42,10 @@ public class CategoryTab extends JFrame{
         categoryLabel.setText(language.getName("category"));
         searchButton.setText(language.getName("search"));
         //Set Action Listener
-        createButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCreate();
-            }
-        });
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {onEdit();}
-        });
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onDelete();
-            }
-        });
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) { onSearch();}
-        });
+        createButton.addActionListener(e -> onCreate());
+        editButton.addActionListener(e -> onEdit());
+        deleteButton.addActionListener(e -> onDelete());
+        searchButton.addActionListener(e -> onSearch());
     }
 
     private void onCreate() {
@@ -69,7 +55,9 @@ public class CategoryTab extends JFrame{
 
     private void onEdit(){
         if (categoryList.getSelectedValue() != null) {
-            controller.editCategory(controller.getCategoryByName(categoryList.getSelectedValue()).get());
+            if (controller.getCategoryByName(categoryList.getSelectedValue()).isPresent()) {
+                controller.editCategory(controller.getCategoryByName(categoryList.getSelectedValue()).get());
+            }
         }
         else {
             controller.editCategory();
@@ -77,10 +65,15 @@ public class CategoryTab extends JFrame{
         updateList(controller.getAllCategories());
     }
 
+    /**
+     * Deletes the selected Categories or delegate the exercise to display the dialog to delete a Category.
+     */
     private void onDelete(){
         if (categoryList.getSelectedValue() != null) {
-            for (Object categoryname : categoryList.getSelectedValuesList()) {
-                controller.deleteCategory(controller.getCategoryByName(categoryname.toString()).get());
+            for (String categoryName : categoryList.getSelectedValuesList()) {
+                if (controller.getCategoryByName(categoryName).isPresent()) {
+                    controller.deleteCategory(controller.getCategoryByName(categoryName).get());
+                }
             }
         }
         else {

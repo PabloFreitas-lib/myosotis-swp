@@ -18,9 +18,9 @@ public class Language {
         }
     }
     /**
-     * Takes in a name and returns the value of the name in the language
-     * @param name
-     * @return value of the name in the language
+     * Takes in a name and returns the value of the name in the language.
+     * @param name The name.
+     * @return The value of the name in the language.
      */
     public String getName(String name){
         if(map.get(name) == null)

@@ -92,7 +92,7 @@ public class LeitnerLearnSystemRepository {
     /**
      * This method is used to find an existing LeitnerLearnSystem by a IndexcardBox.
      *
-     * @param indexcardBox The Indexcardbox connected to the LeitnerLearnSystem.
+     * @param indexcardBox The IndexcardBox connected to the LeitnerLearnSystem.
      * @return The LeitnerLearnSystem, if it exists.
      */
     public <T extends LeitnerLearnSystem> Optional<T> getLeitnerLearnSystemByIndexcardBox(IndexcardBox indexcardBox) {

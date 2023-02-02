@@ -1,7 +1,6 @@
 package uni.myosotis.logic;
 
 import uni.myosotis.objects.Category;
-import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.persistence.IndexcardBoxRepository;
 
@@ -19,9 +18,16 @@ public class IndexcardBoxLogic {
     public IndexcardBoxLogic () {
         this.indexcardBoxRepository = new IndexcardBoxRepository();
     }
-    public IndexcardBox getIndexcardBoxByName(String name){
+    public IndexcardBox getIndexcardBoxByName(String name) {
         return indexcardBoxRepository.getIndexcardBoxByName(name).get();
     }
+
+    /**
+     * Creates a new IndexcardBox.
+     *
+     * @param name The name of the IndexcardBox.
+     * @param categoryList The Categories in the IndexcardBox.
+     */
     public void createIndexcardBox(String name, List<Category>categoryList){
         if (indexcardBoxRepository.getIndexcardBoxByName(name).isPresent()) {
             throw new IllegalStateException("Es existiert bereits eine Karteikästen mit diesem Namen.");

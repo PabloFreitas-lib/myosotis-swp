@@ -11,7 +11,7 @@ public class IndexcardTab extends JDialog{
     private final Language language;
     private JPanel contentPane;
     private JButton searchButton;
-    private JList indexcardList;
+    private JList<String> indexcardList;
     private JTextField searchField;
     private JButton deleteButton;
     private JButton editButton;
@@ -37,33 +37,17 @@ public class IndexcardTab extends JDialog{
                 onCancel();
             }
         });
-        searchButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onSearch();
-            }
-        });
-        createButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCreate();
-            }
-        });
-        editButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onEdit();
-            }
-        });
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onDelete();
-            }
-        });
+        searchButton.addActionListener(e -> onSearch());
+        createButton.addActionListener(e -> onCreate());
+        editButton.addActionListener(e -> onEdit());
+        deleteButton.addActionListener(e -> onDelete());
         // Display an Indexcard, if it gets double-clicked.
         indexcardList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
-                    if (controller.getIndexcardByName((String) indexcardList.getSelectedValue()).isPresent()) {
-                        controller.displayIndexcard(controller.getIndexcardByName((String) indexcardList.getSelectedValue()).get());
+                    if (controller.getIndexcardByName(indexcardList.getSelectedValue()).isPresent()) {
+                        controller.displayIndexcard(controller.getIndexcardByName(indexcardList.getSelectedValue()).get());
                     }
                 }
             }
@@ -83,14 +67,16 @@ public class IndexcardTab extends JDialog{
     }
 
     /**
-     * Checks if the user has selected an indexcard if so it deletes it
-     * If multiple indexcards are selected it deletes all of them
-     * If not it opens a dialog to delete a indexcard
+     * Checks if the user has selected an indexcard if so it deletes it.
+     * If multiple indexcards are selected it deletes all of them.
+     * If not it opens a dialog to delete an indexcard.
      */
     private void onDelete() {
         if (indexcardList.getSelectedValue() != null) {
             for (Object indexcardName : indexcardList.getSelectedValuesList()) {
-                controller.deleteIndexcard(controller.getIndexcardByName(indexcardName.toString()).get().getId());
+                if (controller.getIndexcardByName(indexcardName.toString()).isPresent()) {
+                    controller.deleteIndexcard(controller.getIndexcardByName(indexcardName.toString()).get().getId());
+                }
             }
         }
         else {
@@ -101,13 +87,15 @@ public class IndexcardTab extends JDialog{
     }
 
     /**
-     * Checks if the user has selected an indexcard if so
-     * it opens the dialog edit function for the selected indexcard
-     * If not it opens a dialog to edit a indexcard
+     * Checks if the user has selected an indexcard if so.
+     * it opens the dialog edit function for the selected indexcard.
+     * If not it opens a dialog to edit an indexcard.
      */
     private void onEdit() {
         if (indexcardList.getSelectedValue() != null) {
-            controller.editIndexcard(controller.getIndexcardByName(indexcardList.getSelectedValue().toString()).get());
+            if (controller.getIndexcardByName(indexcardList.getSelectedValue()).isPresent()) {
+                controller.editIndexcard(controller.getIndexcardByName(indexcardList.getSelectedValue()).get());
+            }
         }
         else {
             controller.editIndexcard();

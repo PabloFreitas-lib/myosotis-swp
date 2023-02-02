@@ -3,7 +3,7 @@ package uni.myosotis.gui;
 import uni.myosotis.controller.Controller;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.util.Objects;
 
 public class SettingsTab extends JDialog {
     private final Controller controller;
@@ -24,23 +24,13 @@ public class SettingsTab extends JDialog {
         languageLabel.setText(language.getName("language"));
         confirmButton.setText(language.getName("confirm"));
         // Add listeners
-        languageComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onLanguageChange();
-            }
-        });
-        confirmButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                onConfirm();
-            }
-        });
+        languageComboBox.addActionListener(e -> onLanguageChange());
+        confirmButton.addActionListener(e -> onConfirm());
 
     }
 
     private void onConfirm() {
-        controller.setLanguage(languageComboBox.getSelectedItem().toString());
+        controller.setLanguage(Objects.requireNonNull(languageComboBox.getSelectedItem()).toString());
     }
 
     private void onLanguageChange() {

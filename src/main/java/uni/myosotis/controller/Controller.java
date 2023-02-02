@@ -54,7 +54,7 @@ public class Controller {
      *
      * @param indexcardLogic The logic for the Indexcards.
      * @param keywordLogic The logic for the Keywords.
-     * @param categoryLogic The logic for the Category`s.
+     * @param categoryLogic The logic for the Categories.
      * @param linkLogic The logic for the Links.
      * @param indexcardBoxLogic The logic for the IndexcardBoxes.
      * @param leitnerLearnSystemLogic The logic for the LearnSystems.
@@ -76,14 +76,12 @@ public class Controller {
     public void startApplication() {
         language = new Language("English");
         mainMenu = new MainMenu(this, language);
-        setIndexCardPanel();
         mainMenu.setVisible(true);
     }
 
     public void setLanguage(String lang) {
         this.language = new Language(lang);
         mainMenu.setLanguage(language);
-        setIndexCardPanel();
     }
 
     /* INDEXCARDS */
@@ -130,7 +128,7 @@ public class Controller {
             // Create Links
             final List<Link> linkObjects = new ArrayList<>();
             for (String link : links) {
-                String[] splittedLink = link.split(" => ");
+                String[] splittedLink = link.split(" => ", 2);
                 String term = splittedLink[0];
                 String indexcardName = splittedLink[1];
                 if (getIndexcardByName(indexcardName).isPresent()) {
@@ -141,11 +139,11 @@ public class Controller {
 
             indexcardLogic.createIndexcard(name, question, answer, keywordObjects, linkObjects);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format((language.getName("indexcardCreatedMessage")),name), language.getName("indexcardCreated"),
+                    String.format(language.getName("indexcardCreatedMessage"),name), language.getName("indexcardCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    language.getName("indexcardAlreadyExistError"), language.getName("nameAlreadyAssignedError"),
+                    String.format(language.getName("indexcardAlreadyExistError"), name), language.getName("nameAlreadyAssignedError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -199,7 +197,7 @@ public class Controller {
             // Create new added Links
             final List<Link> newLinks = new ArrayList<>();
             for (String link : links) {
-                String[] splittedLink = link.split(" => ");
+                String[] splittedLink = link.split(" => ", 2);
                 String term = splittedLink[0];
                 String indexcardName = splittedLink[1];
                 // Create new Link, if it not exists yet
@@ -217,7 +215,7 @@ public class Controller {
             // Update the Indexcard
             indexcardLogic.updateIndexcard(name, question, answer, keywordObjects, newLinks, id);
             JOptionPane.showMessageDialog(mainMenu,
-                    language.getName("indexcardCreatedMessage"), language.getName("indexcardCreated"),
+                    String.format(language.getName("indexcardEditedMessage"), name), language.getName("indexcardCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
 
             // Remove Keywords that are not used anymore
@@ -258,6 +256,7 @@ public class Controller {
         try {
             Indexcard indexcard = indexcardLogic.getIndexcardById(id);
             id = indexcard.getId();
+            String deletedName = indexcard.getName();
             List<Keyword> keywords = indexcard.getKeywords();
 
             // Remove Links to this Indexcard from Indexcards.
@@ -288,11 +287,11 @@ public class Controller {
             }
 
             JOptionPane.showMessageDialog(mainMenu,
-                    language.getName("indexcardDeletedMessage"), language.getName("indexcardDeleted"),
+                    String.format(language.getName("indexcardDeletedMessage"), deletedName), language.getName("indexcardDeleted"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    language.getName("indexcardDeltedError"), language.getName("indexcardDeletedError"),
+                    language.getName("indexcardDeletedError"), language.getName("indexcardDeletedError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -307,15 +306,6 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
-     *
-     * @return A list of all Indexcards.
-     */
-    public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
-        return indexcardLogic.getAllIndexcards(indexcardNames);
-    }
-
-    /**
      * Returns a list of the names of all Indexcards.
      *
      * @return A list of the names of all Indexcards.
@@ -325,12 +315,12 @@ public class Controller {
     }
 
     /**
-     * Returns a list of the names of the given Indexcards to the IndexcardLogic.
+     * Returns a list of the Names of the given Indexcards to the IndexcardLogic.
      *
      * @param indexcards The Indexcards, from them the names should be returned.
      * @return A list of the names of the given Indexcards.
      */
-    public List<String> getAllIndexcardNames(List<Indexcard> indexcards) {
+    public List<String> getNamesByIndexcards(List<Indexcard> indexcards) {
         return indexcards.stream().map(Indexcard::getName).toList();
     }
 
@@ -384,11 +374,11 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to create a new Indexcardbox to the IndexcardBoxLogic.
+     * Delegates the exercise to create a new IndexcardBox to the IndexcardBoxLogic.
      * Displays an error, if already an IndexcardBox with the same name exists.
      *
      * @param name The name of the IndexcardBox.
-     * @param categoryList The Categorys that should be added to this IndexcardBox.
+     * @param categoryList The Categories that should be added to this IndexcardBox.
      */
     public void createIndexcardBox(String name, List<Category> categoryList) {
         try {
@@ -415,7 +405,7 @@ public class Controller {
      * Delegates the exercise to update an existing IndexcardBox.
      *
      * @param indexcardBoxName The name of the IndexcardBox that should be updated.
-     * @param categoryList The new Categorys of the IndexcardBox.
+     * @param categoryList The new Categories of the IndexcardBox.
      */
     public void editIndexcardBox(String indexcardBoxName, List<Category> categoryList) {
         indexcardBoxLogic.updateIndexcardBox(indexcardBoxName, categoryList);
@@ -438,7 +428,7 @@ public class Controller {
         try {
             indexcardBoxLogic.deleteIndexcardBox(name);
             JOptionPane.showMessageDialog(mainMenu,
-                    language.getName("indexcardBoxDeletedMessage"),language.getName("indexcardBoxDeleted") ,
+                    String.format(language.getName("indexcardBoxDeletedMessage"), name),language.getName("indexcardBoxDeleted") ,
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
@@ -506,7 +496,7 @@ public class Controller {
         return getAllKeywords().stream().map(Keyword::getName).toList();
     }
 
-    /* CATEGORYS */
+    /* CATEGORIES */
 
     /**
      * Displays the Dialog to create a new Category.
@@ -584,9 +574,10 @@ public class Controller {
      */
     public void deleteCategory(Category category){
         try {
+            String deletedName = category.getCategoryName();
             categoryLogic.deleteCategory(category);
             JOptionPane.showMessageDialog(mainMenu,
-                    language.getName("categoryDeletedMessage"), language.getName("categoryDeleted"),
+                    String.format(language.getName("categoryDeletedMessage"), deletedName), language.getName("categoryDeleted"),
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
@@ -615,18 +606,18 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Category`s to the CategoryLogic.
+     * Delegates the exercise to find all Categories to the CategoryLogic.
      *
-     * @return A list of all Categorys.
+     * @return A list of all Categories.
      */
     public List<Category> getAllCategories() {
         return categoryLogic.getAllCategories();
     }
 
     /**
-     * Returns a list of the names of all Category`s.
+     * Returns a list of the names of all Categories.
      *
-     * @return A list of the names of all Category`s.
+     * @return A list of the names of all Categories.
      */
     public String [] getCategoryNames() {
         return getAllCategories().stream().map(Category::getCategoryName).toList().toArray(new String[0]);
@@ -635,8 +626,8 @@ public class Controller {
     /**
      * Returns a list of all CategoryNames from a CategoryList.
      *
-     * @param categoryList The Category`s from them the names get returned.
-     * @return A list of the Category-names from the list of Category`s.
+     * @param categoryList The Categories from them the names get returned.
+     * @return A list of the Category-names from the list of Categories.
      */
     public List<String> getCategoryNames(List<Category> categoryList) {
         return categoryList.stream().map(Category::getCategoryName).toList();
@@ -655,8 +646,8 @@ public class Controller {
     /**
      * Delegates the exercise to find all Categories from a CategoryNameList.
      *
-     * @param categoryNameList The names of the Category`s.
-     * @return A list of the Category`s with these names.
+     * @param categoryNameList The names of the Categories.
+     * @return A list of the Categories with these names.
      */
     public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
         return categoryLogic.getCategoriesByCategoryNameList(categoryNameList);
@@ -676,7 +667,7 @@ public class Controller {
      * Delegates the exercise to search for Category`s with text in the category repository.
      *
      * @param text The Text.
-     * @return A list of Category`s that contains the text.
+     * @return A list of Categories that contains the text.
      */
     public List<Category> searchCategory(String text) {
         return categoryLogic.searchCategory(text);
@@ -706,65 +697,5 @@ public class Controller {
      */
     public void updateLearnsystem(LeitnerLearnSystem learnsystem) {
         leitnerLearnSystemLogic.updateLearnsystem(learnsystem);
-    }
-
-    /* OTHER */
-
-    /**
-     * Sets the KeywordComboBox in the Main-Menu.
-     */
-    public void setKeywordComboBox(){
-        mainMenu.setKeywordComboBox();
-    }
-
-    /**
-     * Sets the CategoryComboBox in the Main-Menu.
-     */
-    public void setCategoryComboBox(){
-        mainMenu.setCategoryComboBox();
-    }
-
-    /**
-     * Display all Indexcards from the IndexCard repository into the IndexCardPanel.
-     */
-    public void setIndexCardPanel() {
-        List<Indexcard> indexcardList = getAllIndexcards();
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Indexcard card : indexcardList) {
-            listModel.addElement(card.getName());
-        }
-        JList<String> cardList = new JList<>(listModel);
-    }
-
-    /**
-     * Display all Indexcards from the IndexCard repository into the IndexCardPanel
-     * filtered with the specific Keyword.
-     *
-     * @param keyword The keyword.
-     */
-    public void filterIndexCardPanelByKeyword(String keyword) {
-        List<Indexcard> indexcards = indexcardLogic.getIndexcardsByKeyword(keyword);
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Indexcard indexcard : indexcards) {
-            listModel.addElement(indexcard.getName());
-        }
-        JList<String> cardList = new JList<>(listModel);
-    }
-
-    /**
-     * Display all Indexcards from the IndexCard repository into the IndexCardPanel
-     * filtered with the specific Category.
-     *
-     * @param name The name of the Category
-     */
-    public void filterIndexCardPanelByCategories(String name) {
-        if (getCategoryByName(name).isPresent()) {
-            List<Indexcard> indexcardList = getCategoryByName(name).get().getIndexcards();
-            DefaultListModel<String> listModel = new DefaultListModel<>();
-            for (Indexcard indexCard : indexcardList) {
-                listModel.addElement(indexCard.getName());
-            }
-            JList<String> cardList = new JList<>(listModel);
-        }
     }
 }

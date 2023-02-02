@@ -6,13 +6,9 @@ import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Glossar extends JDialog {
 
@@ -20,11 +16,11 @@ public class Glossar extends JDialog {
     private final Language language;
     private JPanel contentPane;
     private JScrollPane indexcardsPane;
-    private JComboBox keywordComboBox;
+    private JComboBox<String> keywordComboBox;
     private JLabel keywordLabel;
     private JLabel indexcardLabel;
     private JButton filterButton;
-    private JComboBox categoryComboBox;
+    private JComboBox<String> categoryComboBox;
     private JButton removeFilterButton;
     private JTable indexCardTable;
     private JRadioButton reverseSortRadioButton;
@@ -32,7 +28,7 @@ public class Glossar extends JDialog {
     private JButton searchButton;
     private JLabel searchLabel;
     private JLabel categoryLabel;
-    private String[] columnNames = new String[5];
+    private String[] columnNames;
     private String selectedCategory;
     private String selectedKeyword;
 
@@ -69,39 +65,18 @@ public class Glossar extends JDialog {
                 onCancel();
             }
         });
-        filterButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onFiltern();
-            }
-        });
+        filterButton.addActionListener(e -> onFiltern());
 
-        removeFilterButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onFilternEntfernen();
-            }
-        });
-        reverseSortRadioButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (reverseSortRadioButton.isSelected()){
-                    sort((DefaultTableModel) indexCardTable.getModel(),false);
-                } else {
-                    sort((DefaultTableModel) indexCardTable.getModel(),true);
-                }
-            }
-        });
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search(searchTextField.getText());
-            }
-        });
+        removeFilterButton.addActionListener(e -> onFilternEntfernen());
+        reverseSortRadioButton.addActionListener(e -> sort((DefaultTableModel) indexCardTable.getModel(), !reverseSortRadioButton.isSelected()));
+        searchButton.addActionListener(e -> search(searchTextField.getText()));
     }
 
     /**
-     * Sucht nach dem übergebenen Text in den Indexkarten und zeigt die Ergebnisse in der Tabelle an
-     * ist Case Insensitive
-     * @param text
+     * Searches in the Indexcards for a given text and displays the results in the table.
+     * Is case-insensitive.
+
+     * @param text The text.
      */
     private void search(String text) {
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
@@ -111,10 +86,10 @@ public class Glossar extends JDialog {
                         indexCard.getAnswer().toLowerCase().contains(text.toLowerCase()) ||
                         indexCard.getKeywordNames().toString().toLowerCase().contains(text.toLowerCase()) ||
                         controller.getCategoriesByIndexcard(indexCard).toString().toLowerCase().contains(text.toLowerCase()))
-                .collect(Collectors.toList());
+                .toList();
 
         for (Indexcard indexCard : filteredIndexCards) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList()});
         }
         indexCardTable.setModel(sort(glossarModel, true));
         // add data JTable
@@ -137,11 +112,11 @@ public class Glossar extends JDialog {
         dispose();
     }
     private void onFiltern(){
-        if(!keywordComboBox.getSelectedItem().equals(selectedKeyword) && !categoryComboBox.getSelectedItem().equals(selectedCategory)){
+        if(!Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && !Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)){
             onFilternCategoryAndKeyword();
-        } else if (!keywordComboBox.getSelectedItem().equals(selectedKeyword) && categoryComboBox.getSelectedItem().equals(selectedCategory)){
+        } else if (!Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)){
             onFilternKeyword();
-        } else if (keywordComboBox.getSelectedItem().equals(selectedKeyword) && !categoryComboBox.getSelectedItem().equals(selectedCategory)){
+        } else if (Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && !Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)){
             onFilternCategory();
         }
     }
@@ -164,14 +139,9 @@ public class Glossar extends JDialog {
     public DefaultTableModel sort(DefaultTableModel glossarModel, boolean order){
         List<Vector> data = new ArrayList<>();
         for (int i = 0; i < glossarModel.getRowCount(); i++) {
-            data.add((Vector) glossarModel.getDataVector().get(i));
+            data.add(glossarModel.getDataVector().get(i));
         }
-        Collections.sort(data, new Comparator<Vector>() {
-            @Override
-            public int compare(Vector o1, Vector o2) {
-                return o1.get(0).toString().compareTo(o2.get(0).toString());
-            }
-        });
+        data.sort(Comparator.comparing(o -> o.get(0).toString()));
         if (!order) {
             Collections.reverse(data);
         }
@@ -187,9 +157,9 @@ public class Glossar extends JDialog {
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
         List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
                 .filter(indexCard -> indexCard.getKeywordNames().contains(keywordToFilter))
-                .collect(Collectors.toList());
+                .toList();
         for (Indexcard indexCard : filteredIndexCards) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList()});
         }
         indexCardTable.setModel(sort(glossarModel, true));
         indexcardsPane.setViewportView(indexCardTable);
@@ -199,10 +169,10 @@ public class Glossar extends JDialog {
         String categoryToFilter = (String) categoryComboBox.getSelectedItem();
         DefaultTableModel glossarModel = new DefaultTableModel(columnNames, 0);
         List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
-                .filter(indexCard -> controller.getCategoriesByIndexcard(indexCard).contains(categoryToFilter))
-                .collect(Collectors.toList());
+                .filter(indexCard -> controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList().contains(categoryToFilter))
+                .toList();
         for (Indexcard indexCard : filteredIndexCards) {
-            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
+            glossarModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList()});
         }
         indexCardTable.setModel(sort(glossarModel, true));
         indexcardsPane.setViewportView(indexCardTable);
@@ -217,10 +187,10 @@ public class Glossar extends JDialog {
         DefaultTableModel glossaryModel = new DefaultTableModel(columnNames, 0);
 
         List<Indexcard> filteredIndexCards = controller.getAllIndexcards().stream()
-                .filter(indexCard -> controller.getCategoriesByIndexcard(indexCard).contains(categoryToFilter) && indexCard.getKeywordNames().contains(keywordToFilter))
-                .collect(Collectors.toList());
+                .filter(indexCard -> controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList().contains(categoryToFilter) && indexCard.getKeywordNames().contains(keywordToFilter))
+                .toList();
         for (Indexcard indexCard : filteredIndexCards) {
-            glossaryModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard)});
+            glossaryModel.addRow(new Object[]{indexCard.getName(), indexCard.getQuestion(), indexCard.getAnswer(), indexCard.getKeywordNames(), controller.getCategoriesByIndexcard(indexCard).stream().map(Category::getCategoryName).toList()});
         }
         indexCardTable.setModel(sort(glossaryModel, true));
         indexcardsPane.setViewportView(indexCardTable);
@@ -228,16 +198,16 @@ public class Glossar extends JDialog {
 
     /**
      * Set the CategoryComboBox with all Categories, which are in the Database.
-     * The first Item is "Wählen Sie eine Kategorie aus" which if selected is "null".
+     * The first Item is "Wählen Sie eine Kategorie aus" which is "null" if selected.
      */
     public void setCategoryComboBox(){
-        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getCategoryNames());
+        DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<>(controller.getCategoryNames());
         comboModel.setSelectedItem(selectedCategory);
         categoryComboBox.setModel(comboModel);
     }
 
     public void setKeywordComboBox(){
-        DefaultComboBoxModel comboModel = new DefaultComboBoxModel(controller.getAllKeywordNames().toArray(new String[0]));
+        DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<>(controller.getAllKeywordNames().toArray(new String[0]));
         comboModel.setSelectedItem(selectedKeyword);
         keywordComboBox.setModel(comboModel);
     }

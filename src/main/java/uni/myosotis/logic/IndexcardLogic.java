@@ -98,13 +98,11 @@ public class IndexcardLogic {
         if (indexcardRepository.getIndexcardById(id).isPresent()) {
             List<Category> categoryContains = categoryRepository.getAllCategories();
             for (Category categoryContain : categoryContains) {
-                List<String> temp = categoryContain.getIndexcards().stream().map(Indexcard::getName).toList();
+                List<String> temp = new ArrayList<>(categoryContain.getIndexcards().stream().map(Indexcard::getName).toList());
                 if (temp.contains(indexcard2delete.getName())) {
-                    for (int j = 0; j < temp.size(); j++) {
-                        temp.removeIf(s -> s.equals(indexcard2delete.getName()));
-                        categoryContain.setIndexcards(getIndexcardsByIndexcardNameList(temp));
-                        categoryRepository.updateCategory(categoryContain);
-                    }
+                    temp.removeIf(s -> s.equals(indexcard2delete.getName()));
+                    categoryContain.setIndexcards(getIndexcardsByIndexcardNameList(temp));
+                    categoryRepository.updateCategory(categoryContain);
                 }
             }
             if (indexcardRepository.deleteIndexcard(id) < 0) {

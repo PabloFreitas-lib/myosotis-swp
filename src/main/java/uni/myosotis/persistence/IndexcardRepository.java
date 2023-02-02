@@ -1,6 +1,5 @@
 package uni.myosotis.persistence;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
@@ -111,16 +110,11 @@ public class IndexcardRepository {
      * @return List of all objects of type "Indexcard", could be empty.
      */
     public List<Indexcard> getAllIndexcards(List<String> names){
-        final EntityManager em = pm.getEntityManager();
-        try {
+        try (EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT i FROM Indexcard i WHERE i.name IN :names").setParameter("names", names).getResultList();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.log(Level.SEVERE, "Error occurred while fetching all index cards");
             throw e;
-        }
-        finally {
-            em.close();
         }
     }
 
@@ -197,8 +191,9 @@ public class IndexcardRepository {
 
     /**
      * This method is used to search the index card by name.
-     * @param text
-     * @return
+     *
+     * @param text The text.
+     * @return A list of the Indexcards that contains the text in their name.
      */
     public List<Indexcard> searchIndexcard(String text) {
         try (final EntityManager em = pm.getEntityManager()) {
@@ -209,7 +204,10 @@ public class IndexcardRepository {
     }
 
     /**
-     * Get all indexcards from a indexcard name list
+     * Get all indexcards from an indexcard name list.
+     *
+     * @param indexcardNameList The names of the Indexcards.
+     * @return A list the Indexcards with these names.
      */
     public List<Indexcard> getIndexcardsFromNameList(List<String> indexcardNameList) {
         try (final EntityManager em = pm.getEntityManager()) {

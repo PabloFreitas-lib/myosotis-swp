@@ -13,7 +13,7 @@ public class DeleteIndexcard extends JDialog {
     private final Controller controller;
     private final Language language;
     private JPanel contentPane;
-    private JComboBox comboBoxName;
+    private JComboBox<String> comboBoxName;
     private JButton deleteButton;
     private JLabel whichIndexcardLabel;
 
@@ -32,17 +32,13 @@ public class DeleteIndexcard extends JDialog {
         // Set the language
         whichIndexcardLabel.setText(language.getName("whichIndexcard"));
 
-        // Array of all Indexcardnames
+        // Array of all Indexcard-names
         String[] indexcardsNames = controller.getAllIndexcards().stream().
                 map(Indexcard::getName).toList().toArray(new String[0]);
 
         comboBoxName.setModel(new DefaultComboBoxModel<>(indexcardsNames));
 
-        deleteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onDelete();
-            }
-        });
+        deleteButton.addActionListener(e -> onDelete());
 
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -53,11 +49,7 @@ public class DeleteIndexcard extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
     /**
@@ -66,9 +58,9 @@ public class DeleteIndexcard extends JDialog {
     private void onDelete() {
         String indexCardToDelete = (String) comboBoxName.getSelectedItem();
         if (indexCardToDelete != null) {
-            controller.deleteIndexcard(controller.getIndexcardByName(indexCardToDelete).get().getId());
-            controller.setIndexCardPanel();
-            controller.setKeywordComboBox();
+            if (controller.getIndexcardByName(indexCardToDelete).isPresent()) {
+                controller.deleteIndexcard(controller.getIndexcardByName(indexCardToDelete).get().getId());
+            }
             dispose();
         } else {
             JOptionPane.showMessageDialog(this,language.getName("noIndexcardSelectedError") ,language.getName("deletionNotPossibleError") , JOptionPane.ERROR_MESSAGE);

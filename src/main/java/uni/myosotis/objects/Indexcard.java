@@ -105,9 +105,9 @@ public class Indexcard implements Serializable {
     }
 
     /**
-     * Returns the keywords names of the Indexcard.
+     * Returns the names of the keywords of the Indexcard.
      *
-     * @return The keywords names of the Indexcard.
+     * @return The names of the keywords of the Indexcard.
      */
     public List<String> getKeywordNames() {
         return keywords.stream().
@@ -162,12 +162,17 @@ public class Indexcard implements Serializable {
     /**
      * Returns the links of the Indexcard.
      *
-     * @retunr A list of all Links of the Indexcard.
+     * @return A list of all Links of the Indexcard.
      */
     public List<Link> getLinks() {
         return links;
     }
 
+    /**
+     * Sets the links of the Indexcard.
+     *
+     * @param links The Links.
+     */
     public void setLinks(List<Link> links) {
         this.links = links;
     }

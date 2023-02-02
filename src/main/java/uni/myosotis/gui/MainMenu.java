@@ -4,24 +4,21 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.*;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainMenu extends JFrame {
     private JTabbedPane tabbedPane;
     private Language language;
-    private JPanel categoriePane;
+    private JPanel categoryPane;
     private JPanel indexcardPane;
     private JPanel glossarPane;
 
     //private JPanel filterPane;
 
     private JPanel settingsPanel;
-    private JComboBox KeywordComboBox;
-    private JComboBox categoryComboBox;
     private JPanel indexCardBoxPane;
 
     private final transient Controller controller;
@@ -62,52 +59,29 @@ public class MainMenu extends JFrame {
         indexCardBoxPane = indexcardBoxTab.getIndexcardPane();
 
         CategoryTab categoryTab = new CategoryTab(controller, language);
-        categoriePane = categoryTab.getCategoryPane();
+        categoryPane = categoryTab.getCategoryPane();
 
         SettingsTab settingsTab = new SettingsTab(controller, language);
         settingsPanel = settingsTab.getSettingsPane();
 
         tabbedPane.addTab(language.getName("glossarTitle"), glossarPane);
-        tabbedPane.addTab(language.getName("categoryTitle"), categoriePane);
+        tabbedPane.addTab(language.getName("categoryTitle"), categoryPane);
         tabbedPane.addTab(language.getName("indexcardTitle"), indexcardPane);
         tabbedPane.addTab(language.getName("indexcardBoxTitle"),indexCardBoxPane);
         tabbedPane.addTab(language.getName("settingsTitle"), settingsPanel);
 
-        tabbedPane.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                // Get the index of the selected tab
-                int selectedTab = tabbedPane.getSelectedIndex();
+        tabbedPane.addChangeListener(e -> {
+            // Get the index of the selected tab
+            int selectedTab = tabbedPane.getSelectedIndex();
 
-                // Call your function here, passing in the selected tab index as a parameter
-                if (selectedTab == 0) {
-                    glossar.setCategoryComboBox();
-                    glossar.setKeywordComboBox();
-                    glossar.setGlossar();
-                }
-
+            // Call your function here, passing in the selected tab index as a parameter
+            if (selectedTab == 0) {
+                glossar.setCategoryComboBox();
+                glossar.setKeywordComboBox();
+                glossar.setGlossar();
             }
+
         });
-    }
-
-    /**
-     * Display all Keywords in the ComboBox.
-     */
-    public void setKeywordComboBox(){
-        //list of all indexcards
-        List<Keyword> keywordList = controller.getAllKeywords();
-        // Array of all Keywords
-        String[] keywordNames = controller.getAllKeywords().stream()
-                        .map(Keyword::getName).toList().toArray(new String[0]);
-        KeywordComboBox.setModel(new DefaultComboBoxModel<>(keywordNames));
-    }
-
-    /**
-     * Display all Category's in the ComboBox.
-     */
-    public void setCategoryComboBox(){
-        //list of all indexcards
-        categoryComboBox.setModel(new DefaultComboBoxModel<>(controller.getCategoryNames()));
-
     }
 
     /**
@@ -281,14 +255,6 @@ public class MainMenu extends JFrame {
         displayLeitnerIndexcardToLearn.setVisible(true);
     }
 
-    public JComboBox getKeywordComboBox(){
-        return this.KeywordComboBox;
-    }
-
-    public void setKeywordComboBox(JComboBox keywordComboBox) {
-        this.KeywordComboBox = keywordComboBox;
-    }
-
     /**
      * Create basic tests for Indexcards, Categories, Keywords and IndexcardBoxes.
      */
@@ -335,7 +301,8 @@ public class MainMenu extends JFrame {
 
     /**
      * Sets the language of the application.
-     * @param language
+     *
+     * @param language The language.
      */
     public void setLanguage(Language language) {
         this.language = language;

@@ -5,8 +5,6 @@ import uni.myosotis.objects.Category;
 import uni.myosotis.objects.IndexcardBox;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +18,7 @@ public class EditIndexcardBox extends JDialog {
     private JButton confirmButton;
     private JButton cancelButton;
     private JPanel contentPane;
-    private JComboBox indexcardboxNameComboBox;
+    private JComboBox<String> indexcardboxNameComboBox;
     private JLabel categoryLabel;
 
     private JList<String> categoriesNamesList;
@@ -41,17 +39,9 @@ public class EditIndexcardBox extends JDialog {
         confirmButton.setText(language.getName("confirm"));
         cancelButton.setText(language.getName("cancel"));
 
-        confirmButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        confirmButton.addActionListener(e -> onOK());
 
-        cancelButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onCancel();
-            }
-        });
+        cancelButton.addActionListener(e -> onCancel());
 
         //ActionListener for the ComboBox
         indexcardboxNameComboBox.addActionListener(e -> {
@@ -61,8 +51,8 @@ public class EditIndexcardBox extends JDialog {
                 categoriesNamesList = new JList<>(controller.getCategoryNames());
                 ArrayList<Integer> indices = new ArrayList<>();
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-                for(int i = 0; i < selectedIndexcardBoxCategory.size(); i++) {
-                    indices.add(List.of(controller.getCategoryNames()).indexOf(selectedIndexcardBoxCategory.get(i)));
+                for (String s : selectedIndexcardBoxCategory) {
+                    indices.add(List.of(controller.getCategoryNames()).indexOf(s));
                 }
                 int[] indicesArray = indices.stream().mapToInt(i->i).toArray();
                 categoriesNamesList.setSelectedIndices(indicesArray);
@@ -75,7 +65,9 @@ public class EditIndexcardBox extends JDialog {
         if(selectedIndexcardBox.isPresent()) {
                 List<Category> selectedCategoryList = new ArrayList<>();
                 for (int i = 0; i < categoriesNamesList.getSelectedValuesList().size(); i++){
-                    selectedCategoryList.add(controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(i)).get());
+                    if (controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(i)).isPresent()) {
+                        selectedCategoryList.add(controller.getCategoryByName(categoriesNamesList.getSelectedValuesList().get(i)).get());
+                    }
                 }
                 controller.editIndexcardBox(selectedIndexcardBox.get().getName(), selectedCategoryList);
             dispose();

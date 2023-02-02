@@ -49,12 +49,15 @@ public class EditCategory extends JDialog {
         for (int i = 0; i < categories.size(); i++) {
             categoryNames[i] = categories.get(i).getCategoryName();
         }
+
         //ComboBox with all Category-names
         comboBoxName.setModel(new DefaultComboBoxModel<>(categoryNames));
+        comboBoxName.setSelectedItem(null);
 
         updateCategoryTree();
         updateParentList();
         updateIndexcardList();
+
         // Set language
         categoryLabel.setText(language.getName("category"));
         nameLabel.setText(language.getName("name"));

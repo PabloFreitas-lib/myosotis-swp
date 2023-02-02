@@ -1,7 +1,6 @@
 package uni.myosotis.objects;
 
 import jakarta.persistence.*;
-import uni.myosotis.persistence.IndexcardBoxRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,8 @@ public class LeitnerLearnSystem {
     /**
      * This method is called when the user answers a question correctly.
      * The indexcard is moved to the next box.
-     * @param indexcard
+     *
+     * @param indexcard The Indexcard that should be moved.
      */
     public void correctAnswer(Indexcard indexcard) {
         logger.log(Level.INFO, "correctAnswer for indexcard: " + indexcard.getName());
@@ -64,7 +64,8 @@ public class LeitnerLearnSystem {
     /**
      * This method is called when the user answers a question incorrectly.
      * The indexcard is moved to the first box.
-     * @param indexcard
+     *
+     * @param indexcard The Indexcard that should be moved.
      */
     public void wrongAnswer(Indexcard indexcard) {
         logger.log(Level.INFO, "wrongAnswer for indexcard: " + indexcard.getName());
