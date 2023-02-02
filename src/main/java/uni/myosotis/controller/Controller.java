@@ -689,9 +689,9 @@ public class Controller {
      *
      * @param indexcardBox The IndexcardBox that should be learned.
      */
-    public void learnLeitnerSystem(IndexcardBox indexcardBox) {
+    public void learnLeitnerSystem(String name, IndexcardBox indexcardBox, int numberOfBoxes) {
         if (!indexcardBox.getCategoryList().isEmpty()) {
-            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getName(), indexcardBox.getIndexcardList()), indexcardBox);
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getName() + name, indexcardBox.getIndexcardList(), numberOfBoxes), indexcardBox);
         }
         else {
             JOptionPane.showMessageDialog(mainMenu,

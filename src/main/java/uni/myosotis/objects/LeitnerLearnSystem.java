@@ -14,14 +14,14 @@ public class LeitnerLearnSystem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name = "LeitnerLearnSystem";
+    private String name;
     @OneToMany
     private List<Box> boxes;
 
     private List<String> indexcardList;
     private int progress;
 
-    private final int numberOfBoxes = 5;
+    private int numberOfBoxes;
 
     public LeitnerLearnSystem() {
     }
@@ -31,17 +31,18 @@ public class LeitnerLearnSystem {
      * All indexcards are places in the first box.
      * @param indexcardList The list of indexcards that should be learned.
      */
-    public LeitnerLearnSystem(String name, List<String> indexcardList) {
-        this.name = this.name + name;
+    public LeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
+        this.name = name;
         this.indexcardList = indexcardList;
         this.progress = 0;
+        this.numberOfBoxes = numberOfBoxes;
         this.boxes = new ArrayList<>();
         for (int i = 0; i < numberOfBoxes; i++) {
             this.boxes.add(new Box());
         }
         // add all indexcards to the first box
         this.boxes.get(0).setIndexcardNames(indexcardList);
-        logger.log(Level.INFO, "LeitnerLearnSystem created: ", getName());
+        logger.log(Level.INFO, name + "created");
     }
 
 

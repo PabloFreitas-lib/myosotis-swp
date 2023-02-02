@@ -23,8 +23,8 @@ public class LeitnerLearnSystemRepository {
      * @param name        The name of the leitnerLearnSystem.
      * @param indexcardList The list of indexcards that should be learned.
      */
-    public void saveLeitnerLearnSystem(String name, List<String> indexcardList) {
-        LeitnerLearnSystem leitnerLearnSystem = new LeitnerLearnSystem(name, indexcardList);
+    public void saveLeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
+        LeitnerLearnSystem leitnerLearnSystem = new LeitnerLearnSystem(name, indexcardList, numberOfBoxes);
         final EntityManager em = pm.getEntityManager();
         try {
             em.getTransaction().begin();
