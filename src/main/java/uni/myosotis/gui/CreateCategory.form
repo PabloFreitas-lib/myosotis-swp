@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="caeb4" class="javax.swing.JLabel">
+          <component id="caeb4" class="javax.swing.JLabel" binding="nameLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -42,7 +42,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="d8f07" class="javax.swing.JLabel">
+          <component id="d8f07" class="javax.swing.JLabel" binding="hierarchyLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -76,7 +76,7 @@
               </component>
             </children>
           </scrollpane>
-          <component id="c8884" class="javax.swing.JLabel">
+          <component id="c8884" class="javax.swing.JLabel" binding="parentLabel">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -97,7 +97,7 @@
               </component>
             </children>
           </scrollpane>
-          <component id="d04d5" class="javax.swing.JLabel">
+          <component id="d04d5" class="javax.swing.JLabel" binding="indexcardLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

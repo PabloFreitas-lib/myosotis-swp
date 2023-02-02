@@ -17,6 +17,7 @@ public class CreateCategory extends JDialog {
      * The controller.
      */
     private final Controller controller;
+    private final Language language;
     private JPanel contentPane;
     private JTextField nameTextField;
     private JButton createButton;
@@ -24,15 +25,20 @@ public class CreateCategory extends JDialog {
     private JTree categoryTree;
     private JList<String> parentList;
     private JList<String> indexcardList;
+    private JLabel nameLabel;
+    private JLabel hierarchyLabel;
+    private JLabel parentLabel;
+    private JLabel indexcardLabel;
 
     /**
      * Creates the Dialog to create a new Category.
      *
      * @param controller The controller.
      */
-    public CreateCategory(Controller controller) {
+    public CreateCategory(Controller controller, Language language) {
         this.controller = controller;
-        setTitle("Kategorie erstellen");
+        this.language = language;
+        setTitle(language.getName("createCategoryTitle"));
         setModal(true);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(createButton);
@@ -40,6 +46,13 @@ public class CreateCategory extends JDialog {
         updateCategoryTree();
         updateParentList();
         updateIndexcardList();
+        // Set the language
+        nameLabel.setText(language.getName("name"));
+        hierarchyLabel.setText(language.getName("hierarchy"));
+        parentLabel.setText(language.getName("parent"));
+        indexcardLabel.setText(language.getName("indexcard"));
+        createButton.setText(language.getName("create"));
+        cancelButton.setText(language.getName("cancel"));
 
         // call onCreate() when the createButton is clicked.
         createButton.addActionListener(e -> onCreate());
@@ -63,7 +76,7 @@ public class CreateCategory extends JDialog {
      * Updates the tree of the current poly-hierarchy of the Category`s.
      */
     private void updateCategoryTree() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Kategorien");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(language.getName("categoryTitle"));
         for (Category category : controller.getAllCategories()) {
             if (controller.getParentCategories(category).isEmpty()) {
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(category.getCategoryName());
@@ -114,9 +127,9 @@ public class CreateCategory extends JDialog {
     private void onCreate() {
         String name = nameTextField.getText();
         if (name.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Die Kategorie muss einen Namen haben.", "Name fehlt", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("categoryWithNoNameError"), language.getName("categoryWithNoName"), JOptionPane.INFORMATION_MESSAGE);
         } else if (controller.getAllCategories().stream().map(Category::getCategoryName).toList().contains(name)) {
-            JOptionPane.showMessageDialog(this, "Eine andere Kategorie hat bereits diesen Namen.", "Name bereits vergeben", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("categoryAlreadyExistError"), language.getName("categoryAlreadyExist"), JOptionPane.INFORMATION_MESSAGE);
         } else {
             List<Category> selectedParents = new ArrayList<>();
             for (String s : parentList.getSelectedValuesList()) {

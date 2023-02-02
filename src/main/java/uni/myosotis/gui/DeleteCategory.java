@@ -12,30 +12,35 @@ public class DeleteCategory extends JDialog{
      */
 
     private final Controller controller;
+    private final Language language;
 
     private JPanel contentPane;
     private JComboBox<String> categoryNamesComboBox;
-    private JButton buttonDelete;
+    private JButton deleteButton;
+    private JLabel whichCategoryLabel;
 
     /**
      * Constructor.
      * @param controller Controller.
      */
 
-    public DeleteCategory(Controller controller) {
+    public DeleteCategory(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
         setModal(true);
         setTitle("Kategorie löschen");
-        getRootPane().setDefaultButton(buttonDelete);
-
-        // Array of all Kategorie
+        getRootPane().setDefaultButton(deleteButton);
+        // Set the language
+        whichCategoryLabel.setText(language.getName("whichCategory"));
+        deleteButton.setText(language.getName("delete"));
+       // Array of all Kategorie
         String[] categoriesNames = controller.getAllCategories().stream().
                 map(Category::getCategoryName).toList().toArray(new String[0]);
 
         categoryNamesComboBox.setModel(new DefaultComboBoxModel<>(categoriesNames));
 
-        buttonDelete.addActionListener(new ActionListener() {
+        deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onDelete();
             }

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class IndexcardTab extends JDialog{
     private final Controller controller;
+    private final Language language;
     private JPanel contentPane;
     private JButton searchButton;
     private JList indexcardList;
@@ -15,15 +16,22 @@ public class IndexcardTab extends JDialog{
     private JButton deleteButton;
     private JButton editButton;
     private JButton createButton;
+    private JLabel indexcardLabel;
 
-    public IndexcardTab(Controller controller) {
+    public IndexcardTab(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
-        setTitle("Karteikarten");
         pack();
         setMinimumSize(getSize());
-        setSize(800, 600);
         updateList(controller.getAllIndexcards());
+        // Set the language
+        indexcardLabel.setText(language.getName("indexcard"));
+        searchButton.setText(language.getName("search"));
+        deleteButton.setText(language.getName("delete"));
+        editButton.setText(language.getName("edit"));
+        createButton.setText(language.getName("create"));
+        // Add listeners
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();

@@ -80,6 +80,12 @@ public class Controller {
         mainMenu.setVisible(true);
     }
 
+    public void setLanguage(String lang) {
+        this.language = new Language(lang);
+        mainMenu.setLanguage(language);
+        setIndexCardPanel();
+    }
+
     /* INDEXCARDS */
 
     /**
@@ -135,7 +141,7 @@ public class Controller {
 
             indexcardLogic.createIndexcard(name, question, answer, keywordObjects, linkObjects);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format(language.getName("indexcardCreatedMessage"),name), language.getName("indexcardCreated"),
+                    String.format((language.getName("indexcardCreatedMessage")),name), language.getName("indexcardCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
@@ -389,11 +395,11 @@ public class Controller {
             //logic
             indexcardBoxLogic.createIndexcardBox(name,categoryList);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format("Die Karteikästen (%s) wurde erfolgreich erstellt.",name), "Karteikästen erstellt",
+                    String.format((language.getName("indexcardBoxCreatedMessage")),name), language.getName("indexcardBoxCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert bereits eine Karteikaste mit diesem Namen.", "Name bereits vergeben",
+                    language.getName("indexcardAlreadyExistError"), language.getName("nameAlreadyAssignedError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -432,12 +438,12 @@ public class Controller {
         try {
             indexcardBoxLogic.deleteIndexcardBox(name);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Karteikasten wurde erfolgreich gelöscht.", "Karteikasten gelöscht",
+                    language.getName("indexcardBoxDeletedMessage"),language.getName("indexcardBoxDeleted") ,
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu,
-                    "Es existiert keine Karteikasten mit diesem Namen!.", "Name bereits vergeben",
+                    language.getName("noIndexcardBoxWithNameError"), language.getName("noIndexcardBoxError"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -520,7 +526,7 @@ public class Controller {
         try {
             categoryLogic.createCategory(name, indexcards, parents);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format("Die Kategorie (%s) wurde erfolgreich erstellt.", name), "Kategorie erstellt",
+                    String.format((language.getName("categoryCreatedMessage")), name), language.getName("categoryCreated"),
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (final IllegalStateException e) {
             JOptionPane.showMessageDialog(mainMenu, e.getMessage());
@@ -556,7 +562,7 @@ public class Controller {
         try {
             categoryLogic.updateCategory(newName, newParents, newIndexcards, id);
             JOptionPane.showMessageDialog(mainMenu,
-                    String.format("Die Kategorie (%s) wurde erfolgreich bearbeitet.", newName), "Kategorie bearbeitet",
+                    String.format((language.getName("categoryEditedMessage")), newName), language.getName("categoryEdited"),
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
@@ -580,7 +586,7 @@ public class Controller {
         try {
             categoryLogic.deleteCategory(category);
             JOptionPane.showMessageDialog(mainMenu,
-                    "Die Kategorie wurde erfolgreich gelöscht.", "Kategorie gelöscht",
+                    language.getName("categoryDeletedMessage"), language.getName("categoryDeleted"),
                     JOptionPane.INFORMATION_MESSAGE);
         }
         catch (final IllegalStateException e) {
@@ -689,7 +695,7 @@ public class Controller {
         }
         else {
             JOptionPane.showMessageDialog(mainMenu,
-                    "The indexcard box does not contain any categories.", "Error",
+                    language.getName("noCategoryInIndexcardboxError"), language.getName("noCategoryInIndexcardbox"),
                     JOptionPane.ERROR_MESSAGE);
         }
     }
@@ -728,7 +734,6 @@ public class Controller {
             listModel.addElement(card.getName());
         }
         JList<String> cardList = new JList<>(listModel);
-        mainMenu.getIndexcardsPane().setViewportView(cardList);
     }
 
     /**
@@ -744,7 +749,6 @@ public class Controller {
             listModel.addElement(indexcard.getName());
         }
         JList<String> cardList = new JList<>(listModel);
-        mainMenu.getIndexcardsPane().setViewportView(cardList);
     }
 
     /**
@@ -761,7 +765,6 @@ public class Controller {
                 listModel.addElement(indexCard.getName());
             }
             JList<String> cardList = new JList<>(listModel);
-            mainMenu.getIndexcardsPane().setViewportView(cardList);
         }
     }
 }
