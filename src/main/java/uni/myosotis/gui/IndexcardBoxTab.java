@@ -40,7 +40,6 @@ public class IndexcardBoxTab extends JDialog {
         // Set the language
         indexcardBoxLabel.setText(language.getName("indexcardBoxTitle"));
         searchForNameLabel.setText(language.getName("searchForName"));
-        indexcardBoxLabel.setText(language.getName("indexcardBox"));
         learnSystemLabel.setText(language.getName("learnSystem"));
         searchButton.setText(language.getName("search"));
         deleteButton.setText(language.getName("delete"));
