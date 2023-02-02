@@ -130,9 +130,13 @@ public class IndexcardLogic {
      * @return          A list of all indexcards.
      */
     public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
-        return indexcardRepository.getAllIndexcards(indexcardNames);
+        List<Indexcard> indexcards = new ArrayList<>();
+        for (String indexcardName : indexcardNames) {
+            indexcards.add(getIndexcardByName(indexcardName).get());
+        }
+        return indexcards;
     }
-    
+
     /**
      * Returns the Indexcard with the given id.
      *

@@ -103,7 +103,6 @@ public class DisplayIndexcardToLearn extends JDialog{
     private void setLabels() {
         this.nameLabel.setText(String.format("Name: %s Box: %d",indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
         this.questionLabel.setText(indexcard.getQuestion());
-        this.answerLabel.setText("");
     }
 
     /**
@@ -138,6 +137,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         }
         controller.updateLearnsystem(learnSystem);
         setLabels();
+        this.answerLabel.setText("");
     }
 
     private void onBack() {
@@ -152,6 +152,7 @@ public class DisplayIndexcardToLearn extends JDialog{
 
         controller.updateLearnsystem(learnSystem);
         setLabels();
+        this.answerLabel.setText("");
     }
 
     private void onCancel() {

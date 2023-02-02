@@ -84,14 +84,15 @@ public class LeitnerLearnSystem {
 
     /**
      * this method return the indexcard that should be learned next.
+     * The order inside the indexcard list is the same as the order in the boxes.
      * @return The indexcards that should be learned next.
      */
     public List<String> getNextIndexcardNames() {
-        List<String> indexcards = new ArrayList<>();
+        List<String> nextIndexcardNames = new ArrayList<>();
         for (int i = 0; i < this.numberOfBoxes; i++) {
-            indexcards.addAll(this.boxes.get(i).getIndexcardNames());
+            nextIndexcardNames.addAll(this.boxes.get(i).getIndexcardNames());
         }
-        return indexcards;
+        return nextIndexcardNames;
     }
 
     public void increaseProgress() {
