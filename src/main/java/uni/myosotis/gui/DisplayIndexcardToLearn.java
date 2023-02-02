@@ -58,6 +58,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         // Set Language
         backButton.setText(language.getName("back"));
         nextButton.setText(language.getName("next"));
+        correctButton.setText(language.getName("correct"));
+        wrongButton.setText(language.getName("wrong"));
         answeredButton.setText(language.getName("answered"));
         controller.updateLearnsystem(learnSystem);
         addWindowListener(new WindowAdapter() {
