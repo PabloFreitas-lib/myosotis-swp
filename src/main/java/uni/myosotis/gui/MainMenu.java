@@ -13,28 +13,15 @@ import java.util.List;
 public class MainMenu extends JFrame {
     private JTabbedPane tabbedPane;
     private Language language;
-
-    private JPanel statistikPane;
     private JPanel categoriePane;
-
-    private JPanel keywordPane;
-
     private JPanel indexcardPane;
     private JPanel glossarPane;
 
     //private JPanel filterPane;
 
     private JPanel settingsPanel;
-
-    private JScrollPane IndexcardsPane;
-    //private DefaultComboBoxModel<String> keywordModel = new DefaultComboBoxModel<>();
     private JComboBox KeywordComboBox;
-    private JLabel SchlagwortLabel;
-    private JLabel KarteikartenLabel;
-    private JButton filternKeyword;
     private JComboBox categoryComboBox;
-    private JButton filternCategory;
-    private JButton filternEntfernenButton;
     private JPanel indexCardBoxPane;
 
     private final transient Controller controller;
@@ -47,9 +34,6 @@ public class MainMenu extends JFrame {
     public MainMenu(final Controller controller, Language language) {
         this.controller = controller;
         this.language = language;
-        //Tabs
-        tabbedPane = new JTabbedPane();
-        setContentPane(tabbedPane);
         setTitle("Myosotis");
         createExampleIndexcards(); //TODO: Remove this line FIXME
         pack();
@@ -62,37 +46,26 @@ public class MainMenu extends JFrame {
                 onCancel();
             }
         });
-        filternKeyword.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onFiltern();
-            }
-        });
-        filternCategory.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onFilternCategory();
-            }
-        });
-
-        filternEntfernenButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onRemoveFiltern();
-            }
-        });
-
+        addAllTabs();
+    }
+    public void addAllTabs(){
+        tabbedPane = new JTabbedPane();
+        setContentPane(tabbedPane);
         //Add all the Tabs
-        Glossar glossar = new Glossar(controller);
+        Glossar glossar = new Glossar(controller, language);
         glossarPane = glossar.getGlossarPane();
 
-        IndexcardTab indexcardTab = new IndexcardTab(controller);
+        IndexcardTab indexcardTab = new IndexcardTab(controller, language);
         indexcardPane = indexcardTab.getIndexcardPane();
 
-        IndexcardBoxTab indexcardBoxTab = new IndexcardBoxTab(controller);
+        IndexcardBoxTab indexcardBoxTab = new IndexcardBoxTab(controller,language);
         indexCardBoxPane = indexcardBoxTab.getIndexcardPane();
 
-        CategoryTab categoryTab = new CategoryTab(controller);
+        CategoryTab categoryTab = new CategoryTab(controller, language);
         categoriePane = categoryTab.getCategoryPane();
 
-        settingsPanel = new JPanel();
+        SettingsTab settingsTab = new SettingsTab(controller, language);
+        settingsPanel = settingsTab.getSettingsPane();
 
         tabbedPane.addTab(language.getName("glossarTitle"), glossarPane);
         tabbedPane.addTab(language.getName("categoryTitle"), categoriePane);
@@ -114,44 +87,6 @@ public class MainMenu extends JFrame {
 
             }
         });
-
-    }
-
-    /**
-     * Filters on a Keyword. If no keyword is select, an error will be displayed.
-     */
-    private void onFiltern() {
-        String keyword2Filtern = (String) KeywordComboBox.getSelectedItem();
-        if (keyword2Filtern != null) {
-            controller.filterIndexCardPanelByKeyword(keyword2Filtern);
-        } else {
-            JOptionPane.showMessageDialog(this, "Kein Keyword ausgewählt.", "Filtern nicht möglich", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Filters on a Category. If no Category is select, an error will be displayed.
-     */
-    private void onFilternCategory() {
-        String category2Filtern = (String) categoryComboBox.getSelectedItem();
-        if (category2Filtern != null) {
-            controller.filterIndexCardPanelByCategories(category2Filtern);
-        } else {
-            JOptionPane.showMessageDialog(this, "Keine Kategorie ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    /**
-     * Removes the used filters.
-     */
-    private void onRemoveFiltern() {
-        List<Indexcard> indexcardList = controller.getAllIndexcards();
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-        for (Indexcard card : indexcardList) {
-            listModel.addElement(card.getName());
-        }
-        JList<String> cardList = new JList<>(listModel);
-        getIndexcardsPane().setViewportView(cardList);
     }
 
     /**
@@ -284,7 +219,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to create a new Indexcard.
      */
     public void displayCreateCategory() {
-        final CreateCategory createCategory = new CreateCategory(controller);
+        final CreateCategory createCategory = new CreateCategory(controller, language);
         createCategory.setSize(400, 600);
         createCategory.setMinimumSize(createCategory.getSize());
         createCategory.setLocationRelativeTo(this);
@@ -295,7 +230,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to edit an existing Indexcard.
      */
     public void displayEditCategory() {
-        final EditCategory editCategory = new EditCategory(controller);
+        final EditCategory editCategory = new EditCategory(controller, language);
         editCategory.setSize(400, 600);
         editCategory.setMinimumSize(editCategory.getSize());
         editCategory.setLocationRelativeTo(this);
@@ -308,7 +243,7 @@ public class MainMenu extends JFrame {
      * @param category The Category which is preset to be edited
      */
     public void displayEditCategory(Category category) {
-        final EditCategory editCategory = new EditCategory(controller);
+        final EditCategory editCategory = new EditCategory(controller, language);
         editCategory.setSize(400, 600);
         editCategory.setMinimumSize(editCategory.getSize());
         editCategory.setLocationRelativeTo(this);
@@ -320,7 +255,7 @@ public class MainMenu extends JFrame {
      * Displays the Dialog to delete an Indexcard.
      */
     public void displayDeleteCategory() {
-        final DeleteCategory deleteCategory = new DeleteCategory(controller);
+        final DeleteCategory deleteCategory = new DeleteCategory(controller, language);
         deleteCategory.pack();
         deleteCategory.setMinimumSize(deleteCategory.getSize());
         deleteCategory.setLocationRelativeTo(this);
@@ -344,10 +279,6 @@ public class MainMenu extends JFrame {
         displayLeitnerIndexcardToLearn.setMinimumSize(displayLeitnerIndexcardToLearn.getSize());
         displayLeitnerIndexcardToLearn.setLocationRelativeTo(this);
         displayLeitnerIndexcardToLearn.setVisible(true);
-    }
-
-    public JScrollPane getIndexcardsPane(){
-        return this.IndexcardsPane;
     }
 
     public JComboBox getKeywordComboBox(){
@@ -400,5 +331,16 @@ public class MainMenu extends JFrame {
         // Parent Category test
         controller.createCategory("Botanic", List.of(controller.getCategoryByName("Biologie").get()), new ArrayList<>());
 
+    }
+
+    /**
+     * Sets the language of the application.
+     * @param language
+     */
+    public void setLanguage(Language language) {
+        this.language = language;
+        this.setTitle(language.getName("title"));
+        addAllTabs();
+        this.pack();
     }
 }

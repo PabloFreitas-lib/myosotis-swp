@@ -12,8 +12,8 @@ import java.util.List;
 
 public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
+    private final Language language;
     private JPanel contentPane;
-    private JLabel KarteikastenLabel;
     private JButton searchButton;
     private JList indexcardBoxList;
     private JTextField textField1;
@@ -23,17 +23,32 @@ public class IndexcardBoxTab extends JDialog {
     private JPanel middlePanel;
     private JButton learnButton;
     private JComboBox comboBoxName;
+    private JLabel searchForNameLabel;
+    private JLabel indexcardBoxLabel;
+    private JLabel learnSystemLabel;
     private JButton removeFilterButton;
 
-    public IndexcardBoxTab(Controller controller) {
+    public IndexcardBoxTab(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
-        setTitle("Karteikästen");
+        setTitle(language.getName("indexcardBoxTitle"));
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
         updateList(controller.getAllIndexcardBoxes());
         updateComboBox();
+        // Set the language
+        indexcardBoxLabel.setText(language.getName("indexcardBoxTitle"));
+        searchForNameLabel.setText(language.getName("searchForName"));
+        indexcardBoxLabel.setText(language.getName("indexcardBox"));
+        learnSystemLabel.setText(language.getName("learnSystem"));
+        searchButton.setText(language.getName("search"));
+        deleteButton.setText(language.getName("delete"));
+        editButton.setText(language.getName("edit"));
+        createButton.setText(language.getName("create"));
+        learnButton.setText(language.getName("learn"));
+        // Set the listeners
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 onCancel();
@@ -93,14 +108,14 @@ public class IndexcardBoxTab extends JDialog {
      */
     private void onLearn() {
         if (indexcardBoxList.getModel().getSize() == 0) {
-            JOptionPane.showMessageDialog(this, "Es existiert noch kein Karteikasten."
-                    , "Es existieren keine Karteikästen.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("noIndexcardBoxExistsError"),
+                    language.getName("noIndexcardBoxExists"), JOptionPane.INFORMATION_MESSAGE);
         } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
-            JOptionPane.showMessageDialog(this, "Bitte wähle einen Karteikasten zum Lernen aus"
-                    , "Keinen oder zu viele Karteikästen ausgewählt.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("selectOneIndexcardBoxMessage")
+                    ,language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
         } else if( comboBoxName.getSelectedItem().toString() != "Leitner"){
-            JOptionPane.showMessageDialog(this, "Bitte wähle einen LearnSystem zum Lernen aus",
-                    "Das LearnSystem ist nicht verfügbar.", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("selectLearnSystemMessage"),
+                    language.getName("selectLearnSystem"), JOptionPane.INFORMATION_MESSAGE);
         }
         else {
             controller.learnLeitnerSystem(controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get());

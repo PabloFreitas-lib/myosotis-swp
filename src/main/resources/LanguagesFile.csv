@@ -1,4 +1,5 @@
 ﻿Object;Deutsch;English
+title;Myosotis;Myosotis
 glossarTitle;Glossar;Glossar
 categoryTitle;Kategorien;Categories
 indexcardTitle;Karteikarten;Indexcards
@@ -60,3 +61,42 @@ indexcardDeletedMessage;Die Karteikarte wurde erfolgreich gelöscht.;The Indexca
 indexcardDeleted;Karteikarte gelöscht;Indexcard deleted
 indexcardDeletedError;Die Karteikarte konnte nicht gelöscht werden.;The Indexcard could not be deleted.
 indexcardNotDeleted;Karteikarte nicht gelöscht;Indexcard not deleted
+indexcardBoxCreatedMessage;Die Karteikästen (%s) wurde erfolgreich erstellt.;The Indexcardbox (%s) successfully created
+indexcardBoxCreated;Karteikästen erstellt;Indexcardbox successfully created
+indexcardBoxAlreadyExistError;Es existiert bereits ein Karteikasten mit diesem Namen.;There is already a Indexcardbox with this name.
+indexcardBoxDeletedMessage;Der Karteikasten wurde erfolgreich gelöscht.;The Indexcardbox got successfully deleted
+indexcardBoxDeleted;Karteikasten gelöscht;Indexcardbox deleted
+indexcardBoxEditedMessage;Der Karteikasten wurde erfolgreich bearbeitet.;The Indexcardbox successfully edited.
+indexcardBoxEdited;Karteikasten bearbeitet;Indexcardbox edited
+noIndexcardBoxWithNameError;Es existiert kein Karteikasten mit diesem Namen.;There is no Indexcardbox with the given name.
+noIndexcardBoxError;Karteikasten nicht vorhanden.;Indexcardbox does not exists
+categoryCreatedMessage;Die Kategorie (%s) wurde erfolgreich erstellt.;The Category (%s) successfully created
+categoryCreated;Kategorie erstellt;Category successfully created
+categoryAlreadyExistError;Es existiert bereits eine Kategorie mit diesem Namen.;There is already a Category with this name.
+categoryDeletedMessage;Die Kategorie wurde erfolgreich gelöscht.;The Category got successfully deleted
+categoryDeleted;Kategorie gelöscht;Category deleted
+categoryEditedMessage;Der Kategorie (%s) wurde erfolgreich bearbeitet.;The Category (%s) successfully edited.
+categoryEdited;Kategorie bearbeitet;Category edited
+noCategoryWithNameError;Es existiert keine Kategorie mit diesem Namen.;There is no Category with the given name.
+noCategoryBoxError;Kategorie nicht vorhanden.;Category does not exists
+noCategoryInIndexcardboxError;Der Karteikasten enthält keine Kategorien;The Indexcardbox does not contain any categories.
+noCategoryInIndexcardbox;Karteikasten leer;Empty Indexcardbox
+categoryWithNoNameError;Die Kategorie muss einen Namen haben.;The Category must have a name
+categoryWithNoName;Kein Name eingegeben;No name entered
+hierarchy;Hierachie;Hierarchy
+noCategoryToEditError;Kategorie zum bearbeiten existiert nicht!;Category to edit does not exist
+removeFilter;Filter entfernen;Remove filter
+reverseSort;Sortierung umkehren;Reverse Sorting
+selectCategory;Wählen Sie ein Kategorie aus;Select a Category
+selectKeyword;Wählen Sie eine Schlagwort aus;Select a Keyword
+filter;Filtern;Filter
+searchForName;Suche nach Namen;Search for name
+learn;Lernen;Learn
+learnSystem;Lernsystem;Learn system
+noIndexcardBoxExistsError;Es existiert kein Karteikasten.;There is no Indexcardbox.
+noIndexcardBoxExists;Kein Karteikasten vorhanden;No Indexcardbox exists
+selectOneIndexcardBoxMessage;Wählen Sie ein Karteikasten aus;Select one Indexcardbox
+selectOneIndexcardBox;Keinen oder zu viele Karteikästen ausgewählt.;No or too many Indexcardboxes selected
+selectLearnSystemMessage;Wählen Sie ein Lernsystem aus;Select a learn system
+selectLearnSystem;Lernsystem nicht verfügbar;Learn system not available
+language;Sprache;Language

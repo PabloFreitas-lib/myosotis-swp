@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="784a1" class="javax.swing.JLabel">
+          <component id="784a1" class="javax.swing.JLabel" binding="categoryLabel">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -30,7 +30,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="cf226" class="javax.swing.JLabel" binding="SchlagwortLabel">
+          <component id="cf226" class="javax.swing.JLabel" binding="keywordLabel">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -44,7 +44,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="a10ee" class="javax.swing.JLabel">
+          <component id="a10ee" class="javax.swing.JLabel" binding="searchLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -68,7 +68,7 @@
               </component>
             </children>
           </scrollpane>
-          <component id="4ce52" class="javax.swing.JButton" binding="filtern">
+          <component id="4ce52" class="javax.swing.JButton" binding="filterButton">
             <constraints>
               <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -94,7 +94,7 @@
               <text value="Suchen"/>
             </properties>
           </component>
-          <component id="fde8f" class="javax.swing.JButton" binding="filternEntfernenButton" default-binding="true">
+          <component id="fde8f" class="javax.swing.JButton" binding="removeFilterButton">
             <constraints>
               <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -102,7 +102,7 @@
               <text value="Filtern entfernen"/>
             </properties>
           </component>
-          <component id="130cd" class="javax.swing.JRadioButton" binding="sortRadioButton">
+          <component id="130cd" class="javax.swing.JRadioButton" binding="reverseSortRadioButton">
             <constraints>
               <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -110,7 +110,7 @@
               <text value="Sortierung Umkehren"/>
             </properties>
           </component>
-          <component id="83e96" class="javax.swing.JLabel" binding="KarteikartenLabel">
+          <component id="83e96" class="javax.swing.JLabel" binding="indexcardLabel">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

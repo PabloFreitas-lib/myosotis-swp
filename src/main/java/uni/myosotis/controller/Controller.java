@@ -80,6 +80,12 @@ public class Controller {
         mainMenu.setVisible(true);
     }
 
+    public void setLanguage(String lang) {
+        this.language = new Language(lang);
+        mainMenu.setLanguage(language);
+        setIndexCardPanel();
+    }
+
     /* INDEXCARDS */
 
     /**
@@ -728,7 +734,6 @@ public class Controller {
             listModel.addElement(card.getName());
         }
         JList<String> cardList = new JList<>(listModel);
-        mainMenu.getIndexcardsPane().setViewportView(cardList);
     }
 
     /**
@@ -744,7 +749,6 @@ public class Controller {
             listModel.addElement(indexcard.getName());
         }
         JList<String> cardList = new JList<>(listModel);
-        mainMenu.getIndexcardsPane().setViewportView(cardList);
     }
 
     /**
@@ -761,7 +765,6 @@ public class Controller {
                 listModel.addElement(indexCard.getName());
             }
             JList<String> cardList = new JList<>(listModel);
-            mainMenu.getIndexcardsPane().setViewportView(cardList);
         }
     }
 }

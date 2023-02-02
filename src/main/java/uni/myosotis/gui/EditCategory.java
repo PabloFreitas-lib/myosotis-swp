@@ -14,6 +14,7 @@ import java.util.List;
 public class EditCategory extends JDialog {
 
     private final Controller controller;
+    private final Language language;
     private JPanel contentPane;
     private JComboBox<String> comboBoxName;
     private JTextField nameTextField;
@@ -22,16 +23,22 @@ public class EditCategory extends JDialog {
     private JTree categoryTree;
     private JList<String> parentList;
     private JList<String> indexcardList;
+    private JLabel categoryLabel;
+    private JLabel nameLabel;
+    private JLabel hierarchyLabel;
+    private JLabel parentLabel;
+    private JLabel indexcardLabel;
 
     /**
      * Creates a new EditCategory-Dialog.
      *
      * @param controller The Controller of the application.
      */
-    public EditCategory(Controller controller) {
+    public EditCategory(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setModal(true);
-        setTitle("Kategorie bearbeiten");
+        setTitle(language.getName("editCategoryTitle"));
         getRootPane().setDefaultButton(editButton);
         setContentPane(contentPane);
 
@@ -48,6 +55,12 @@ public class EditCategory extends JDialog {
         updateCategoryTree();
         updateParentList();
         updateIndexcardList();
+        // Set language
+        categoryLabel.setText(language.getName("category"));
+        nameLabel.setText(language.getName("name"));
+        hierarchyLabel.setText(language.getName("hierarchy"));
+        parentLabel.setText(language.getName("parent"));
+        indexcardLabel.setText(language.getName("indexcard"));
 
         // Update infos, if another Category is selected.
         comboBoxName.addActionListener(e -> {
@@ -76,7 +89,7 @@ public class EditCategory extends JDialog {
      * Updates the tree of the current poly-hierarchy of the Category`s.
      */
     private void updateCategoryTree() {
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("Kategorien");
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(language.getName("categoryTitle"));
         for (Category category : controller.getAllCategories()) {
             if (controller.getParentCategories(category).isEmpty()) {
                 DefaultMutableTreeNode node = new DefaultMutableTreeNode(category.getCategoryName());
@@ -162,15 +175,15 @@ public class EditCategory extends JDialog {
     private void onEdit() {
         String newName = nameTextField.getText();
         if (controller.getAllIndexcardNames().stream().filter(n -> !n.equals(comboBoxName.getSelectedItem())).toList().contains(newName)) {
-            JOptionPane.showMessageDialog(this, "Eine andere Kategorie hat bereits diesen Namen.", "Name bereits vergeben", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("categoryAlreadyExistError"), language.getName("categoryAlreadyExist"), JOptionPane.INFORMATION_MESSAGE);
         } else if (newName.isBlank()) {
-            JOptionPane.showMessageDialog(this, "Die Kategorie muss einen Namen haben.", "Name fehlt", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("categoryWithNoNameError"), language.getName("categoryWithNoName"), JOptionPane.INFORMATION_MESSAGE);
         } else {
             Category oldCategory;
             if (controller.getCategoryByName((String) comboBoxName.getSelectedItem()).isPresent()) {
                 oldCategory = controller.getCategoryByName((String) comboBoxName.getSelectedItem()).get();
             } else {
-                throw new IllegalStateException("Kategorie zum Bearbeiten existiert nicht!");
+                throw new IllegalStateException(language.getName("noCategoryToEditError"));
             }
             final Long oldId = oldCategory.getId();
             List<Category> selectedParents = new ArrayList<>();

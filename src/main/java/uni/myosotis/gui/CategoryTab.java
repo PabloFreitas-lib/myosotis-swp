@@ -13,18 +13,21 @@ import java.util.List;
 public class CategoryTab extends JFrame{
 
     private final Controller controller;
+    private final Language language;
     private JPanel contentPane;
-    private JButton createCategoryButton;
-    private JButton editCategoryButton;
-    private JButton deleteCategoryButton;
+    private JButton createButton;
+    private JButton editButton;
+    private JButton deleteButton;
     private JList<String> categoryList;
     private JTextField searchField;
     private JButton searchButton;
+    private JLabel categoryLabel;
 
-    public CategoryTab(Controller controller) {
+    public CategoryTab(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
-        setTitle("Kategorien");
+        setTitle(language.getName("categoryTitle"));
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
@@ -34,16 +37,22 @@ public class CategoryTab extends JFrame{
                 onCancel();
             }
         });
-
-        createCategoryButton.addActionListener(new ActionListener() {
+        //Set Language
+        createButton.setText(language.getName("create"));
+        editButton.setText(language.getName("edit"));
+        deleteButton.setText(language.getName("delete"));
+        categoryLabel.setText(language.getName("category"));
+        searchButton.setText(language.getName("search"));
+        //Set Action Listener
+        createButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCreate();
             }
         });
-        editCategoryButton.addActionListener(new ActionListener() {
+        editButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {onEdit();}
         });
-        deleteCategoryButton.addActionListener(new ActionListener() {
+        deleteButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onDelete();
             }
