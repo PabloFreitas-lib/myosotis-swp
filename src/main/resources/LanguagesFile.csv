@@ -11,6 +11,8 @@ category;Kategorie;Category
 create;Erstellen;Create
 edit;Bearbeiten;Edit
 delete;Entfernen;Delete
+correct;Richtig;Correct
+wrong;Falsch;Wrong
 createIndexcardTitle;Karteikarte erstellen;Create Indexcard
 confirm;Bestätigen;Confirm
 cancel;Abbrechen;Cancel

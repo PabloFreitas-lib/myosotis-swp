@@ -14,14 +14,14 @@ public class LeitnerLearnSystem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name = "LeitnerLearnSystem";
+    private String name;
     @OneToMany
     private List<Box> boxes;
 
     private List<String> indexcardList;
     private int progress;
 
-    private final int numberOfBoxes = 5;
+    private int numberOfBoxes;
 
     public LeitnerLearnSystem() {
     }
@@ -31,17 +31,18 @@ public class LeitnerLearnSystem {
      * All indexcards are places in the first box.
      * @param indexcardList The list of indexcards that should be learned.
      */
-    public LeitnerLearnSystem(String name, List<String> indexcardList) {
-        this.name = this.name + name;
+    public LeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
+        this.name = name;
         this.indexcardList = indexcardList;
         this.progress = 0;
+        this.numberOfBoxes = numberOfBoxes;
         this.boxes = new ArrayList<>();
         for (int i = 0; i < numberOfBoxes; i++) {
             this.boxes.add(new Box());
         }
         // add all indexcards to the first box
         this.boxes.get(0).setIndexcardNames(indexcardList);
-        logger.log(Level.INFO, "LeitnerLearnSystem created: ", getName());
+        logger.log(Level.INFO, name + "created");
     }
 
 
@@ -58,6 +59,7 @@ public class LeitnerLearnSystem {
      */
     public void correctAnswer(Indexcard indexcard) {
         logger.log(Level.INFO, "correctAnswer for indexcard: " + indexcard.getName());
+        moveIndexcardToNextBox(indexcard.getName());
         logger.log(Level.INFO, "indexcard is moved to the next box");
     }
 
@@ -69,6 +71,7 @@ public class LeitnerLearnSystem {
      */
     public void wrongAnswer(Indexcard indexcard) {
         logger.log(Level.INFO, "wrongAnswer for indexcard: " + indexcard.getName());
+        moveIndexcardToPreviousBox(indexcard.getName());
         logger.log(Level.INFO, "indexcard is moved to the previously box");
     }
 
@@ -84,14 +87,15 @@ public class LeitnerLearnSystem {
 
     /**
      * this method return the indexcard that should be learned next.
+     * The order inside the indexcard list is the same as the order in the boxes.
      * @return The indexcards that should be learned next.
      */
-    public List<String> getNextIndexcards() {
-        List<String> indexcards = new ArrayList<>();
+    public List<String> getNextIndexcardNames() {
+        List<String> nextIndexcardNames = new ArrayList<>();
         for (int i = 0; i < this.numberOfBoxes; i++) {
-            indexcards.addAll(this.boxes.get(i).getIndexcardNames());
+            nextIndexcardNames.addAll(this.boxes.get(i).getIndexcardNames());
         }
-        return indexcards;
+        return nextIndexcardNames;
     }
 
     public void increaseProgress() {
@@ -108,7 +112,68 @@ public class LeitnerLearnSystem {
         return progress;
     }
 
+    public void setProgress(int progress) {
+        this.progress = progress;
+    }
+
     public List<Box> getBoxes() {
         return boxes;
     }
+
+    /**
+     * This method is called to move an indexcard to the next box.
+     * @param indexcardName The name of the indexcard that should be moved.
+     */
+    public void moveIndexcardToNextBox(String indexcardName) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
+            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
+                if (i < this.numberOfBoxes - 1) {
+                    this.boxes.get(i).removeIndexcard(indexcardName);
+                    this.boxes.get(i + 1).addIndexcard(indexcardName);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * This method is called to move an indexcard to the previous box.
+     * @param indexcardName The name of the indexcard that should be moved.
+     */
+    public void moveIndexcardToPreviousBox(String indexcardName) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
+            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
+                if (i > 0) {
+                    this.boxes.get(i).removeIndexcard(indexcardName);
+                    this.boxes.get(i - 1).addIndexcard(indexcardName);
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * This methode return which box the indexcard name is in.
+     */
+    public int getIndexcardBox(String indexcardName) {
+        for (int i = 0; i < this.numberOfBoxes; i++) {
+            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void setBoxes(List<Box> boxes) {
+        this.boxes = boxes;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }

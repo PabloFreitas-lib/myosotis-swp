@@ -92,14 +92,14 @@ public class IndexcardBoxTab extends JDialog {
         } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
             JOptionPane.showMessageDialog(this, language.getName("selectOneIndexcardBoxMessage")
                     ,language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
-        } else if(!Objects.equals(Objects.requireNonNull(comboBoxName.getSelectedItem()).toString(), "Leitner")){
+        }  else if(comboBoxName.getSelectedItem().toString() == "Random"){
+            controller.learnLeitnerSystem(comboBoxName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 1);
+        }
+        else if( comboBoxName.getSelectedItem().toString() == "Leitner" ){
+            controller.learnLeitnerSystem(comboBoxName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 5);
+        } else {
             JOptionPane.showMessageDialog(this, language.getName("selectLearnSystemMessage"),
                     language.getName("selectLearnSystem"), JOptionPane.INFORMATION_MESSAGE);
-        }
-        else {
-            if (controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).isPresent()) {
-                controller.learnLeitnerSystem(controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get());
-            }
         }
     }
 
@@ -169,8 +169,8 @@ public class IndexcardBoxTab extends JDialog {
      * Updates the ComboBox.
      */
     public void updateComboBox(){
-        // Array of all Indexcard-names
-        String[] learnSystemList = {"Leitner"};
+        // Array of all Indexcardnames
+        String[] learnSystemList = {"Leitner", "Random"};
         comboBoxName.setModel(new DefaultComboBoxModel<>(learnSystemList));
     }
 }

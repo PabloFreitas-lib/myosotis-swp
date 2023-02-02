@@ -42,18 +42,14 @@ public class DisplayIndexcardToLearn extends JDialog{
     public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language) {
         this.learnSystem = learnSystem;
         this.controller = controller;
-        this.indexCardList2Learn = controller.getIndexcardsByIndexcardNameList(learnSystem.getNextIndexcards());
+        this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcardNames());
         this.indexcard = this.indexCardList2Learn.get(learnSystem.getProgress());
         this.learnProgressBar.setMinimum(0);
-        this.learnProgressBar.setMaximum(indexcardBox.getIndexcardList().size());
-        this.learnProgressBar.setValue(learnSystem.getProgress());
-        percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
-
-        this.questionLabel.setText(indexcard.getQuestion());
-        this.answerLabel.setText("");
+        this.learnProgressBar.setMaximum(learnSystem.getNextIndexcardNames().size());
+        setProgressDisplay();
+        setLabels();
         this.language = language;
         hiddenButtons();
-        percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
         setContentPane(contentPane);
         setTitle(language.getName("indexcard"));
         pack();
@@ -62,6 +58,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         // Set Language
         backButton.setText(language.getName("back"));
         nextButton.setText(language.getName("next"));
+        correctButton.setText(language.getName("correct"));
+        wrongButton.setText(language.getName("wrong"));
         answeredButton.setText(language.getName("answered"));
         controller.updateLearnsystem(learnSystem);
         addWindowListener(new WindowAdapter() {
@@ -81,6 +79,12 @@ public class DisplayIndexcardToLearn extends JDialog{
         answerLabel.setFont(font);
         questionLabel.setFont(font);
     }
+
+    private void setLabels() {
+        this.nameLabel.setText(String.format("Name: %s Box: %d",indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
+        this.questionLabel.setText(indexcard.getQuestion());
+    }
+
     /**
      * This method is called when the user clicks the "Answered" button.
      * It shows the answer.
@@ -89,6 +93,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private void onAnswered(Indexcard indexcard) {
         answerLabel.setText(indexcard.getAnswer());
         showButtons();
+        setLabels();
     }
 
     /**
@@ -98,21 +103,21 @@ public class DisplayIndexcardToLearn extends JDialog{
      */
     private void onNext() {
         hiddenButtons();
-        //List<Indexcard> indexcards = controller.getIndexcardsByIndexcardNameList(indexcardBox.getIndexcardList());
-        //int index = indexcardBox.getIndexcardList().indexOf(indexcard.getName());
-
         if (learnSystem.getProgress() < this.indexCardList2Learn.size() - 1) {
             learnSystem.increaseProgress();
             indexcard = indexCardList2Learn.get(learnSystem.getProgress());
             questionLabel.setText(indexcard.getQuestion());
             answerLabel.setText("");
-            this.learnProgressBar.setValue(learnSystem.getProgress());
-            percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
+            setProgressDisplay();
         }
         else {
+            // The user has learned all the indexcards in the box.
+            learnSystem.setProgress(0);
             dispose();
         }
         controller.updateLearnsystem(learnSystem);
+        setLabels();
+        this.answerLabel.setText("");
     }
 
     private void onBack() {
@@ -122,11 +127,12 @@ public class DisplayIndexcardToLearn extends JDialog{
             indexcard = indexCardList2Learn.get(learnSystem.getProgress());
             questionLabel.setText(indexcard.getQuestion());
             answerLabel.setText("");
-            this.learnProgressBar.setValue(learnSystem.getProgress());
-            percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
+            setProgressDisplay();
         }
 
         controller.updateLearnsystem(learnSystem);
+        setLabels();
+        this.answerLabel.setText("");
     }
 
     private void onCancel() {
@@ -158,5 +164,13 @@ public class DisplayIndexcardToLearn extends JDialog{
      */
     private List<Indexcard> getIndexcardFromBox(LeitnerLearnSystem learnSystem, int boxNumber){
         return controller.getIndexcardsByIndexcardNameList(learnSystem.getIndexcardFromBox(boxNumber));
+    }
+
+    /**
+     * This methode will set the progress bar to the right value.
+     */
+    public void setProgressDisplay(){
+        this.learnProgressBar.setValue(learnSystem.getProgress());
+        this.percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
     }
 }

@@ -23,8 +23,8 @@ public class LeitnerLearnSystemRepository {
      * @param name        The name of the leitnerLearnSystem.
      * @param indexcardList The list of indexcards that should be learned.
      */
-    public void saveLeitnerLearnSystem(String name, List<String> indexcardList) {
-        LeitnerLearnSystem leitnerLearnSystem = new LeitnerLearnSystem(name, indexcardList);
+    public void saveLeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
+        LeitnerLearnSystem leitnerLearnSystem = new LeitnerLearnSystem(name, indexcardList, numberOfBoxes);
         final EntityManager em = pm.getEntityManager();
         try {
             em.getTransaction().begin();
@@ -49,13 +49,21 @@ public class LeitnerLearnSystemRepository {
     public void updateLearnSystem(final LeitnerLearnSystem leitnerLearnSystem) {
         try (final EntityManager em = pm.getEntityManager()) {
             em.getTransaction().begin();
+            // save the boxes first because otherwise the leitnerLearnSystem cannot be saved
+            for (Box box : leitnerLearnSystem.getBoxes()) {
+                em.merge(box);
+            }
             em.merge(leitnerLearnSystem);
             em.getTransaction().commit();
         }
         catch (Exception e) {
             logger.log(java.util.logging.Level.SEVERE, "Error updating leitnerLearnSystem: {0}", leitnerLearnSystem.getId());
+            logger.log(java.util.logging.Level.SEVERE, "Error: {0}", e.getMessage());
         }
     }
+
+
+
 
     /**
      * This method is used to delete a LeitnerLearnSystem from the persistence storage.

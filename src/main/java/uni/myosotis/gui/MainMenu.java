@@ -247,13 +247,6 @@ public class MainMenu extends JFrame {
         displayIndexcardToLearn.setVisible(true);
     }
 
-    void displayLeitnerLearning(LeitnerLearnSystem leitnerLearnSystem, IndexcardBox indexCardBox){
-        final DisplayIndexcardToLearn displayLeitnerIndexcardToLearn = new DisplayIndexcardToLearn(controller, leitnerLearnSystem, indexCardBox, language);
-        displayLeitnerIndexcardToLearn.pack();
-        displayLeitnerIndexcardToLearn.setMinimumSize(displayLeitnerIndexcardToLearn.getSize());
-        displayLeitnerIndexcardToLearn.setLocationRelativeTo(this);
-        displayLeitnerIndexcardToLearn.setVisible(true);
-    }
 
     /**
      * Create basic tests for Indexcards, Categories, Keywords and IndexcardBoxes.

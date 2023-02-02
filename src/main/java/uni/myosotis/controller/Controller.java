@@ -306,6 +306,15 @@ public class Controller {
     }
 
     /**
+     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     *
+     * @return A list of all Indexcards.
+     */
+    public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
+        return indexcardLogic.getAllIndexcards(indexcardNames);
+    }
+
+    /**
      * Returns a list of the names of all Indexcards.
      *
      * @return A list of the names of all Indexcards.
@@ -680,9 +689,9 @@ public class Controller {
      *
      * @param indexcardBox The IndexcardBox that should be learned.
      */
-    public void learnLeitnerSystem(IndexcardBox indexcardBox) {
+    public void learnLeitnerSystem(String name, IndexcardBox indexcardBox, int numberOfBoxes) {
         if (!indexcardBox.getCategoryList().isEmpty()) {
-            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getName(), indexcardBox.getIndexcardList()), indexcardBox);
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getName() + name, indexcardBox.getIndexcardList(), numberOfBoxes), indexcardBox);
         }
         else {
             JOptionPane.showMessageDialog(mainMenu,

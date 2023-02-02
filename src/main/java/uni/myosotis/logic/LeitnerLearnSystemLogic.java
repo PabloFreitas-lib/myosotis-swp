@@ -30,19 +30,19 @@ public class LeitnerLearnSystemLogic {
     }
 
 
-    public LeitnerLearnSystem learnLeitnerSystem(final String name , List<String> indexcardList) {
-        LeitnerLearnSystem learnSystem = leitnerLearnSystemRepository.getLeitnerLearnSystemByName("LeitnerLearnSystem"+name);
+    public LeitnerLearnSystem learnLeitnerSystem(final String name , List<String> indexcardList, int numberOfBoxes) {
+        LeitnerLearnSystem learnSystem = leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name);
         if (learnSystem!=null) {
             return learnSystem;
         } else {
-            saveLeitnerLearnSystem(name, indexcardList);
-            if (leitnerLearnSystemRepository.getLeitnerLearnSystemByName("LeitnerLearnSystem"+name) == null)
+            saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes);
+            if (leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name) == null)
                 throw new RuntimeException("LeitnerLearnSystem could not be saved.)");
-            return leitnerLearnSystemRepository.getLeitnerLearnSystemByName("LeitnerLearnSystem"+name);
+            return leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name);
         }
     }
 
-    public void saveLeitnerLearnSystem(String name, List<String> indexcardList) {
-        leitnerLearnSystemRepository.saveLeitnerLearnSystem(name, indexcardList);
+    public void saveLeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
+        leitnerLearnSystemRepository.saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes);
     }
 }
