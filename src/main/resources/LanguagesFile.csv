@@ -103,3 +103,7 @@ selectLearnSystemMessage;Wählen Sie ein Lernsystem aus;Select a learn system.; 
 selectLearnSystem;Lernsystem nicht verfügbar;Learn system not available; Sistema de aprendizaje no disponible; Sistema de aprendizagem não disponível; Système d'apprentissage non disponible
 language;Sprache;Language; Idioma; Idioma; Langue
 linkedIndexxcardsList;Verknüpfte Karteikarten;Linked Indexcards; Fichas vinculadas; Cartões de índice vinculados; Fiches liées
+nameAndBox;Name: %s Box: %d;Name: %s Box: %d; Nombre: %s Caja: %d; Nome: %s Caixa: %d; Nom: %s Boîte: %d
+boxEnded;Karteikasten beendet;Indexcardbox ended; Caja de Fichas terminada; Caixa de cartões de índice terminada; Boîte de fiches terminée
+sorryMessage;Schade, vielleicht klappt es beim nächsten Mal.;Sorry, maybe next time.; Lo siento, tal vez la próxima vez.; Desculpe, talvez na próxima vez.; Désolé, peut-être la prochaine fois.
+boxEndedMessage;Der Karteikasten wurde erfolgreich beendet.;The Indexcardbox ended successfully.; La caja de Fichas terminó con éxito.; A caixa de cartões de índice terminou com sucesso.; La boîte de fiches s'est terminée avec succès.

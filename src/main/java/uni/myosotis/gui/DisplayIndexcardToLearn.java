@@ -6,6 +6,9 @@ import uni.myosotis.objects.LeitnerLearnSystem;
 import uni.myosotis.objects.Link;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
@@ -34,6 +37,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JTextArea answerArea;
     private JList<String> linkedIndexcardsList;
     private JLabel linkedListLabel;
+    private JLabel sorryLabel;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
@@ -45,13 +49,13 @@ public class DisplayIndexcardToLearn extends JDialog{
     public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language) {
         this.learnSystem = learnSystem;
         this.controller = controller;
+        this.language = language;
         this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcardNames());
         this.indexcard = this.indexCardList2Learn.get(learnSystem.getProgress());
         this.learnProgressBar.setMinimum(0);
         this.learnProgressBar.setMaximum(learnSystem.getNextIndexcardNames().size());
         setProgressDisplay();
         setLabels();
-        this.language = language;
         hiddenButtons();
         setContentPane(contentPane);
         setTitle(language.getName("indexcard"));
@@ -94,10 +98,11 @@ public class DisplayIndexcardToLearn extends JDialog{
         Font font = new Font("Arial", Font.PLAIN, 20);
         answerArea.setFont(font);
         questionArea.setFont(font);
+        sorryLabel.setVisible(false);
     }
 
     private void setLabels() {
-        this.nameLabel.setText(String.format("Name: %s Box: %d",indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
+        this.nameLabel.setText(String.format((language.getName("nameAndBox")),indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
         this.questionArea.setText(indexcard.getQuestion());
         DefaultListModel<String> linkedListModel = new DefaultListModel<>();
         linkedListModel.addAll(indexcard.getLinks().stream().map(Link::getIndexcard).map(Indexcard::getName).toList());
@@ -132,12 +137,13 @@ public class DisplayIndexcardToLearn extends JDialog{
         else {
             // The user has learned all the indexcards in the box.
             learnSystem.setProgress(0);
-            JOptionPane.showMessageDialog(this, "Box ended"
-                    ,"We finish this this box", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("boxEnded")
+                    ,language.getName("boxEndedMessage"), JOptionPane.INFORMATION_MESSAGE);
             dispose();
         }
         controller.updateLearnsystem(learnSystem);
         setLabels();
+        sorryLabel.setVisible(false);
         this.answerArea.setText("");
     }
 
@@ -174,10 +180,14 @@ public class DisplayIndexcardToLearn extends JDialog{
     private void onCorrect(Indexcard indexcard){
         learnSystem.correctAnswer(indexcard);
         controller.updateLearnsystem(learnSystem);
+        onNext();
     }
     private void onWrong(Indexcard indexcard){
         learnSystem.wrongAnswer(indexcard);
         controller.updateLearnsystem(learnSystem);
+        sorryLabel.setText(language.getName("sorryMessage"));
+        sorryLabel.setVisible(true);
+
     }
 
     /**
@@ -194,5 +204,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         this.learnProgressBar.setValue(learnSystem.getProgress());
         this.percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
     }
+
+
 
 }

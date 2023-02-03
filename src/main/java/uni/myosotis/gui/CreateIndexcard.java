@@ -83,6 +83,52 @@ public class CreateIndexcard extends JDialog {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        //wenn im answerfeld ein text in [text] eingegeben wird soll ein link hinzugefügt werden mit dem text als term
+        textAreaAnswer.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    String text = textAreaAnswer.getText();
+                    if (text.contains("[") && text.contains("]")) {
+                        String term = text.substring(text.indexOf("[") + 1, text.indexOf("]"));
+                        termField.setText(term);
+                        onAddLink();
+                        textAreaAnswer.setText(text.replace("[" + term + "]", term));
+                    }
+                }
+            }
+        });
+        textAreaQuestion.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    String text = textAreaAnswer.getText();
+                    if (text.contains("[") && text.contains("]")) {
+                        String term = text.substring(text.indexOf("[") + 1, text.indexOf("]"));
+                        termField.setText(term);
+                        onAddLink();
+                        textAreaAnswer.setText(text.replace("[" + term + "]", term));
+                    }
+                }
+            }
+        });
+        textFieldName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    String text = textAreaAnswer.getText();
+                    if (text.contains("[") && text.contains("]")) {
+                        String term = text.substring(text.indexOf("[") + 1, text.indexOf("]"));
+                        termField.setText(term);
+                        onAddLink();
+                        textAreaAnswer.setText(text.replace("[" + term + "]", term));
+                    }
+                }
+            }
+        });
     }
 
     /**
