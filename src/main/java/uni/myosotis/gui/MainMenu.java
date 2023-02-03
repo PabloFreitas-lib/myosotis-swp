@@ -288,7 +288,6 @@ public class MainMenu extends JFrame {
 
         // Parent Category test
         controller.createCategory("Botanic", List.of(controller.getCategoryByName("Biologie").get()), new ArrayList<>());
-
     }
 
     /**
