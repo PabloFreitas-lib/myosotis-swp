@@ -99,9 +99,8 @@ public class MainMenu extends JFrame {
      */
     public void displayIndexcard(Indexcard indexcard) {
         DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, indexcard, language);
-        displayIndexcard.pack();
-        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
         displayIndexcard.setSize(300, 400);
+        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
         displayIndexcard.setLocationRelativeTo(this);
         displayIndexcard.setVisible(true);
     }

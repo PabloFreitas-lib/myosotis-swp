@@ -8,16 +8,6 @@
     <properties/>
     <border type="none"/>
     <children>
-      <vspacer id="ab12">
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
-      <vspacer id="53d7f">
-        <constraints>
-          <grid row="5" column="0" row-span="1" col-span="4" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <grid id="279fa" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
@@ -26,14 +16,25 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="5c09f" class="javax.swing.JLabel" binding="questionLabel">
+          <scrollpane id="bdd08">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="-----FRAGE-----"/>
+              <horizontalScrollBarPolicy value="31"/>
             </properties>
-          </component>
+            <border type="none"/>
+            <children>
+              <component id="6fa0f" class="javax.swing.JTextArea" binding="questionArea">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
+                  <wrapStyleWord value="true"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
       <grid id="9ae84" layout-manager="GridLayoutManager" row-count="1" column-count="5" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -80,11 +81,6 @@
           </hspacer>
         </children>
       </grid>
-      <vspacer id="20cea">
-        <constraints>
-          <grid row="7" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <grid id="844ff" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
@@ -93,14 +89,25 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="29389" class="javax.swing.JLabel" binding="answerLabel">
+          <scrollpane id="8c165">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value=""/>
+              <horizontalScrollBarPolicy value="31"/>
             </properties>
-          </component>
+            <border type="none"/>
+            <children>
+              <component id="602a5" class="javax.swing.JTextArea" binding="answerArea">
+                <constraints/>
+                <properties>
+                  <editable value="false"/>
+                  <lineWrap value="true"/>
+                  <wrapStyleWord value="true"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
       <component id="399f3" class="javax.swing.JLabel" binding="nameLabel">

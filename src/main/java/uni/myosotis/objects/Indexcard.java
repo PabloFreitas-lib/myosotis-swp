@@ -12,6 +12,7 @@ public class Indexcard implements Serializable {
 
     private String question;
 
+    @Column(length = Integer.MAX_VALUE)
     private String answer;
 
     @ManyToMany(fetch = FetchType.EAGER)

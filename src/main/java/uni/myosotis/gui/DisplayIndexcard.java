@@ -16,8 +16,8 @@ public class DisplayIndexcard extends JFrame {
 
     private final Indexcard indexcard;
     private JPanel contentPane;
-    private JLabel answerLabel;
-    private JLabel questionLabel;
+    private JTextArea questionArea;
+    private JTextArea answerArea;
 
     /**
      * Creates a new Window to display an Indexcard
@@ -28,13 +28,10 @@ public class DisplayIndexcard extends JFrame {
         setTitle(indexcard.getName());
         setContentPane(contentPane);
         Font font = new Font("Arial", Font.PLAIN, 20);
-        answerLabel.setFont(font);
-        questionLabel.setFont(font);
-        this.questionLabel.setText(indexcard.getQuestion());
-        this.answerLabel.setText(indexcard.getAnswer());
-        // Set Language
-
-
+        questionArea.setFont(font);
+        answerArea.setFont(font);
+        this.questionArea.setText(indexcard.getQuestion());
+        this.answerArea.setText(indexcard.getAnswer());
         // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {

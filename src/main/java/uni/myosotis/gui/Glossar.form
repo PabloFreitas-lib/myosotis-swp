@@ -64,7 +64,9 @@
             <children>
               <component id="431aa" class="javax.swing.JTable" binding="indexCardTable">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <enabled value="false"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

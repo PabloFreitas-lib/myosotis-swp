@@ -21,8 +21,6 @@ public class DisplayIndexcardToLearn extends JDialog{
     private List<Indexcard> indexCardList2Learn;
 
     private JPanel contentPane;
-    private JLabel questionLabel;
-    private JLabel answerLabel;
     private JButton backButton;
     private JButton nextButton;
     private JButton answeredButton;
@@ -31,6 +29,8 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JLabel percentageValue;
     private JButton wrongButton;
     private JButton correctButton;
+    private JTextArea questionArea;
+    private JTextArea answerArea;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
@@ -76,13 +76,13 @@ public class DisplayIndexcardToLearn extends JDialog{
         wrongButton.addActionListener(e -> onWrong(indexcard));
 
         Font font = new Font("Arial", Font.PLAIN, 20);
-        answerLabel.setFont(font);
-        questionLabel.setFont(font);
+        answerArea.setFont(font);
+        questionArea.setFont(font);
     }
 
     private void setLabels() {
         this.nameLabel.setText(String.format("Name: %s Box: %d",indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
-        this.questionLabel.setText(indexcard.getQuestion());
+        this.questionArea.setText(indexcard.getQuestion());
     }
 
     /**
@@ -91,7 +91,7 @@ public class DisplayIndexcardToLearn extends JDialog{
      */
 
     private void onAnswered(Indexcard indexcard) {
-        answerLabel.setText(indexcard.getAnswer());
+        answerArea.setText(indexcard.getAnswer());
         showButtons();
         setLabels();
     }
@@ -106,8 +106,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         if (learnSystem.getProgress() < this.indexCardList2Learn.size() - 1) {
             learnSystem.increaseProgress();
             indexcard = indexCardList2Learn.get(learnSystem.getProgress());
-            questionLabel.setText(indexcard.getQuestion());
-            answerLabel.setText("");
+            questionArea.setText(indexcard.getQuestion());
+            answerArea.setText("");
             setProgressDisplay();
         }
         else {
@@ -117,7 +117,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         }
         controller.updateLearnsystem(learnSystem);
         setLabels();
-        this.answerLabel.setText("");
+        this.answerArea.setText("");
     }
 
     private void onBack() {
@@ -125,14 +125,14 @@ public class DisplayIndexcardToLearn extends JDialog{
         if (learnSystem.getProgress() > 0) {
             learnSystem.decreaseProgress();
             indexcard = indexCardList2Learn.get(learnSystem.getProgress());
-            questionLabel.setText(indexcard.getQuestion());
-            answerLabel.setText("");
+            questionArea.setText(indexcard.getQuestion());
+            answerArea.setText("");
             setProgressDisplay();
         }
 
         controller.updateLearnsystem(learnSystem);
         setLabels();
-        this.answerLabel.setText("");
+        this.answerArea.setText("");
     }
 
     private void onCancel() {

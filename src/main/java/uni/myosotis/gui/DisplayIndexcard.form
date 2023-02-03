@@ -8,24 +8,44 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="fe273" class="javax.swing.JLabel" binding="answerLabel">
+      <scrollpane id="a1bb1">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <horizontalAlignment value="10"/>
-          <horizontalTextPosition value="11"/>
-          <text value="ANTWORT"/>
+          <horizontalScrollBarPolicy value="31"/>
         </properties>
-      </component>
-      <component id="35201" class="javax.swing.JLabel" binding="questionLabel">
+        <border type="none"/>
+        <children>
+          <component id="f7318" class="javax.swing.JTextArea" binding="questionArea">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+              <lineWrap value="true"/>
+              <wrapStyleWord value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
+      <scrollpane id="6a430">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="FRAGE"/>
+          <horizontalScrollBarPolicy value="31"/>
         </properties>
-      </component>
+        <border type="none"/>
+        <children>
+          <component id="ad830" class="javax.swing.JTextArea" binding="answerArea">
+            <constraints/>
+            <properties>
+              <editable value="false"/>
+              <lineWrap value="true"/>
+              <wrapStyleWord value="true"/>
+            </properties>
+          </component>
+        </children>
+      </scrollpane>
     </children>
   </grid>
 </form>

@@ -64,7 +64,7 @@ indexcardDeleted;Karteikarte gelöscht;Indexcard deleted; Ficha eliminada; Cart�
 indexcardDeletedError;Die Karteikarte konnte nicht gelöscht werden.;The Indexcard could not be deleted.; La Ficha no pudo ser eliminada.; O cartão de índice não pôde ser eliminado.; La fiche n'a pas pu être supprimée.
 indexcardNotDeleted;Karteikarte nicht gelöscht;Indexcard not deleted; Ficha no eliminada; Cartão de índice não eliminado; Fiche non supprimée
 indexcardBoxCreatedMessage;Der Karteikasten (%s) wurde erfolgreich erstellt.;The Indexcardbox (%s) got successfully created.; La caja de Fichas (%s) fue creada con éxito.; A caixa de cartões de índice (%s) foi criada com sucesso.; La boîte de fiches (%s) a été créée avec succès.
-indexcardBoxCreated;Karteikasten erstellt;Indexcardbox successfully created; Caja de Fichas creada; Caixa de cartões de índice criada; Boîte de fiches créée
+indexcardBoxCreated;Karteikasten erstellt;Indexcardbox created; Caja de Fichas creada; Caixa de cartões de índice criada; Boîte de fiches créée
 indexcardBoxAlreadyExistError;Es existiert bereits ein Karteikasten mit diesem Namen.;There is already a Indexcardbox with this name.; Ya existe una caja de Fichas con este nombre.; Já existe uma caixa de cartões de índice com este nome.; Il existe déjà une boîte de fiches avec ce nom.
 indexcardBoxDeletedMessage;Der Karteikasten (%s) wurde erfolgreich gelöscht.;The Indexcardbox (%s) got successfully deleted.; La caja de Fichas (%s) fue eliminada con éxito.; A caixa de cartões de índice (%s) foi eliminada com sucesso.; La boîte de fiches (%s) a été supprimée avec succès.
 indexcardBoxDeleted;Karteikasten gelöscht;Indexcardbox deleted; Caja de Fichas eliminada; Caixa de cartões de índice eliminada; Boîte de fiches supprimée
@@ -73,7 +73,7 @@ indexcardBoxEdited;Karteikasten bearbeitet;Indexcardbox edited; Caja de Fichas e
 noIndexcardBoxWithNameError;Es existiert kein Karteikasten mit diesem Namen.;There is no Indexcardbox with the given name.; No hay caja de Fichas con este nombre.; Não existe nenhuma caixa de cartões de índice com este nome.; Il n'existe pas de boîte de fiches avec ce nom.
 noIndexcardBoxError;Karteikasten nicht vorhanden.;Indexcardbox does not exists; No hay caja de Fichas; Não existe nenhuma caixa de cartões de índice; La boîte de fiches n'existe pas
 categoryCreatedMessage;Die Kategorie (%s) wurde erfolgreich erstellt.;The Category (%s) got successfully created.; La categoría (%s) fue creada con éxito.; A categoria (%s) foi criada com sucesso.; La catégorie (%s) a été créée avec succès.
-categoryCreated;Kategorie erstellt;Category successfully created; Categoría creada; Categoria criada; Catégorie créée
+categoryCreated;Kategorie erstellt;Category created; Categoría creada; Categoria criada; Catégorie créée
 categoryAlreadyExistError;Es existiert bereits eine Kategorie mit diesem Namen.;There is already a Category with this name.; Ya existe una categoría con este nombre.; Já existe uma categoria com este nome.; Il existe déjà une catégorie avec ce nom.
 categoryDeletedMessage;Die Kategorie (%s) wurde erfolgreich gelöscht.;The Category (%s) got successfully deleted.; La categoría (%s) fue eliminada con éxito.; A categoria (%s) foi eliminada com sucesso.; La catégorie (%s) a été supprimée avec succès.
 categoryDeleted;Kategorie gelöscht;Category deleted; Categoría eliminada; Categoria eliminada; Catégorie supprimée

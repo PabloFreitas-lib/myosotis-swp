@@ -398,3 +398,7 @@ Database is already closed (to disable automatic closing at VM shutdown, add ";D
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:109)
 	at java.desktop/java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
 	at java.desktop/java.awt.EventDispatchThread.run(EventDispatchThread.java:90)
+2023-02-03 10:10:54 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Wert zu groß / lang für Feld "ANSWER CHARACTER VARYING(255)": "'hsdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss... (389)"
+Value too long for column "ANSWER CHARACTER VARYING(255)": "'hsdssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss... (389)"; SQL statement:
+insert into Indexcard (id, answer, name, question) values (default, ?, ?, ?) [22001-214]
