@@ -7,7 +7,6 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
-import java.util.Objects;
 
 public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
@@ -21,7 +20,7 @@ public class IndexcardBoxTab extends JDialog {
     private JButton createButton;
     private JPanel middlePanel;
     private JButton learnButton;
-    private JComboBox<String> comboBoxName;
+    private JComboBox<String> learnSystemName;
     private JLabel searchForNameLabel;
     private JLabel indexcardBoxLabel;
     private JLabel learnSystemLabel;
@@ -91,11 +90,15 @@ public class IndexcardBoxTab extends JDialog {
         } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
             JOptionPane.showMessageDialog(this, language.getName("selectOneIndexcardBoxMessage")
                     ,language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
-        }  else if(comboBoxName.getSelectedItem().toString() == "Random"){
-            controller.learnLeitnerSystem(comboBoxName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 1);
+        }  else if(learnSystemName.getSelectedItem().toString() == "Random"){
+            controller.learnLeitnerSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 1);
         }
-        else if( comboBoxName.getSelectedItem().toString() == "Leitner" ){
-            controller.learnLeitnerSystem(comboBoxName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 5);
+        else if( learnSystemName.getSelectedItem().toString() == "Leitner" ){
+            if (!controller.existsLearnsystem(controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get().getName()+ learnSystemName.getSelectedItem().toString())){
+                LearnConfig learnConfig = new LearnConfig(controller);
+                learnConfig.setVisible(true);
+            }
+            controller.learnLeitnerSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get(), 5);
         } else {
             JOptionPane.showMessageDialog(this, language.getName("selectLearnSystemMessage"),
                     language.getName("selectLearnSystem"), JOptionPane.INFORMATION_MESSAGE);
@@ -170,6 +173,7 @@ public class IndexcardBoxTab extends JDialog {
     public void updateComboBox(){
         // Array of all Indexcardnames
         String[] learnSystemList = {"Leitner", "Random"};
-        comboBoxName.setModel(new DefaultComboBoxModel<>(learnSystemList));
+        learnSystemName.setModel(new DefaultComboBoxModel<>(learnSystemList));
     }
+
 }
