@@ -3,6 +3,7 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
 import uni.myosotis.objects.LeitnerLearnSystem;
+import uni.myosotis.objects.Link;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +32,8 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JButton correctButton;
     private JTextArea questionArea;
     private JTextArea answerArea;
+    private JList<String> linkedIndexcardsList;
+    private JLabel linkedListLabel;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
@@ -61,6 +64,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         correctButton.setText(language.getName("correct"));
         wrongButton.setText(language.getName("wrong"));
         answeredButton.setText(language.getName("answered"));
+        linkedListLabel.setText(language.getName("linkedIndexcardsList")); // TODO
+
         controller.updateLearnsystem(learnSystem);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -75,6 +80,17 @@ public class DisplayIndexcardToLearn extends JDialog{
 
         wrongButton.addActionListener(e -> onWrong(indexcard));
 
+        linkedIndexcardsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+                    if (controller.getIndexcardByName(linkedIndexcardsList.getSelectedValue()).isPresent()) {
+                        controller.displayIndexcard(controller.getIndexcardByName(linkedIndexcardsList.getSelectedValue()).get());
+                    }
+                }
+            }
+        });
+
         Font font = new Font("Arial", Font.PLAIN, 20);
         answerArea.setFont(font);
         questionArea.setFont(font);
@@ -83,6 +99,9 @@ public class DisplayIndexcardToLearn extends JDialog{
     private void setLabels() {
         this.nameLabel.setText(String.format("Name: %s Box: %d",indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
         this.questionArea.setText(indexcard.getQuestion());
+        DefaultListModel<String> linkedListModel = new DefaultListModel<>();
+        linkedListModel.addAll(indexcard.getLinks().stream().map(Link::getIndexcard).map(Indexcard::getName).toList());
+        linkedIndexcardsList.setModel(linkedListModel);
     }
 
     /**
