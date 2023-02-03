@@ -35,7 +35,6 @@ indexcardboxNotCreated;Karteikasten nicht erstellt.;Indexcardbox was not created
 indexcardAlreadyExistError;Es existiert bereits eine Karteikarte mit diesem Namen (%s) .;There is already another Indexcard with this name (%s) .; Ya existe una Ficha con este nombre (%s).; Já existe um cartão de índice com este nome (%s).; Il existe déjà une fiche avec ce nom (%s).
 nameAlreadyAssignedError;Name bereits vergeben;Name is already assigned; Nombre ya asignado; Nome já atribuído; Nom déjà attribué
 indexcardToEditNonExistingError;Karteikarte zum Bearbeiten existiert nicht!;Indexcard which should be edited is non existing.; La Ficha que se quiere editar no existe.; O cartão de índice que se quer editar não existe.; La fiche que vous voulez éditer n'existe pas.
-;Karteikarte nicht bearbeitet.;Indexcard not edited.; Ficha no editada; Cartão de índice não editado; Fiche non éditée;
 indexcardNotEditedError;Karteikarte nicht verändert.;Indexcard not edited.; Ficha no editada; Cartão de índice não editado; Fiche non éditée
 whichIndexcard;Welche Indexkarte soll gelöscht werden?;Which Indexcard should be deleted?; ¿Qué Ficha quiere eliminar?; Qual cartão de índice deve ser eliminado?; Quelle fiche doit être supprimée?
 noIndexcardSelectedError;Keine Karteikarte ausgewählt.;No Indexcard selected; No hay Ficha seleccionada; Nenhum cartão de índice selecionado; Aucune fiche sélectionnée

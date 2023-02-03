@@ -28,6 +28,7 @@ public class DeleteIndexcard extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         setTitle(language.getName("deleteIndexcardTitle"));
+        deleteButton.setText(language.getName("delete"));
         getRootPane().setDefaultButton(deleteButton);
         // Set the language
         whichIndexcardLabel.setText(language.getName("whichIndexcard"));

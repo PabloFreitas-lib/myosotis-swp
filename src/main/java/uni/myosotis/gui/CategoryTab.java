@@ -77,7 +77,7 @@ public class CategoryTab extends JFrame{
             }
         }
         else {
-            controller.deleteIndexcard();
+            controller.deleteCategory();
         }
         updateList(controller.getAllCategories());
     }

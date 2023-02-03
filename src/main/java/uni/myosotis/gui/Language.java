@@ -57,8 +57,11 @@ public class Language {
         try {
             File file = new File("src/main/resources/LanguagesFile.csv");
             BufferedReader br = new BufferedReader(new FileReader(file));
-            String[] languages = br.readLine().split(";");
+            String[] tempLanguages = br.readLine().split(";");
             br.close();
+            // Remove first Object-Line
+            String[] languages = new String[tempLanguages.length - 1];
+            System.arraycopy(tempLanguages, 1, languages, 0, tempLanguages.length - 1);
             return languages;
         }
         catch (IOException e) {

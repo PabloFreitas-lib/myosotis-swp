@@ -29,7 +29,7 @@ public class DeleteCategory extends JDialog{
         this.language = language;
         setContentPane(contentPane);
         setModal(true);
-        setTitle("Kategorie löschen");
+        setTitle(language.getName("deleteCategoryTitle"));
         getRootPane().setDefaultButton(deleteButton);
         // Set the language
         whichCategoryLabel.setText(language.getName("whichCategory"));

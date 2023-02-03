@@ -39,6 +39,8 @@ public class EditCategory extends JDialog {
         this.language = language;
         setModal(true);
         setTitle(language.getName("editCategoryTitle"));
+        editButton.setText(language.getName("confirm"));
+        cancelButton.setText(language.getName("cancel"));
         getRootPane().setDefaultButton(editButton);
         setContentPane(contentPane);
 
