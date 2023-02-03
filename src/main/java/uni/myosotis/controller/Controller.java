@@ -707,4 +707,8 @@ public class Controller {
     public void updateLearnsystem(LeitnerLearnSystem learnsystem) {
         leitnerLearnSystemLogic.updateLearnsystem(learnsystem);
     }
+
+    public boolean existsLearnsystem(String name) {
+        return leitnerLearnSystemLogic.existsLeitnerLearnSystem(name);
+    }
 }

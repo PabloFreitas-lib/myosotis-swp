@@ -132,6 +132,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         else {
             // The user has learned all the indexcards in the box.
             learnSystem.setProgress(0);
+            JOptionPane.showMessageDialog(this, "Box ended"
+                    ,"We finish this this box", JOptionPane.INFORMATION_MESSAGE);
             dispose();
         }
         controller.updateLearnsystem(learnSystem);
@@ -192,4 +194,5 @@ public class DisplayIndexcardToLearn extends JDialog{
         this.learnProgressBar.setValue(learnSystem.getProgress());
         this.percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
     }
+
 }
