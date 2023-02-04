@@ -102,7 +102,7 @@ selectOneIndexcardBox;Keinen oder zu viele Karteikästen ausgewählt.;No or too 
 selectLearnSystemMessage;Wählen Sie ein Lernsystem aus;Select a learn system.; Seleccione un sistema de aprendizaje; Selecione um sistema de aprendizagem; Sélectionnez un système d'apprentissage
 selectLearnSystem;Lernsystem nicht verfügbar;Learn system not available; Sistema de aprendizaje no disponible; Sistema de aprendizagem não disponível; Système d'apprentissage non disponible
 language;Sprache;Language; Idioma; Idioma; Langue
-linkedIndexxcardsList;Verknüpfte Karteikarten;Linked Indexcards; Fichas vinculadas; Cartões de índice vinculados; Fiches liées
+linkedIndexcardsList;Verknüpfte Karteikarten;Linked Indexcards; Fichas vinculadas; Cartões de índice vinculados; Fiches liées
 nameAndBox;Name: %s Box: %d;Name: %s Box: %d; Nombre: %s Caja: %d; Nome: %s Caixa: %d; Nom: %s Boîte: %d
 sorryMessage;Entschuldigung.;Sorry.; Lo siento.; Desculpe.; Désolé.
 linkedIndexcardsList;Verknüpfte Karteikarten;Linked Indexcards; Fichas vinculadas; Cartões de índice vinculados; Fiches liées
