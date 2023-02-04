@@ -12,7 +12,7 @@ import javax.swing.text.Highlighter;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
-
+import java.util.Random;
 public class DisplayIndexcardToLearn extends JDialog{
     private final Controller controller;
     private final LeitnerLearnSystem learnSystem;
@@ -59,6 +59,11 @@ public class DisplayIndexcardToLearn extends JDialog{
         }
         else {
             this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getIndexcardBox(selectedBox).getIndexcardNames());
+            List<Indexcard> sortedIndexCardList = learnSort(indexCardList2Learn, sort);
+            if(sortedIndexCardList != null){
+                learnSort(indexCardList2Learn, sort);
+            }
+
         }
         // TODO sort the index card list following the selectedSort
         if (checkIndexCardList2Learn()) {
@@ -155,6 +160,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         else {
             // The user has learned all the indexcards in the box.
             learnSystem.setProgress(0);
+            learnSystem.setStarted(false);
             JOptionPane.showMessageDialog(this, String.format(language.getName("boxEnded"), selectedBox)
                     ,String.format(language.getName("boxEndedMessage"),selectedBox), JOptionPane.INFORMATION_MESSAGE);
             dispose();
@@ -181,6 +187,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     }
 
     private void onCancel() {
+        learnSystem.setStarted(true);
         controller.updateLearnsystem(learnSystem);
         dispose();
     }
@@ -224,12 +231,39 @@ public class DisplayIndexcardToLearn extends JDialog{
     }
 
     public boolean checkIndexCardList2Learn(){
-        if (indexCardList2Learn.isEmpty()){
-            return true;
-        }
-        return false;
+        return indexCardList2Learn.isEmpty();
     }
 
-
+    public List<Indexcard> learnSort(List<Indexcard> indexcards ,String method){
+        List<Indexcard> sorted = null;
+        if(method == null){
+            return null;
+        }
+        //language.getName("alphabetical")
+        if(method.equals("Alphabetisch")){
+            for(Indexcard indexcard : indexcards){
+                if(sorted == null){
+                    sorted.add(indexcard);
+                } else {
+                    for(int i = 0; i < sorted.size(); i++){
+                        if(sorted.get(i).getName().compareTo(indexcard.getName()) >= 0){
+                            sorted.add((i - 1), indexcard);
+                        } else {
+                            sorted.add(indexcard);
+                        }
+                    }
+                }
+            }
+            return sorted;
+            //language.getName("random")
+        } else if(method.equals("Zufällig")){
+            Random rand = new Random();
+            for(int i = rand.nextInt((indexcards.size()) + 1); sorted.size() != indexcards.size(); i++){
+                sorted.add(indexcards.get(i));
+            }
+            return sorted;
+        }
+        return null;
+    }
 
 }

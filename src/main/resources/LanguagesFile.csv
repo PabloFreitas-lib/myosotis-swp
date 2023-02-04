@@ -112,3 +112,5 @@ boxEmpty;Box %s ist leer;Box %s is empty; Caja %s está vacía; Caixa %s está v
 boxEmptyMessage; %s ist leer.; %s is empty.; %s está vacía.; %s está vazia.; %s est vide.
 random;Zufällig;Random; Aleatorio; Aleatório; Aléatoire
 alphabetical;Alphabetisch;Alphabetical; Alfabético; Alfabético; Alphabetique
+boxEmptyMessage; %s ist leer.; %s is empty.; %s está vacía.; %s está vazia.; %s est vide.
+selectMethod; Bitte wählen sie eine Methode aus!; Please select a method!;¡Seleccione un método!; Selecione um método!; Veuillez sélectionner une méthode !

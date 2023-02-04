@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 public class LearnConfig  extends JDialog{
 
     private Controller controller;
+    private Language language;
     private JLabel sortLabel;
     private JList boxesList;
     private JLabel boxesLabel;
@@ -22,8 +23,9 @@ public class LearnConfig  extends JDialog{
     private String selectedSort;
 
 
-    public LearnConfig(Controller controller) {
+    public LearnConfig(Controller controller, Language language) {
         this.controller = controller;
+        this.language = language;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(createButton);
@@ -50,7 +52,7 @@ public class LearnConfig  extends JDialog{
         if(sortComboBox.isVisible()){
             // Verify if anything is selected and if so, start the learning
             if(sortComboBox.getSelectedIndex() != -1){
-                selectedSort = sortComboBox.getSelectedItem().toString();
+                selectedSort = sortComboBox.getSelectedObjects().toString();
                 dispose();
             }
             else {
@@ -80,7 +82,7 @@ public class LearnConfig  extends JDialog{
     }
 
     public void setComboBoxValues() {
-        String[] sortingValues = new String[]{"Alphabetisch", "Zufällig"};
+        String[] sortingValues = new String[]{"Alphabetisch", language.getName("Zufällig")};
         sortComboBox.setModel(new DefaultComboBoxModel(sortingValues));
     }
 
@@ -88,6 +90,14 @@ public class LearnConfig  extends JDialog{
     /**
      * This function makes the button and the visible list visible
      */
+
+    public void configAll(){
+        sortComboBox.setVisible(true);
+        sortLabel.setVisible(true);
+        boxesList.setVisible(true);
+        boxesLabel.setVisible(true);
+        boxesScrollPane.setVisible(true);
+    }
     public void configSort(){
         sortComboBox.setVisible(true);
         sortLabel.setVisible(true);
@@ -127,4 +137,5 @@ public class LearnConfig  extends JDialog{
     public void setSelectedSort(String selectedSort) {
         this.selectedSort = selectedSort;
     }
+
 }

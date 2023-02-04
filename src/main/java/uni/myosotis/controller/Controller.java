@@ -726,4 +726,8 @@ public class Controller {
     public boolean existsLearnsystem(String name) {
         return leitnerLearnSystemLogic.existsLeitnerLearnSystem(name);
     }
+
+    public LeitnerLearnSystem getLeitnerLearnSystemByName(String name) {
+        return leitnerLearnSystemLogic.getLeitnerLearnSystemByName(name);
+    }
 }

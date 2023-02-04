@@ -2,6 +2,8 @@ package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.IndexcardBox;
+import uni.myosotis.logic.LeitnerLearnSystemLogic;
+import uni.myosotis.objects.LeitnerLearnSystem;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -11,6 +13,7 @@ import java.util.List;
 public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
     private final Language language;
+
     private JPanel contentPane;
     private JButton searchButton;
     private JList<String> indexcardBoxList;
@@ -89,25 +92,25 @@ public class IndexcardBoxTab extends JDialog {
                     language.getName("noIndexcardBoxExists"), JOptionPane.INFORMATION_MESSAGE);
         } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
             JOptionPane.showMessageDialog(this, language.getName("selectOneIndexcardBoxMessage")
-                    ,language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
-        }  else if(learnSystemName.getSelectedItem().toString() == "Random"){
+                    , language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
+        } else if (learnSystemName.getSelectedItem().toString() == "Random") {
+            LearnConfig learnConfig = null;
             controller.learnRandomLearnSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 1);
-        }
-        else if( learnSystemName.getSelectedItem().toString() == "Leitner" ){
-            LearnConfig learnConfig = new LearnConfig(controller);
-            if (controller.existsLearnsystem(controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get().getName()+ learnSystemName.getSelectedItem().toString())){
-                // Show just the boxes which can be selected to learn
-                learnConfig.configBoxes();
-                learnConfig.setVisible(true);
-            }
-            else {
-                // Show the Setting to sort the indexcards in the boxes
-                learnConfig.configSort();
-                learnConfig.setVisible(true);
-            }
+        } else if (learnSystemName.getSelectedItem().toString() == "Leitner") {
             String selectedLearnSystemName = learnSystemName.getSelectedItem().toString();
             IndexcardBox indexcardBoxSelected = controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get();
             int numberOfBoxes = 5;
+            LearnConfig learnConfig = new LearnConfig(controller, language);
+            if(controller.getLeitnerLearnSystemByName(indexcardBoxSelected.getName() + selectedLearnSystemName) == null){
+                learnConfig.configAll();
+                learnConfig.setVisible(true);
+            }
+            else if (!controller.getLeitnerLearnSystemByName(indexcardBoxSelected.getName() + selectedLearnSystemName).getStarted()) {
+                 //else if(!controller.existsLearnsystem(controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get().getName()+ learnSystemName.getSelectedItem().toString())){
+                 // Show just the boxes which can be selected to learn
+                 learnConfig.configAll();
+                 learnConfig.setVisible(true);
+            }
             String selectedSort = learnConfig.getSelectedSort();
             String selectedBox = learnConfig.getSelectedBox();
             controller.learnLeitnerSystem(selectedLearnSystemName, indexcardBoxSelected, numberOfBoxes, selectedSort, selectedBox);
@@ -184,8 +187,9 @@ public class IndexcardBoxTab extends JDialog {
      */
     public void updateComboBox(){
         // Array of all Indexcardnames
-        String[] learnSystemList = {"Leitner", "Random"};
+        String[] learnSystemList = {"Leitner", language.getName("random")};
         learnSystemName.setModel(new DefaultComboBoxModel<>(learnSystemList));
     }
+
 
 }

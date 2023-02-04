@@ -53,4 +53,8 @@ public class LeitnerLearnSystemLogic {
         return leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name) != null;
     }
 
+    public LeitnerLearnSystem getLeitnerLearnSystemByName(String name) {
+        return leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name);
+    }
+
 }

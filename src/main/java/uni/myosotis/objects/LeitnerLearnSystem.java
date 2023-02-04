@@ -25,6 +25,7 @@ public class LeitnerLearnSystem {
 
     private String sortType;
 
+    private boolean started;
 
     public LeitnerLearnSystem() {
     }
@@ -40,6 +41,7 @@ public class LeitnerLearnSystem {
         this.progress = 0;
         this.numberOfBoxes = numberOfBoxes;
         this.boxes = new ArrayList<>();
+        this.started = false;
         setSortType(sortType);
         for (int i = 0; i < numberOfBoxes; i++) {
             this.boxes.add(new Box("Box " + (i + 1)));
@@ -193,5 +195,13 @@ public class LeitnerLearnSystem {
         if(sortType!=null)
             this.sortType = sortType;
         else this.sortType = "Random";
+    }
+
+    public void setStarted(boolean start){
+        this.started = start;
+    }
+
+    public boolean getStarted(){
+        return this.started;
     }
 }
