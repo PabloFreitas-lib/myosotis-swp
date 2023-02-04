@@ -243,7 +243,11 @@ public class MainMenu extends JFrame {
         displayIndexcardToLearn.pack();
         displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
         displayIndexcardToLearn.setLocationRelativeTo(this);
-        displayIndexcardToLearn.setVisible(true);
+        if (!displayIndexcardToLearn.checkIndexCardList2Learn()) {
+            displayIndexcardToLearn.setVisible(true);
+        } else {
+            displayIndexcardToLearn.dispose();
+        }
     }
 
     /**

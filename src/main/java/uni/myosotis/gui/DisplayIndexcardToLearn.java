@@ -62,7 +62,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         }
         // TODO sort the index card list following the selectedSort
         if (checkIndexCardList2Learn()) {
-            // FIXME This function still has a bug. It should be fixed. An extra window when the Box is empty.
+            JOptionPane.showMessageDialog(this, String.format(language.getName("boxEmpty"), selectedBox)
+                    ,String.format(language.getName("boxEmptyMessage"),selectedBox), JOptionPane.INFORMATION_MESSAGE);
             dispose();
             return;
         }
@@ -224,9 +225,6 @@ public class DisplayIndexcardToLearn extends JDialog{
 
     public boolean checkIndexCardList2Learn(){
         if (indexCardList2Learn.isEmpty()){
-            JOptionPane.showMessageDialog(this, String.format(language.getName("boxEmpty"), selectedBox)
-                    ,String.format(language.getName("boxEmptyMessage"),selectedBox), JOptionPane.INFORMATION_MESSAGE);
-            dispose();
             return true;
         }
         return false;
