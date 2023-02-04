@@ -13,17 +13,17 @@ public class DeleteCategory extends JDialog{
 
     private final Controller controller;
     private final Language language;
-
     private JPanel contentPane;
     private JComboBox<String> categoryNamesComboBox;
     private JButton deleteButton;
     private JLabel whichCategoryLabel;
 
     /**
-     * Constructor.
+     * Create a new Dialog to delete a Category.
+     *
      * @param controller Controller.
+     * @param language The selected language.
      */
-
     public DeleteCategory(Controller controller, Language language) {
         this.controller = controller;
         this.language = language;
@@ -34,7 +34,7 @@ public class DeleteCategory extends JDialog{
         // Set the language
         whichCategoryLabel.setText(language.getName("whichCategory"));
         deleteButton.setText(language.getName("delete"));
-       // Array of all Kategorie
+        // Array of all Categories
         String[] categoriesNames = controller.getAllCategories().stream().
                 map(Category::getCategoryName).toList().toArray(new String[0]);
 
@@ -55,7 +55,7 @@ public class DeleteCategory extends JDialog{
     }
 
     /**
-     * Deletes a Category. If no Category is select, an error will be displayed.
+     * Deletes a Category. If no Category is selected, an error will be displayed.
      */
     private void onDelete() {
         String categoryToDelete = (String) categoryNamesComboBox.getSelectedItem();
@@ -69,7 +69,9 @@ public class DeleteCategory extends JDialog{
         }
     }
 
-
+    /**
+     * Closes the window
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

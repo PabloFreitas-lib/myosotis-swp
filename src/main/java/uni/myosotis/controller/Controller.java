@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The Controller of the application.
+ */
 public class Controller {
 
     /**
@@ -18,24 +21,9 @@ public class Controller {
     private final IndexcardLogic indexcardLogic;
 
     /**
-     * The IndexcardBoxLogic of the application.
-     */
-    private final IndexcardBoxLogic indexcardBoxLogic;
-
-    /**
      * The KeywordLogic of the application.
      */
     private final KeywordLogic keywordLogic;
-
-    /**
-     * The CategoryLogic of the application.
-     */
-    private final CategoryLogic categoryLogic;
-
-    /**
-     * The LearnsystemLogic of the application.
-     */
-    private final LeitnerLearnSystemLogic leitnerLearnSystemLogic;
 
     /**
      * The LinkLogic of the application.
@@ -43,10 +31,28 @@ public class Controller {
     private final LinkLogic linkLogic;
 
     /**
+     * The CategoryLogic of the application.
+     */
+    private final CategoryLogic categoryLogic;
+
+    /**
+     * The IndexcardBoxLogic of the application.
+     */
+    private final IndexcardBoxLogic indexcardBoxLogic;
+
+    /**
+     * The LearnsystemLogic of the application.
+     */
+    private final LeitnerLearnSystemLogic leitnerLearnSystemLogic;
+
+    /**
      * The main-menu of the application.
      */
     private MainMenu mainMenu;
 
+    /**
+     * The language of the application.
+     */
     private Language language;
 
     /**
@@ -54,17 +60,17 @@ public class Controller {
      *
      * @param indexcardLogic The logic for the Indexcards.
      * @param keywordLogic The logic for the Keywords.
-     * @param categoryLogic The logic for the Categories.
      * @param linkLogic The logic for the Links.
+     * @param categoryLogic The logic for the Categories.
      * @param indexcardBoxLogic The logic for the IndexcardBoxes.
      * @param leitnerLearnSystemLogic The logic for the LearnSystems.
      */
-    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final CategoryLogic categoryLogic, final LinkLogic linkLogic, final IndexcardBoxLogic indexcardBoxLogic, final LeitnerLearnSystemLogic leitnerLearnSystemLogic) {
+    public Controller(final IndexcardLogic indexcardLogic, final KeywordLogic keywordLogic, final LinkLogic linkLogic, final CategoryLogic categoryLogic, final IndexcardBoxLogic indexcardBoxLogic, final LeitnerLearnSystemLogic leitnerLearnSystemLogic) {
 
         this.indexcardLogic = indexcardLogic;
         this.keywordLogic = keywordLogic;
-        this.categoryLogic = categoryLogic;
         this.linkLogic = linkLogic;
+        this.categoryLogic = categoryLogic;
         this.indexcardBoxLogic = indexcardBoxLogic;
         this.leitnerLearnSystemLogic = leitnerLearnSystemLogic;
 
@@ -79,6 +85,11 @@ public class Controller {
         mainMenu.setVisible(true);
     }
 
+    /**
+     * Sets the language of the application.
+     *
+     * @param lang The language.
+     */
     public void setLanguage(String lang) {
         this.language = new Language(lang);
         mainMenu.setLanguage(language);
@@ -114,7 +125,6 @@ public class Controller {
      */
     public void createIndexcard(String name, String question, String answer, List<String> keywords, List<String> links) {
         try {
-
             // Create Keywords
             final List<Keyword> keywordObjects = new ArrayList<>();
             for (String keyword : keywords) {
@@ -177,7 +187,6 @@ public class Controller {
      */
     public void editIndexcard(String name, String question, String answer, List<String> keywords, List<String> links, Long id) {
         try {
-
             // Old Keywords from this Indexcard
             final List<Keyword> oldKeywords = indexcardLogic.getIndexcardById(id).getKeywords();
 
@@ -254,6 +263,7 @@ public class Controller {
      */
     public void deleteIndexcard(Long id) {
         try {
+            // Save old values of the Indexcard
             Indexcard indexcard = indexcardLogic.getIndexcardById(id);
             id = indexcard.getId();
             String deletedName = indexcard.getName();
@@ -306,31 +316,13 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find all Indexcards to the IndexcardLogic.
+     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
      *
-     * @return A list of all Indexcards.
+     * @param indexcard The name of the Indexcard.
+     * @return The Indexcard if it exists.
      */
-    public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
-        return indexcardLogic.getAllIndexcards(indexcardNames);
-    }
-
-    /**
-     * Returns a list of the names of all Indexcards.
-     *
-     * @return A list of the names of all Indexcards.
-     */
-    public List<String> getAllIndexcardNames() {
-        return getAllIndexcards().stream().map(Indexcard::getName).toList();
-    }
-
-    /**
-     * Returns a list of the Names of the given Indexcards to the IndexcardLogic.
-     *
-     * @param indexcards The Indexcards, from them the names should be returned.
-     * @return A list of the names of the given Indexcards.
-     */
-    public List<String> getNamesByIndexcards(List<Indexcard> indexcards) {
-        return indexcards.stream().map(Indexcard::getName).toList();
+    public Optional<Indexcard> getIndexcardByName(String indexcard) {
+        return indexcardLogic.getIndexcardByName(indexcard);
     }
 
     /**
@@ -344,13 +336,22 @@ public class Controller {
     }
 
     /**
-     * Delegates the exercise to find an Indexcard with the given name to the IndexcardLogic.
+     * Returns a list of the names of all Indexcards.
      *
-     * @param indexcard The name of the Indexcard.
-     * @return The Indexcard if it exists.
+     * @return A list of the names of all Indexcards.
      */
-    public Optional<Indexcard> getIndexcardByName(String indexcard) {
-        return indexcardLogic.getIndexcardByName(indexcard);
+    public List<String> getAllIndexcardNames() {
+        return getAllIndexcards().stream().map(Indexcard::getName).toList();
+    }
+
+    /**
+     * Returns a list of the Names of the given Indexcards.
+     *
+     * @param indexcards The Indexcards, from them the names should be returned.
+     * @return A list of the names of the given Indexcards.
+     */
+    public List<String> getNamesByIndexcards(List<Indexcard> indexcards) {
+        return indexcards.stream().map(Indexcard::getName).toList();
     }
 
     /**
@@ -411,6 +412,15 @@ public class Controller {
     }
 
     /**
+     * Displays the dialog to edit a selected IndexcardBox.
+     *
+     * @param indexcardBoxName The name of the selected IndexcardBox.
+     */
+    public void editIndexcardBox(String indexcardBoxName) {
+        mainMenu.displayEditIndexcardBox(indexcardBoxName);
+    }
+
+    /**
      * Delegates the exercise to update an existing IndexcardBox.
      *
      * @param indexcardBoxName The name of the IndexcardBox that should be updated.
@@ -457,15 +467,6 @@ public class Controller {
     }
 
     /**
-     * Returns the names of all IndexcardBoxes.
-     *
-     * @return A list of the names of all IndexcardBoxes.
-     */
-    public List<String> getAllIndexcardBoxNames() {
-        return getAllIndexcardBoxes().stream().map(IndexcardBox::getName).toList();
-    }
-
-    /**
      * Delegates the exercise to find an IndexcardBox with the given name to the IndexcardBoxLogic.
      *
      * @param indexcardBoxName The name of the Indexcard.
@@ -473,6 +474,15 @@ public class Controller {
      */
     public Optional<IndexcardBox> getIndexcardBoxByName(String indexcardBoxName) {
         return Optional.ofNullable(indexcardBoxLogic.getIndexcardBoxByName(indexcardBoxName));
+    }
+
+    /**
+     * Returns the names of all IndexcardBoxes.
+     *
+     * @return A list of the names of all IndexcardBoxes.
+     */
+    public List<String> getAllIndexcardBoxNames() {
+        return getAllIndexcardBoxes().stream().map(IndexcardBox::getName).toList();
     }
 
     /**
@@ -624,25 +634,6 @@ public class Controller {
     }
 
     /**
-     * Returns a list of the names of all Categories.
-     *
-     * @return A list of the names of all Categories.
-     */
-    public String [] getCategoryNames() {
-        return getAllCategories().stream().map(Category::getCategoryName).toList().toArray(new String[0]);
-    }
-
-    /**
-     * Returns a list of all CategoryNames from a CategoryList.
-     *
-     * @param categoryList The Categories from them the names get returned.
-     * @return A list of the Category-names from the list of Categories.
-     */
-    public List<String> getCategoryNames(List<Category> categoryList) {
-        return categoryList.stream().map(Category::getCategoryName).toList();
-    }
-
-    /**
      * Delegates the exercise to find a Category with the given name to the CategoryLogic.
      *
      * @param category The name of the Category.
@@ -660,6 +651,25 @@ public class Controller {
      */
     public List<Category> getCategoriesByCategoryNameList(List<String> categoryNameList) {
         return categoryLogic.getCategoriesByCategoryNameList(categoryNameList);
+    }
+
+    /**
+     * Returns a list of the names of all Categories.
+     *
+     * @return A list of the names of all Categories.
+     */
+    public List<String> getCategoryNames() {
+        return getAllCategories().stream().map(Category::getCategoryName).toList();
+    }
+
+    /**
+     * Returns a list of all CategoryNames from a CategoryList.
+     *
+     * @param categoryList The Categories from them the names get returned.
+     * @return A list of the Category-names from the list of Categories.
+     */
+    public List<String> getCategoriesByNames(List<Category> categoryList) {
+        return categoryList.stream().map(Category::getCategoryName).toList();
     }
 
     /**
@@ -723,10 +733,22 @@ public class Controller {
         leitnerLearnSystemLogic.updateLearnsystem(learnsystem);
     }
 
+    /**
+     * Delegates the exercise to check if a Learnsystem with the given name exists.
+     *
+     * @param name The name of the Learnsystem.
+     * @return True, if a Learnsystem with this name exists.
+     */
     public boolean existsLearnsystem(String name) {
         return leitnerLearnSystemLogic.existsLeitnerLearnSystem(name);
     }
 
+    /**
+     * Delegates the exercise to get a Learnsystem by its name.
+     *
+     * @param name The name of the Learnsystem.
+     * @return The Learnsystem with the name.
+     */
     public LeitnerLearnSystem getLeitnerLearnSystemByName(String name) {
         return leitnerLearnSystemLogic.getLeitnerLearnSystemByName(name);
     }

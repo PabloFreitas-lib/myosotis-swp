@@ -25,7 +25,11 @@ public class DisplayIndexcard extends JFrame {
     private JLabel linkedListLabel;
 
     /**
-     * Creates a new Window to display an Indexcard
+     * Creates a new Window to display an Indexcard.
+     *
+     * @param controller The Controller.
+     * @param indexcard The Indexcard that should be displayed.
+     * @param language The selected language.
      */
     public DisplayIndexcard(Controller controller, Indexcard indexcard, Language language) {
         this.controller = controller;
@@ -39,7 +43,7 @@ public class DisplayIndexcard extends JFrame {
         answerArea.setFont(font);
         this.questionArea.setText(indexcard.getQuestion());
         this.answerArea.setText(indexcard.getAnswer());
-
+        // Set Model
         DefaultListModel<String> linkedListModel = new DefaultListModel<>();
         linkedListModel.addAll(indexcard.getLinks().stream().map(Link::getIndexcard).map(Indexcard::getName).toList());
         linkedIndexcardsList.setModel(linkedListModel);

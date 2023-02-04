@@ -40,6 +40,7 @@ public class CreateIndexcard extends JDialog {
      * Create a new Dialog to create an Indexcard.
      *
      * @param controller The controller.
+     * @param language The selected language.
      */
     public CreateIndexcard(Controller controller, Language language) {
         this.controller = controller;
@@ -48,7 +49,7 @@ public class CreateIndexcard extends JDialog {
         setModal(true);
         setContentPane(contentPane);
         getRootPane().setDefaultButton(buttonOK);
-
+        // Set Model
         DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.addAll(controller.getAllIndexcardNames());
         // For Language
@@ -64,13 +65,10 @@ public class CreateIndexcard extends JDialog {
         indexcardLabel.setText(language.getName("indexcard"));
         addLinkButton.setText(language.getName("addLink"));
         removeLinkButton.setText(language.getName("removeLink"));
-
+        // ActionListeners
         buttonOK.addActionListener(e -> onOK());
-
         buttonCancel.addActionListener(e -> onCancel());
-
         addLinkButton.addActionListener(e -> onAddLink());
-
         removeLinkButton.addActionListener(e -> onRemoveLink());
 
         // call onCancel() when cross is clicked
@@ -83,8 +81,7 @@ public class CreateIndexcard extends JDialog {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-
-        //wenn im answerfeld ein text in [text] eingegeben wird soll ein link hinzugefügt werden mit dem text als term
+        // Add a term to the termField, if [text] ist entered, with the text as the term
         textAreaAnswer.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {

@@ -91,15 +91,23 @@ public class DeleteIndexcardTest {
     public void testCategoriesGetsUpdatedIfContainsIndexcard() {
         final Category mockCategory = mock(Category.class);
         final Indexcard mockIndexcard = mock(Indexcard.class);
+        final Indexcard mockIndexcard2 = mock(Indexcard.class);
+        final Indexcard mockIndexcard3 = mock(Indexcard.class);
         when(mockIndexcard.getId()).thenReturn(1L);
         when(mockIndexcard.getName()).thenReturn("name");
-        when(mockCategory.getIndexcards()).thenReturn(List.of(mockIndexcard));
+        when(mockIndexcard2.getId()).thenReturn(2L);
+        when(mockIndexcard2.getName()).thenReturn("secondName");
+        when(mockIndexcard3.getId()).thenReturn(3L);
+        when(mockIndexcard3.getName()).thenReturn("thirdName");
+        when(mockCategory.getIndexcards()).thenReturn(List.of(mockIndexcard, mockIndexcard2, mockIndexcard3));
         when(indexcardRepMock.getIndexcardById(mockIndexcard.getId())).thenReturn(Optional.of(mockIndexcard));
         when(indexcardRepMock.deleteIndexcard(mockIndexcard.getId())).thenReturn(0);
+        when(indexcardRepMock.getIndexcardByName("secondName")).thenReturn(Optional.of(mockIndexcard2));
+        when(indexcardRepMock.getIndexcardByName("thirdName")).thenReturn(Optional.empty());
         when(categoryRepMock.getAllCategories()).thenReturn(List.of(mockCategory));
         assertDoesNotThrow(() -> indexcardLogic.deleteIndexcard(mockIndexcard.getId()));
         verify(mockIndexcard, times(3)).getId();
-        verify(mockIndexcard, times(3)).getName();
+        verify(mockIndexcard, times(5)).getName();
         verify(mockCategory).getIndexcards();
         verify(indexcardRepMock, times(2)).getIndexcardById(mockIndexcard.getId());
         verify(indexcardRepMock).deleteIndexcard(mockIndexcard.getId());

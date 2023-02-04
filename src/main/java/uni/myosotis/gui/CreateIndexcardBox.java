@@ -32,9 +32,10 @@ public class CreateIndexcardBox extends JDialog {
 
 
     /**
-     * Constructor.
+     * Create a new Dialog to create an IndexcardBox.
      *
      * @param controller The controller.
+     * @param language The language.
      */
     public CreateIndexcardBox(Controller controller, Language language) {
         this.controller = controller;
@@ -65,8 +66,11 @@ public class CreateIndexcardBox extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Sets the CategoryScrollPane with a list of all Categories.
+     */
     public void setCategoryScrollPane(){
-        // Array of all Kategorie
+        // Array of all Categories
         String[] categoriesNames = controller.getAllCategories().stream().
                 map(Category::getCategoryName).toList().toArray(new String[0]);
         categoryNamesList = new JList<>(categoriesNames);
@@ -74,6 +78,7 @@ public class CreateIndexcardBox extends JDialog {
         // Parents options
         categoryScrollPane.setViewportView(categoryNamesList);
     }
+
     /**
      * Create a new Category, if the entered Text isn't empty, and close the window.
      */
