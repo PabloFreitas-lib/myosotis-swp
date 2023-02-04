@@ -27,3 +27,4 @@ target/
 /.idea/.gitignore
 db/myosotis.lock.db
 *.db
+db/myosotis.lock.db
