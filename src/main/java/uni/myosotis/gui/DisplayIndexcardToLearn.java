@@ -61,7 +61,7 @@ public class DisplayIndexcardToLearn extends JDialog{
             this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getIndexcardBox(selectedBox).getIndexcardNames());
             List<Indexcard> sortedIndexCardList = learnSort(indexCardList2Learn, sort);
             if(sortedIndexCardList != null){
-                learnSort(indexCardList2Learn, sort);
+                this.indexCardList2Learn = learnSort(this.indexCardList2Learn, sort);
             }
 
         }
@@ -240,7 +240,7 @@ public class DisplayIndexcardToLearn extends JDialog{
             return null;
         }
         //language.getName("alphabetical")
-        if(method.equals("Alphabetisch")){
+        if(method.equals(language.getName("alphabetical"))){
             for(Indexcard indexcard : indexcards){
                 if(sorted == null){
                     sorted.add(indexcard);
@@ -255,8 +255,7 @@ public class DisplayIndexcardToLearn extends JDialog{
                 }
             }
             return sorted;
-            //language.getName("random")
-        } else if(method.equals("Zufällig")){
+        } else if(method.equals(language.getName("random"))){
             Random rand = new Random();
             for(int i = rand.nextInt((indexcards.size()) + 1); sorted.size() != indexcards.size(); i++){
                 sorted.add(indexcards.get(i));

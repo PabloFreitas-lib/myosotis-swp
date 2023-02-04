@@ -1,6 +1,7 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
+import uni.myosotis.objects.IndexcardBox;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -19,17 +20,25 @@ public class LearnConfig  extends JDialog{
     private JPanel contentPane;
     private JScrollPane boxesScrollPane;
 
+    private String selectedLearnSystemName;
+
+    private IndexcardBox indexcardBoxSelected;
+
+    private int numberOfBoxes;
     private String selectedBox = "Box 1";
     private String selectedSort;
 
 
-    public LearnConfig(Controller controller, Language language) {
+    public LearnConfig(Controller controller, Language language, String selectedLearnSystemName, IndexcardBox indexcardBoxSelected, int numberOfBoxes) {
         this.controller = controller;
         this.language = language;
+        this.selectedLearnSystemName = selectedLearnSystemName;
+        this.indexcardBoxSelected = indexcardBoxSelected;
+        this.numberOfBoxes = numberOfBoxes;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(createButton);
-        setTitle("LearnConfig");
+        setTitle(language.getName("learningConfiguration"));
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
@@ -49,25 +58,26 @@ public class LearnConfig  extends JDialog{
     }
 
     private void onOk() {
-        if(sortComboBox.isVisible()){
             // Verify if anything is selected and if so, start the learning
             if(sortComboBox.getSelectedIndex() != -1){
                 selectedSort = sortComboBox.getSelectedObjects().toString();
-                dispose();
             }
             else {
-                JOptionPane.showMessageDialog(null, "Bitte wählen Sie eine Sortierung aus");
+                JOptionPane.showMessageDialog(null, language.getName("selectSortError"));
             }
-        } else if (boxesList.isVisible()){
             if(boxesList.getSelectedIndex() != -1){
                 selectedBox = boxesList.getSelectedValue().toString();
-                dispose();
             }
             else {
-                JOptionPane.showMessageDialog(null, "Bitte wählen Sie eine Box aus");
+                JOptionPane.showMessageDialog(null, language.getName("selectBoxError"));
+            }
+            if(sortComboBox.getSelectedIndex() != -1 && boxesList.getSelectedIndex() != -1){
+            String selectedSort = getSelectedSort();
+            String selectedBox = getSelectedBox();
+            controller.learnLeitnerSystem(selectedLearnSystemName, indexcardBoxSelected, numberOfBoxes, selectedSort, selectedBox);
+            dispose();
             }
         }
-    }
 
     private void onCancel() {
         // add your code here if necessary
@@ -82,7 +92,7 @@ public class LearnConfig  extends JDialog{
     }
 
     public void setComboBoxValues() {
-        String[] sortingValues = new String[]{"Alphabetisch", language.getName("Zufällig")};
+        String[] sortingValues = new String[]{language.getName("alphabetical"), language.getName("random")};
         sortComboBox.setModel(new DefaultComboBoxModel(sortingValues));
     }
 

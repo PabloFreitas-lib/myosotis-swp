@@ -100,20 +100,21 @@ public class IndexcardBoxTab extends JDialog {
             String selectedLearnSystemName = learnSystemName.getSelectedItem().toString();
             IndexcardBox indexcardBoxSelected = controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get();
             int numberOfBoxes = 5;
-            LearnConfig learnConfig = new LearnConfig(controller, language);
+            LearnConfig learnConfig = new LearnConfig(controller, language, selectedLearnSystemName, indexcardBoxSelected, numberOfBoxes);
             if(controller.getLeitnerLearnSystemByName(indexcardBoxSelected.getName() + selectedLearnSystemName) == null){
                 learnConfig.configAll();
                 learnConfig.setVisible(true);
             }
             else if (!controller.getLeitnerLearnSystemByName(indexcardBoxSelected.getName() + selectedLearnSystemName).getStarted()) {
-                 //else if(!controller.existsLearnsystem(controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get().getName()+ learnSystemName.getSelectedItem().toString())){
-                 // Show just the boxes which can be selected to learn
-                 learnConfig.configAll();
-                 learnConfig.setVisible(true);
+                //else if(!controller.existsLearnsystem(controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get().getName()+ learnSystemName.getSelectedItem().toString())){
+                // Show just the boxes which can be selected to learn
+                learnConfig.configAll();
+                learnConfig.setVisible(true);
+            } else if (controller.getLeitnerLearnSystemByName(indexcardBoxSelected.getName() + selectedLearnSystemName).getStarted()) {
+                LeitnerLearnSystem learnSystem = controller.getLeitnerLearnSystemByName(indexcardBoxSelected.getName() + selectedLearnSystemName);
+                controller.learnLeitnerSystem(selectedLearnSystemName, indexcardBoxSelected, numberOfBoxes, learnSystem.getSortType(), learnConfig.getSelectedBox());
             }
-            String selectedSort = learnConfig.getSelectedSort();
-            String selectedBox = learnConfig.getSelectedBox();
-            controller.learnLeitnerSystem(selectedLearnSystemName, indexcardBoxSelected, numberOfBoxes, selectedSort, selectedBox);
+
         } else {
             JOptionPane.showMessageDialog(this, language.getName("selectLearnSystemMessage"),
                     language.getName("selectLearnSystem"), JOptionPane.INFORMATION_MESSAGE);

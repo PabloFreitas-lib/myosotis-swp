@@ -25,6 +25,8 @@ public class LeitnerLearnSystem {
 
     private String sortType;
 
+    private List<String> boxList;
+
     private boolean started;
 
     public LeitnerLearnSystem() {
@@ -41,6 +43,7 @@ public class LeitnerLearnSystem {
         this.progress = 0;
         this.numberOfBoxes = numberOfBoxes;
         this.boxes = new ArrayList<>();
+        this.boxList = null;
         this.started = false;
         setSortType(sortType);
         for (int i = 0; i < numberOfBoxes; i++) {
@@ -203,5 +206,13 @@ public class LeitnerLearnSystem {
 
     public boolean getStarted(){
         return this.started;
+    }
+
+    public void setBoxList (List<String> boxes){
+        this.boxList = boxes;
+    }
+
+    public List<String> getBoxList (){
+        return this.boxList;
     }
 }
