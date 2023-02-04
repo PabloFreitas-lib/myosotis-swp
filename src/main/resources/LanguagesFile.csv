@@ -116,3 +116,4 @@ boxEmptyMessage; %s ist leer.; %s is empty.; %s está vacía.; %s está vazia.; 
 selectBoxError;Keine Box ausgewählt.;No box selected.; No se ha seleccionado ninguna caja.; Nenhuma caixa selecionada.; Aucune boîte sélectionnée.
 selectSortError;Keine Sortierung ausgewählt.;No sorting selected.; No se ha seleccionado ningún orden.; Nenhuma ordenação selecionada.; Aucun tri sélectionné.
 selectMethod; Bitte wählen sie eine Methode aus!; Please select a method!;¡Seleccione un método!; Selecione um método!; Veuillez sélectionner une méthode !
+learningConfiguration;Lernkonfiguration;Learning configuration; Configuración de aprendizaje; Configuração de aprendizagem; Configuration d'apprentissage
