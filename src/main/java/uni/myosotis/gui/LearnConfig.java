@@ -15,7 +15,7 @@ public class LearnConfig  extends JDialog{
     private JLabel boxesLabel;
     private JButton createButton;
     private JButton cancelButton;
-    private JComboBox sortComboBox;
+    private JComboBox<String> sortComboBox;
     private JPanel contentPane;
     private JScrollPane boxesScrollPane;
 
@@ -52,7 +52,7 @@ public class LearnConfig  extends JDialog{
         if(sortComboBox.isVisible()){
             // Verify if anything is selected and if so, start the learning
             if(sortComboBox.getSelectedIndex() != -1){
-                selectedSort = sortComboBox.getSelectedObjects().toString();
+                selectedSort = (String) sortComboBox.getSelectedItem();
                 dispose();
             }
             else {
@@ -82,7 +82,7 @@ public class LearnConfig  extends JDialog{
     }
 
     public void setComboBoxValues() {
-        String[] sortingValues = new String[]{"Alphabetisch", language.getName("Zufällig")};
+        String[] sortingValues = new String[]{language.getName("alphabetical"), language.getName("random")};
         sortComboBox.setModel(new DefaultComboBoxModel(sortingValues));
     }
 

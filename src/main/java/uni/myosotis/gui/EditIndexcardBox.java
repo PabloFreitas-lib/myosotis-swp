@@ -2,6 +2,7 @@ package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Category;
+import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
 
 import javax.swing.*;
@@ -72,6 +73,15 @@ public class EditIndexcardBox extends JDialog {
                 controller.editIndexcardBox(selectedIndexcardBox.get().getName(), selectedCategoryList);
             dispose();
         }
+    }
+
+    /**
+     * Sets an indexcardBox to edit by setting the ComboBox to the indexcard name.
+     *
+     * @param indexcardBoxName The IndexcardBox that should be edited.
+     */
+    public void setIndexcardBox(String indexcardBoxName){
+        indexcardboxNameComboBox.setSelectedItem(indexcardBoxName);
     }
 
     public void onCancel(){

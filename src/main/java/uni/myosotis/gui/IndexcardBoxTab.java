@@ -146,8 +146,18 @@ public class IndexcardBoxTab extends JDialog {
      * If not it opens a dialog to edit an Indexcard.
      */
     private void onEdit() {
+        if (indexcardBoxList.getSelectedValue() != null) {
+            if (indexcardBoxList.getSelectedValuesList().size() == 1) {
+                String indexcardBoxName = indexcardBoxList.getSelectedValue();
+                if (controller.getIndexcardBoxByName(indexcardBoxName).isPresent()) {
+                    controller.editIndexcardBox(controller.getIndexcardBoxByName(indexcardBoxName).get().getName());
+                }
+            }
+        }
+        else {
             controller.editIndexcardBox();
-            updateList(controller.getAllIndexcardBoxes());
+        }
+        updateList(controller.getAllIndexcardBoxes());
     }
 
     /**

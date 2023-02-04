@@ -410,6 +410,10 @@ public class Controller {
         mainMenu.displayEditIndexcardBox();
     }
 
+    public void editIndexcardBox(String indexcardBoxName) {
+        mainMenu.displayEditIndexcardBox(indexcardBoxName);
+    }
+
     /**
      * Delegates the exercise to update an existing IndexcardBox.
      *

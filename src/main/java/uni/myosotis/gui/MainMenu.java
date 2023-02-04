@@ -140,6 +140,16 @@ public class MainMenu extends JFrame {
         editIndexcardBox.setVisible(true);
     }
 
+    public void displayEditIndexcardBox(String indexcardBoxName) {
+        final EditIndexcardBox editIndexcardBox = new EditIndexcardBox(controller, language);
+        editIndexcardBox.pack();
+        editIndexcardBox.setMinimumSize(editIndexcardBox.getSize());
+        editIndexcardBox.setSize(400, 300);
+        editIndexcardBox.setLocationRelativeTo(this);
+        editIndexcardBox.setIndexcardBox(indexcardBoxName);
+        editIndexcardBox.setVisible(true);
+    }
+
     /**
      * Displays the Dialog to edit an existing Indexcard.
      */
