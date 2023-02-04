@@ -94,8 +94,8 @@ public class IndexcardLogic {
      * @param id The id of the Indexcard.
      */
     public void deleteIndexcard(Long id) {
-        Indexcard indexcard2delete = getIndexcardById(id);
         if (indexcardRepository.getIndexcardById(id).isPresent()) {
+            Indexcard indexcard2delete = indexcardRepository.getIndexcardById(id).get();
             List<Category> categoryContains = categoryRepository.getAllCategories();
             for (Category categoryContain : categoryContains) {
                 List<String> temp = new ArrayList<>(categoryContain.getIndexcards().stream().map(Indexcard::getName).toList());
@@ -130,7 +130,9 @@ public class IndexcardLogic {
     public List<Indexcard> getAllIndexcards(List<String> indexcardNames) {
         List<Indexcard> indexcards = new ArrayList<>();
         for (String indexcardName : indexcardNames) {
-            indexcards.add(getIndexcardByName(indexcardName).get());
+            if (getIndexcardByName(indexcardName).isPresent()) {
+                indexcards.add(getIndexcardByName(indexcardName).get());
+            }
         }
         return indexcards;
     }

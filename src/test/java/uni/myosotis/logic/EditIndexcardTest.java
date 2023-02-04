@@ -47,7 +47,7 @@ public class EditIndexcardTest {
     }
 
     @Test
-    public void NoExceptionsIfIndexcardUpdatedCorrectly() {
+    public void testNoExceptionsIfIndexcardUpdatedCorrectly() {
         final Indexcard mockIndexcard = mock(Indexcard.class);
         when(mockIndexcard.getId()).thenReturn(1L);
         when(indexcardRepMock.getIndexcardById(mockIndexcard.getId())).thenReturn(Optional.of(mockIndexcard));
