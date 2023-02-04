@@ -21,9 +21,10 @@ public class DeleteIndexcardBox extends JDialog{
 
 
     /**
-     * Create a new Dialog to delete an Indexcard
+     * Create a new Dialog to delete an IndexcardBox.
      *
      * @param controller The controller.
+     * @param language The selected language.
      */
     public DeleteIndexcardBox(Controller controller, Language language){
         this.controller = controller;
@@ -70,7 +71,9 @@ public class DeleteIndexcardBox extends JDialog{
         }
     }
 
-
+    /**
+     * Closes the window.
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();

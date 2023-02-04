@@ -49,7 +49,7 @@ public class EditIndexcardBox extends JDialog {
             selectedIndexcardBox = controller.getIndexcardBoxByName((String) indexcardboxNameComboBox.getSelectedItem());
             if(selectedIndexcardBox.isPresent()){
                 List<String> selectedIndexcardBoxCategory = List.of(selectedIndexcardBox.get().getCategoryNameList());
-                categoriesNamesList = new JList<>(controller.getCategoryNames());
+                categoriesNamesList = new JList<>(controller.getCategoryNames().toArray(new String[0]));
                 ArrayList<Integer> indices = new ArrayList<>();
                 categoriesNamesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
                 for (String s : selectedIndexcardBoxCategory) {

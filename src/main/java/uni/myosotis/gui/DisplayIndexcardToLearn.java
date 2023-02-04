@@ -1,4 +1,5 @@
 package uni.myosotis.gui;
+
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.IndexcardBox;
@@ -6,13 +7,14 @@ import uni.myosotis.objects.LeitnerLearnSystem;
 import uni.myosotis.objects.Link;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultHighlighter;
-import javax.swing.text.Highlighter;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
+
 public class DisplayIndexcardToLearn extends JDialog{
     private final Controller controller;
     private final LeitnerLearnSystem learnSystem;
@@ -55,13 +57,13 @@ public class DisplayIndexcardToLearn extends JDialog{
         this.selectedBox = box;
         //learnSystem.setSortType(this.selectedSort);
         if (learnSystem.getSortType().isEmpty() && this.selectedBox.isEmpty()) {
-            this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcardNames());
+            this.indexCardList2Learn = controller.getIndexcardsByIndexcardNameList(learnSystem.getNextIndexcardNames());
         }
         else {
-            this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getIndexcardBox(selectedBox).getIndexcardNames());
+            this.indexCardList2Learn = controller.getIndexcardsByIndexcardNameList(learnSystem.getIndexcardBox(selectedBox).getIndexcardNames());
             List<Indexcard> sortedIndexCardList = learnSort(indexCardList2Learn, sort);
             if(sortedIndexCardList != null){
-                learnSort(indexCardList2Learn, sort);
+                this.indexCardList2Learn = learnSort(this.indexCardList2Learn, sort);
             }
 
         }
@@ -122,6 +124,9 @@ public class DisplayIndexcardToLearn extends JDialog{
         sorryLabel.setVisible(false);
     }
 
+    /**
+     * Sets the labels.
+     */
     private void setLabels() {
         this.nameLabel.setText(indexcard.getName());
         this.boxNameLabel.setText(selectedBox);
@@ -136,7 +141,6 @@ public class DisplayIndexcardToLearn extends JDialog{
      * This method is called when the user clicks the "Answered" button.
      * It shows the answer.
      */
-
     private void onAnswered(Indexcard indexcard) {
         answerArea.setText(indexcard.getAnswer());
         showButtons();
@@ -171,6 +175,10 @@ public class DisplayIndexcardToLearn extends JDialog{
         this.answerArea.setText("");
     }
 
+    /**
+     * This method is called when the user clicks the "Back" button.
+     * It shows the previous indexcard.
+     */
     private void onBack() {
         hiddenButtons();
         if (learnSystem.getProgress() > 0) {
@@ -186,27 +194,47 @@ public class DisplayIndexcardToLearn extends JDialog{
         this.answerArea.setText("");
     }
 
+    /**
+     * Updates the progress and closes the window.
+     */
     private void onCancel() {
         learnSystem.setStarted(true);
         controller.updateLearnsystem(learnSystem);
         dispose();
     }
 
+    /**
+     * Hide the "Correct"- and "Wrong"-Button.
+     */
     private void hiddenButtons(){
         correctButton.setVisible(false);
         wrongButton.setVisible(false);
     }
 
+    /**
+     * Shows the "Correct"- and "Wrong"-Button.
+     */
     private void showButtons(){
         correctButton.setVisible(true);
         wrongButton.setVisible(true);
     }
 
+    /**
+     * Gets executed if the user clicked the "Correct"-Button.
+     *
+     * @param indexcard The Indexcard that was answered correct.
+     */
     private void onCorrect(Indexcard indexcard){
         learnSystem.correctAnswer(indexcard);
         controller.updateLearnsystem(learnSystem);
         onNext();
     }
+
+    /**
+     * Gets executed when the user clicked the "Wrong"-Button.
+     *
+     * @param indexcard The Indexcard that was answered wrong.
+     */
     private void onWrong(Indexcard indexcard){
         learnSystem.wrongAnswer(indexcard);
         controller.updateLearnsystem(learnSystem);
@@ -230,40 +258,34 @@ public class DisplayIndexcardToLearn extends JDialog{
         this.percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
     }
 
+    /**
+     * Checks if there exists Indexcards to learn.
+     *
+     * @return True, if there exists Indexcards to learn.
+     */
     public boolean checkIndexCardList2Learn(){
         return indexCardList2Learn.isEmpty();
     }
 
+    /**
+     * Sort the Indexcards.
+     *
+     * @param indexcards The Indexcards that should be sorted.
+     * @param method The method how the Indexcards should be sorted.
+     * @return The sorted Indexcards.
+     */
     public List<Indexcard> learnSort(List<Indexcard> indexcards ,String method){
-        List<Indexcard> sorted = null;
-        if(method == null){
+        if (method == null){
             return null;
         }
-        //language.getName("alphabetical")
-        if(method.equals("Alphabetisch")){
-            for(Indexcard indexcard : indexcards){
-                if(sorted == null){
-                    sorted.add(indexcard);
-                } else {
-                    for(int i = 0; i < sorted.size(); i++){
-                        if(sorted.get(i).getName().compareTo(indexcard.getName()) >= 0){
-                            sorted.add((i - 1), indexcard);
-                        } else {
-                            sorted.add(indexcard);
-                        }
-                    }
-                }
-            }
-            return sorted;
-            //language.getName("random")
-        } else if(method.equals("Zufällig")){
-            Random rand = new Random();
-            for(int i = rand.nextInt((indexcards.size()) + 1); sorted.size() != indexcards.size(); i++){
-                sorted.add(indexcards.get(i));
-            }
-            return sorted;
+        else if (method.equals(language.getName("alphabetical"))){
+            Collections.sort(indexcards, Comparator.comparing(Indexcard::getName));
+            return indexcards;
+        } else if (method.equals(language.getName("random"))) {
+            Collections.shuffle(indexcards);
+            return indexcards;
+
         }
         return null;
     }
-
 }
