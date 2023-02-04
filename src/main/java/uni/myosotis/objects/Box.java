@@ -14,7 +14,13 @@ public class Box {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    private String name;
+
     public Box() {
+    }
+
+    public Box(String name) {
+        this.name = name;
     }
     public long getId() {
         return id;
@@ -36,5 +42,9 @@ public class Box {
 
     public void removeIndexcard(String indexcardName) {
         this.indexcardNames.remove(indexcardName);
+    }
+
+    public String getName() {
+        return name;
     }
 }

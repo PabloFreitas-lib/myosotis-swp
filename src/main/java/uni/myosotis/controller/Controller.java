@@ -689,9 +689,24 @@ public class Controller {
      *
      * @param indexcardBox The IndexcardBox that should be learned.
      */
-    public void learnLeitnerSystem(String name, IndexcardBox indexcardBox, int numberOfBoxes) {
+    public void learnLeitnerSystem(String name, IndexcardBox indexcardBox, int numberOfBoxes, String sort, String box) {
         if (!indexcardBox.getCategoryList().isEmpty()) {
-            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(indexcardBox.getName() + name, indexcardBox.getIndexcardList(), numberOfBoxes), indexcardBox);
+            String learnSystemName = indexcardBox.getName() + name;
+            List<String> indexCardNameList = indexcardBox.getIndexcardList();
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(learnSystemName, indexCardNameList, numberOfBoxes, sort), indexcardBox, sort, box);
+        }
+        else {
+            JOptionPane.showMessageDialog(mainMenu,
+                    language.getName("noCategoryInIndexcardboxError"), language.getName("noCategoryInIndexcardbox"),
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void learnRandomLearnSystem(String name, IndexcardBox indexcardBox, int numberOfBoxes) {
+        if (!indexcardBox.getCategoryList().isEmpty()) {
+            String learnSystemName = indexcardBox.getName() + name;
+            List<String> indexCardNameList = indexcardBox.getIndexcardList();
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(learnSystemName, indexCardNameList, numberOfBoxes, ""), indexcardBox);
         }
         else {
             JOptionPane.showMessageDialog(mainMenu,

@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="302e0" class="javax.swing.JLabel" binding="parentLabel">
+          <component id="302e0" class="javax.swing.JLabel" binding="sortLabel">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -24,7 +24,7 @@
               <text value="Sortierung"/>
             </properties>
           </component>
-          <scrollpane id="f27c4">
+          <scrollpane id="f27c4" binding="boxesScrollPane">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -37,7 +37,7 @@
               </component>
             </children>
           </scrollpane>
-          <component id="134d1" class="javax.swing.JLabel" binding="indexcardLabel">
+          <component id="134d1" class="javax.swing.JLabel" binding="boxesLabel">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -45,7 +45,7 @@
               <text value="Boxen"/>
             </properties>
           </component>
-          <component id="3c4ff" class="javax.swing.JComboBox" binding="comboBox">
+          <component id="3c4ff" class="javax.swing.JComboBox" binding="sortComboBox">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>

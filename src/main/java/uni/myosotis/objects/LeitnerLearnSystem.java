@@ -23,6 +23,8 @@ public class LeitnerLearnSystem {
 
     private int numberOfBoxes;
 
+    private String sortType;
+
 
     public LeitnerLearnSystem() {
     }
@@ -32,14 +34,15 @@ public class LeitnerLearnSystem {
      * All indexcards are places in the first box.
      * @param indexcardList The list of indexcards that should be learned.
      */
-    public LeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
+    public LeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes,String sortType) {
         this.name = name;
         this.indexcardList = indexcardList;
         this.progress = 0;
         this.numberOfBoxes = numberOfBoxes;
         this.boxes = new ArrayList<>();
+        setSortType(sortType);
         for (int i = 0; i < numberOfBoxes; i++) {
-            this.boxes.add(new Box());
+            this.boxes.add(new Box("Box " + (i + 1)));
         }
         // add all indexcards to the first box
         this.boxes.get(0).setIndexcardNames(indexcardList);
@@ -99,6 +102,7 @@ public class LeitnerLearnSystem {
         return nextIndexcardNames;
     }
 
+
     public void increaseProgress() {
         if (indexcardList.size() > this.progress)
             this.progress++;
@@ -153,18 +157,6 @@ public class LeitnerLearnSystem {
         }
     }
 
-    /**
-     * This methode return which box the indexcard name is in.
-     */
-    public int getIndexcardBox(String indexcardName) {
-        for (int i = 0; i < this.numberOfBoxes; i++) {
-            if (this.boxes.get(i).getIndexcardNames().contains(indexcardName)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
     }
@@ -177,4 +169,29 @@ public class LeitnerLearnSystem {
         this.id = id;
     }
 
+    /**
+     * This method return the box with the given name.
+     * The Boxes are numbered from 1 to numberOfBoxes.
+     * The name is set: Box 1, Box 2, ...
+     * @param boxName
+     * @return
+     */
+    public Box getIndexcardBox(String boxName){
+        for (Box box : this.boxes) {
+            if (box.getName().equals(boxName)) {
+                return box;
+            }
+        }
+        return null;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        if(sortType!=null)
+            this.sortType = sortType;
+        else this.sortType = "Random";
+    }
 }

@@ -1,7 +1,6 @@
 package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
-import uni.myosotis.objects.LeitnerLearnSystem;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -10,13 +9,17 @@ import java.awt.event.WindowEvent;
 public class LearnConfig  extends JDialog{
 
     private Controller controller;
-    private JLabel parentLabel;
+    private JLabel sortLabel;
     private JList boxesList;
-    private JLabel indexcardLabel;
+    private JLabel boxesLabel;
     private JButton createButton;
     private JButton cancelButton;
-    private JComboBox comboBox;
+    private JComboBox sortComboBox;
     private JPanel contentPane;
+    private JScrollPane boxesScrollPane;
+
+    private String selectedBox = "Box 1";
+    private String selectedSort;
 
 
     public LearnConfig(Controller controller) {
@@ -30,6 +33,8 @@ public class LearnConfig  extends JDialog{
         setSize(800, 600);
         setComboBoxValues();
         setBoxesList();
+        configOff();
+
         createButton.addActionListener(e -> onOk());
         cancelButton.addActionListener(e -> onCancel());
 
@@ -42,8 +47,24 @@ public class LearnConfig  extends JDialog{
     }
 
     private void onOk() {
-        // add your code here
-        dispose();
+        if(sortComboBox.isVisible()){
+            // Verify if anything is selected and if so, start the learning
+            if(sortComboBox.getSelectedIndex() != -1){
+                selectedSort = sortComboBox.getSelectedItem().toString();
+                dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Bitte wählen Sie eine Sortierung aus");
+            }
+        } else if (boxesList.isVisible()){
+            if(boxesList.getSelectedIndex() != -1){
+                selectedBox = boxesList.getSelectedValue().toString();
+                dispose();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Bitte wählen Sie eine Box aus");
+            }
+        }
     }
 
     private void onCancel() {
@@ -60,6 +81,50 @@ public class LearnConfig  extends JDialog{
 
     public void setComboBoxValues() {
         String[] sortingValues = new String[]{"Alphabetisch", "Zufällig"};
-        comboBox.setModel(new DefaultComboBoxModel(sortingValues));
+        sortComboBox.setModel(new DefaultComboBoxModel(sortingValues));
+    }
+
+
+    /**
+     * This function makes the button and the visible list visible
+     */
+    public void configSort(){
+        sortComboBox.setVisible(true);
+        sortLabel.setVisible(true);
+        boxesList.setVisible(false);
+        boxesLabel.setVisible(false);
+        boxesScrollPane.setVisible(false);
+    }
+
+    public void configBoxes(){
+        sortComboBox.setVisible(false);
+        sortLabel.setVisible(false);
+        boxesList.setVisible(true);
+        boxesLabel.setVisible(true);
+        boxesScrollPane.setVisible(true);
+    }
+
+    public void configOff(){
+        sortComboBox.setVisible(false);
+        sortLabel.setVisible(false);
+        boxesList.setVisible(false);
+        boxesLabel.setVisible(false);
+        boxesScrollPane.setVisible(false);
+    }
+
+    public String getSelectedBox() {
+        return selectedBox;
+    }
+
+    public void setSelectedBox(String selectedBox) {
+        this.selectedBox = selectedBox;
+    }
+
+    public String getSelectedSort() {
+        return selectedSort;
+    }
+
+    public void setSelectedSort(String selectedSort) {
+        this.selectedSort = selectedSort;
     }
 }

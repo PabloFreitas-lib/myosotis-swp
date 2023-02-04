@@ -33,20 +33,20 @@ public class LeitnerLearnSystemLogic {
     }
 
 
-    public LeitnerLearnSystem learnLeitnerSystem(final String name , List<String> indexcardList, int numberOfBoxes) {
+    public LeitnerLearnSystem learnLeitnerSystem(final String name , List<String> indexcardList, int numberOfBoxes,String sortType) {
         LeitnerLearnSystem learnSystem = leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name);
         if (learnSystem!=null) {
             return learnSystem;
         } else {
-            saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes);
+            saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes, sortType);
             if (leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name) == null)
                 throw new RuntimeException("LeitnerLearnSystem could not be saved.)");
             return leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name);
         }
     }
 
-    public void saveLeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes) {
-        leitnerLearnSystemRepository.saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes);
+    public void saveLeitnerLearnSystem(String name, List<String> indexcardList, int numberOfBoxes, String sortType) {
+        leitnerLearnSystemRepository.saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes, sortType);
     }
 
     public boolean existsLeitnerLearnSystem(String name) {

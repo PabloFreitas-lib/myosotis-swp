@@ -16,16 +16,13 @@ import java.util.List;
 public class DisplayIndexcardToLearn extends JDialog{
     private final Controller controller;
     private final LeitnerLearnSystem learnSystem;
-    //private final IndexcardBox indexcardBox;
     private final Language language;
     private Indexcard indexcard;
-
-    //private int progress = 0;
 
     private List<Indexcard> indexCardList2Learn;
 
     private JPanel contentPane;
-    private JButton backButton;
+    //private JButton backButton;
     private JButton nextButton;
     private JButton answeredButton;
     private JLabel nameLabel;
@@ -38,6 +35,10 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JList<String> linkedIndexcardsList;
     private JLabel linkedListLabel;
     private JLabel sorryLabel;
+    private JLabel boxNameLabel;
+    private JLabel sortLabel;
+
+    private String selectedBox;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
@@ -46,14 +47,28 @@ public class DisplayIndexcardToLearn extends JDialog{
      * @param indexcardBox The indexcardBox that is used to get the indexcards.
      * @param language The language that is used to set the language.
      */
-    public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language) {
+    public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language, String sort, String box) {
         this.learnSystem = learnSystem;
         this.controller = controller;
         this.language = language;
-        this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcardNames());
+        //this.selectedSort = sort;
+        this.selectedBox = box;
+        //learnSystem.setSortType(this.selectedSort);
+        if (learnSystem.getSortType().isEmpty() && this.selectedBox.isEmpty()) {
+            this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getNextIndexcardNames());
+        }
+        else {
+            this.indexCardList2Learn = controller.getAllIndexcards(learnSystem.getIndexcardBox(selectedBox).getIndexcardNames());
+        }
+        // TODO sort the index card list following the selectedSort
+        if (checkIndexCardList2Learn()) {
+            // FIXME This function still has a bug. It should be fixed. An extra window when the Box is empty.
+            dispose();
+            return;
+        }
         this.indexcard = this.indexCardList2Learn.get(learnSystem.getProgress());
         this.learnProgressBar.setMinimum(0);
-        this.learnProgressBar.setMaximum(learnSystem.getNextIndexcardNames().size());
+        this.learnProgressBar.setMaximum(this.indexCardList2Learn.size());
         setProgressDisplay();
         setLabels();
         hiddenButtons();
@@ -63,12 +78,12 @@ public class DisplayIndexcardToLearn extends JDialog{
         setMinimumSize(getSize());
         setSize(800, 600);
         // Set Language
-        backButton.setText(language.getName("back"));
+        //backButton.setText(language.getName("back"));
         nextButton.setText(language.getName("next"));
         correctButton.setText(language.getName("correct"));
         wrongButton.setText(language.getName("wrong"));
         answeredButton.setText(language.getName("answered"));
-        linkedListLabel.setText(language.getName("linkedIndexcardsList")); // TODO
+        linkedListLabel.setText(language.getName("linkedIndexcardsList"));
 
         controller.updateLearnsystem(learnSystem);
         addWindowListener(new WindowAdapter() {
@@ -76,7 +91,7 @@ public class DisplayIndexcardToLearn extends JDialog{
                 onCancel();
             }
         });
-        backButton.addActionListener(e -> onBack());
+        //backButton.addActionListener(e -> onBack());
         nextButton.addActionListener(e -> onNext());
         answeredButton.addActionListener(e -> onAnswered(indexcard));
 
@@ -102,7 +117,9 @@ public class DisplayIndexcardToLearn extends JDialog{
     }
 
     private void setLabels() {
-        this.nameLabel.setText(String.format((language.getName("nameAndBox")),indexcard.getName(), learnSystem.getIndexcardBox(indexcard.getName())));
+        this.nameLabel.setText(indexcard.getName());
+        this.boxNameLabel.setText(selectedBox);
+        this.sortLabel.setText(learnSystem.getSortType());
         this.questionArea.setText(indexcard.getQuestion());
         DefaultListModel<String> linkedListModel = new DefaultListModel<>();
         linkedListModel.addAll(indexcard.getLinks().stream().map(Link::getIndexcard).map(Indexcard::getName).toList());
@@ -137,8 +154,8 @@ public class DisplayIndexcardToLearn extends JDialog{
         else {
             // The user has learned all the indexcards in the box.
             learnSystem.setProgress(0);
-            JOptionPane.showMessageDialog(this, language.getName("boxEnded")
-                    ,language.getName("boxEndedMessage"), JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, String.format(language.getName("boxEnded"), selectedBox)
+                    ,String.format(language.getName("boxEndedMessage"),selectedBox), JOptionPane.INFORMATION_MESSAGE);
             dispose();
         }
         controller.updateLearnsystem(learnSystem);
@@ -203,6 +220,16 @@ public class DisplayIndexcardToLearn extends JDialog{
     public void setProgressDisplay(){
         this.learnProgressBar.setValue(learnSystem.getProgress());
         this.percentageValue.setText((learnSystem.getProgress()) * 100 / indexCardList2Learn.size() +"%");
+    }
+
+    public boolean checkIndexCardList2Learn(){
+        if (indexCardList2Learn.isEmpty()){
+            JOptionPane.showMessageDialog(this, String.format(language.getName("boxEmpty"), selectedBox)
+                    ,String.format(language.getName("boxEmptyMessage"),selectedBox), JOptionPane.INFORMATION_MESSAGE);
+            dispose();
+            return true;
+        }
+        return false;
     }
 
 

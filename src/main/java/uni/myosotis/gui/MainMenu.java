@@ -238,8 +238,19 @@ public class MainMenu extends JFrame {
     /**
      * Displays the Menu for learning.
      */
-    public void displayLearning(LeitnerLearnSystem learnSystem, IndexcardBox indexCardBox){
-        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnSystem, indexCardBox, language);
+    public void displayLearning(LeitnerLearnSystem learnSystem, IndexcardBox indexCardBox, String sort, String box) {
+        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnSystem, indexCardBox, language, sort, box);
+        displayIndexcardToLearn.pack();
+        displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
+        displayIndexcardToLearn.setLocationRelativeTo(this);
+        displayIndexcardToLearn.setVisible(true);
+    }
+
+    /**
+     * Displays the Menu for learning.
+     */
+    public void displayLearning(LeitnerLearnSystem learnSystem, IndexcardBox indexCardBox) {
+        final DisplayIndexcardToLearn displayIndexcardToLearn = new DisplayIndexcardToLearn(controller, learnSystem, indexCardBox, language, "", "");
         displayIndexcardToLearn.pack();
         displayIndexcardToLearn.setMinimumSize(displayIndexcardToLearn.getSize());
         displayIndexcardToLearn.setLocationRelativeTo(this);
