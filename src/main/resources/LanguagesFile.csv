@@ -110,5 +110,5 @@ boxEnded;Box %s beendet;Box %s ended; Caja %s terminada; Caixa %s terminada; Bo�
 boxEndedMessage; %s wurde erfolgreich beendet.; %s ended successfully.; %s terminó con éxito.; %s terminou com sucesso.; %s s'est terminée avec succès.
 boxEmpty;Box %s ist leer;Box %s is empty; Caja %s está vacía; Caixa %s está vazia; Boîte %s est vide
 boxEmptyMessage; %s ist leer.; %s is empty.; %s está vacía.; %s está vazia.; %s est vide.
-random,Random;Zufällig;Random; Aleatorio; Aleatório; Aléatoire
-alphabetical,Alphabetical;Alphabetisch;Alphabetical; Alfabético; Alfabético; Alphabetique
+random,Random;Zufällig; Aleatorio; Aleatório; Aléatoire
+alphabetical,Alphabetical;Alphabetisch; Alfabético; Alfabético; Alphabetique
