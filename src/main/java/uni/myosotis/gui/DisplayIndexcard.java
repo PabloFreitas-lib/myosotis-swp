@@ -33,7 +33,7 @@ public class DisplayIndexcard extends JFrame {
         this.language = language;
         setTitle(indexcard.getName());
         setContentPane(contentPane);
-        linkedListLabel.setText(language.getName("linkedIndexcardsList")); // TODO
+        linkedListLabel.setText(language.getName("linkedIndexcardsList"));
         Font font = new Font("Arial", Font.PLAIN, 20);
         questionArea.setFont(font);
         answerArea.setFont(font);
