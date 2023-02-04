@@ -25,3 +25,5 @@ target/
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
 /.idea/.gitignore
+db/myosotis.lock.db
+*.db

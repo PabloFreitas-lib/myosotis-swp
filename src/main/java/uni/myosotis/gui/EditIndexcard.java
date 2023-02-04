@@ -119,6 +119,25 @@ public class EditIndexcard extends JDialog {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        textAreaAnswer.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                    String text = textAreaAnswer.getText();
+                    if (text.contains("[")) {
+                        String term = text.substring(text.lastIndexOf("[") + 1);
+                        if (term.contains("]")) {
+                            term = term.substring(0, term.indexOf("]"));
+                            if (!term.isBlank()) {
+                                termField.setText(term);
+                                onAddLink();
+                                textAreaAnswer.setText(text.replace("[" + term + "]", term));
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     /**
