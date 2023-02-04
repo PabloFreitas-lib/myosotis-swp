@@ -201,7 +201,7 @@ public class Glossar extends JDialog {
      * The first Item is "Wählen Sie eine Kategorie aus" which is "null" if selected.
      */
     public void setCategoryComboBox(){
-        DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<>(controller.getCategoryNames());
+        DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<>(controller.getCategoryNames().toArray(new String[0]));
         comboModel.setSelectedItem(selectedCategory);
         categoryComboBox.setModel(comboModel);
     }

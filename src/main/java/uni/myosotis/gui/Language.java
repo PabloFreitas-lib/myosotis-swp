@@ -7,8 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Language {
-    private String language;
+    /**
+     * The language.
+     */
+    private final String language;
+
+    /**
+     * The mapping from terms to the terms in the language.
+     */
     private Map<String, String> map;
+
+    /**
+     * Creates a new language.
+     *
+     * @param language The language.
+     */
     public Language(String language){
         this.language = language;
         try {
@@ -17,8 +30,10 @@ public class Language {
             e.printStackTrace();
         }
     }
+
     /**
      * Takes in a name and returns the value of the name in the language.
+     *
      * @param name The name.
      * @return The value of the name in the language.
      */
@@ -28,9 +43,12 @@ public class Language {
         else
             return map.get(name);
     }
+
     /**
      * Takes in a txt file which has the language in his first line
-     * @return language
+     *
+     * @param language The language.
+     * @return The mapping from terms to the given language.
      */
     public static Map<String, String> reader(String language) throws IOException {
         Map<String, String> map = new HashMap<>();
@@ -53,6 +71,11 @@ public class Language {
         return map;
     }
 
+    /**
+     * Returns the possible languages from the first line of the file.
+     *
+     * @return The possible languages.
+     */
     public Object[] getLanguages() {
         try {
             File file = new File("src/main/resources/LanguagesFile.csv");

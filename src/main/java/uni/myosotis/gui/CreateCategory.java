@@ -90,6 +90,8 @@ public class CreateCategory extends JDialog {
 
     /**
      * Adds the nodes to the categoryTree.
+     *
+     * @param node The node of the Tree on which the nodes get added.
      */
     private void addNodes(DefaultMutableTreeNode node) {
         if (controller.getCategoryByName(String.valueOf(node.getUserObject())).isPresent()) {

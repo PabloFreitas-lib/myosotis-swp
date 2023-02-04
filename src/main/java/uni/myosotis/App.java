@@ -13,7 +13,7 @@ public class App {
         final IndexcardBoxLogic indexcardBoxLogic = new IndexcardBoxLogic();
         final LeitnerLearnSystemLogic leitnerLearnSystemLogic = new LeitnerLearnSystemLogic();
         final LinkLogic linkLogic = new LinkLogic();
-        final Controller controller = new Controller(indexcardLogic, keywordLogic, categoryLogic, linkLogic, indexcardBoxLogic, leitnerLearnSystemLogic);
+        final Controller controller = new Controller(indexcardLogic, keywordLogic, linkLogic, categoryLogic, indexcardBoxLogic, leitnerLearnSystemLogic);
         controller.startApplication();
     }
 }

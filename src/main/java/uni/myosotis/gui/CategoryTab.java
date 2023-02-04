@@ -21,6 +21,12 @@ public class CategoryTab extends JFrame{
     private JButton searchButton;
     private JLabel categoryLabel;
 
+    /**
+     * Creates a new CategoryTab.
+     *
+     * @param controller The controller of the application.
+     * @param language The selected language.
+     */
     public CategoryTab(Controller controller, Language language) {
         this.controller = controller;
         this.language = language;
@@ -48,11 +54,21 @@ public class CategoryTab extends JFrame{
         searchButton.addActionListener(e -> onSearch());
     }
 
+    /**
+     * Gets executed when the createButton is pressed.
+     * Delegates the exercise to display the dialog to create a new Category
+     * and updates the displayed list of all Categories.
+     */
     private void onCreate() {
         controller.createCategory();
         updateList(controller.getAllCategories());
     }
 
+    /**
+     * Gets executed when the editButton is pressed.
+     * Delegates the exercise to display the dialog to edit a Category
+     * and updates the displayed list of all Indexcards.
+     */
     private void onEdit(){
         if (categoryList.getSelectedValue() != null) {
             if (controller.getCategoryByName(categoryList.getSelectedValue()).isPresent()) {
@@ -66,7 +82,10 @@ public class CategoryTab extends JFrame{
     }
 
     /**
-     * Deletes the selected Categories or delegate the exercise to display the dialog to delete a Category.
+     * Gets executed when the deleteButton is pressed.
+     * Delegates the exercise to delete the selected Categories or
+     * to display the dialog to delete a Category
+     * and updates the displayed list of all Indexcards.
      */
     private void onDelete(){
         if (categoryList.getSelectedValue() != null) {
@@ -82,6 +101,11 @@ public class CategoryTab extends JFrame{
         updateList(controller.getAllCategories());
     }
 
+    /**
+     * Updates the displayed list of Categories.
+     *
+     * @param categoryList The updated elements of the displayed list.
+     */
     private void updateList(List<Category> categoryList) {
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (Category category : categoryList) {
@@ -90,15 +114,29 @@ public class CategoryTab extends JFrame{
         this.categoryList.setModel(listModel);
     }
 
+    /**
+     * Gets executed when the searchButton is pressed.
+     * Delegates the exercise to search in the Categories
+     * for the selected text.
+     */
     private void onSearch(){
         updateList(controller.searchCategory(searchField.getText()));
     }
 
+    /**
+     * Gets executed when the cancelButton is pressed.
+     * Disposes the displayed CategoryTab.
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();
     }
 
+    /**
+     * Returns the contentPane of the CategoryTab.
+     *
+     * @return The contentPane.
+     */
     public JPanel getCategoryPane() {
         return contentPane;
     }

@@ -18,9 +18,10 @@ public class DeleteIndexcard extends JDialog {
     private JLabel whichIndexcardLabel;
 
     /**
-     * Create a new Dialog to delete an Indexcard
+     * Create a new Dialog to delete an Indexcard.
      *
      * @param controller The controller.
+     * @param language The language.
      */
     public DeleteIndexcard(Controller controller, Language language) {
         this.controller = controller;
@@ -68,7 +69,9 @@ public class DeleteIndexcard extends JDialog {
         }
     }
 
-
+    /**
+     * Closes the window.
+     */
     private void onCancel() {
         // add your code here if necessary
         dispose();
