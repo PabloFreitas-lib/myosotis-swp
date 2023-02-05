@@ -7,6 +7,8 @@ import uni.myosotis.objects.LeitnerLearnSystem;
 import uni.myosotis.objects.Link;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -41,6 +43,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JLabel sortLabel;
 
     private String selectedBox;
+    private String selectedSort;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
@@ -48,12 +51,14 @@ public class DisplayIndexcardToLearn extends JDialog{
      * @param learnSystem The learnSystem that is used to get the indexcards.
      * @param indexcardBox The indexcardBox that is used to get the indexcards.
      * @param language The language that is used to set the language.
+     * @param sort The selected sort.
+     * @param box The selected Box.
      */
     public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language, String sort, String box) {
         this.learnSystem = learnSystem;
         this.controller = controller;
         this.language = language;
-        //this.selectedSort = sort;
+        this.selectedSort = sort;
         this.selectedBox = box;
         //learnSystem.setSortType(this.selectedSort);
         if (learnSystem.getSortType().isEmpty() && this.selectedBox.isEmpty()) {
@@ -66,6 +71,9 @@ public class DisplayIndexcardToLearn extends JDialog{
                 this.indexCardList2Learn = learnSort(this.indexCardList2Learn, sort);
             }
 
+        }
+        if (selectedSort == language.getName("random")) {
+            Collections.shuffle(indexCardList2Learn);
         }
         // TODO sort the index card list following the selectedSort
         if (checkIndexCardList2Learn()) {
@@ -118,6 +126,36 @@ public class DisplayIndexcardToLearn extends JDialog{
             }
         });
 
+        questionArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int offset = questionArea.viewToModel2D(e.getPoint());
+                try {
+                    int start = Utilities.getWordStart(questionArea, offset);
+                    int end = Utilities.getWordEnd(questionArea, offset);
+                    String word = questionArea.getText().substring(start, end);
+                    onWordClicked(word);
+                } catch (BadLocationException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+        answerArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int offset = answerArea.viewToModel2D(e.getPoint());
+                try {
+                    int start = Utilities.getWordStart(answerArea, offset);
+                    int end = Utilities.getWordEnd(answerArea, offset);
+                    String word = answerArea.getText().substring(start, end);
+                    onWordClicked(word);
+                } catch (BadLocationException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+
         Font font = new Font("Arial", Font.PLAIN, 20);
         answerArea.setFont(font);
         questionArea.setFont(font);
@@ -135,6 +173,25 @@ public class DisplayIndexcardToLearn extends JDialog{
         DefaultListModel<String> linkedListModel = new DefaultListModel<>();
         linkedListModel.addAll(indexcard.getLinks().stream().map(Link::getIndexcard).map(Indexcard::getName).toList());
         linkedIndexcardsList.setModel(linkedListModel);
+    }
+
+    private void onWordClicked(String word) {
+        DefaultListModel<String> model = (DefaultListModel<String>) linkedIndexcardsList.getModel();
+        for (int i = 0; i < model.getSize(); i++) {
+            String item = model.getElementAt(i);
+            if (controller.getIndexcardByName(item).isPresent()) {
+                Indexcard linkedCard = controller.getIndexcardByName(item).get();
+                for (Link link : indexcard.getLinks()) {
+                    if (link.getTerm().equals(word) && link.getIndexcard().getId() == linkedCard.getId()) {
+                        DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, linkedCard, language);
+                        displayIndexcard.setSize(600, 400);
+                        displayIndexcard.setMinimumSize(displayIndexcard.getSize());
+                        displayIndexcard.setLocationRelativeTo(this);
+                        displayIndexcard.setVisible(true);
+                    }
+                }
+            }
+        }
     }
 
     /**
