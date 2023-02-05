@@ -7,6 +7,7 @@ import uni.myosotis.objects.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -716,7 +717,7 @@ public class Controller {
         if (!indexcardBox.getCategoryList().isEmpty()) {
             String learnSystemName = indexcardBox.getName() + name;
             List<String> indexCardNameList = indexcardBox.getIndexcardList();
-            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(learnSystemName, indexCardNameList, numberOfBoxes, ""), indexcardBox);
+            mainMenu.displayLearning(leitnerLearnSystemLogic.learnLeitnerSystem(learnSystemName, indexCardNameList, numberOfBoxes, ""), indexcardBox, language.getName("random"));
         }
         else {
             JOptionPane.showMessageDialog(mainMenu,

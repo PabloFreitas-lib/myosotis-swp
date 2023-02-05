@@ -41,6 +41,7 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JLabel sortLabel;
 
     private String selectedBox;
+    private String selectedSort;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.
@@ -48,12 +49,14 @@ public class DisplayIndexcardToLearn extends JDialog{
      * @param learnSystem The learnSystem that is used to get the indexcards.
      * @param indexcardBox The indexcardBox that is used to get the indexcards.
      * @param language The language that is used to set the language.
+     * @param sort The selected sort.
+     * @param box The selected Box.
      */
     public DisplayIndexcardToLearn(Controller controller, LeitnerLearnSystem learnSystem, IndexcardBox indexcardBox, Language language, String sort, String box) {
         this.learnSystem = learnSystem;
         this.controller = controller;
         this.language = language;
-        //this.selectedSort = sort;
+        this.selectedSort = sort;
         this.selectedBox = box;
         //learnSystem.setSortType(this.selectedSort);
         if (learnSystem.getSortType().isEmpty() && this.selectedBox.isEmpty()) {
@@ -66,6 +69,9 @@ public class DisplayIndexcardToLearn extends JDialog{
                 this.indexCardList2Learn = learnSort(this.indexCardList2Learn, sort);
             }
 
+        }
+        if (selectedSort == language.getName("random")) {
+            Collections.shuffle(indexCardList2Learn);
         }
         // TODO sort the index card list following the selectedSort
         if (checkIndexCardList2Learn()) {
