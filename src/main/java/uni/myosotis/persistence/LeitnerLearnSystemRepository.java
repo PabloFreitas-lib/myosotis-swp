@@ -11,6 +11,12 @@ import java.util.logging.Logger;
 
 /**
  * This class is used to access the persistence storage for the object type "LeitnerLearnSystem".
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class LeitnerLearnSystemRepository {
 

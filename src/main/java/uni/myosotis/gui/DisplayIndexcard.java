@@ -11,6 +11,15 @@ import javax.swing.text.*;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The frame to display an Indexcard.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class DisplayIndexcard extends JFrame {
 
     /**

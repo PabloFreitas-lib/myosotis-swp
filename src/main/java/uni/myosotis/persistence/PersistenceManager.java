@@ -6,6 +6,12 @@ import jakarta.persistence.Persistence;
 
 /**
  * This class is used to get the Entity-Manager for the persistence.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class PersistenceManager {
 

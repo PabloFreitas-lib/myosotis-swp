@@ -5,6 +5,15 @@ import uni.myosotis.controller.Controller;
 import javax.swing.*;
 import java.util.Objects;
 
+/**
+ * The tab for the settings.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class SettingsTab extends JDialog {
     private final Controller controller;
     private final Language language;

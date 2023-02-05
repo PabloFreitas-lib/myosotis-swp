@@ -10,6 +10,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
 
+/**
+ * The dialog to display the glossar.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class Glossar extends JDialog {
 
     private final Controller controller;

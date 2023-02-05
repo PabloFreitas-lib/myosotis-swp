@@ -10,6 +10,12 @@ import java.util.logging.Level;
 
 /**
  * This class is used to access the persistence storage for the object type "IndexcardBox".
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class IndexcardBoxRepository {
 

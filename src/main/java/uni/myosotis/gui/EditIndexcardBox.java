@@ -9,6 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The dialog to edit an IndexcardBox.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class EditIndexcardBox extends JDialog {
 
     private final Controller controller;

@@ -4,7 +4,13 @@ import uni.myosotis.controller.Controller;
 import uni.myosotis.logic.*;
 
 /**
- * The main class of the application
+ * The main class of the application.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class App {
     public static void main(String[] args) {

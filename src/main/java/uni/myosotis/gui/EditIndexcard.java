@@ -7,6 +7,15 @@ import java.util.*;
 import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Keyword;
 
+/**
+ * The dialog to edit an Indexcard.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class EditIndexcard extends JDialog {
 
     private final Controller controller;

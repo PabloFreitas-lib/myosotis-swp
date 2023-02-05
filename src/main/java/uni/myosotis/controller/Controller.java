@@ -13,6 +13,12 @@ import java.util.Optional;
 
 /**
  * The Controller of the application.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class Controller {
 

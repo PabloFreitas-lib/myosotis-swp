@@ -6,7 +6,7 @@
 
     <!-- Projekt-Struktur allgemein -->
     <groupId>uni.myosotis</groupId>
-    <artifactId>SNAPSHOT-1.0.0</artifactId>
+    <artifactId>Myosotis</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <!-- Java Konfiguration (Java 17 Zulu) -->

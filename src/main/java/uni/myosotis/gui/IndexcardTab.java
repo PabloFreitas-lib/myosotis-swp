@@ -6,6 +6,15 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.List;
 
+/**
+ * The tab for the Indexcards.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class IndexcardTab extends JDialog{
     private final Controller controller;
     private final Language language;

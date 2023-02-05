@@ -18,6 +18,15 @@ import java.awt.event.WindowEvent;
 import java.util.*;
 import java.util.List;
 
+/**
+ * The dialog to display an Indexcard to learn.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class DisplayIndexcardToLearn extends JDialog{
     private final Controller controller;
     private final LeitnerLearnSystem learnSystem;

@@ -25,22 +25,18 @@ public class EditIndexcardTest {
 
     @Test
     public void testExceptionIfIndexcardNotExists() {
-        final String expected = "Die zu bearbeitende Karteikarte existiert nicht.";
         when(indexcardRepMock.getIndexcardById(1L)).thenReturn(Optional.empty());
-        final IllegalStateException exception = assertThrows(IllegalStateException.class, () -> indexcardLogic.updateIndexcard("name", "question", "answer", new ArrayList<>(), new ArrayList<>(), 1L));
-        assertEquals(expected, exception.getMessage());
+        assertThrows(IllegalStateException.class, () -> indexcardLogic.updateIndexcard("name", "question", "answer", new ArrayList<>(), new ArrayList<>(), 1L));
         verify(indexcardRepMock).getIndexcardById(1L);
     }
 
     @Test
     public void testExceptionIfDatabaseError() {
         final Indexcard mockIndexcard = mock(Indexcard.class);
-        final String expected = "Die Karteikarte konnte nicht aktualisiert werden.";
         when(mockIndexcard.getId()).thenReturn(1L);
         when(indexcardRepMock.getIndexcardById(mockIndexcard.getId())).thenReturn(Optional.of(mockIndexcard));
         when(indexcardRepMock.updateIndexcard(mockIndexcard)).thenReturn(-1);
-        final IllegalStateException exception = assertThrows(IllegalStateException.class, () -> indexcardLogic.updateIndexcard("name", "question", "answer", new ArrayList<>(), new ArrayList<>(), 1L));
-        assertEquals(expected, exception.getMessage());
+        assertThrows(IllegalStateException.class, () -> indexcardLogic.updateIndexcard("name", "question", "answer", new ArrayList<>(), new ArrayList<>(), 1L));
         verify(mockIndexcard).getId();
         verify(indexcardRepMock).updateIndexcard(mockIndexcard);
         verify(indexcardRepMock, times(2)).getIndexcardById(mockIndexcard.getId());

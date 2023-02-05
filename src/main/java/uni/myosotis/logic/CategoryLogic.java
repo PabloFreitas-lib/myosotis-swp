@@ -7,6 +7,16 @@ import uni.myosotis.persistence.CategoryRepository;
 
 import java.util.*;
 import java.util.logging.Level;
+
+/**
+ * The logic for the Categories.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class CategoryLogic {
 
     private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(CategoryLogic.class.getName());

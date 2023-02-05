@@ -6,6 +6,15 @@ import uni.myosotis.persistence.IndexcardBoxRepository;
 
 import java.util.List;
 
+/**
+ * The logic for the IndexcardBoxes.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class IndexcardBoxLogic {
     /**
      * The repository for the IndexcardBox's.

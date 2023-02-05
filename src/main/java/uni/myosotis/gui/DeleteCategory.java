@@ -6,11 +6,19 @@ import uni.myosotis.objects.Category;
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * The dialog to delete a Category.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class DeleteCategory extends JDialog{
     /**
      * The controller.
      */
-
     private final Controller controller;
     private final Language language;
     private JPanel contentPane;

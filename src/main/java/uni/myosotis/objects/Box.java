@@ -10,6 +10,12 @@ import java.util.List;
 
 /**
  * This class represents a box of indexcards.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 @Entity
 public class Box {

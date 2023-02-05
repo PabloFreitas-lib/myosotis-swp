@@ -6,6 +6,15 @@ import uni.myosotis.persistence.KeywordRepository;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The logic for the Keywords.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class KeywordLogic {
 
     final KeywordRepository KeywordRepository;

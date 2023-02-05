@@ -9,6 +9,15 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The frame to display the MainMenu.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class MainMenu extends JFrame {
     private JTabbedPane tabbedPane;
     private Language language;

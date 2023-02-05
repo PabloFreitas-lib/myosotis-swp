@@ -7,7 +7,13 @@ import jakarta.persistence.Id;
 import java.io.Serializable;
 
 /**
- * This class represents a keyword.
+ * This class represents a Keyword.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 @Entity
 @Embeddable

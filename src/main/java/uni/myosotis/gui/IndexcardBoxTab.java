@@ -10,6 +10,15 @@ import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The tab for the IndexcardBoxes.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
     private final Language language;

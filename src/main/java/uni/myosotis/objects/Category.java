@@ -10,7 +10,13 @@ import java.util.Set;
 
 
 /**
- * This class represents a category.
+ * This class represents a Category.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 @Entity
 public class Category implements Serializable {

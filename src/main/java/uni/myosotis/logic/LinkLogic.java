@@ -7,7 +7,13 @@ import uni.myosotis.persistence.LinkRepository;
 import java.util.List;
 
 /**
- * The logic for the Links
+ * The logic for the Links.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class LinkLogic {
 

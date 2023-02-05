@@ -9,7 +9,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * The repository for the links.
+ * This class is used to access the persistence storage for the object type "Link".
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 public class LinkRepository {
 

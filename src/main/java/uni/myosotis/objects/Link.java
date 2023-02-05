@@ -5,9 +5,14 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 
 /**
- * Linking between an Indexcard and a term.
+ * This class represents a link between a term and an Indexcard.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
-
 @Entity
 public class Link implements Serializable {
 

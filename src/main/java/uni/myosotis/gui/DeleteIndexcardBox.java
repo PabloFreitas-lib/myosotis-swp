@@ -6,6 +6,15 @@ import uni.myosotis.objects.IndexcardBox;
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * The dialog to delete an IndexcardBox.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
+ */
 public class DeleteIndexcardBox extends JDialog{
     /**
      * The controller.

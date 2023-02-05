@@ -8,6 +8,12 @@ import java.util.logging.Level;
 
 /**
  * This class represents a LeitnerLearnSystem.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 @Entity
 public class LeitnerLearnSystem {

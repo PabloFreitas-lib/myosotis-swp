@@ -6,7 +6,13 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * This class represents an index card.
+ * This class represents an Indexcard.
+ *
+ * @author Johannes Neugebauer
+ * @author Pablo Santos
+ * @author Kasim Shah
+ * @author Aziz Tas
+ * @author Omid Valipour
  */
 @Entity
 public class Indexcard implements Serializable {

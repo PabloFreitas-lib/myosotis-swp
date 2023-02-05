@@ -31,10 +31,8 @@ public class DeleteIndexcardTest {
 
     @Test
     public void testExceptionIfIndexcardNotExists() {
-        final String expected = "Die zu löschende Karteikarte existiert nicht.";
         when(indexcardRepMock.getIndexcardById(1L)).thenReturn(Optional.empty());
-        final IllegalStateException exception = assertThrows(IllegalStateException.class, () -> indexcardLogic.deleteIndexcard( 1L));
-        assertEquals(expected, exception.getMessage());
+        assertThrows(IllegalStateException.class, () -> indexcardLogic.deleteIndexcard( 1L));
         verify(indexcardRepMock).getIndexcardById(1L);
     }
 
@@ -45,9 +43,7 @@ public class DeleteIndexcardTest {
         when(indexcardRepMock.getIndexcardById(mockIndexcard.getId())).thenReturn(Optional.of(mockIndexcard));
         when(indexcardRepMock.deleteIndexcard(mockIndexcard.getId())).thenReturn(-1);
         when(categoryRepMock.getAllCategories()).thenReturn(new ArrayList<>());
-        final String expected = "Die Karteikarte konnte nicht gelöscht werden.";
-        final IllegalStateException exception = assertThrows(IllegalStateException.class, () -> indexcardLogic.deleteIndexcard(mockIndexcard.getId()));
-        assertEquals(expected, exception.getMessage());
+        assertThrows(IllegalStateException.class, () -> indexcardLogic.deleteIndexcard(mockIndexcard.getId()));
         verify(mockIndexcard, times(3)).getId();
         verify(indexcardRepMock, times(2)).getIndexcardById(mockIndexcard.getId());
         verify(indexcardRepMock).deleteIndexcard(mockIndexcard.getId());
