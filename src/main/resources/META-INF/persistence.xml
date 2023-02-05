@@ -12,8 +12,9 @@
                       value="jdbc:h2:./db/myosotis;AUTO_SERVER=TRUE" />
             <property name="jakarta.persistence.jdbc.user" value="myosotis" />
             <property name="jakarta.persistence.jdbc.password" value="secret" />
-            <property name="jakarta.persistence.schema-generation.database.action"
-                      value="drop-and-create"/>
+            <!--property name="jakarta.persistence.schema-generation.database.action"
+                      value="drop-and-create"/-->
+            <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
             <!-- drop-and-create -->
             <!-- create -->
             <property name="org.hibernate.dialect" value="h2"/>

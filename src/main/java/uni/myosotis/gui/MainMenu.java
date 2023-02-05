@@ -29,7 +29,7 @@ public class MainMenu extends JFrame {
         this.controller = controller;
         this.language = language;
         setTitle("Myosotis");
-        createExampleIndexcards(); //TODO: Remove this line FIXME
+        //createExampleIndexcards(); //TODO: Remove this line FIXME
         pack();
         setMinimumSize(getSize());
         setSize(800, 600);
