@@ -28,9 +28,9 @@ public class Glossar extends JDialog {
     private JButton searchButton;
     private JLabel searchLabel;
     private JLabel categoryLabel;
-    private String[] columnNames;
-    private String selectedCategory;
-    private String selectedKeyword;
+    private final String[] columnNames;
+    private final String selectedCategory;
+    private final String selectedKeyword;
 
     public Glossar(Controller controller, Language language) {
         this.controller = controller;

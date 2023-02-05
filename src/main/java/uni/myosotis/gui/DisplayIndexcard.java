@@ -21,7 +21,7 @@ public class DisplayIndexcard extends JFrame {
     private final Indexcard indexcard;
     private JPanel contentPane;
 
-    private Language language;
+    private final Language language;
     private JTextArea questionArea;
     private JTextArea answerArea;
     private JList<String> linkedIndexcardsList;

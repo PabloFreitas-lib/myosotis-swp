@@ -9,8 +9,8 @@ import java.awt.event.WindowEvent;
 
 public class LearnConfig  extends JDialog{
 
-    private Controller controller;
-    private Language language;
+    private final Controller controller;
+    private final Language language;
     private JLabel sortLabel;
     private JList boxesList;
     private JLabel boxesLabel;
@@ -20,11 +20,11 @@ public class LearnConfig  extends JDialog{
     private JPanel contentPane;
     private JScrollPane boxesScrollPane;
 
-    private String selectedLearnSystemName;
+    private final String selectedLearnSystemName;
 
-    private IndexcardBox indexcardBoxSelected;
+    private final IndexcardBox indexcardBoxSelected;
 
-    private int numberOfBoxes;
+    private final int numberOfBoxes;
     private String selectedBox = "Box 1";
     private String selectedSort;
 

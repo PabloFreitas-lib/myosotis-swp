@@ -42,8 +42,8 @@ public class DisplayIndexcardToLearn extends JDialog{
     private JLabel boxNameLabel;
     private JLabel sortLabel;
 
-    private String selectedBox;
-    private String selectedSort;
+    private final String selectedBox;
+    private final String selectedSort;
 
     /**
      * This function is the basics to the logic from the LearnSystem and also the GUI from the LearnSystem.

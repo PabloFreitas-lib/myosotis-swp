@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class EditIndexcardBox extends JDialog {
 
-    private Controller controller;
-    private Language language;
+    private final Controller controller;
+    private final Language language;
     private JLabel nameLabel;
     private JScrollPane categoryScrollPane;
     private JButton confirmButton;
