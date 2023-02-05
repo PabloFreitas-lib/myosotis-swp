@@ -178,8 +178,6 @@ public class LeitnerLearnSystem {
      * This method return the box with the given name.
      * The Boxes are numbered from 1 to numberOfBoxes.
      * The name is set: Box 1, Box 2, ...
-     * @param boxName
-     * @return
      */
     public Box getIndexcardBox(String boxName){
         for (Box box : this.boxes) {

@@ -22,7 +22,7 @@ public class IndexcardRepository {
 
     /**
      * @author Len Thiemann
-     *
+     * <p>
      * This method is used to save an object of type "Indexcard" to the persistent
      * persistence storage.
      *

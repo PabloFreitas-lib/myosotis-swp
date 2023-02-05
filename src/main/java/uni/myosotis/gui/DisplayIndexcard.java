@@ -7,13 +7,9 @@ import uni.myosotis.objects.Link;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import javax.swing.JTextArea;
 import javax.swing.text.*;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 public class DisplayIndexcard extends JFrame {
 
@@ -116,7 +112,7 @@ public class DisplayIndexcard extends JFrame {
             if (controller.getIndexcardByName(item).isPresent()) {
                 Indexcard linkedCard = controller.getIndexcardByName(item).get();
                 for (Link link : indexcard.getLinks()) {
-                    if (link.getTerm().equals(word) && link.getIndexcard().getId() == linkedCard.getId()) {
+                    if (link.getTerm().equals(word) && Objects.equals(link.getIndexcard().getId(), linkedCard.getId())) {
                         DisplayIndexcard displayIndexcard = new DisplayIndexcard(controller, linkedCard, language);
                         displayIndexcard.setSize(600, 400);
                         displayIndexcard.setMinimumSize(displayIndexcard.getSize());

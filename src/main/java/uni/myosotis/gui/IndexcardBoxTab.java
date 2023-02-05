@@ -2,13 +2,13 @@ package uni.myosotis.gui;
 
 import uni.myosotis.controller.Controller;
 import uni.myosotis.objects.IndexcardBox;
-import uni.myosotis.logic.LeitnerLearnSystemLogic;
 import uni.myosotis.objects.LeitnerLearnSystem;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
+import java.util.Objects;
 
 public class IndexcardBoxTab extends JDialog {
     private final Controller controller;
@@ -93,10 +93,10 @@ public class IndexcardBoxTab extends JDialog {
         } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
             JOptionPane.showMessageDialog(this, language.getName("selectOneIndexcardBoxMessage")
                     , language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
-        } else if (learnSystemName.getSelectedItem().toString() == language.getName("random")) {
+        } else if (Objects.equals(Objects.requireNonNull(learnSystemName.getSelectedItem()).toString(), language.getName("random"))) {
             LearnConfig learnConfig = null;
-            controller.learnRandomLearnSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 1);
-        } else if (learnSystemName.getSelectedItem().toString() == "Leitner") {
+            controller.learnRandomLearnSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get(), 1);
+        } else if (Objects.equals(learnSystemName.getSelectedItem().toString(), "Leitner")) {
             String selectedLearnSystemName = learnSystemName.getSelectedItem().toString();
             IndexcardBox indexcardBoxSelected = controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get();
             int numberOfBoxes = 5;

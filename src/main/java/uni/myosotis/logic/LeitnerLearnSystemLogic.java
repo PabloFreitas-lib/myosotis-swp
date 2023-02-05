@@ -1,11 +1,8 @@
 package uni.myosotis.logic;
 
-import uni.myosotis.gui.LearnConfig;
-import uni.myosotis.objects.Box;
 import uni.myosotis.objects.LeitnerLearnSystem;
 import uni.myosotis.persistence.LeitnerLearnSystemRepository;
 
-import java.util.Arrays;
 import java.util.List;
 
 
