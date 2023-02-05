@@ -17,6 +17,10 @@ mvn clean compile
 ## Usage
 The application can be used by running the App.java file in the src/main/java folder.
 
+```bash
+mvn compile exec:java -Dexec.mainClass="uni.myosotis.App"
+```
+
 ## Support
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
