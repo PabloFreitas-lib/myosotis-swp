@@ -27,7 +27,7 @@ public class KeywordLogic {
     public Keyword createKeyword(String name) {
         Keyword keyword = new Keyword(name);
         if (KeywordRepository.saveKeyword(keyword) < 0) {
-            throw new IllegalStateException("Keyword could not be saved to the database!");
+            throw new IllegalStateException();
         }
         return keyword;
     }
@@ -69,7 +69,7 @@ public class KeywordLogic {
     public void deleteKeyword(String name) {
         if (KeywordIsPresent(name)) {
             if (KeywordRepository.deleteKeyword(name) < 0) {
-                throw new IllegalStateException("Das Keyword konnte nicht gelöscht werden.");
+                throw new IllegalStateException();
             }
         }
     }

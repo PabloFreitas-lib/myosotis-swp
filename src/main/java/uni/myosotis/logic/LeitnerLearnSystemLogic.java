@@ -37,7 +37,7 @@ public class LeitnerLearnSystemLogic {
         } else {
             saveLeitnerLearnSystem(name, indexcardList, numberOfBoxes, sortType);
             if (leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name) == null)
-                throw new RuntimeException("LeitnerLearnSystem could not be saved.)");
+                throw new RuntimeException();
             return leitnerLearnSystemRepository.getLeitnerLearnSystemByName(name);
         }
     }

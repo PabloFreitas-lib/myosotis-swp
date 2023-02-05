@@ -45,10 +45,10 @@ public class IndexcardLogic {
      */
     public void createIndexcard(String name, String question, String answer, List<Keyword> keywords, List<Link> links) {
         if (indexcardRepository.getIndexcardByName(name).isPresent()) {
-            throw new IllegalStateException("Es existiert bereits eine Karteikarte mit diesem Namen.");
+            throw new IllegalStateException();
         } else {
             if (indexcardRepository.saveIndexcard(new Indexcard(name, question, answer, keywords, links)) < 0) {
-                throw new IllegalStateException("Karteikarte konnte nicht erstellt werden, Fehler beim Speichern in der Datenbank");
+                throw new IllegalStateException();
             }
         }
     }
@@ -77,13 +77,13 @@ public class IndexcardLogic {
 
             // Update in database failed.
             if (indexcardRepository.updateIndexcard(indexcard) < 0) {
-                throw new IllegalStateException("Die Karteikarte konnte nicht aktualisiert werden.");
+                throw new IllegalStateException();
             }
 
         }
         // Invalid id, indexcard does not exist.
         else {
-            throw new IllegalStateException("Die zu bearbeitende Karteikarte existiert nicht.");
+            throw new IllegalStateException();
         }
     }
 
@@ -106,10 +106,10 @@ public class IndexcardLogic {
                 }
             }
             if (indexcardRepository.deleteIndexcard(id) < 0) {
-                throw new IllegalStateException("Die Karteikarte konnte nicht gelöscht werden.");
+                throw new IllegalStateException();
             }
         } else {
-            throw new IllegalStateException("Die zu löschende Karteikarte existiert nicht.");
+            throw new IllegalStateException();
         }
     }
 
@@ -148,7 +148,7 @@ public class IndexcardLogic {
         if (indexcard.isPresent()) {
             return indexcard.get();
         } else {
-            throw new IllegalStateException("Indexcard with id " + id + " not found");
+            throw new IllegalStateException();
         }
     }
 

@@ -30,10 +30,10 @@ public class IndexcardBoxLogic {
      */
     public void createIndexcardBox(String name, List<Category>categoryList){
         if (indexcardBoxRepository.getIndexcardBoxByName(name).isPresent()) {
-            throw new IllegalStateException("Es existiert bereits eine Karteikästen mit diesem Namen.");
+            throw new IllegalStateException();
         } else {
             if (indexcardBoxRepository.saveIndexcardBox(new IndexcardBox(name, categoryList)) < 0) {
-                throw new IllegalStateException("Karteikästen konnte nicht erstellt werden, Fehler beim Speichern in der Datenbank");
+                throw new IllegalStateException();
             }
         }
     }
@@ -49,7 +49,7 @@ public class IndexcardBoxLogic {
     public void deleteIndexcardBox(String name){
         if (IndexcardBoxIsPresent(name)) {
             if (indexcardBoxRepository.deleteIndexcardBox(name) < 0) {
-                throw new IllegalStateException("Das IndexcardBox konnte nicht gelöscht werden.");
+                throw new IllegalStateException();
             }
         }
     }
@@ -62,13 +62,13 @@ public class IndexcardBoxLogic {
             indexcardBox.setCategoryList(indexcardBoxList);
              // Update in database failed.
             if (indexcardBoxRepository.updateIndexcardBox(indexcardBox) < 0) {
-                throw new IllegalStateException("Die Karteikästen konnte nicht aktualisiert werden.");
+                throw new IllegalStateException();
             }
 
         }
         // Invalid id, indexcardBox does not exist.
         else {
-            throw new IllegalStateException("Die zu bearbeitende Karteikästen existiert nicht.");
+            throw new IllegalStateException();
         }
     }
 

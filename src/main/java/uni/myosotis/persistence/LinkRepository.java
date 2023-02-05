@@ -5,11 +5,15 @@ import uni.myosotis.objects.Indexcard;
 import uni.myosotis.objects.Link;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The repository for the links.
  */
 public class LinkRepository {
+
+    private final Logger logger = Logger.getLogger(LeitnerLearnSystemRepository.class.getName());
 
     /**
      * The PersistenceManager.
@@ -27,7 +31,7 @@ public class LinkRepository {
             em.persist(link);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to save the link to the persistence storage: " + e.getMessage());
+            logger.log(Level.WARNING,"Failed to save the link to the persistence storage: " + e.getMessage());
         }
     }
 
@@ -43,7 +47,7 @@ public class LinkRepository {
             em.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            throw new IllegalStateException("Failed deleting the Link from the persistence storage: " + e.getMessage());
+            logger.log(Level.WARNING,"Failed deleting the Link from the persistence storage: " + e.getMessage());
         }
     }
 
@@ -56,8 +60,9 @@ public class LinkRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT link FROM Link link").getResultList();
         } catch (Exception e) {
-            throw new IllegalStateException("Failed getting all Links saved in the persistence storage: " + e.getMessage());
+            logger.log(Level.WARNING,"Failed getting all Links saved in the persistence storage: " + e.getMessage());
         }
+        return null;
     }
 
     /**
@@ -71,8 +76,9 @@ public class LinkRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT link FROM Link link WHERE link.term = :term").setParameter("term", term).getResultList();
         } catch (Exception e) {
-            throw new IllegalStateException("Failed getting all saved in the persistence storage that are linked to a specific term: " + e.getMessage());
+            logger.log(Level.WARNING,"Failed getting all saved in the persistence storage that are linked to a specific term: " + e.getMessage());
         }
+        return null;
     }
 
     /**
@@ -86,7 +92,8 @@ public class LinkRepository {
         try (final EntityManager em = pm.getEntityManager()) {
             return em.createQuery("SELECT link FROM Link link WHERE link.indexcard = :indexcard").setParameter("indexcard", indexcard).getResultList();
         } catch (Exception e) {
-            throw new IllegalStateException("Failed getting all saved in the persistence storage that are linked with a specific Indexcard: " + e.getMessage());
+            logger.log(Level.WARNING,"Failed getting all saved in the persistence storage that are linked with a specific Indexcard: " + e.getMessage());
         }
+        return null;
     }
 }

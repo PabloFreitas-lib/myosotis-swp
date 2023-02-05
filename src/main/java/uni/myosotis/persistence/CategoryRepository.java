@@ -30,7 +30,7 @@ public class CategoryRepository {
             em.persist(category);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new IllegalStateException("Error while saving a Category to the database: " + e.getMessage());
+            logger.log(Level.WARNING,"Error while saving a Category to the database: " + e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class CategoryRepository {
             em.merge(category);
             em.getTransaction().commit();
         } catch (Exception e) {
-            throw new IllegalStateException("Error while updating Category in the database: " + e.getMessage());
+            logger.log(Level.WARNING,"Error while updating Category in the database: " + e.getMessage());
         }
     }
 
@@ -66,7 +66,6 @@ public class CategoryRepository {
         } catch (Exception e) {
             logger.log(Level.SEVERE,"Error occurred while deleting category with name {0}", category.getCategoryName());
             logger.log(Level.SEVERE,"Error: {0}", e.getMessage());
-            throw new IllegalStateException("Error while deleting Category from the database: " + e.getMessage());
         }
     }
 
