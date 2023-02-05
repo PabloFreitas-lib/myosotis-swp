@@ -36,7 +36,7 @@ indexcardAlreadyExistError;Es existiert bereits eine Karteikarte mit diesem Name
 nameAlreadyAssignedError;Name bereits vergeben;Name is already assigned; Nombre ya asignado; Nome já atribuído; Nom déjà attribué
 indexcardToEditNonExistingError;Karteikarte zum Bearbeiten existiert nicht!;Indexcard which should be edited is non existing.; La Ficha que se quiere editar no existe.; O cartão de índice que se quer editar não existe.; La fiche que vous voulez éditer n'existe pas.
 indexcardNotEditedError;Karteikarte nicht verändert.;Indexcard not edited.; Ficha no editada; Cartão de índice não editado; Fiche non éditée
-whichIndexcard;Welche Indexkarte soll gelöscht werden?;Which Indexcard should be deleted?; ¿Qué Ficha quiere eliminar?; Qual cartão de índice deve ser eliminado?; Quelle fiche doit être supprimée?
+whichIndexcard;Welche Karteikarte soll gelöscht werden?;Which Indexcard should be deleted?; ¿Qué Ficha quiere eliminar?; Qual cartão de índice deve ser eliminado?; Quelle fiche doit être supprimée?
 noIndexcardSelectedError;Keine Karteikarte ausgewählt.;No Indexcard selected; No hay Ficha seleccionada; Nenhum cartão de índice selecionado; Aucune fiche sélectionnée
 deletionNotPossibleError;Löschen nicht möglich;Deletion not possible; Eliminación no posible; Eliminação não possível; Suppression impossible
 deleteIndexcardTitle;Karteikarte löschen;Delete Indexcard; Eliminar Ficha; Eliminar cartão de índice; Supprimer une fiche

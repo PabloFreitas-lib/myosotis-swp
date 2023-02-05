@@ -33,7 +33,9 @@
             <children>
               <component id="d4b9d" class="javax.swing.JList" binding="boxesList">
                 <constraints/>
-                <properties/>
+                <properties>
+                  <selectionMode value="0"/>
+                </properties>
               </component>
             </children>
           </scrollpane>
