@@ -119,6 +119,7 @@ public class EditIndexcard extends JDialog {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        // Add a term to the termField, if [text] ist entered, with the text as the term
         textAreaAnswer.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -128,7 +129,7 @@ public class EditIndexcard extends JDialog {
                         String term = text.substring(text.lastIndexOf("[") + 1);
                         if (term.contains("]")) {
                             term = term.substring(0, term.indexOf("]"));
-                            if (!term.isBlank()) {
+                            if (!term.isBlank()&& !term.equals(textAreaAnswer.getText())) {
                                 termField.setText(term);
                                 onAddLink();
                                 textAreaAnswer.setText(text.replace("[" + term + "]", term));
@@ -138,6 +139,46 @@ public class EditIndexcard extends JDialog {
                 }
             }
         });
+        textAreaQuestion.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                    String text = textAreaQuestion.getText();
+                    if (text.contains("[")) {
+                        String term = text.substring(text.lastIndexOf("[") + 1);
+                        if (term.contains("]")) {
+                            term = term.substring(0, term.indexOf("]"));
+                            if (!term.isBlank() && !term.equals(textAreaQuestion.getText())) {
+                                termField.setText(term);
+                                onAddLink();
+                                textAreaQuestion.setText(text.replace("[" + term + "]", term));
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        textFieldName.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE ) {
+                    String text = textFieldName.getText();
+                    if (text.contains("[")) {
+                        String term = text.substring(text.lastIndexOf("[") + 1);
+                        if (term.contains("]")) {
+                            term = term.substring(0, term.indexOf("]"));
+                            if (!term.isBlank() && !term.equals(textFieldName.getText())) {
+                                termField.setText(term);
+                                onAddLink();
+                                textFieldName.setText(text.replace("[" + term + "]", term));
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        
     }
 
     /**
