@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@SuppressWarnings("ALL")
+/**
+ * This class represents an index card.
+ */
 @Entity
 public class Indexcard implements Serializable {
 

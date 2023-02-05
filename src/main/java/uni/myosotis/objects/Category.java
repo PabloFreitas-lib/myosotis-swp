@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 
+/**
+ * This class represents a category.
+ */
 @Entity
 public class Category implements Serializable {
 

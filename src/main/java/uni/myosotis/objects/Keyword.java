@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 
 import java.io.Serializable;
 
+/**
+ * This class represents a keyword.
+ */
 @Entity
 @Embeddable
 public class Keyword implements Serializable {

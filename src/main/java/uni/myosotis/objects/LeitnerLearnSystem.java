@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+/**
+ * This class represents a LeitnerLearnSystem.
+ */
 @Entity
 public class LeitnerLearnSystem {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(LeitnerLearnSystem.class.getName());
@@ -54,7 +57,10 @@ public class LeitnerLearnSystem {
         logger.log(Level.INFO, name + "created");
     }
 
-
+    /**
+     * Get ID of the LeitnerLearnSystem.
+     * @return
+     */
     public Long getId() {
         return id;
     }
@@ -85,10 +91,19 @@ public class LeitnerLearnSystem {
     }
 
 
+    /**
+     * This methoed is called to get the learn system name.
+     * @return
+     */
+
     public String getName(){
         return this.name;
     }
 
+    /**
+     * This method is called to get the indexcard list from a box.
+     * @return
+     */
     public List<String> getIndexcardFromBox(int boxNumber) {
         return this.boxes.get(boxNumber).getIndexcardNames();
     }
@@ -107,25 +122,40 @@ public class LeitnerLearnSystem {
         return nextIndexcardNames;
     }
 
-
+    /**
+     * This method is called to increase the progress.
+     */
     public void increaseProgress() {
         if (indexcardList.size() > this.progress)
             this.progress++;
     }
 
+    /**
+     * This method is called to decrease the progress.
+     */
     public void decreaseProgress() {
         if (this.progress > 0)
             this.progress--;
     }
-
+    /**
+     * This method is called to get the progress.
+     * @return
+     */
     public int getProgress() {
         return progress;
     }
 
+    /**
+     * This method is called to set the progress.
+     * @param progress
+     */
     public void setProgress(int progress) {
         this.progress = progress;
     }
-
+    /**
+     * This method is called to get boxes.
+     * @return
+     */
     public List<Box> getBoxes() {
         return boxes;
     }
@@ -162,9 +192,9 @@ public class LeitnerLearnSystem {
         }
     }
 
-    public void setBoxes(List<Box> boxes) {
+    /*public void setBoxes(List<Box> boxes) {
         this.boxes = boxes;
-    }
+    }*/
 
     public void setName(String name) {
         this.name = name;
@@ -206,11 +236,11 @@ public class LeitnerLearnSystem {
         return this.started;
     }
 
-    public void setBoxList (List<String> boxes){
+    /*public void setBoxList (List<String> boxes){
         this.boxList = boxes;
     }
 
     public List<String> getBoxList (){
         return this.boxList;
-    }
+    }*/
 }

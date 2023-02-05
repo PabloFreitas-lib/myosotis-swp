@@ -3,6 +3,9 @@ package uni.myosotis;
 import uni.myosotis.controller.Controller;
 import uni.myosotis.logic.*;
 
+/**
+ * The main class of the application
+ */
 public class App {
     public static void main(String[] args) {
 

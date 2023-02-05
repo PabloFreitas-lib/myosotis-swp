@@ -15,9 +15,6 @@ public class MainMenu extends JFrame {
     private JPanel categoryPane;
     private JPanel indexcardPane;
     private JPanel glossarPane;
-
-    //private JPanel filterPane;
-
     private JPanel settingsPanel;
     private JPanel indexCardBoxPane;
 
