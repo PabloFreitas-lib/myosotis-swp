@@ -96,7 +96,7 @@ public class IndexcardBoxTab extends JDialog {
         } else if (Objects.equals(Objects.requireNonNull(learnSystemName.getSelectedItem()).toString(), language.getName("random"))) {
             LearnConfig learnConfig = null;
             controller.learnRandomLearnSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get(), 1);
-        } else if (Objects.equals(learnSystemName.getSelectedItem().toString(), "Leitner")) {
+        } else if (Objects.equals(learnSystemName.getSelectedItem().toString(), language.getName("leitner"))) {
             String selectedLearnSystemName = learnSystemName.getSelectedItem().toString();
             IndexcardBox indexcardBoxSelected = controller.getIndexcardBoxByName(indexcardBoxList.getSelectedValue()).get();
             int numberOfBoxes = 5;
@@ -198,7 +198,7 @@ public class IndexcardBoxTab extends JDialog {
      */
     public void updateComboBox(){
         // Array of all Indexcardnames
-        String[] learnSystemList = {"Leitner", language.getName("random")};
+        String[] learnSystemList = {language.getName("leitner"), language.getName("random")};
         learnSystemName.setModel(new DefaultComboBoxModel<>(learnSystemList));
     }
 

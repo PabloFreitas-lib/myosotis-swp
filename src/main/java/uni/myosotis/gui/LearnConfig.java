@@ -13,8 +13,8 @@ public class LearnConfig  extends JDialog{
     private final Language language;
     private JLabel sortLabel;
     private JList boxesList;
-    private JLabel boxesLabel;
-    private JButton createButton;
+    private JLabel boxLabel;
+    private JButton confirmButton;
     private JButton cancelButton;
     private JComboBox<String> sortComboBox;
     private JPanel contentPane;
@@ -25,7 +25,7 @@ public class LearnConfig  extends JDialog{
     private final IndexcardBox indexcardBoxSelected;
 
     private final int numberOfBoxes;
-    private String selectedBox = "Box 1";
+    private String selectedBox;
     private String selectedSort;
 
 
@@ -35,9 +35,10 @@ public class LearnConfig  extends JDialog{
         this.selectedLearnSystemName = selectedLearnSystemName;
         this.indexcardBoxSelected = indexcardBoxSelected;
         this.numberOfBoxes = numberOfBoxes;
+        this.selectedSort = language.getName("firstBox");
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(createButton);
+        getRootPane().setDefaultButton(confirmButton);
         setTitle(language.getName("learningConfiguration"));
         pack();
         setMinimumSize(getSize());
@@ -45,8 +46,13 @@ public class LearnConfig  extends JDialog{
         setComboBoxValues();
         setBoxesList();
         configOff();
-
-        createButton.addActionListener(e -> onOk());
+        //Set Language
+        sortLabel.setText(language.getName("sort"));
+        boxLabel.setText(language.getName("box"));
+        confirmButton.setText(language.getName("confirm"));
+        cancelButton.setText(language.getName("cancel"));
+        //Listeners
+        confirmButton.addActionListener(e -> onOk());
         cancelButton.addActionListener(e -> onCancel());
 
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -106,14 +112,14 @@ public class LearnConfig  extends JDialog{
         sortComboBox.setVisible(true);
         sortLabel.setVisible(true);
         boxesList.setVisible(true);
-        boxesLabel.setVisible(true);
+        boxLabel.setVisible(true);
         boxesScrollPane.setVisible(true);
     }
     public void configSort(){
         sortComboBox.setVisible(true);
         sortLabel.setVisible(true);
         boxesList.setVisible(false);
-        boxesLabel.setVisible(false);
+        boxLabel.setVisible(false);
         boxesScrollPane.setVisible(false);
     }
 
@@ -121,7 +127,7 @@ public class LearnConfig  extends JDialog{
         sortComboBox.setVisible(false);
         sortLabel.setVisible(false);
         boxesList.setVisible(true);
-        boxesLabel.setVisible(true);
+        boxLabel.setVisible(true);
         boxesScrollPane.setVisible(true);
     }
 
@@ -129,7 +135,7 @@ public class LearnConfig  extends JDialog{
         sortComboBox.setVisible(false);
         sortLabel.setVisible(false);
         boxesList.setVisible(false);
-        boxesLabel.setVisible(false);
+        boxLabel.setVisible(false);
         boxesScrollPane.setVisible(false);
     }
 

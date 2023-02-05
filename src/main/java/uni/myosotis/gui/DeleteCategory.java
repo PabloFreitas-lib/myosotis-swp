@@ -65,7 +65,7 @@ public class DeleteCategory extends JDialog{
                 dispose();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Keine Kategorie ausgewählt.", "Löschen nicht möglich", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, language.getName("noCategorySelectedError"), language.getName("noCategorySelectedError"), JOptionPane.ERROR_MESSAGE);
         }
     }
 

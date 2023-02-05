@@ -42,7 +42,6 @@ public class DisplayIndexcard extends JFrame {
         setContentPane(contentPane);
         linkedListLabel.setText(language.getName("linkedIndexcardsList"));
         Font font = new Font("Arial", Font.PLAIN, 20);
-        Font highlight = new Font("Serif", Font.PLAIN, 14);
         questionArea.setFont(font);
         answerArea.setFont(font);
         this.questionArea.setText(indexcard.getQuestion());
@@ -123,32 +122,6 @@ public class DisplayIndexcard extends JFrame {
             }
         }
     }
-
-    public void underlineWords(JTextArea textArea, List<String> wordsToUnderline) {
-        DefaultStyledDocument doc = new DefaultStyledDocument(new StyleContext());
-        try {
-            doc.insertString(0, textArea.getText(), null);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
-        for (String word : wordsToUnderline) {
-            int start = 0;
-            int end = textArea.getText().indexOf(word, start);
-            while (end != -1) {
-                underlineWord(doc, end, end + word.length());
-                start = end + word.length();
-                end = textArea.getText().indexOf(word, start);
-            }
-        }
-        textArea.setDocument(doc);
-    }
-
-    private static void underlineWord(DefaultStyledDocument doc, int start, int end) {
-        AttributeSet attrs = StyleContext.getDefaultStyleContext().addAttribute(
-                SimpleAttributeSet.EMPTY, StyleConstants.Underline, true);
-        doc.setCharacterAttributes(start, end - start, attrs, false);
-    }
-
 /**
  * Close the Window.
  */

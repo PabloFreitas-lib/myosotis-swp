@@ -178,7 +178,7 @@ public class EditIndexcard extends JDialog {
             }
         });
 
-        
+
     }
 
     /**

@@ -117,3 +117,5 @@ selectBoxError;Keine Box ausgewählt.;No box selected.; No se ha seleccionado ni
 selectSortError;Keine Sortierung ausgewählt.;No sorting selected.; No se ha seleccionado ningún orden.; Nenhuma ordenação selecionada.; Aucun tri sélectionné.
 selectMethod; Bitte wählen sie eine Methode aus!; Please select a method!;¡Seleccione un método!; Selecione um método!; Veuillez sélectionner une méthode !
 learningConfiguration;Lernkonfiguration;Learning configuration; Configuración de aprendizaje; Configuração de aprendizagem; Configuration d'apprentissage
+firstBox;Box 1; Box 1; Caja 1; Caixa 1; Boîte 1
+leitner;Leitner;Leitner; Leitner; Leitner; Leitner
