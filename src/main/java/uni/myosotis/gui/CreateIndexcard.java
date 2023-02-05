@@ -120,25 +120,6 @@ public class CreateIndexcard extends JDialog {
                 }
             }
         });
-        textFieldName.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_SPACE ) {
-                    String text = textFieldName.getText();
-                    if (text.contains("[")) {
-                        String term = text.substring(text.lastIndexOf("[") + 1);
-                        if (term.contains("]")) {
-                            term = term.substring(0, term.indexOf("]"));
-                            if (!term.isBlank() && !term.equals(textFieldName.getText())) {
-                                termField.setText(term);
-                                onAddLink();
-                                textFieldName.setText(text.replace("[" + term + "]", term));
-                            }
-                        }
-                    }
-                }
-            }
-        });
     }
 
     /**

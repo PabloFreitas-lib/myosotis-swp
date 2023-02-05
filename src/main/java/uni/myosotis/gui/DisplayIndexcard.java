@@ -102,6 +102,7 @@ public class DisplayIndexcard extends JFrame {
 
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        highlightWords();
     }
 
     private void onWordClicked(String word) {
@@ -122,6 +123,40 @@ public class DisplayIndexcard extends JFrame {
             }
         }
     }
+    /**
+     * highlight all words which are linked to another Indexcard.
+     */
+private void highlightWords(){
+    List<Link> links = indexcard.getLinks();
+    Color babyBlue = new Color(173, 216, 230);
+    for (Link link : links) {
+        String term = link.getTerm();
+        int index = 0;
+        while (index >= 0) {
+            index = questionArea.getText().indexOf(term, index);
+            if (index >= 0) {
+                try {
+                    questionArea.getHighlighter().addHighlight(index, index + term.length(), new DefaultHighlighter.DefaultHighlightPainter(babyBlue));
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+                index += term.length();
+            }
+        }
+        index = 0;
+        while (index >= 0) {
+            index = answerArea.getText().indexOf(term, index);
+            if (index >= 0) {
+                try {
+                    answerArea.getHighlighter().addHighlight(index, index + term.length(), new DefaultHighlighter.DefaultHighlightPainter(babyBlue));
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
+                }
+                index += term.length();
+            }
+        }
+    }
+}
 /**
  * Close the Window.
  */

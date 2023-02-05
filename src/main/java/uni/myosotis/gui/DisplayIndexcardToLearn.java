@@ -8,6 +8,7 @@ import uni.myosotis.objects.Link;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
 import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -160,6 +161,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         answerArea.setFont(font);
         questionArea.setFont(font);
         sorryLabel.setVisible(false);
+        highlightWords();
     }
 
     /**
@@ -202,6 +204,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         answerArea.setText(indexcard.getAnswer());
         showButtons();
         setLabels();
+        highlightWords();
     }
 
     /**
@@ -230,6 +233,7 @@ public class DisplayIndexcardToLearn extends JDialog{
         setLabels();
         sorryLabel.setVisible(false);
         this.answerArea.setText("");
+        highlightWords();
     }
 
     /**
@@ -345,4 +349,39 @@ public class DisplayIndexcardToLearn extends JDialog{
         }
         return null;
     }
+    /**
+     * highlight all words in the questionArea and answerArea which are linked to another Indexcard.
+     */
+    private void highlightWords(){
+        List<Link> links = indexcard.getLinks();
+        Color babyBlue = new Color(173, 216, 230);
+        for (Link link : links) {
+            String word = link.getTerm();
+            int index = 0;
+            while (index >= 0) {
+                index = questionArea.getText().indexOf(word, index);
+                if (index >= 0) {
+                    try {
+                        questionArea.getHighlighter().addHighlight(index, index + word.length(), new DefaultHighlighter.DefaultHighlightPainter(babyBlue));
+                    } catch (BadLocationException e) {
+                        e.printStackTrace();
+                    }
+                    index += word.length();
+                }
+            }
+            index = 0;
+            while (index >= 0) {
+                index = answerArea.getText().indexOf(word, index);
+                if (index >= 0) {
+                    try {
+                        answerArea.getHighlighter().addHighlight(index, index + word.length(), new DefaultHighlighter.DefaultHighlightPainter(babyBlue));
+                    } catch (BadLocationException e) {
+                        e.printStackTrace();
+                    }
+                    index += word.length();
+                }
+            }
+        }
+    }
+
 }
