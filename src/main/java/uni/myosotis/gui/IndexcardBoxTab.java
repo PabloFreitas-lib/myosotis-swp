@@ -93,7 +93,7 @@ public class IndexcardBoxTab extends JDialog {
         } else if (indexcardBoxList.getSelectedValuesList().size() != 1) {
             JOptionPane.showMessageDialog(this, language.getName("selectOneIndexcardBoxMessage")
                     , language.getName("selectOneIndexcardBox"), JOptionPane.INFORMATION_MESSAGE);
-        } else if (learnSystemName.getSelectedItem().toString() == "Random") {
+        } else if (learnSystemName.getSelectedItem().toString() == language.getName("random")) {
             LearnConfig learnConfig = null;
             controller.learnRandomLearnSystem(learnSystemName.getSelectedItem().toString(), controller.getIndexcardBoxByName((String) indexcardBoxList.getSelectedValue()).get(), 1);
         } else if (learnSystemName.getSelectedItem().toString() == "Leitner") {

@@ -106,7 +106,7 @@ linkedIndexcardsList;Verknüpfte Karteikarten;Linked Indexcards; Fichas vinculad
 nameAndBox;Name: %s Box: %d;Name: %s Box: %d; Nombre: %s Caja: %d; Nome: %s Caixa: %d; Nom: %s Boîte: %d
 sorryMessage;Entschuldigung.;Sorry.; Lo siento.; Desculpe.; Désolé.
 linkedIndexcardsList;Verknüpfte Karteikarten;Linked Indexcards; Fichas vinculadas; Cartões de índice vinculados; Fiches liées
-boxEnded;Box %s beendet;Box %s ended; Caja %s terminada; Caixa %s terminada; Boîte %s terminée
+boxEnded;%s beendet;%s ended; Caja %s terminada; Caixa %s terminada; Boîte %s terminée
 boxEndedMessage; %s wurde erfolgreich beendet.; %s ended successfully.; %s terminó con éxito.; %s terminou com sucesso.; %s s'est terminée avec succès.
 boxEmpty;Box %s ist leer;Box %s is empty; Caja %s está vacía; Caixa %s está vazia; Boîte %s est vide
 boxEmptyMessage; %s ist leer.; %s is empty.; %s está vacía.; %s está vazia.; %s est vide.
