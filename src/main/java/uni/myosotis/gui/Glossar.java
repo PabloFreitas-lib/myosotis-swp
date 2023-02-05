@@ -6,9 +6,11 @@ import uni.myosotis.objects.Indexcard;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.*;
+import java.util.List;
 
 /**
  * The dialog to display the glossar.
@@ -45,10 +47,10 @@ public class Glossar extends JDialog {
         this.controller = controller;
         this.language = language;
         this.columnNames = new String[]{language.getName("name"),
-                                        language.getName("question"),
-                                        language.getName("answer"),
-                                        language.getName("keywordTitle"),
-                                        language.getName("categoryTitle")};
+                language.getName("question"),
+                language.getName("answer"),
+                language.getName("keywordTitle"),
+                language.getName("categoryTitle")};
         this.selectedKeyword = language.getName("selectKeyword");
         this.selectedCategory = language.getName("selectCategory");
         setContentPane(contentPane);
@@ -84,7 +86,7 @@ public class Glossar extends JDialog {
     /**
      * Searches in the Indexcards for a given text and displays the results in the table.
      * Is case-insensitive.
-
+     *
      * @param text The text.
      */
     private void search(String text) {
@@ -105,7 +107,7 @@ public class Glossar extends JDialog {
         indexcardsPane.setViewportView(indexCardTable);
     }
 
-    public JPanel getGlossarPane(){
+    public JPanel getGlossarPane() {
         return contentPane;
     }
 
@@ -120,12 +122,13 @@ public class Glossar extends JDialog {
         // add your code here if necessary
         dispose();
     }
-    private void onFiltern(){
-        if(!Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && !Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)){
+
+    private void onFiltern() {
+        if (!Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && !Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)) {
             onFilternCategoryAndKeyword();
-        } else if (!Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)){
+        } else if (!Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)) {
             onFilternKeyword();
-        } else if (Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && !Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)){
+        } else if (Objects.equals(keywordComboBox.getSelectedItem(), selectedKeyword) && !Objects.equals(categoryComboBox.getSelectedItem(), selectedCategory)) {
             onFilternCategory();
         }
     }
@@ -141,11 +144,12 @@ public class Glossar extends JDialog {
 
     /**
      * sorts the glossar table by the first column (indexcard name)
+     *
      * @param glossarModel the table model
-     * @param order if true ascending, if false descending
+     * @param order        if true ascending, if false descending
      * @return the sorted table model
      */
-    public DefaultTableModel sort(DefaultTableModel glossarModel, boolean order){
+    public DefaultTableModel sort(DefaultTableModel glossarModel, boolean order) {
         List<Vector> data = new ArrayList<>();
         for (int i = 0; i < glossarModel.getRowCount(); i++) {
             data.add(glossarModel.getDataVector().get(i));
@@ -190,7 +194,7 @@ public class Glossar extends JDialog {
     /**
      * filters the glossar table by the selected category and keyword
      */
-    void onFilternCategoryAndKeyword(){
+    void onFilternCategoryAndKeyword() {
         String categoryToFilter = (String) categoryComboBox.getSelectedItem();
         String keywordToFilter = (String) keywordComboBox.getSelectedItem();
         DefaultTableModel glossaryModel = new DefaultTableModel(columnNames, 0);
@@ -209,15 +213,73 @@ public class Glossar extends JDialog {
      * Set the CategoryComboBox with all Categories, which are in the Database.
      * The first Item is "Wählen Sie eine Kategorie aus" which is "null" if selected.
      */
-    public void setCategoryComboBox(){
+    public void setCategoryComboBox() {
         DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<>(controller.getCategoryNames().toArray(new String[0]));
         comboModel.setSelectedItem(selectedCategory);
         categoryComboBox.setModel(comboModel);
     }
 
-    public void setKeywordComboBox(){
+    public void setKeywordComboBox() {
         DefaultComboBoxModel<String> comboModel = new DefaultComboBoxModel<>(controller.getAllKeywordNames().toArray(new String[0]));
         comboModel.setSelectedItem(selectedKeyword);
         keywordComboBox.setModel(comboModel);
+    }
+
+    {
+// GUI initializer generated by IntelliJ IDEA GUI Designer
+// >>> IMPORTANT!! <<<
+// DO NOT EDIT OR ADD ANY CODE HERE!
+        $$$setupUI$$$();
+    }
+
+    /**
+     * Method generated by IntelliJ IDEA GUI Designer
+     * >>> IMPORTANT!! <<<
+     * DO NOT edit this method OR call it in your code!
+     *
+     * @noinspection ALL
+     */
+    private void $$$setupUI$$$() {
+        final JPanel panel1 = new JPanel();
+        panel1.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        contentPane = new JPanel();
+        contentPane.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(6, 3, new Insets(10, 10, 10, 10), -1, -1));
+        panel1.add(contentPane, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        categoryLabel = new JLabel();
+        categoryLabel.setText("Kategorie");
+        contentPane.add(categoryLabel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        categoryComboBox = new JComboBox();
+        contentPane.add(categoryComboBox, new com.intellij.uiDesigner.core.GridConstraints(2, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        keywordLabel = new JLabel();
+        keywordLabel.setText("Schlagwort");
+        contentPane.add(keywordLabel, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        keywordComboBox = new JComboBox();
+        contentPane.add(keywordComboBox, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        searchLabel = new JLabel();
+        searchLabel.setText("Suche");
+        contentPane.add(searchLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        indexcardsPane = new JScrollPane();
+        contentPane.add(indexcardsPane, new com.intellij.uiDesigner.core.GridConstraints(3, 1, 3, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(1000, 500), new Dimension(1000, 1000), 2, false));
+        indexCardTable = new JTable();
+        indexCardTable.setEnabled(false);
+        indexcardsPane.setViewportView(indexCardTable);
+        filterButton = new JButton();
+        filterButton.setText("Filtern");
+        contentPane.add(filterButton, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        searchTextField = new JTextField();
+        searchTextField.setText("");
+        contentPane.add(searchTextField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        searchButton = new JButton();
+        searchButton.setText("Suchen");
+        contentPane.add(searchButton, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        removeFilterButton = new JButton();
+        removeFilterButton.setText("Filtern entfernen");
+        contentPane.add(removeFilterButton, new com.intellij.uiDesigner.core.GridConstraints(2, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        reverseSortRadioButton = new JRadioButton();
+        reverseSortRadioButton.setText("Sortierung Umkehren");
+        contentPane.add(reverseSortRadioButton, new com.intellij.uiDesigner.core.GridConstraints(3, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_NORTHWEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        indexcardLabel = new JLabel();
+        indexcardLabel.setText("Karteikarten");
+        contentPane.add(indexcardLabel, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 }
